@@ -8,6 +8,13 @@ and open the template in the editor.
     Author     : Alex
 */
 
+#fixed_bottom
+{
+    position: fixed;
+    right: 0;
+    left: 0;
+    bottom: 0;
+}
 .scritta_footer
 {
     margin-top: 7.5px;

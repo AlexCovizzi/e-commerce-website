@@ -13,6 +13,7 @@
   <!-- carica tutti i file css qui -->
   <link rel="stylesheet" href="signup.css">
   <link href="../../shared/header/header.css"  rel="stylesheet" type="text/css" />
+  <link href="../../shared/footer/footer.css"  rel="stylesheet" type="text/css" />
 
   <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -98,6 +99,8 @@
 
       </div> <!-- row -->     
   </div> <!-- container -->
+  
+  <%@ include file="../../shared/footer/footer.jsp" %>
 
   <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
