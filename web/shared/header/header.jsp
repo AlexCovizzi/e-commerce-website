@@ -69,7 +69,7 @@
                 <li><a href="#">Editore</a></li>
                 <li><a href="#">ISBN</a></li>
                 <li class="divider"></li>
-                <li><a class="navbar-link" href="../../pages/signup/signup.html">Ricerca Avanzata</a></li>
+                <li><a class="navbar-link" href="../../pages/signup/signup.jsp">Ricerca Avanzata</a></li>
               </ul>
             </div>
             <input id="search-input" type="text" class="form-control" placeholder="Cerca">
