@@ -8,3 +8,19 @@ and open the template in the editor.
     Author     : Alex
 */
 
+.scritta_footer
+{
+    margin-top: 7.5px;
+}
+
+#sinistra
+{
+    margin-left: 0;
+    float: left!important;
+}
+
+#destra
+{
+    margin-right: 0;
+    float: right!important;
+}
