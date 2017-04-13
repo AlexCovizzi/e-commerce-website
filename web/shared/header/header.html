@@ -43,20 +43,41 @@ and open the template in the editor.
         <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header">
           <a class="navbar-brand" href="#">Libreria Sant'Ale</a>
-          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#search-bar" aria-expanded="false" aria-controls="search-bar">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
             <span class="sr-only">Toggle Navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
+            <i class="glyphicon glyphicon-user"></i>
           </button>
         </div>
-        <ul class="nav navbar-nav navbar-right" style="max-width:140px;">
-          <li><a href="../../pages/signup/signup.html">Accedi/Registrati</a></li>
-        </ul>
+        
+        <div id="navbar" class="navbar-right navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+              <li>
+                <a href="#"><i class="glyphicon glyphicon-shopping-cart"></i>
+                <span class="visible-xs-inline" style="padding-left:16px;">Carrello</span>
+                <span class="badge">4</span>
+                </a>
+              </li>
+              <li>
+                <a href="#"><i class="glyphicon glyphicon-eur"></i>
+                <span class="visible-xs-inline" style="padding-left:16px;">Ordini</span>
+                </a>
+              </li>
+              <li>
+                <a href="#"><i class="glyphicon glyphicon-list-alt"></i>
+                <span class="visible-xs-inline" style="padding-left:16px;">Lista desideri</span>
+                </a>
+              </li>
+              <li>
+                <a href="#"><i class="glyphicon glyphicon-log-out"></i>
+                <span class="visible-xs-inline" style="padding-left:16px;">Logout</span>
+                </a>
+              </li>
+            </ul>
+        </div> <!--/.navbar-collapse -->
 
         <!-- Collect the nav links, forms, and other content for toggling -->
         
-        <div id="search-bar" class="navbar-collapse collapse">
+        <div id="search-bar" class="navbar-collapse">
           <form id="search-form" class="navbar-form">
             
             <div id="search-form-group" class="form-group">
