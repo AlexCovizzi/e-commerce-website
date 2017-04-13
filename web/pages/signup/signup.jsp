@@ -23,7 +23,8 @@
   <![endif]-->
 </head>
 <body>
-  <%@ include file="../../shared/header/header.jsp" %>
+  <div id="grande_scatola">
+    <%@ include file="../../shared/header/header.jsp" %>
 
   <div class="container">
 
@@ -100,6 +101,8 @@
       </div> <!-- row -->     
   </div> <!-- container -->
   
+  <%@ include file="../../shared/footer/push.jsp" %>
+  </div> <!-- grande_scatola -->
   <%@ include file="../../shared/footer/footer.jsp" %>
 
   <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->

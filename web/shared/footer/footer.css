@@ -8,16 +8,28 @@ and open the template in the editor.
     Author     : Alex
 */
 
-#fixed_bottom
+html, body
 {
-    position: fixed;
-    right: 0;
-    left: 0;
-    bottom: 0;
+    height: 100%;
+}
+
+#grande_scatola
+{
+    min-height: 100%;
+    height: auto !important;
+    height: 100%;
+    margin: 0 auto -50px; 
+}
+
+#fixed_bottom, #push
+{
+    height: 35px; 
+    clear: both;
 }
 .scritta_footer
 {
     margin-top: 7.5px;
+    margin-bottom: 7.5px;
 }
 
 #sinistra
