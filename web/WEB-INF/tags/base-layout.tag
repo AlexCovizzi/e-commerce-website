@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <%@tag description="Base layout" pageEncoding="UTF-8"%>
 
-<%@attribute name="title"%>
+<%@attribute name="title" %>
 <%@attribute name="css_imports" fragment="true" %>
 <%@attribute name="js_imports" fragment="true" %>
 <%@attribute name="content_area" fragment="true" %>
@@ -46,6 +46,7 @@
   <!-- carica tutti gli script qui -->
   <script src="${pageContext.request.contextPath}/shared/header/header.js"></script>
   <script src="${pageContext.request.contextPath}/shared/footer/footer.js"></script>
+  
   <jsp:invoke fragment="js_imports"/>
 </body>
 </html>

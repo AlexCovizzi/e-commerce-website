@@ -1,7 +1,7 @@
 <%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
  
 <t:base-layout title="Test page">
- 
+  
   <jsp:attribute name="css_imports">
     <!-- metti qui i css da importare -->
   </jsp:attribute>
