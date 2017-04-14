@@ -17,17 +17,20 @@ and open the template in the editor.
     <title>Libreria Online Sant'Ale</title>
 
     <!-- Bootstrap core CSS -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="../../framework/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-    <link href="css/ie10-viewport-bug-workaround.css" rel="stylesheet">
+    <link href="../../framework/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
 
     <!-- Custom styles for this template -->
     <link href="homepage.css" rel="stylesheet">
+    <link href="../../shared/header/header.css"  rel="stylesheet" type="text/css" />
+    <link href="../../shared/footer/footer.css"  rel="stylesheet" type="text/css" />
+    
 
     <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
     <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
-    <script src="js/ie-emulation-modes-warning.js"></script>
+    <script src="../../framework/js/ie-emulation-modes-warning.js"></script>
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -36,45 +39,25 @@ and open the template in the editor.
     <![endif]-->
   </head>
 
+  
   <body>
-    <!-- Barra del titolo -->
-    <nav class="navbar navbar-inverse navbar-fixed-top"> <!-- Da sistemare la disposizione -->
-      <div class="container">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-            <span class="sr-only">Toggle Navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" id="titolo" href="#">Libreria Online Sant'Ale</a>
-        </div>
-        
-        <div id="navbar" class="navbar-collapse collapse">
-            <form class="navbar-form navbar-right" method="post" >
-                <input type="text" placeholder="Cerca un libro..."
-                       class="form-control" id="casella_ricerca">
-                <button type="submit" class="btn btn-success">Cerca</button>
-                <button type="buttonr" class="btn btn-success">Ricerca Avanzata</button>
-            </form>
-        </div> <!--/.navbar-collapse -->
-      </div>
+    
+    
+    <div id="grande_scatola">
+    <!-- header -->
+    <%@ include file="../../shared/header/header.jsp" %>
+    
+    <div class="container">
+    
+      <nav class="navbar navbar-default">
         <!-- Menu + Area di login -->
-        <div class="container-fluid" id="sotto_header">
-              <div class="navbar-text" id="menu">
-                <a class="navbar-brand login" href="#">Libri in Italiano</a>
-                <a class="navbar-brand login" href="#">Libri in Offerta</a>
-                <a class="navbar-brand login" href="#">Libri in Lingua Straniera</a>
-                <a class="navbar-brand login" href="#">eBook</a>
-                <a class="navbar-brand login" href="#">Fumetti</a>
-                <a class="navbar-brand login" href="#">Dizionari</a>
-            </div>
-
-            <div class="navbar-text" id="login"> <!-- Da sistemarne le dimensioni -->
-                <a class="navbar-brand login" href="signup.html">Accedi/Registrati</a>
-            </div>
-        </div>
-    </nav>
+        <ul class="nav navbar-nav">
+          <li><a href="#">In offerta</a></li>
+          <li><a href="#">Nuove uscite</a></li>
+          <li><a href="#">Fumetti</a></li>
+          <li><a href="#">Dizionari</a></li>
+        </ul>
+      </nav>
 
     <!-- Sezione di benvenuto -->
     <div class="jumbotron" id="benvenuto">
@@ -150,19 +133,23 @@ and open the template in the editor.
 
       <hr>
 
-      <footer>
-        <p>&copy; 2016 Company, Inc.</p>
-      </footer>
+      
     </div>
+    </div>
+  <%@ include file="../../shared/footer/push.jsp" %>
+  </div> <!-- grande_scatola -->
+  <%@ include file="../../shared/footer/footer.jsp" %>
 
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>');</script>
-    <script src="js/bootstrap.min.js"></script>
+    <script src="../../framework/js/bootstrap.min.js"></script>
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-    <script src="js/ie10-viewport-bug-workaround.js"></script>
+    <script src="../../framework/js/ie10-viewport-bug-workaround.js"></script>
+    
+  <!-- carica tutti gli script qui -->
+  <script src="../../shared/header/header.js"></script>
   </body>
 </html>
-

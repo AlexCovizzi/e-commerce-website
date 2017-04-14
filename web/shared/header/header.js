@@ -1,7 +1,7 @@
+
 /* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * questo script serve a fare in modo che la scritta nel dropdown menu a fianco
+ * della serchbar cambi a seconda di quello che seleziono
  */
 $(".dropdown-menu li a").click(function(e){
     var selText = $(this).text();
