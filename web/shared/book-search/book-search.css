@@ -1,0 +1,24 @@
+.book-container {
+  margin: 8px;
+}
+
+.img-wrapper {
+  min-width: 100px;
+}
+
+.book-link {
+  color: black;
+}
+
+.custom-divider {
+  background: #dcdcdc;
+  height: 1px;
+}
+
+.disponibilita-immediata {
+  color: green;
+}
+
+.non-disponibile {
+  color: red;
+}

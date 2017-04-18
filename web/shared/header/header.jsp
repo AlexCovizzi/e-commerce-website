@@ -11,7 +11,7 @@
       
       <button style="padding: 6px 10px;" type="button" class="navbar-toggle" data-toggle="collapse" data-target="#menu-right" aria-expanded="false" aria-controls="menu-right">
         <span class="sr-only">Toggle Navigation</span>
-        <i class="glyphicon glyphicon-user"></i>
+        <i class="glyphicon glyphicon-menu-down"></i>
       </button>
       <button style="padding: 6px 10px;" type="button" class="navbar-toggle" data-toggle="collapse" data-target="#search-bar" aria-expanded="false" aria-controls="search-bar">
         <span class="sr-only">Toggle Navigation</span>
@@ -22,27 +22,22 @@
 
     <% if(true) {%>
       <!-- menu a destra (logged in) -->
-      <div id="menu-right" class="navbar-right navbar-collapse collapse">
+      <div id="menu-right" class="collapse navbar-collapse navbar-right">
         <ul class="nav navbar-nav">
-          <li>
-            <a href="#"><i class="glyphicon glyphicon-shopping-cart"></i>
+          <li title="Il mio account: Nome utente">
+            <a><i class="glyphicon glyphicon-user" style="font-size: 18px;"></i>
+            <span class="visible-xs-inline" style="padding-left:16px;">Il mio account: Nome utente</span>
+            </a>
+          </li>
+          <li title="Carrello">
+            <a href="#"><i class="glyphicon glyphicon-shopping-cart" style="font-size: 18px;"></i>
             <span class="visible-xs-inline" style="padding-left:16px;">Carrello</span>
             <span class="badge">4</span>
             </a>
           </li>
-          <li>
-            <a href="#"><i class="glyphicon glyphicon-eur"></i>
-            <span class="visible-xs-inline" style="padding-left:16px;">Ordini</span>
-            </a>
-          </li>
-          <li>
-            <a href="#"><i class="glyphicon glyphicon-list-alt"></i>
+          <li title="Lista desideri">
+            <a href="#"><i class="glyphicon glyphicon-list-alt" style="font-size: 18px;"></i>
             <span class="visible-xs-inline" style="padding-left:16px;">Lista desideri</span>
-            </a>
-          </li>
-          <li>
-            <a href="#"><i class="glyphicon glyphicon-log-out"></i>
-            <span class="visible-xs-inline" style="padding-left:16px;">Logout</span>
             </a>
           </li>
         </ul>

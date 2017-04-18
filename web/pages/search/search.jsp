@@ -3,7 +3,7 @@
 <t:base-layout title="Risultati ricerca">
   
   <jsp:attribute name="css_imports">
-    <!-- metti qui i css da importare -->
+    <link href="../../shared/book-search/book-search.css" rel="stylesheet" type="text/css" />
   </jsp:attribute>
 
   <jsp:attribute name="content_area">
@@ -36,14 +36,10 @@
       </div>
       <div class="col-xs-9">
         <h4 style="background:#ddd; padding: 6px;">Hai trovato</h4>
-        <a href="#">Libro 1</a></br>
-        <a href="#">Libro 2</a></br>
-        <a href="#">Libro 3</a></br>
-        <a href="#">Libro 4</a></br>
-        <a href="#">Libro 5</a></br>
-        <a href="#">Libro 6</a></br>
-        <a href="#">Libro 7</a></br>
-        <a href="#">Libro 8</a></br>
+        <%@include file="../../shared/book-search/book-search.jsp" %>
+        <%@include file="../../shared/book-search/book-search.jsp" %>
+        <%@include file="../../shared/book-search/book-search.jsp" %>
+        <%@include file="../../shared/book-search/book-search.jsp" %>
       </div>
     </div>
     
