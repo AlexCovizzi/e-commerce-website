@@ -1,66 +1,228 @@
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+<%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
+ 
+<t:base-layout title="Libreria Online Sant'Ale">
+  
+  <jsp:attribute name="css_imports">
+    <!-- metti qui i css da importare -->
+  </jsp:attribute>
 
-  <title>Home page</title>
-
-  <!-- Bootstrap -->
-  <link href="../../framework/css/bootstrap.min.css" rel="stylesheet">
-
-  <!-- carica tutti i file css qui -->
-  <link rel="stylesheet" href="homepage.css">
-  <link href="../../shared/header/header.css"  rel="stylesheet" type="text/css" />
-  <link href="../../shared/footer/footer.css"  rel="stylesheet" type="text/css" />
-
-</head>
-
-<body>
-  <div id="grande_scatola">
-    <!-- header -->
-    <%@ include file="../../shared/header/header.jsp" %>
-
-    <div style="margin-top: 50px;">
-      <!-- metti pagina qui -->
-      
-      <!-- menu sotto header -->
-      <nav id="sotto-header" class="navbar navbar-default">
+  <jsp:attribute name="content_area">
+    <!-- metti qui il contenuto della pagina -->
+    <!-- menu sotto header -->
+    <div class="container-fluid">
+    <button type="button" class="navbar-toggle" data-toggle="collapse"
+            data-target="#sotto_header" aria-expanded="false" aria-controls="sotto_header">
+        
+        <span class="sr-only">Toggle Navigation</span>
+        <i class="glyphicon glyphicon-menu-hamburger"></i>
+    </button>
+    
+    <b>Categorie</b>
+    <div id="sotto_header" class="collapse navbar-collapse">
         <ul style="margin: 0px;" class="nav navbar-nav">
-          <li><a href="#">In offerta</a></li>
-          <li><a href="#">Nuove uscite</a></li>
-          <li><a href="#">Fumetti</a></li>
-          <li><a href="#">Dizionari</a></li>
+            <li title="Libri Italiani">
+                <a href="#">Libri Italiani</a>
+            </li>
+            <li title="Libri in Lingua Straniera">
+                <a href="#">Libri in Lingua Straniera</a>
+            </li>
+            <li title="eBook">
+                <a href="#">eBook</a>
+            </li>
+            <li title="Fumetti">
+                <a href="#">Fumetti</a>
+            </li>
+            <li title="Dizionari">
+                <a href="#">Dizionari</a>
+            </li>
         </ul>
-      </nav>
-      
+    </div>
+    </div>
+    
       <!-- Sezione di benvenuto -->
-      <div class="jumbotron" id="benvenuto">
+    <div class="jumbotron" id="benvenuto">
+        <div class="container">
+            <h1>Benvenuto!</h1>
+            <p>La Libreria Oline Sant'Ale ti offre la scelta su numerosi
+                libri, in italiano e in lingua straniera! Inizia subito la
+                ricerca iscrivendoti o cercando qualche libro!</p>
+            <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more &raquo;</a></p>
+        </div>
+    </div>
+      
+      <!--Ultimi Arrivi-->
+      <div class="jumbotron sezione">
+          <h2>Ultimi Arrivi</h2>
+          <div id="ultimiArrivi" class="carousel slide" data-ride="carousel">
+      <!-- Indicators -->
+      <ol class="carousel-indicators">
+        <li data-target="#ultimiArrivi" data-slide-to="0" class="active"></li>
+        <li data-target="#ultimiArrivi" data-slide-to="1"></li>
+        <li data-target="#ultimiArrivi" data-slide-to="2"></li>
+      </ol>
+      <div class="carousel-inner" role="listbox">
+        <div class="item active">
+          <img class="first-slide" src="../../assets/img/download.jpg" alt="First slide">
           <div class="container">
-              <h1>Benvenuto!</h1>
-              <p>La Libreria Oline Sant'Ale ti offre la scelta su numerosi
-                  libri, in italiano e in lingua straniera! Inizia subito la
-                  ricerca iscrivendoti o cercando qualche libro!</p>
-              <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more &raquo;</a></p>
+            <div class="carousel-caption">
+              <h3>Titolo</h3>
+              <p>Veloce descrizione...</p>
+              <p>Costo: Numerosi &euro;</p>
+              <p><a class="btn btn-lg btn-primary" href="#" role="button">Approfondisci</a></p>
+            </div>
           </div>
+        </div>
+        <div class="item">
+          <img class="second-slide" src="../../assets/img/download.jpg" alt="Second slide">
+          <div class="container">
+            <div class="carousel-caption">
+              <h3>Titolo</h3>
+              <p>Veloce descrizione...</p>
+              <p>Costo: Numerosi &euro;</p>
+              <p><a class="btn btn-lg btn-primary" href="#" role="button">Approfondisci</a></p>
+            </div>
+          </div>
+        </div>
+        <div class="item">
+          <img class="third-slide" src="../../assets/img/download.jpg" alt="Third slide">
+          <div class="container">
+            <div class="carousel-caption">
+              <h3>Titolo</h3>
+              <p>Veloce descrizione...</p>
+              <p>Costo: Numerosi &euro;</p>
+              <p><a class="btn btn-lg btn-primary" href="#" role="button">Approfondisci</a></p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <a class="left carousel-control" href="#ultimiArrivi" role="button" data-slide="prev">
+        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+      </a>
+      <a class="right carousel-control" href="#ultimiArrivi" role="button" data-slide="next">
+        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+      </a>
+    </div><!-- /.carousel -->
       </div>
       
-    </div>
-    <%@ include file="../../shared/footer/push.jsp" %>
-  </div> <!-- grande_scatola -->
+      <!--I più Quotati-->
+      <div class="jumbotron sezione">
+          <h2>I pi&ugrave; Quotati</h2>
+          <div id="iPiuQuotati" class="carousel slide" data-ride="carousel">
+      <!-- Indicators -->
+      <ol class="carousel-indicators">
+        <li data-target="#iPiuQuotati" data-slide-to="0" class="active"></li>
+        <li data-target="#iPiuQuotati" data-slide-to="1"></li>
+        <li data-target="#iPiuQuotati" data-slide-to="2"></li>
+      </ol>
+      <div class="carousel-inner" role="listbox">
+        <div class="item active">
+          <img class="first-slide" src="../../assets/img/download.jpg" alt="First slide">
+          <div class="container">
+            <div class="carousel-caption">
+              <h3>Titolo</h3>
+              <p>Veloce descrizione...</p>
+              <p>Costo: Numerosi &euro;</p>
+              <p><a class="btn btn-lg btn-primary" href="#" role="button">Approfondisci</a></p>
+            </div>
+          </div>
+        </div>
+        <div class="item">
+          <img class="second-slide" src="../../assets/img/download.jpg" alt="Second slide">
+          <div class="container">
+            <div class="carousel-caption">
+              <h3>Titolo</h3>
+              <p>Veloce descrizione...</p>
+              <p>Costo: Numerosi &euro;</p>
+              <p><a class="btn btn-lg btn-primary" href="#" role="button">Approfondisci</a></p>
+            </div>
+          </div>
+        </div>
+        <div class="item">
+          <img class="third-slide" src="../../assets/img/download.jpg" alt="Third slide">
+          <div class="container">
+            <div class="carousel-caption">
+              <h3>Titolo</h3>
+              <p>Veloce descrizione...</p>
+              <p>Costo: Numerosi &euro;</p>
+              <p><a class="btn btn-lg btn-primary" href="#" role="button">Approfondisci</a></p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <a class="left carousel-control" href="#iPiuQuotati" role="button" data-slide="prev">
+        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+      </a>
+      <a class="right carousel-control" href="#iPiuQuotati" role="button" data-slide="next">
+        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+      </a>
+    </div><!-- /.carousel -->
+      </div>
+      
+      <!--Consigliati per Te-->
+      <div class="jumbotron sezione">
+          <h2>Consigliati per Te</h2>
+          <div id="consigliati" class="carousel slide" data-ride="carousel">
+      <!-- Indicators -->
+      <ol class="carousel-indicators">
+        <li data-target="#consigliati" data-slide-to="0" class="active"></li>
+        <li data-target="#consigliati" data-slide-to="1"></li>
+        <li data-target="#consigliati" data-slide-to="2"></li>
+      </ol>
+      <div class="carousel-inner" role="listbox">
+        <div class="item active">
+          <img class="first-slide" src="../../assets/img/download.jpg" alt="First slide">
+          <div class="container">
+            <div class="carousel-caption">
+              <h3>Titolo</h3>
+              <p>Veloce descrizione...</p>
+              <p>Costo: Numerosi &euro;</p>
+              <p><a class="btn btn-lg btn-primary" href="#" role="button">Approfondisci</a></p>
+            </div>
+          </div>
+        </div>
+        <div class="item">
+          <img class="second-slide" src="../../assets/img/download.jpg" alt="Second slide">
+          <div class="container">
+            <div class="carousel-caption">
+              <h3>Titolo</h3>
+              <p>Veloce descrizione...</p>
+              <p>Costo: Numerosi &euro;</p>
+              <p><a class="btn btn-lg btn-primary" href="#" role="button">Approfondisci</a></p>
+            </div>
+          </div>
+        </div>
+        <div class="item">
+          <img class="third-slide" src="../../assets/img/download.jpg" alt="Third slide">
+          <div class="container">
+            <div class="carousel-caption">
+              <h3>Titolo</h3>
+              <p>Veloce descrizione...</p>
+              <p>Costo: Numerosi &euro;</p>
+              <p><a class="btn btn-lg btn-primary" href="#" role="button">Approfondisci</a></p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <a class="left carousel-control" href="#consigliati" role="button" data-slide="prev">
+        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+      </a>
+      <a class="right carousel-control" href="#consigliati" role="button" data-slide="next">
+        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+      </a>
+    </div><!-- /.carousel -->
+      </div>
+      
+  </jsp:attribute>
   
-  <!-- footer -->
-  <%@ include file="../../shared/footer/footer.jsp" %>
-
-  <!-- framework -->
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-  <script src="../../framework/js/bootstrap.min.js"></script>
-
-  <!-- carica tutti gli script qui -->
-  <script src="../../shared/header/header.js"></script>
-  <script src="../../shared/footer/footer.js"></script>
-</body>
-</html>
+  <jsp:attribute name="js_imports">
+    <!-- metti qui i js da importare -->
+  </jsp:attribute>
+ 
+</t:base-layout>
 
