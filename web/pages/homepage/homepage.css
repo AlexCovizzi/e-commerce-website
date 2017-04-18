@@ -1,5 +1,14 @@
 #sotto-header {
 }
+#scritta_categorie
+{
+    float: left;
+    position: relative;
+    top: 15px;
+    left: 0px;
+    margin-right: 10px;
+}
+
 .sezione
 {
     margin-left: 30px;
