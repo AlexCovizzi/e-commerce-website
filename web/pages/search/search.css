@@ -1,0 +1,12 @@
+
+.filter-menu {
+  background: #d2d2d2;
+  padding: 4px;
+}
+.filter-link {
+  color: black;
+}
+.filter-link:hover {
+  text-decoration: none;
+}
+

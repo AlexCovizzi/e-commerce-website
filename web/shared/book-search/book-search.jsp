@@ -6,19 +6,12 @@
   </div>
   <div class="col-xs-7">
     <h5><b>Titolo: </b><a class="book-link" href="#">Il trono di spade</a></h5>
+    <h5><b>Genere: </b><a class="book-link" href="#">Fantasia</a></h5>
     <h5><b>Autore: </b><a class="book-link" href="#">George R.R Martino</a></h5>
     <h5><b>Editore: </b><a class="book-link" href="#">Non so che editore abbia</a></h5>
     <div class="custom-divider"></div>
-    <div>
-      <h5><b>Voto: </b>92%</h5>
-      <button class="btn btn-default">
-        <i class="glyphicon glyphicon-thumbs-up"></i>
-        563
-      </button>
-      <button class="btn btn-default">
-        <i class="glyphicon glyphicon-thumbs-down"></i>
-        63
-      </button>
+    <div >
+      <h5><b>Voto: </b>92% <small>(1452 voti)</small></h5>
     </div>
   </div>
   <div class="col-xs-3">

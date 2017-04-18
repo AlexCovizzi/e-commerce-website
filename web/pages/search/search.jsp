@@ -3,6 +3,7 @@
 <t:base-layout title="Risultati ricerca">
   
   <jsp:attribute name="css_imports">
+    <link href="search.css" rel="stylesheet" type="text/css" />
     <link href="../../shared/book-search/book-search.css" rel="stylesheet" type="text/css" />
   </jsp:attribute>
 
@@ -10,31 +11,50 @@
     <!-- metti qui il contenuto della pagina -->
     
     <div class="container">
-      <div class="col-xs-3">
+      <div class=" col-xs-2">
         <h4 style="background:#ddd; padding:6px;">Filtra per</h4>
-        <h5 style="outline: #ddd solid 1px; padding:6px;">Genere</h4>
-        <a href="#">Opzione 1</a></br>
-        <a href="#">Opzione 2</a></br>
-        <a href="#">Opzione 3</a></br>
-        <a href="#">Opzione 4</a></br>
-        <a href="#">Opzione 5</a></br>
-        <h5 style="outline: #ddd solid 1px; padding:6px;">Prezzo</h4>
-        <a href="#">Opzione 1</a></br>
-        <a href="#">Opzione 2</a></br>
-        <a href="#">Opzione 3</a></br>
-        <h5 style="outline: #ddd solid 1px; padding:6px;">Autore</h4>
-        <a href="#">Opzione 1</a></br>
-        <a href="#">Opzione 2</a></br>
-        <a href="#">Opzione 3</a></br>
-        <a href="#">Opzione 4</a></br>
-        <a href="#">Opzione 5</a></br>
-        <h5 style="outline: #ddd solid 1px; padding:6px;">Editore</h4>
-        <a href="#">Opzione 1</a></br>
-        <a href="#">Opzione 2</a></br>
-        <a href="#">Opzione 3</a></br>
-        <a href="#">Opzione 4</a></br>
+        
+        <div class="filter-menu">
+          <h5><b>Genere</b></h5>
+          <a class="filter-link" href="#"><h6>Opzione 1</h6></a>
+          <a class="filter-link"  href="#"><h6>Opzione 2</h6></a>
+          <a class="filter-link"  href="#"><h6>Opzione 3</h6></a>
+          <a class="filter-link"  href="#"><h6>Opzione 4</h6></a>
+          <a class="filter-link"  href="#"><h6>Opzione 5</h6></a>
+
+          <h5><b>Prezzo</b></h5>
+          <a class="filter-link" href="#"><h6>< 5.00</h6></a>
+          <a class="filter-link"  href="#"><h6>5.00 - 7.49</h6></a>
+          <a class="filter-link"  href="#"><h6>7.50 - 9.99</h6></a>
+          <a class="filter-link"  href="#"><h6>10.00 - 14.99</h6></a>
+          <a class="filter-link"  href="#"><h6>15.99 - 29.99</h6></a>
+          <a class="filter-link"  href="#"><h6>> 30.00</h6></a>
+          
+          
+          <h5><b>Genere</b></h5>
+          <a class="filter-link" href="#"><h6>Opzione 1</h6></a>
+          <a class="filter-link"  href="#"><h6>Opzione 2</h6></a>
+          <a class="filter-link"  href="#"><h6>Opzione 3</h6></a>
+          <a class="filter-link"  href="#"><h6>Opzione 4</h6></a>
+          <a class="filter-link"  href="#"><h6>Opzione 5</h6></a>
+
+          <h5><b>Voto</b></h5>
+          <a class="filter-link" href="#"><h6>> 90%</h6></a>
+          <a class="filter-link"  href="#"><h6>75% - 90%</h6></a>
+          <a class="filter-link"  href="#"><h6>60% - 75%</h6></a>
+          <a class="filter-link"  href="#"><h6>40%- 60%</h6></a>
+          <a class="filter-link"  href="#"><h6>< 40%</h6></a>
+          
+          <h5><b>Editore</b></h5>
+          <a class="filter-link" href="#"><h6>Opzione 1</h6></a>
+          <a class="filter-link"  href="#"><h6>Opzione 2</h6></a>
+          <a class="filter-link"  href="#"><h6>Opzione 3</h6></a>
+          <a class="filter-link"  href="#"><h6>Opzione 4</h6></a>
+          <a class="filter-link"  href="#"><h6>Opzione 5</h6></a>
+        </div>
       </div>
-      <div class="col-xs-9">
+      
+      <div class="col-xs-10">
         <h4 style="background:#ddd; padding: 6px;">Hai trovato</h4>
         <%@include file="../../shared/book-search/book-search.jsp" %>
         <%@include file="../../shared/book-search/book-search.jsp" %>

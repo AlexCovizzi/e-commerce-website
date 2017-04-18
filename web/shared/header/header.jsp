@@ -25,7 +25,7 @@
       <div id="menu-right" class="collapse navbar-collapse navbar-right">
         <ul class="nav navbar-nav">
           <li title="Il mio account: Nome utente">
-            <a><i class="glyphicon glyphicon-user" style="font-size: 18px;"></i>
+            <a href="#"><i class="glyphicon glyphicon-user" style="font-size: 18px;"></i>
             <span class="visible-xs-inline" style="padding-left:16px;">Il mio account: Nome utente</span>
             </a>
           </li>
@@ -65,7 +65,7 @@
                 Titolo
                 <span class="caret"></span>
               </button>
-              <ul class="dropdown-menu" aria-labelledby="dropdownMenu">
+              <ul id="search-options" class="dropdown-menu" aria-labelledby="dropdownMenu">
                 <li><a href="#">Titolo</a></li>
                 <li><a href="#">Autore</a></li>
                 <li><a href="#">Editore</a></li>

@@ -1,3 +1,7 @@
+.navbar-collapse.in {
+  overflow-y: visible;
+}
+
 #search-form-group {
     display:inline;
 }
