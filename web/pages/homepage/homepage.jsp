@@ -3,7 +3,7 @@
 <t:base-layout title="Libreria Online Sant'Ale">
   
   <jsp:attribute name="css_imports">
-    <link href=homepage.css" rel="stylesheet" type="text/css" />
+    <link href="homepage.css" rel="stylesheet" type="text/css" />
   </jsp:attribute>
 
   <jsp:attribute name="content_area">
@@ -11,7 +11,9 @@
     
     <!-- menu sotto header -->
     <div class="container-fluid">
-        <div id="scritta_categorie">Categorie</div>
+        <div id="scritta_categorie">
+            Categorie
+        </div>
         
         <button type="button" class="navbar-toggle" data-toggle="collapse"
                 data-target="#sotto_header" aria-expanded="false" aria-controls="sotto_header">

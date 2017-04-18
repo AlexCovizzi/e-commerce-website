@@ -1,5 +1,6 @@
 #sotto-header {
 }
+
 #scritta_categorie
 {
     float: left;
@@ -7,6 +8,9 @@
     top: 15px;
     left: 0px;
     margin-right: 10px;
+    font-weight: bold;
+    font-size: 15px;
+    font-style: italic;
 }
 
 .sezione
