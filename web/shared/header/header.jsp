@@ -7,7 +7,7 @@
     
     <div class="navbar-header">
       
-      <a class="navbar-brand" href="#">Libreria Sant'Ale</a>
+      <a class="navbar-brand" href="../../pages/homepage/homepage.jsp">Libreria Sant'Ale</a>
       
       <button style="padding: 6px 10px;" type="button" class="navbar-toggle" data-toggle="collapse" data-target="#menu-right" aria-expanded="false" aria-controls="menu-right">
         <span class="sr-only">Toggle Navigation</span>

@@ -11,10 +11,17 @@
     <!-- metti qui il contenuto della pagina -->
     
     <div class="container">
-      <div class=" col-xs-2">
-        <h4 style="background:#ddd; padding:6px;">Filtra per</h4>
+      <div class="row">
+        <div class="col-sm-9 visible-xs">
+        <h4 style="background:#ddd; padding:6px;">
+          <a data-toggle="collapse" data-target="#filter-menu">Filtra per</a>
+        </h4>
+        </div>
+      
+      <div id="filter-container" class="col-sm-2 collapse in">
+        <h4 class="hidden-xs" style="background:#ddd; padding:6px;">Filtra per</h4>
         
-        <div class="filter-menu">
+        <div id="filter-menu" class="filter-menu">
           <h5><b>Genere</b></h5>
           <a class="filter-link" href="#"><h6>Opzione 1</h6></a>
           <a class="filter-link"  href="#"><h6>Opzione 2</h6></a>
@@ -54,12 +61,14 @@
         </div>
       </div>
       
-      <div class="col-xs-10">
+      <div class="col-sm-9">
+        
         <h4 style="background:#ddd; padding: 6px;">Hai trovato</h4>
         <%@include file="../../shared/book-search/book-search.jsp" %>
         <%@include file="../../shared/book-search/book-search.jsp" %>
         <%@include file="../../shared/book-search/book-search.jsp" %>
         <%@include file="../../shared/book-search/book-search.jsp" %>
+      </div>
       </div>
     </div>
     
