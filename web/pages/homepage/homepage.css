@@ -1,8 +1,10 @@
-#sotto-header {
+#sotto_header {
+    float: left;
 }
 
 #scritta_categorie
 {
+    display: block;
     float: left;
     position: relative;
     top: 15px;
@@ -11,9 +13,25 @@
     font-weight: bold;
     font-size: 15px;
     font-style: italic;
+    margin-bottom: 10px;
 }
 
 .sezione
 {
-    margin-left: 30px;
+    padding-top: 10px;
+    margin: auto;
+}
+
+.libro_in_evidenza
+{
+    color: #555;
+}
+
+.icona_libro
+{
+    position: relative;
+    top: 0px;
+    bottom: 0px;
+    left: 15%;
+    right: 0px;
 }
