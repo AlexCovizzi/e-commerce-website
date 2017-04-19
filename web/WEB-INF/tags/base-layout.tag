@@ -29,7 +29,7 @@
     <!-- header -->
     <%@ include file="../../shared/header/header.jsp" %>
 
-    <div style="padding-top: 53px;">
+    <div class="container" style="padding-top: 64px;">
       <!-- metti pagina qui -->
       <jsp:invoke fragment="content_area"/>
     </div>
