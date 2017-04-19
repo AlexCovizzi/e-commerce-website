@@ -10,7 +10,7 @@
   <jsp:attribute name="content_area">
     <!-- metti qui il contenuto della pagina -->
     
-    <div class="container">
+    <div class="container-fluid">
       <div class="row">
         <div class="col-sm-9 visible-xs">
         <h4 style="background:#ddd; padding:6px;">

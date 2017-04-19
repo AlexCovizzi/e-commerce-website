@@ -1,4 +1,4 @@
-<!-- l'altezza della navar è fissa a 50px
+<!-- l'altezza della navar è fissa a 53px
      ogni pagina che ha l'header dovrà quindi avere un margin-top di 50 px
      in modo che non vengano coperti degli elementi dalla navbar -->
 
