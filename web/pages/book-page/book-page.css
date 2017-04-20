@@ -16,7 +16,7 @@ and open the template in the editor.
     padding-top: 50px;
 }
 
-#copertina
+.copertina
 {
     padding: 10px;
     max-width: 300px;
@@ -66,6 +66,17 @@ and open the template in the editor.
     margin-left: 35px
 }
 
+#desiderato
+{
+    background-color: #337ab7;
+}
+
+#submit_voto
+{
+    background-color: green;
+    /*border-color: green;*/
+}
+
 .sezione-bookpage
 {
     margin-top: 15px;
@@ -101,6 +112,13 @@ and open the template in the editor.
     {
         font-size: 16px;
     }
+    
+    .libro_consigliato
+    {
+        text-align: center;
+        width: 75%;
+        margin: auto;
+    }
 }
 
 @media (min-width: 768px) and (max-width: 991px)
@@ -118,5 +136,21 @@ and open the template in the editor.
     #descrizione
     {
         font-size: 22px;
+    }
+    
+    .libro_consigliato
+    {
+        text-align: center;
+        width: 75%;
+        margin: auto;
+    }
+}
+
+@media (min-width: 991px) and (max-width: 1200px)
+{
+    .libro_consigliato
+    {
+        float: left;
+        width: 25%;
     }
 }

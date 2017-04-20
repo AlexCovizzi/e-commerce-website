@@ -20,7 +20,7 @@
         
         <div class="jumbotron" id="copertina-info">
             <div id="div_copertina">
-                <img id="copertina" src="../../assets/img/download.jpg"/>
+                <img class="copertina" src="../../assets/img/download.jpg"/>
             </div>
             <div id="informazioni">
                 <h2>Il Trono di Spade</h2>
@@ -31,7 +31,8 @@
                         <i class="glyphicon glyphicon-shopping-cart"></i>
                     </button>
 
-                    <button class="btn btn-primary" type="button">
+                    <button id="desiderato" class="btn btn-primary" type="button"
+                            onclick="cambia_colore()" >
                         <i class="glyphicon glyphicon-heart"></i>
                     </button>
                 </div>
@@ -43,15 +44,20 @@
                 <p><i>Data di pubblicazione:</i> 01/01/2000</p>
                 <p><i>Lingua:</i> Italiano</p>
                 
-                <div id="voto">
-                    <button class="btn btn-primary" type="button">
+                <div id="voto" class="btn-group" data-toggle="buttons">
+                    <label class="btn btn-primary">
+                        <input type="radio" name="options" id="option1" autocomplete="off">
                         <i class="glyphicon glyphicon-thumbs-up"></i>
-                    </button>
-
-                    <button class="btn btn-primary" type="button">
+                    </label>
+                    <label class="btn btn-primary">
+                        <input type="radio" name="options" id="option2" autocomplete="off">
                         <i class="glyphicon glyphicon-thumbs-down"></i>
+                    </label>
+                    <button id="submit_voto" class="btn btn-primary" type="button">
+                        Invia Voto <i class="glyphicon glyphicon-ok"></i>
                     </button>
                 </div>
+                
             </div>
         </div>
             
@@ -85,29 +91,29 @@
             </button>
 
             <div class="row collapse" id="consigliati">
-                <div class="col-lg-3 libro_consigliato">
-                    <img src="../../assets/img/download.jpg"/>
+                <div class="libro_consigliato col-lg-3">
+                    <img class="copertina" src="../../assets/img/download.jpg"/>
                     <h2>Titolo</h2>
                     <p>Descrizione veloce</p>
                     <p>10.99 &euro;</p>
                     <p><a class="btn btn-primary" href="#" role="button">Dettagli &raquo;</a></p>
                 </div>
-                <div class="col-lg-3 libro_consigliato">
-                    <img src="../../assets/img/download.jpg"/>
+                <div class="libro_consigliato col-lg-3">
+                    <img class="copertina" src="../../assets/img/download.jpg"/>
                     <h2>Titolo</h2>
                     <p>Descrizione veloce</p>
                     <p>10.99 &euro;</p>
                     <p><a class="btn btn-primary" href="#" role="button">Dettagli &raquo;</a></p>
                 </div>
-                <div class="col-lg-3 libro_consigliato">
-                    <img src="../../assets/img/download.jpg"/>
+                <div class="libro_consigliato col-lg-3">
+                    <img class="copertina" src="../../assets/img/download.jpg"/>
                     <h2>Titolo</h2>
                     <p>Descrizione veloce</p>
                     <p>10.99 &euro;</p>
                     <p><a class="btn btn-primary" href="#" role="button">Dettagli &raquo;</a></p>
                 </div>
-                <div class="col-lg-3 libro_consigliato">
-                    <img src="../../assets/img/download.jpg"/>
+                <div class="libro_consigliato col-lg-3">
+                    <img class="copertina" src="../../assets/img/download.jpg"/>
                     <h2>Titolo</h2>
                     <p>Descrizione veloce</p>
                     <p>10.99 &euro;</p>
@@ -119,7 +125,8 @@
   </jsp:attribute>
   
   <jsp:attribute name="js_imports">
-    <!-- metti qui i js da importare -->
+        <!-- metti qui i js da importare -->
+        <script type="text/javascript" src="book-page.js"></script>
   </jsp:attribute>
  
 </t:base-layout>
