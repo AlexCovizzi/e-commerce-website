@@ -8,7 +8,115 @@ and open the template in the editor.
     Author     : alemo
 */
 
-.consigliati
+#copertina-info
 {
-    font-size: 75%;
+    height: 510px;
+    margin-bottom: 0px;
+    padding-bottom: 10px;
+    padding-top: 50px;
+}
+
+#copertina
+{
+    padding: 10px;
+    max-width: 300px;
+    max-height: 450px;
+}
+
+#div_copertina
+{
+    float: left;
+    max-width: 300px;
+    max-height: 450px;
+    margin-right: 10%;
+}
+
+#informazioni
+{
+    float: left;
+    max-height: 450px;
+}
+
+#informazioni h2
+{
+    margin-top: 5px;
+    margin-bottom: 10px;
+    font-size: 35px;
+}
+
+#informazioni h3
+{
+    margin-left: 15px;
+    margin-top: 0px;
+    margin-bottom: 10px;
+    font-size: 30px;
+}
+
+#informazioni p
+{
+    margin-top: 0px;
+    margin-bottom: 10px;
+    font-size: 24px;
+}
+
+#carrello-desideri, #voto
+{
+    margin-top: 0px;
+    margin-bottom: 10px;
+    margin-left: 35px
+}
+
+.sezione-bookpage
+{
+    margin-top: 15px;
+    padding-top: 15px;
+    padding-right: 15px;
+    padding-left: 15px;
+    padding-bottom: 15px;
+}
+
+.btn_bookpage
+{
+    margin-bottom: 20px;
+    font-size: 20px;
+}
+
+#descrizione
+{
+    font-size: 28px;
+}
+
+/*Come fare per aumentare l'altezza di copertina-info affinché contenga anche i
+    bottoni e il testo che possono sbordare?*/
+@media (max-width: 686px)
+{
+    #copertina-info
+    {
+        min-height: 820px;
+        max-height: 920px;
+        height: auto;
+    }
+    
+    #descrizione
+    {
+        font-size: 16px;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 991px)
+{
+    #copertina-info
+    {
+        min-height: 820px;
+        max-height: 920px;
+        height: auto;
+    }
+}
+
+@media (min-width: 686px) and (max-width: 991px)
+{
+    #descrizione
+    {
+        font-size: 22px;
+    }
 }
