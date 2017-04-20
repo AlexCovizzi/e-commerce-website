@@ -11,11 +11,13 @@ function cambia_colore()
     if($desiderato)
     {
         document.getElementById("desiderato").style.background="#337ab7";
+        document.getElementById("desiderato").title = "Aggiungi alla Lista dei Desideri";
         $desiderato = false;
     }
     else
     {
         document.getElementById("desiderato").style.background="red";
+        document.getElementById("desiderato").title = "Rimuovi dalla Lista dei Desideri";
         $desiderato = true;
     }
 }

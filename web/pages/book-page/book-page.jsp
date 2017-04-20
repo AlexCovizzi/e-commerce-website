@@ -27,12 +27,12 @@
                 <h3>Giorgio R.R. Martino</h3>
 
                 <div id="carrello-desideri">
-                    <button class="btn btn-primary" type="button">
+                    <button title="Aggiungi al Carrello" class="btn btn-primary" type="button">
                         <i class="glyphicon glyphicon-shopping-cart"></i>
                     </button>
 
-                    <button id="desiderato" class="btn btn-primary" type="button"
-                            onclick="cambia_colore()" >
+                    <button title="Aggiungi alla Lista dei Desideri" id="desiderato"
+                            class="btn btn-primary" type="button" onclick="cambia_colore()" >
                         <i class="glyphicon glyphicon-heart"></i>
                     </button>
                 </div>
@@ -45,11 +45,11 @@
                 <p><i>Lingua:</i> Italiano</p>
                 
                 <div id="voto" class="btn-group" data-toggle="buttons">
-                    <label class="btn btn-primary">
+                    <label title="Lo Consiglio" class="btn btn-primary">
                         <input type="radio" name="options" id="option1" autocomplete="off">
                         <i class="glyphicon glyphicon-thumbs-up"></i>
                     </label>
-                    <label class="btn btn-primary">
+                    <label title="Non lo Consiglio" class="btn btn-primary">
                         <input type="radio" name="options" id="option2" autocomplete="off">
                         <i class="glyphicon glyphicon-thumbs-down"></i>
                     </label>
