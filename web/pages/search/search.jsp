@@ -11,60 +11,119 @@
     <!-- metti qui il contenuto della pagina -->
     <div class="row">
       
-    <div id="filter-container" class="col-xs-12 col-sm-3 col-lg-2">
+    <div id="filter-container" class="col-xs-12 col-sm-3 col-md-3 col-lg-2">
       
-      <h4 class="" style="background:#ddd; padding:6px;">Filtra per</h4>
+      <h4 class="hidden-xs" style="color: gray;">Filtra per</h4>
+      
+      <h4 class="visible-xs" style="color: gray;">
+        <a href="#" data-toggle="collapse" data-target="#filter-menu">
+        Filtra per
+        </a>
+      </h4>
 
-      <div id="filter-menu" class="filter-menu">
+      <div id="filter-menu" class="filter-menu collapse in">
         <h5><b>Genere</b></h5>
-        <a class="filter-link" href="#"><h6>Opzione 1</h6></a>
-        <a class="filter-link"  href="#"><h6>Opzione 2</h6></a>
-        <a class="filter-link"  href="#"><h6>Opzione 3</h6></a>
-        <a class="filter-link"  href="#"><h6>Opzione 4</h6></a>
-        <a class="filter-link"  href="#"><h6>Opzione 5</h6></a>
+        <a class="filter-link" href="#">
+          <label><input type="checkbox"> Avventura </label>
+        </a></br>
+        <a class="filter-link" href="#">
+          <label><input type="checkbox"> Fantasia </label>
+        </a></br>
+        <a class="filter-link" href="#">
+          <label><input type="checkbox"> Storico </label>
+        </a></br>
+        <a class="filter-link" href="#">
+          <label><input type="checkbox"> Guerra </label>
+        </a></br>
+        <a class="filter-link" href="#">
+          <label><input type="checkbox"> Romanzo </label>
+        </a></br>
+
+        <h5><b>Autore</b></h5>
+        <a class="filter-link" href="#">
+          <label><input type="checkbox"> George RR Martino </label>
+        </a></br>
+        <a class="filter-link" href="#">
+          <label><input type="checkbox"> Giorgio R Martino </label>
+        </a></br>
+        <a class="filter-link" href="#">
+          <label><input type="checkbox"> Giorg ARAR Martinez </label>
+        </a></br>
+        <a class="filter-link" href="#">
+          <label><input type="checkbox"> Georrrg RRR Marrrtin </label>
+        </a></br>
+        <a class="filter-link" href="#">
+          <label><input type="checkbox"> Ancora Georgr Martino RR </label>
+        </a></br>
 
         <h5><b>Prezzo</b></h5>
-        <a class="filter-link" href="#"><h6>< 5.00</h6></a>
-        <a class="filter-link"  href="#"><h6>5.00 - 7.49</h6></a>
-        <a class="filter-link"  href="#"><h6>7.50 - 9.99</h6></a>
-        <a class="filter-link"  href="#"><h6>10.00 - 14.99</h6></a>
-        <a class="filter-link"  href="#"><h6>15.99 - 29.99</h6></a>
-        <a class="filter-link"  href="#"><h6>> 30.00</h6></a>
-
-        <h5><b>Genere</b></h5>
-        <a class="filter-link" href="#"><h6>Opzione 1</h6></a>
-        <a class="filter-link"  href="#"><h6>Opzione 2</h6></a>
-        <a class="filter-link"  href="#"><h6>Opzione 3</h6></a>
-        <a class="filter-link"  href="#"><h6>Opzione 4</h6></a>
-        <a class="filter-link"  href="#"><h6>Opzione 5</h6></a>
+        <a class="filter-link" href="#">
+          <label><input type="checkbox"> < 5,00 </label>
+        </a></br>
+        <a class="filter-link" href="#">
+          <label><input type="checkbox"> 5,00 - 7,49 </label>
+        </a></br>
+        <a class="filter-link" href="#">
+          <label><input type="checkbox"> 7,50 - 9,99 </label>
+        </a></br>
+        <a class="filter-link" href="#">
+          <label><input type="checkbox"> 10,00 - 14,99 </label>
+        </a></br>
+        <a class="filter-link" href="#">
+          <label><input type="checkbox"> 15,00 - 29,99 </label>
+        </a></br>
+        <a class="filter-link" href="#">
+          <label><input type="checkbox"> > 30,00 </label>
+        </a></br>
 
         <h5><b>Voto</b></h5>
-        <a class="filter-link" href="#"><h6>> 90%</h6></a>
-        <a class="filter-link"  href="#"><h6>75% - 90%</h6></a>
-        <a class="filter-link"  href="#"><h6>60% - 75%</h6></a>
-        <a class="filter-link"  href="#"><h6>40%- 60%</h6></a>
-        <a class="filter-link"  href="#"><h6>< 40%</h6></a>
+        <a class="filter-link" href="#">
+          <label><input type="checkbox"> > 90% </label>
+        </a></br>
+        <a class="filter-link" href="#">
+          <label><input type="checkbox"> 75% - 90% </label>
+        </a></br>
+        <a class="filter-link" href="#">
+          <label><input type="checkbox"> 60% - 75% </label>
+        </a></br>
+        <a class="filter-link" href="#">
+          <label><input type="checkbox"> 40% - 75% </label>
+        </a></br>
+        <a class="filter-link" href="#">
+          <label><input type="checkbox"> < 40% </label>
+        </a></br>
 
         <h5><b>Editore</b></h5>
-        <a class="filter-link" href="#"><h6>Opzione 1</h6></a>
-        <a class="filter-link"  href="#"><h6>Opzione 2</h6></a>
-        <a class="filter-link"  href="#"><h6>Opzione 3</h6></a>
-        <a class="filter-link"  href="#"><h6>Opzione 4</h6></a>
-        <a class="filter-link"  href="#"><h6>Opzione 5</h6></a>
+        <a class="filter-link" href="#">
+          <label><input type="checkbox"> Editore del trono di spade </label>
+        </a></br>
+        <a class="filter-link" href="#">
+          <label><input type="checkbox"> Editore di Game of Thrones </label>
+        </a></br>
+        <a class="filter-link" href="#">
+          <label><input type="checkbox"> Editore di GoT </label>
+        </a></br>
+        <a class="filter-link" href="#">
+          <label><input type="checkbox"> Altro editore di GoT </label>
+        </a></br>
+        <a class="filter-link" href="#">
+          <label><input type="checkbox"> Editore di Geroge RR Martin </label>
+        </a></br>
       </div>
     </div>
     
-    <div class="col-xs-12 col-sm-9 col-lg-10">
+    <div class="col-xs-12 col-sm-9 col-md-9 col-lg-10">
       
       <h5>Hai cercato: <b style="color: #46b8da;">Quello cercato</b></h5>
       
+      
       <div class="row">
-        <div class="col-xs-10 col-sm-9">
+        <div class="col-xs-9">
           <h5>Risultati: 1-25 di <b>1200</b></h5>
         </div>
 
-        <div class="col-xs-2 col-sm-3">
-          <button title="Ordina per" class="btn btn-default dropdown-toggle" type="button" id="sort-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+        <div class="col-xs-3">
+          <button title="Ordina per" class="btn btn-default dropdown-toggle pull-right" type="button" id="sort-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
             <i class="glyphicon glyphicon-sort"></i>
             <span class="hidden-xs">Ordina</span>
             <span class="caret"></span>
@@ -103,6 +162,16 @@
   
   <jsp:attribute name="js_imports">
     <!-- metti qui i js da importare -->
+    <script>
+      $(window).resize(function() {
+        if ($(this).width() < 768) {
+          $('.filter-menu').collapse('hide');
+        } else {
+          $('.filter-menu').collapse('show');
+        }
+      });
+    </script>
+    
   </jsp:attribute>
  
 </t:base-layout>

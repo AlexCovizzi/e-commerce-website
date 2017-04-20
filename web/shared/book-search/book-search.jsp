@@ -1,6 +1,6 @@
 <div class="book-container row">
   
-  <div class="img-wrapper col-xs-3 col-sm-2" style="min-width: 80px; max-width: 130px; padding-left: 4px; padding-right: 4px;">
+  <div class="img-wrapper col-xs-3 col-sm-2" style="min-width: 60px; max-width: 130px;">
     <a href="#">
       <img src="../../assets/img/download.jpg" class="img-thumbnail">
     </a>
@@ -19,7 +19,7 @@
     
     <div class="col-xs-12 col-sm-4">
 
-      <div class="col-xs-7 col-sm-12">
+      <div class="col-xs-6 col-sm-12">
         <h4 style="color: #46b8da;"><b>&euro;99,99</b></h4>
 
         <% if(true) { %>
@@ -29,13 +29,15 @@
         <% } %>
       </div>
 
-      <div class="col-xs-5 col-sm-12 pull-right">
-        <div>
+      <div class="col-xs-6 col-sm-12">
+        <div class="">
         <button title="Aggiungi al carrello" class="btn btn-default" style="margin-top: 1px; margin-bottom: 1px;">
           <i class="glyphicon glyphicon-shopping-cart" style="font-size: 18px;"></i>
+          <span class="hidden-xs hidden-sm hidden-md">Aggiungi al carrello</span>
         </button>
         <button title="Aggiungi alla lista desideri" class="btn btn-default" style="margin-top: 1px; margin-bottom: 1px;">
           <i class="glyphicon glyphicon-list-alt" style="font-size: 18px;"></i>
+          <span class="hidden-xs hidden-sm hidden-md">Aggiungi alla lista desideri</span>
         </button>
         </div>
       </div>
