@@ -18,33 +18,25 @@
             <h5><a href="#">Categoria</a> &raquo; Il Trono di Spade</h5>
         </div>
         
-        <div class="jumbotron" id="copertina-info">
-            <div id="div_copertina">
-                <img class="copertina" src="../../assets/img/download.jpg"/>
+        <div id="copertina-info">
+            
+            <div class="jumbotron" id="div_copertina">
+                <div id="copertina-book-page">
+                    <img class="copertina" src="../../assets/img/download.jpg"/>
+                </div>
             </div>
+            
             <div id="informazioni">
                 <h2>Il Trono di Spade</h2>
                 <h3>Giorgio R.R. Martino</h3>
-
-                <div id="carrello-desideri">
-                    <button title="Aggiungi al Carrello" class="btn btn-primary" type="button">
-                        <i class="glyphicon glyphicon-shopping-cart"></i>
-                    </button>
-
-                    <button title="Aggiungi alla Lista dei Desideri" id="desiderato"
-                            class="btn btn-primary" type="button" onclick="cambia_colore()" >
-                        <i class="glyphicon glyphicon-heart"></i>
-                    </button>
-                </div>
-
-                <h3><b>Numerosi &euro;</b></h3>
+                
                 <p><i>ISBN:</i> 777777777777777</p>
                 <p><i>Pagine:</i> 777</p>
                 <p><i>Editore:</i> NonnoLaser Editore</p>
                 <p><i>Data di pubblicazione:</i> 01/01/2000</p>
                 <p><i>Lingua:</i> Italiano</p>
                 
-                <div id="voto" class="btn-group" data-toggle="buttons">
+                <div id="voto" class="jumbotron btn-group" data-toggle="buttons">
                     <label title="Lo Consiglio" class="btn btn-primary">
                         <input type="radio" name="options" id="option1" autocomplete="off">
                         <i class="glyphicon glyphicon-thumbs-up"></i>
@@ -57,7 +49,22 @@
                         Invia Voto <i class="glyphicon glyphicon-ok"></i>
                     </button>
                 </div>
-                
+            </div>
+            
+            <div class="jumbotron" id="prezzo">
+                <h3><b>10.99 &euro;</b></h3>
+                Venduto e spedito da Libreria Sant'Ale
+                <div style="margin-bottom: 15px;"></div>
+                <div id="carrello-desideri">
+                    <button title="Aggiungi al Carrello" class="btn btn-primary" type="button">
+                        <i class="glyphicon glyphicon-shopping-cart"></i> Aggiungi al Carrello
+                    </button>
+                    <br/><div style="margin-bottom: 15px;"></div>
+                    <button title="Aggiungi ai Desideri" id="desiderato"
+                            class="btn btn-primary" type="button" onclick="cambia_colore()" >
+                        <i class="glyphicon glyphicon-heart"></i> Aggiungi ai Desideri
+                    </button>
+                </div>
             </div>
         </div>
             
@@ -84,7 +91,7 @@
         </div>
             
             
-        <div class="jumbotron sezione-bookpage">
+        <div id="consigliati_div" class="jumbotron sezione-bookpage">
             <button class="btn btn-primary btn_bookpage" type="button" data-toggle="collapse"
                     data-target="#consigliati" aria-expanded="false" aria-controls="consigliati">
                 Sant'Ale Ti Consiglia Anche <i class="glyphicon glyphicon-chevron-down"></i>
@@ -92,7 +99,14 @@
 
             <div class="row collapse" id="consigliati">
                 <div class="libro_consigliato col-lg-3">
-                    <img class="copertina" src="../../assets/img/download.jpg"/>
+                    <img class="copertina" src="../../assets/img/IL.png"/>
+                    <h2>Titolo</h2>
+                    <p>Descrizione veloce</p>
+                    <p>10.99 &euro;</p>
+                    <p><a class="btn btn-primary" href="#" role="button">Dettagli &raquo;</a></p>
+                </div>
+                <div class="libro_consigliato col-lg-3">
+                    <img class="copertina" src="../../assets/img/ruotadeltempo.jpg"/>
                     <h2>Titolo</h2>
                     <p>Descrizione veloce</p>
                     <p>10.99 &euro;</p>
@@ -106,14 +120,7 @@
                     <p><a class="btn btn-primary" href="#" role="button">Dettagli &raquo;</a></p>
                 </div>
                 <div class="libro_consigliato col-lg-3">
-                    <img class="copertina" src="../../assets/img/download.jpg"/>
-                    <h2>Titolo</h2>
-                    <p>Descrizione veloce</p>
-                    <p>10.99 &euro;</p>
-                    <p><a class="btn btn-primary" href="#" role="button">Dettagli &raquo;</a></p>
-                </div>
-                <div class="libro_consigliato col-lg-3">
-                    <img class="copertina" src="../../assets/img/download.jpg"/>
+                    <img class="copertina" src="../../assets/img/ruotadeltempo.jpg"/>
                     <h2>Titolo</h2>
                     <p>Descrizione veloce</p>
                     <p>10.99 &euro;</p>

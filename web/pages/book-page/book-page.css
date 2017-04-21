@@ -18,17 +18,15 @@ and open the template in the editor.
 
 .copertina
 {
-    padding: 10px;
-    max-width: 300px;
-    max-height: 450px;
+    max-width: 200px;
+    max-height: 314px;
 }
 
 #div_copertina
 {
     float: left;
-    max-width: 300px;
-    max-height: 450px;
-    margin-right: 10%;
+    max-height: 410px;
+    margin-right: 10px;
 }
 
 #informazioni
@@ -41,7 +39,7 @@ and open the template in the editor.
 {
     margin-top: 5px;
     margin-bottom: 10px;
-    font-size: 35px;
+    font-size: 27px;
 }
 
 #informazioni h3
@@ -49,21 +47,38 @@ and open the template in the editor.
     margin-left: 15px;
     margin-top: 0px;
     margin-bottom: 10px;
-    font-size: 30px;
+    font-size: 22px;
 }
 
 #informazioni p
 {
     margin-top: 0px;
     margin-bottom: 10px;
-    font-size: 24px;
+    font-size: 16px;
 }
 
-#carrello-desideri, #voto
+#voto
+{
+    padding: 10px;
+    border-top: 2px;
+}
+
+#prezzo
+{
+    padding: 20px;
+    float: right;
+}
+
+#carrello-desideri
 {
     margin-top: 0px;
     margin-bottom: 10px;
-    margin-left: 35px
+}
+
+#carrello-desideri .btn
+{
+    font-size: 20px;
+    width: 230px;
 }
 
 #desiderato
@@ -99,16 +114,32 @@ and open the template in the editor.
 
 /*Come fare per aumentare l'altezza di copertina-info affinché contenga anche i
     bottoni e il testo che possono sbordare?*/
-@media (max-width: 686px)
+@media (max-width: 492px)
 {
     #copertina-info
     {
-        min-height: 820px;
-        max-height: 920px;
-        height: auto;
+        height: 960px;
+    }
+    
+    #div_copertina
+    {
+        width: 100%;
+        margin: auto;
+    }
+    
+    #copertina-book-page
+    {
+        text-align: center;
+        width: 75%;
+        margin: auto;
     }
     
     #descrizione
+    {
+        font-size: 16px;
+    }
+    
+    #consigliati_div .btn
     {
         font-size: 16px;
     }
@@ -131,7 +162,7 @@ and open the template in the editor.
     }
 }
 
-@media (min-width: 686px) and (max-width: 991px)
+@media (min-width: 492px) and (max-width: 991px)
 {
     #descrizione
     {
@@ -154,3 +185,14 @@ and open the template in the editor.
         width: 25%;
     }
 }
+
+@media (max-width: 991px)
+{
+    #prezzo
+    {
+        width: 100%;
+        margin: auto;
+    }
+}
+
+
