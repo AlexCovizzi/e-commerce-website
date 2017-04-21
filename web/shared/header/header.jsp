@@ -20,7 +20,7 @@
       
     </div>
 
-    <% if(true) {%>
+    <% if(false) {%>
       <!-- menu a destra (logged in) -->
       <div id="menu-right" class="collapse navbar-collapse navbar-right">
         <ul class="nav navbar-nav">
@@ -36,7 +36,7 @@
             </a>
           </li>
           <li title="Lista desideri">
-            <a href="#"><i class="glyphicon glyphicon-list-alt" style="font-size: 18px;"></i>
+            <a href="#"><i class="glyphicon glyphicon-heart-empty" style="font-size: 18px;"></i>
             <span class="visible-xs-inline" style="padding-left:16px;">Lista desideri</span>
             </a>
           </li>
@@ -48,7 +48,10 @@
       <div id="menu-right" class="navbar-right navbar-collapse collapse">
           <ul class="nav navbar-nav">
             <li>
-              <a href="#">Accedi/Registrati</a>
+              <a href="../../pages/login/login.jsp">Accedi</a>
+            </li>
+            <li>
+              <a href="../../pages/signup/signup.jsp">Registrati</a>
             </li>
           </ul>
       </div> <!-- menu a destra (logged out) -->

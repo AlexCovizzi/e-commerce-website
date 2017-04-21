@@ -36,8 +36,8 @@
           <span class="hidden-xs hidden-sm hidden-md">Aggiungi al carrello</span>
         </button>
         <button title="Aggiungi alla lista desideri" class="btn btn-default" style="margin-top: 1px; margin-bottom: 1px;">
-          <i class="glyphicon glyphicon-list-alt" style="font-size: 18px;"></i>
-          <span class="hidden-xs hidden-sm hidden-md">Aggiungi alla lista desideri</span>
+          <i class="glyphicon glyphicon-heart-empty" style="font-size: 18px;"></i>
+          <span class="hidden-xs hidden-sm hidden-md">Aggiungi ai desideri</span>
         </button>
         </div>
       </div>
