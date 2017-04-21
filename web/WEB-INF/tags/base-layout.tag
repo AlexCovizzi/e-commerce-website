@@ -7,6 +7,7 @@
 <%@attribute name="css_imports" fragment="true" %>
 <%@attribute name="js_imports" fragment="true" %>
 <%@attribute name="content_area" fragment="true" %>
+<%@attribute name="sotto_header" fragment="true" %>
  
 <html>
 <head>
@@ -29,9 +30,14 @@
     <!-- header -->
     <%@ include file="../../shared/header/header.jsp" %>
 
-    <div class="container" style="padding-top: 64px;">
-      <!-- metti pagina qui -->
-      <jsp:invoke fragment="content_area"/>
+    <div style="padding-top: 50px;">
+      <!-- metti sotto-header qui -->
+      <jsp:invoke fragment="sotto_header"/>
+      
+      <div class="container" style="padding-top: 50px;">
+        <!-- metti contenuto pagina qui -->
+        <jsp:invoke fragment="content_area"/>
+      </div>
     </div>
     <%@ include file="../../shared/footer/push.jsp" %>
   </div> <!-- grande_scatola -->

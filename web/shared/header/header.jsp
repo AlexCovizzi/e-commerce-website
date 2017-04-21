@@ -20,23 +20,23 @@
       
     </div>
 
-    <% if(false) {%>
+    <% if(true) {%>
       <!-- menu a destra (logged in) -->
       <div id="menu-right" class="collapse navbar-collapse navbar-right">
         <ul class="nav navbar-nav">
           <li title="Il mio account: Nome utente">
-            <a href="#"><i class="glyphicon glyphicon-user" style="font-size: 18px;"></i>
+            <a href="#"><i class="glyphicon glyphicon-user"></i>
             <span class="visible-xs-inline" style="padding-left:16px;">Il mio account: Nome utente</span>
             </a>
           </li>
           <li title="Carrello">
-            <a href="#"><i class="glyphicon glyphicon-shopping-cart" style="font-size: 18px;"></i>
+            <a href="#"><i class="glyphicon glyphicon-shopping-cart"></i>
             <span class="visible-xs-inline" style="padding-left:16px;">Carrello</span>
             <span class="badge">4</span>
             </a>
           </li>
           <li title="Lista desideri">
-            <a href="#"><i class="glyphicon glyphicon-heart-empty" style="font-size: 18px;"></i>
+            <a href="#"><i class="glyphicon glyphicon-heart-empty"></i>
             <span class="visible-xs-inline" style="padding-left:16px;">Lista desideri</span>
             </a>
           </li>
