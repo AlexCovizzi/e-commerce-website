@@ -1,8 +1,52 @@
 <div class='order-container'>
-  <h6><b>Libro: </b><a href="#">Il trono di spade</a></h6>
-  <h6><b>Prezzo: </b>67&euro;</h6>
-  <h6><b>Aquistato da: </b>Alex Covizzi</h6>
-  <h6><b>In data: </b>12/03/2017 12:56:32</h6>
-  <h6><b>Stato: </b>In viaggio</h6>
-  <h6><b>Indirizzo: </b>Indirizzo aquirente</h6>
+  
+  <div class="row">
+    <div id="order-id" class="col-xs-4">
+      <h6>ID ordine</h6>
+      <h6>123456789</h6>
+    </div>
+    <div id="order-date" class="col-xs-4">
+      <h6>Data ordine</h6>
+      <h6>21/04/17 12:35:67</h6>
+    </div>
+    <div id="order-state" class="col-xs-4">
+      <h6>Stato ordine</h6>
+      <h6>In viaggio</h6>
+    </div>
+  </div>
+  
+  <div class="horiz-divider"></div>
+  
+  <div class="row">
+    <div id="order-books" class="col-xs-8" style="border-right: 1px #ddd solid">
+      <h6><b>1</b> di: <a href="#"><b>Il trono di spade - Cronache del ghiaccio e del fuoco</b></a>
+        <span style="color: #777">George RR Martin</span>
+        <span class="pull-right">23&euro;</span>
+      </h6>
+      <h6><b>1</b> di: <a href="#"><b>Il trono di spade 2</b></a>
+        <span style="color: #777">George RR Martinez</span>
+        <span class="pull-right">43&euro;</span>
+      </h6>
+      
+      <div class="horiz-divider"></div>
+      
+      <h6>Totale libri: <span class=pull-right>67&euro;</span></h6>
+      <h6>Costo spedizione: <span class=pull-right>4&euro;</span></h6>
+      <h6>Coupon: <span class=pull-right>-12&euro;</span></h6>
+      
+      <div class="horiz-divider"></div>
+      
+      <h5><b>Totale <span class=pull-right>67&euro;</span></b></h5>
+      
+    </div>
+    
+    <div id="order-address" class="col-xs-4">
+      <h6><b>Indirizzo di spedizione</b></h6>
+      <h6>Alex Covizzi</h6>
+      <h6>Via Rosta, 408</h6>
+      <h6>Rovigo</h6>
+      <h6>Italia</h6>
+    </div>
+    
+  </div>
 </div>
