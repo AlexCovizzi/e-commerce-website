@@ -1,0 +1,10 @@
+/*
+  Stili da condividere tra tutte le pagine per classi esistenti o per classi custom.
+*/
+
+.horiz-divider {
+  background: #ddd;
+  height: 1px;
+  margin-top: 8px;
+  margin-bottom: 8px;
+}
