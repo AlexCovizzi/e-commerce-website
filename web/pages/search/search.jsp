@@ -1,10 +1,9 @@
 <%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
  
 <t:base-layout title="Risultati ricerca">
-  
-  <jsp:attribute name="css_imports">
-    <link href="search.css" rel="stylesheet" type="text/css" />
-    <link href="../../shared/book-search/book-search.css" rel="stylesheet" type="text/css" />
+    
+  <jsp:attribute name="sotto_header">
+     <%@ include file="../../shared/header/sotto-header.jsp" %>
   </jsp:attribute>
 
   <jsp:attribute name="content_area">
@@ -138,7 +137,7 @@
         </div>
       </div>
       
-      <div style="background: #ddd; height: 1px; margin-top: 8px; margin-bottom: 8px;"></div>
+      <div class="horiz-divider"></div>
       
       <%@include file="../../shared/book-search/book-search.jsp" %>
       <%@include file="../../shared/book-search/book-search.jsp" %>
@@ -158,6 +157,12 @@
     
     </div>
     
+  </jsp:attribute>
+    
+  <jsp:attribute name="css_imports">
+    <link href="search.css" rel="stylesheet" type="text/css" />
+    <link href="../../shared/header/sotto-header.css" rel="stylesheet" type="text/css" />
+    <link href="../../shared/book-search/book-search.css" rel="stylesheet" type="text/css" />
   </jsp:attribute>
   
   <jsp:attribute name="js_imports">
