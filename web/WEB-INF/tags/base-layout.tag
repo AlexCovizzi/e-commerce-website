@@ -20,6 +20,7 @@
   <link href="${pageContext.request.contextPath}/framework/css/bootstrap.min.css" rel="stylesheet">
 
   <!-- carica tutti i file css qui -->
+  <link href="${pageContext.request.contextPath}/shared/custom-style.css"  rel="stylesheet" type="text/css" />
   <link href="${pageContext.request.contextPath}/shared/header/header.css"  rel="stylesheet" type="text/css" />
   <link href="${pageContext.request.contextPath}/shared/footer/footer.css"  rel="stylesheet" type="text/css" />
   
@@ -34,7 +35,7 @@
       <!-- metti sotto-header qui -->
       <jsp:invoke fragment="sotto_header"/>
       
-      <div class="container" style="padding-top: 50px;">
+      <div class="container">
         <!-- metti contenuto pagina qui -->
         <jsp:invoke fragment="content_area"/>
       </div>

@@ -1,4 +1,4 @@
-<!-- l'altezza della navar è fissa a 53px
+<!-- l'altezza della navar è fissa a 50px
      ogni pagina che ha l'header dovrà quindi avere un margin-top di 50 px
      in modo che non vengano coperti degli elementi dalla navbar -->
 
@@ -25,7 +25,7 @@
       <div id="menu-right" class="collapse navbar-collapse navbar-right">
         <ul class="nav navbar-nav">
           <li title="Il mio account: Nome utente">
-            <a href="#"><i class="glyphicon glyphicon-user"></i>
+            <a href="../../pages/account/account.jsp"><i class="glyphicon glyphicon-user"></i>
             <span class="visible-xs-inline" style="padding-left:16px;">Il mio account: Nome utente</span>
             </a>
           </li>
@@ -36,7 +36,7 @@
             </a>
           </li>
           <li title="Lista desideri">
-            <a href="#"><i class="glyphicon glyphicon-heart-empty"></i>
+            <a href="#"><i class="glyphicon glyphicon-heart"></i>
             <span class="visible-xs-inline" style="padding-left:16px;">Lista desideri</span>
             </a>
           </li>
