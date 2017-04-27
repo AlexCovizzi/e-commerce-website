@@ -35,20 +35,7 @@
                 <p><i>Editore:</i> NonnoLaser Editore</p>
                 <p><i>Data di pubblicazione:</i> 01/01/2000</p>
                 <p><i>Lingua:</i> Italiano</p>
-                
-                <div id="voto" class="jumbotron btn-group" data-toggle="buttons">
-                    <label title="Lo Consiglio" class="btn btn-primary">
-                        <input type="radio" name="options" id="option1" autocomplete="off">
-                        <i class="glyphicon glyphicon-thumbs-up"></i>
-                    </label>
-                    <label title="Non lo Consiglio" class="btn btn-primary">
-                        <input type="radio" name="options" id="option2" autocomplete="off">
-                        <i class="glyphicon glyphicon-thumbs-down"></i>
-                    </label>
-                    <button id="submit_voto" class="btn btn-primary" type="button">
-                        Invia Voto <i class="glyphicon glyphicon-ok"></i>
-                    </button>
-                </div>
+                <p><b><a href="#valutazioni_altri_utenti">VOTO MEDIO</a></b>: 0%</p>
             </div>
             
             <div class="jumbotron" id="prezzo">
@@ -127,6 +114,86 @@
                     <p><a class="btn btn-primary" href="#" role="button">Dettagli &raquo;</a></p>
                 </div>
             </div>
+        </div>
+        
+        <div class="jumbotron" id="valutazione">
+            <h3>La tua valutazione</h3>
+            <form name="valutazione_libro" method="post">
+                <table>
+                    <tr>
+                        <th>
+                            <div id="voto" class="btn-group-vertical" data-toggle="buttons">
+                                <label title="Lo Consiglio" class="btn btn-primary">
+                                    <input type="radio" name="options" id="option1" autocomplete="off">
+                                    <i class="glyphicon glyphicon-thumbs-up"></i>
+                                </label>
+                                <label title="Non lo Consiglio" class="btn btn-primary">
+                                    <input type="radio" name="options" id="option2" autocomplete="off">
+                                    <i class="glyphicon glyphicon-thumbs-down"></i>
+                                </label>
+                            </div>
+                        </th>
+                        <td>
+                            <textarea id="recensione" class="form-control"
+                                    placeholder="Scrivi la tua recensione... (facoltativo)"
+                                    cols="100" rows="5"></textarea>
+                        </td>
+                    </tr>
+                </table>
+                
+                    <button id="submit_voto" class="btn btn-primary" type="button">
+                        <i class="glyphicon glyphicon-ok"></i> Invia Valutazione
+                    </button>
+            </form>
+        </div>
+        
+        <div class="jumbotron" id="valutazioni_altri_utenti">
+            <h3>Gli altri utenti la pensano così...</h3>
+            <table class="recensione_singola">
+                <tr>
+                    <th><b>NOME COGNOME</b></th>
+                    <th><i>VOTO</i>: <i class="glyphicon glyphicon-thumbs-down"></i> Sconsigliato</th>
+                </tr>
+                <tr>
+                    <td colspan="2">Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
+                        Ut odio. Nam sed est. Nam a risus et est iaculis adipiscing. Vestibulum
+                        ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia
+                        Curae; Integer ut justo. In tincidunt viverra nisl. Donec dictum malesuada
+                        magna. Curabitur id nibh auctor tellus adipiscing pharetra. Fusce vel
+                        justo non orci semper feugiat. Cras eu leo at purus ultrices tristique.</td>
+                </tr>
+            </table>
+            <table class="recensione_singola">
+                <tr>
+                    <th><b>NOME COGNOME</b></th>
+                    <th><i>VOTO</i>: <i class="glyphicon glyphicon-thumbs-down"></i> Sconsigliato</th>
+                </tr>
+                <tr>
+                    <td colspan="2">Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
+                        Ut odio. Nam sed est. Nam a risus et est iaculis adipiscing. Vestibulum
+                        ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia
+                        Curae; Integer ut justo. In tincidunt viverra nisl. Donec dictum malesuada
+                        magna. Curabitur id nibh auctor tellus adipiscing pharetra. Fusce vel
+                        justo non orci semper feugiat. Cras eu leo at purus ultrices tristique.</td>
+                </tr>
+            </table>
+            <table class="recensione_singola">
+                <tr>
+                    <th><b>NOME COGNOME</b></th>
+                    <th><i>VOTO</i>: <i class="glyphicon glyphicon-thumbs-down"></i> Sconsigliato</th>
+                </tr>
+                <tr>
+                    <td colspan="2">Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
+                        Ut odio. Nam sed est. Nam a risus et est iaculis adipiscing. Vestibulum
+                        ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia
+                        Curae; Integer ut justo. In tincidunt viverra nisl. Donec dictum malesuada
+                        magna. Curabitur id nibh auctor tellus adipiscing pharetra. Fusce vel
+                        justo non orci semper feugiat. Cras eu leo at purus ultrices tristique.</td>
+                </tr>
+            </table>
+            <button id="altre_recensioni" class="btn btn-primary" type="button">
+                    <i class="glyphicon glyphicon-eye-open"></i> Altre recensioni...
+            </button>
         </div>
 
   </jsp:attribute>

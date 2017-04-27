@@ -60,8 +60,9 @@ and open the template in the editor.
 #voto
 {
     padding: 10px;
-    border-top: 2px;
 }
+
+
 
 #prezzo
 {
@@ -90,6 +91,7 @@ and open the template in the editor.
 {
     background-color: green;
     /*border-color: green;*/
+    margin-top: 10px;
 }
 
 .sezione-bookpage
@@ -109,7 +111,18 @@ and open the template in the editor.
 
 #descrizione
 {
-    font-size: 28px;
+    font-size: 18px;
+}
+
+.recensione_singola
+{
+    border-top: 2px;
+    margin-bottom: 15px;
+}
+
+.recensione_singola th
+{
+    text-align: center;
 }
 
 /*Come fare per aumentare l'altezza di copertina-info affinché contenga anche i
@@ -132,11 +145,6 @@ and open the template in the editor.
         text-align: center;
         width: 75%;
         margin: auto;
-    }
-    
-    #descrizione
-    {
-        font-size: 16px;
     }
     
     #consigliati_div .btn
@@ -163,12 +171,7 @@ and open the template in the editor.
 }
 
 @media (min-width: 492px) and (max-width: 991px)
-{
-    #descrizione
-    {
-        font-size: 22px;
-    }
-    
+{    
     .libro_consigliato
     {
         text-align: center;
