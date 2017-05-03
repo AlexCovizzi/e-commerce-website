@@ -114,17 +114,6 @@ and open the template in the editor.
     font-size: 18px;
 }
 
-.recensione_singola
-{
-    border-top: 2px;
-    margin-bottom: 15px;
-}
-
-.recensione_singola th
-{
-    text-align: center;
-}
-
 /*Come fare per aumentare l'altezza di copertina-info affinché contenga anche i
     bottoni e il testo che possono sbordare?*/
 @media (max-width: 492px)

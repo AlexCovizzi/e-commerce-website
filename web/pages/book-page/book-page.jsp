@@ -5,7 +5,8 @@
   <jsp:attribute name="css_imports">
     <!-- metti qui i css da importare -->
     <link href="book-page.css" rel="stylesheet" type="text/css" />
-    <link href="../../shared/header/sotto-header.css" rel="stylesheet" type="text/css" />
+    <link href="../../shared/header/sotto-header.css" rel="stylesheet" type="text/css"/>
+    <link href="../../shared/review/review.css" rel="stylesheet" type="text/css"/>
   </jsp:attribute>
 
   <jsp:attribute name="content_area">
@@ -55,6 +56,8 @@
             </div>
         </div>
             
+        <div class="horiz-divider"></div>
+        
         <div class="jumbotron sezione-bookpage">
             <button id="btn_descrizione" class="btn btn-primary btn_bookpage" type="button" data-toggle="collapse"
                     data-target="#descrizione" aria-expanded="false" aria-controls="descrizione">
@@ -118,7 +121,7 @@
         
         <div class="jumbotron" id="valutazione">
             <h3>La tua valutazione</h3>
-            <form name="valutazione_libro" method="post">
+            <!--<form name="valutazione_libro" method="post">-->
                 <table>
                     <tr>
                         <th>
@@ -141,59 +144,23 @@
                     </tr>
                 </table>
                 
-                    <button id="submit_voto" class="btn btn-primary" type="button">
-                        <i class="glyphicon glyphicon-ok"></i> Invia Valutazione
-                    </button>
-            </form>
+                <button id="submit_voto" class="btn btn-primary" type="button">
+                    <i class="glyphicon glyphicon-ok"></i> Invia Valutazione
+                </button>
+            <!--</form>-->
         </div>
         
         <div class="jumbotron" id="valutazioni_altri_utenti">
             <h3>Gli altri utenti la pensano così...</h3>
-            <table class="recensione_singola">
-                <tr>
-                    <th><b>NOME COGNOME</b></th>
-                    <th><i>VOTO</i>: <i class="glyphicon glyphicon-thumbs-down"></i> Sconsigliato</th>
-                </tr>
-                <tr>
-                    <td colspan="2">Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
-                        Ut odio. Nam sed est. Nam a risus et est iaculis adipiscing. Vestibulum
-                        ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia
-                        Curae; Integer ut justo. In tincidunt viverra nisl. Donec dictum malesuada
-                        magna. Curabitur id nibh auctor tellus adipiscing pharetra. Fusce vel
-                        justo non orci semper feugiat. Cras eu leo at purus ultrices tristique.</td>
-                </tr>
-            </table>
-            <table class="recensione_singola">
-                <tr>
-                    <th><b>NOME COGNOME</b></th>
-                    <th><i>VOTO</i>: <i class="glyphicon glyphicon-thumbs-down"></i> Sconsigliato</th>
-                </tr>
-                <tr>
-                    <td colspan="2">Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
-                        Ut odio. Nam sed est. Nam a risus et est iaculis adipiscing. Vestibulum
-                        ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia
-                        Curae; Integer ut justo. In tincidunt viverra nisl. Donec dictum malesuada
-                        magna. Curabitur id nibh auctor tellus adipiscing pharetra. Fusce vel
-                        justo non orci semper feugiat. Cras eu leo at purus ultrices tristique.</td>
-                </tr>
-            </table>
-            <table class="recensione_singola">
-                <tr>
-                    <th><b>NOME COGNOME</b></th>
-                    <th><i>VOTO</i>: <i class="glyphicon glyphicon-thumbs-down"></i> Sconsigliato</th>
-                </tr>
-                <tr>
-                    <td colspan="2">Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
-                        Ut odio. Nam sed est. Nam a risus et est iaculis adipiscing. Vestibulum
-                        ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia
-                        Curae; Integer ut justo. In tincidunt viverra nisl. Donec dictum malesuada
-                        magna. Curabitur id nibh auctor tellus adipiscing pharetra. Fusce vel
-                        justo non orci semper feugiat. Cras eu leo at purus ultrices tristique.</td>
-                </tr>
-            </table>
-            <button id="altre_recensioni" class="btn btn-primary" type="button">
-                    <i class="glyphicon glyphicon-eye-open"></i> Altre recensioni...
-            </button>
+            <%@ include file="../../shared/review/review.jsp" %>
+            <%@ include file="../../shared/review/review.jsp" %>
+            <%@ include file="../../shared/review/review.jsp" %>
+            
+            <a href="../other-reviews/other-reviews.jsp">
+                <button id="altre_recensioni" class="btn btn-primary" type="button">
+                        <i class="glyphicon glyphicon-eye-open"></i> Altre recensioni...
+                </button>
+            </a>
         </div>
 
   </jsp:attribute>
