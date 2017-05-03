@@ -2,9 +2,31 @@
   Stili da condividere tra tutte le pagine per classi esistenti o per classi custom.
 */
 
-.horiz-divider {
+
+/* Dividers */
+
+.divider-horizontal {
   background: #ddd;
   height: 1px;
   margin-top: 8px;
   margin-bottom: 8px;
+}
+
+.divider-right {
+  border-right: 1px #ddd solid;
+}
+
+.divider-left {
+  border-right: 1px #ddd solid;
+}
+
+/* Fonts */
+
+.subsection-title {
+  font-weight: bold;
+  color: #888;
+}
+
+.subtitle {
+  color: #777;
 }

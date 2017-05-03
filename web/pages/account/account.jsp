@@ -10,7 +10,7 @@
     <!-- metti qui il contenuto della pagina -->
     <h4>Il mio account: <b>Nome utente</b></h4>
     
-    <div class="horiz-divider"></div>
+    <div class="divider-horizontal"></div>
     
     <h4 class="account-page-link"><a  href="../orders/orders.jsp">I miei Ordini</a></br>
       <small>Spediti: 2 su 4</small>
