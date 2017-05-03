@@ -1,0 +1,37 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 3-mag-2017, 10.11.27
+    Author     : alemo
+*/
+
+#copertina
+{
+    max-height: 175px;
+    max-width: 140px;
+    padding: 10px;
+}
+ #titolo
+ {
+    font-size: 16px;
+    padding-bottom: 10px;
+ }
+ 
+ .informazioni
+ {
+    font-size: 14px;
+    padding-bottom: 10px;
+ }
+ 
+ .bottone
+ {
+    padding-right: 10px;
+ }
+ 
+ .recensione
+ {
+     padding: 15px;
+ }
