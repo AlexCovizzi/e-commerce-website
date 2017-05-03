@@ -12,7 +12,7 @@
     
     <div class="divider-horizontal"></div>
     
-    <h4 class="account-page-link"><a  href="../orders/orders.jsp">I miei Ordini</a></br>
+    <h4 class="account-page-link"><a  href="../orders/orders.jsp">I miei Ordini</a><br>
       <small>Spediti: 2 su 4</small>
     </h4>
     <h4 class="account-page-link"><a href="#">Il mio Carrello</a></br>
