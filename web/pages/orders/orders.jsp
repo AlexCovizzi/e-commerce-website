@@ -8,18 +8,8 @@
   
   <jsp:attribute name="content_area">
     <!-- metti qui il contenuto della pagina -->
-    <h3><a href="#in-corso" data-toggle="collapse" data-target="#in-corso">In corso</a></h3>
     
-    <div id="in-corso" class="collapse in">
-      <%@ include file="../../shared/order/order.jsp" %>
-      <%@ include file="../../shared/order/order.jsp" %>
-      <%@ include file="../../shared/order/order.jsp" %>
-    </div>
-    
-    <h3><a href="#passati" data-toggle="collapse" data-target="#passati">Passati</a></h3>
-    
-    <div id="passati" class="collapse in">
-      <%@ include file="../../shared/order/order.jsp" %>
+    <div>
       <%@ include file="../../shared/order/order.jsp" %>
       <%@ include file="../../shared/order/order.jsp" %>
       <%@ include file="../../shared/order/order.jsp" %>

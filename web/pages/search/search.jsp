@@ -137,7 +137,7 @@
         </div>
       </div>
       
-      <div class="horiz-divider"></div>
+      <div class="divider-horizontal"></div>
       
       <%@include file="../../shared/book-search/book-search.jsp" %>
       <%@include file="../../shared/book-search/book-search.jsp" %>
