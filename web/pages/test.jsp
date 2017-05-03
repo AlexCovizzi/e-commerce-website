@@ -2,6 +2,10 @@
  
 <t:base-layout title="Test page">
   
+<jsp:attribute name="sotto_header">
+  <!-- metti qui il sotto header della pagina -->
+</jsp:attribute>
+  
 <jsp:attribute name="content_area">
   <!-- metti qui il contenuto della pagina -->
 </jsp:attribute>
