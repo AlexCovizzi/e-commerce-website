@@ -18,55 +18,49 @@
     <jsp:attribute name="content_area">
         <!-- metti qui il contenuto della pagina -->
         
-        <!--Menù sotto-header-->
+        <!--Menù sotto-header--> <!-- colspan="2"-->
         <%@ include file="../../shared/header/sotto-header.jsp" %>
         
         <div class="jumbotron">
-            <table>
-                <tr>
-                    <td rowspan="4">
-                        <img src="../../assets/img/download.jpg" id="copertina">
-                    </td>
-                    <td id="titolo" colspan="2">
-                        Il Trono di Spade
-                    </td>
-                </tr>
-                <tr>
-                    <td class="informazioni" colspan="2">
-                        Giorgio Roberto Roberto Martino
-                    </td>
-                </tr>
-                <tr>
-                    <td class="informazioni" colspan="2">
-                        Editore Mia Nonna
-                    </td>
-                </tr>
-                <tr>
-                    <td class="informazioni" colspan="2">
-                        <b>99.99 &euro;</b>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="bottone">
-                        <button title="Aggiungi al Carrello" class="btn btn-primary" type="button">
-                            <i class="glyphicon glyphicon-shopping-cart"></i> Aggiungi al Carrello
+            <div class="row">
+                <div class="col-md-4" id="col-copertina">
+                    <img src="../../assets/img/download.jpg" id="copertina">
+                </div>
+                <div class="col-md-8 informazioni" id="titolo">
+                    Il Trono di Spade
+                </div>
+                
+                <div class="col-md-8 informazioni">
+                    Giorgio Roberto Roberto Martino
+                </div>
+                <div class="col-md-8 informazioni">
+                    Editore Mia Nonna
+                </div>
+                <div class="col-md-8 informazioni">
+                    <b>99.99 &euro;</b>
+                </div>
+            </div>
+            
+            <div class="container">
+                <div class="bottone">
+                    <button title="Aggiungi al Carrello" class="btn btn-primary" type="button">
+                        <i class="glyphicon glyphicon-shopping-cart"></i> Aggiungi al Carrello
+                    </button>
+                </div>
+                <div class="bottone">
+                    <button title="Aggiungi ai Desideri" id="desiderato"
+                        class="btn btn-primary" type="button" onclick="cambia_colore()" >
+                        <i class="glyphicon glyphicon-heart"></i> Aggiungi ai Desideri
+                    </button>
+                </div>
+                <div class="bottone">
+                    <a href="../book-page/book-page.jsp">
+                        <button title="Torna alla Scheda" class="btn btn-primary" type="button">
+                            <i class="glyphicon glyphicon-arrow-left"></i> Torna alla Scheda
                         </button>
-                    </td>
-                    <td class="bottone">
-                        <button title="Aggiungi ai Desideri" id="desiderato"
-                            class="btn btn-primary" type="button" onclick="cambia_colore()" >
-                            <i class="glyphicon glyphicon-heart"></i> Aggiungi ai Desideri
-                        </button>
-                    </td>
-                    <td class="bottone">
-                        <a href="../book-page/book-page.jsp">
-                            <button title="Torna alla Scheda" class="btn btn-primary" type="button">
-                                <i class="glyphicon glyphicon-arrow-left"></i> Torna alla Scheda
-                            </button>
-                        </a>
-                    </td>
-                </tr>
-            </table>
+                    </a>
+                </div>
+            </div>
         </div>
         
         <!-- 1 -->
