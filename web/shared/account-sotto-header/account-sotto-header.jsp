@@ -14,7 +14,7 @@
         <li><a href="../../pages/orders/orders.jsp">I miei Ordini</a></li>
         <li><a href="#">Il mio Carrello</a></li>
         <li><a href="#">La mia Lista Desideri</a></li>
-        <li><a href="#">Il mio Indirizzo</a></li>
+        <li><a href="../../pages/address/address.jsp">Il mio Indirizzo</a></li>
         <li><a href="#">Cambia Password</a></li>
         <li><a href="../homepage/homepage.jsp">Logout</a></li>
       </ul>

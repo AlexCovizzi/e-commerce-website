@@ -8,8 +8,11 @@
   
   <jsp:attribute name="content_area">
     <!-- metti qui il contenuto della pagina -->
+    <h4>Il miei ordini</h4>
+
+    <div class="divider-horizontal"></div>
     
-    <div>
+    <div style="margin-top: 16px;">
       <%@ include file="../../shared/order/order.jsp" %>
       <%@ include file="../../shared/order/order.jsp" %>
       <%@ include file="../../shared/order/order.jsp" %>
