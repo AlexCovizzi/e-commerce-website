@@ -9,6 +9,8 @@
 
 .img-wrapper {
   padding: 4px;
+  min-width: 60px;
+  max-width: 130px;
 }
 
 .book-link {

@@ -9,31 +9,39 @@
 
   <jsp:attribute name="content_area">
     <!-- metti qui il contenuto della pagina -->
-    <div class="form-box row">
-      <div class="form-centered">
-        
-        <h3>Accedi</h3>
-      
-        <form role="form" action="" method="post" class="login-form">
-          
-          <div class="form-group">
-            <label for="login-email">Email</label>
-            <input id="login-email" type="email" name="login-email" placeholder="Email" class="login-email form-control" required>
-          </div>
-          
-          <div class="form-group">
-            <label for="login-password">Password</label>
-            <input id="login-password" type="password" name="login-password" placeholder="Password" class="login-password form-control" required>
-          </div>
-          
+    
+    <h4>Accedi</h4>
+    
+    <div class="divider-horizontal"></div>
+
+    <form class="form-horizontal">
+
+      <div class="form-group">
+        <label class="control-label col-sm-4" for="login-email">Email</label>
+        <div class="col-sm-4">
+          <input type="email" class="form-control" id="login-email" placeholder="Inserisci la tua email">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="control-label col-sm-4" for="login-password">Password</label>
+        <div class="col-sm-4">
+          <input type="password" class="form-control" id="login-password" placeholder="Inserisci la tua password">
+        </div>
+      </div>
+
+      <div class="form-group"> 
+        <div class="col-sm-offset-4 col-sm-4">
           <button type="submit" class="btn btn-default">Accedi</button>
-          
-        </form>
-        
-        <h5 style='margin-top: 20px;'>Non sei ancora registrato? <a href="../signup/signup.jsp">Registrati ora.</a></h5>
-        
-      </div> <!-- form-centered -->
-    </div>	<!-- form-box -->
+        </div>
+        <div class="col-sm-offset-4 col-sm-4" style="margin-top: 16px;">
+          Non sei ancora registrato? 
+          <a href="../signup/signup.jsp">Registrati ora.</a>
+        </div>
+      </div>
+
+    </form>
+    
   </jsp:attribute>
   
   <jsp:attribute name="js_imports">

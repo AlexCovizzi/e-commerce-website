@@ -8,7 +8,7 @@
   
   <jsp:attribute name="content_area">
     <!-- metti qui il contenuto della pagina -->
-    <h4>Il miei ordini</h4>
+    <h4>I miei ordini</h4>
 
     <div class="divider-horizontal"></div>
     

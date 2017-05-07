@@ -14,10 +14,7 @@
 
     <jsp:attribute name="content_area">
         <!-- metti qui il contenuto della pagina -->
-        <h4>Informazioni del libro</h4>
-    
-        <div class="divider-horizontal"></div>
-
+        <h4 class="form-title">Informazioni del libro</h4>
 
         <form class="form-horizontal">
 

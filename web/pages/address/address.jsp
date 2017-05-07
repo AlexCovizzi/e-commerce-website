@@ -8,11 +8,12 @@
   
 <jsp:attribute name="content_area">
   <!-- metti qui il contenuto della pagina -->
+  
   <h4>Il mio indirizzo</h4>
-    
+  
   <div class="divider-horizontal"></div>
   
-  <form class="form-horizontal address-form">
+  <form class="form-horizontal">
     
     <div class="form-group">
       <label class="control-label col-sm-2" for="address-dest">Destinatario</label>

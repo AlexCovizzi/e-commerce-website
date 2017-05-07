@@ -7,6 +7,8 @@
   </jsp:attribute>
   
   <jsp:attribute name="content_area">
+    <!-- metti forward alla pagina di login se l'utente non è loggato -->
+    
     <!-- metti qui il contenuto della pagina -->
     <h4>Il mio account: <b>Nome utente</b></h4>
     
