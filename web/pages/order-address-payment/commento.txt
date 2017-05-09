@@ -1,0 +1,13 @@
+Metto qui il codice Java per creare i menù a tendina per la data di scadenza:
+
+<select name="mese-scadenza">
+    <% for(int i = 1; i < 13; i++) { %>
+        <option value="<%= i %>"><%= i %></option>
+    <% } %>
+</select>
+
+<select name="anno-scadenza">
+    <% for(int i = 17; i < 28; i++) { %>
+        <option value="<%= i %>"><%= i %></option>
+    <% } %>
+</select>
