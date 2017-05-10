@@ -10,10 +10,11 @@ and open the template in the editor.
 
 #copertina-info
 {
-    height: 510px;
     margin-bottom: 0px;
     padding-bottom: 10px;
     padding-top: 50px;
+     margin-right: 0px; 
+     margin-left: 0px; 
 }
 
 .copertina
@@ -24,14 +25,17 @@ and open the template in the editor.
 
 #div_copertina
 {
-    float: left;
+    /*float: left;*/
     max-height: 410px;
     margin-right: 10px;
+    width: auto;
+    height: auto;
+    text-align: center;
 }
 
 #informazioni
 {
-    float: left;
+    /*float: left;*/
     max-height: 450px;
 }
 
@@ -62,12 +66,10 @@ and open the template in the editor.
     padding: 10px;
 }
 
-
-
 #prezzo
 {
     padding: 20px;
-    float: right;
+    /*float: right;*/
 }
 
 #carrello-desideri
@@ -114,9 +116,29 @@ and open the template in the editor.
     font-size: 18px;
 }
 
+.libro_consigliato
+{
+    text-align: center;
+    /*width: 75%;*/
+    min-width: 230px;
+    margin: auto;
+    margin-bottom: 10px;
+}
+
+.libro_consigliato p
+{
+    text-align: justify;
+    width: 75%;
+    margin: auto;
+}
+
+.copertina-consigliati
+{
+    height: 314px;
+}
 /*Come fare per aumentare l'altezza di copertina-info affinché contenga anche i
     bottoni e il testo che possono sbordare?*/
-@media (max-width: 492px)
+/*@media (max-width: 492px)
 {
     #copertina-info
     {
@@ -185,6 +207,6 @@ and open the template in the editor.
         width: 100%;
         margin: auto;
     }
-}
+}*/
 
 

@@ -19,15 +19,15 @@
             <h5><a href="#">Categoria</a> &raquo; Il Trono di Spade</h5>
         </div>
         
-        <div id="copertina-info">
+        <div class="row" id="copertina-info">
             
-            <div class="my-jumbotron" id="div_copertina">
+            <div class="my-jumbotron col-sm-3 " id="div_copertina">
                 <div id="copertina-book-page">
                     <img class="copertina" src="../../assets/img/download.jpg"/>
                 </div>
             </div>
             
-            <div id="informazioni">
+            <div class="col-sm-4" id="informazioni">
                 <h2>Il Trono di Spade</h2>
                 <h3>Giorgio R.R. Martino</h3>
                 
@@ -39,7 +39,7 @@
                 <p><b><a href="#valutazioni_altri_utenti">VOTO MEDIO</a></b>: 0%</p>
             </div>
             
-            <div class="my-jumbotron" id="prezzo">
+            <div class="col-sm-4" id="prezzo">
                 <h3><b>10.99 &euro;</b></h3>
                 Venduto e spedito da Libreria Sant'Ale
                 <div style="margin-bottom: 15px;"></div>
@@ -86,35 +86,45 @@
                     data-target="#consigliati" aria-expanded="false" aria-controls="consigliati">
                 Sant'Ale Ti Consiglia Anche <i class="glyphicon glyphicon-chevron-down"></i>
             </button>
-
-            <div class="row collapse" id="consigliati">
-                <div class="libro_consigliato col-lg-3">
-                    <img class="copertina" src="../../assets/img/IL.png"/>
-                    <h2>Titolo</h2>
-                    <p>Descrizione veloce</p>
-                    <p>10.99 &euro;</p>
-                    <p><a class="btn btn-primary" href="#" role="button">Dettagli &raquo;</a></p>
-                </div>
-                <div class="libro_consigliato col-lg-3">
-                    <img class="copertina" src="../../assets/img/ruotadeltempo.jpg"/>
-                    <h2>Titolo</h2>
-                    <p>Descrizione veloce</p>
-                    <p>10.99 &euro;</p>
-                    <p><a class="btn btn-primary" href="#" role="button">Dettagli &raquo;</a></p>
-                </div>
-                <div class="libro_consigliato col-lg-3">
-                    <img class="copertina" src="../../assets/img/download.jpg"/>
-                    <h2>Titolo</h2>
-                    <p>Descrizione veloce</p>
-                    <p>10.99 &euro;</p>
-                    <p><a class="btn btn-primary" href="#" role="button">Dettagli &raquo;</a></p>
-                </div>
-                <div class="libro_consigliato col-lg-3">
-                    <img class="copertina" src="../../assets/img/ruotadeltempo.jpg"/>
-                    <h2>Titolo</h2>
-                    <p>Descrizione veloce</p>
-                    <p>10.99 &euro;</p>
-                    <p><a class="btn btn-primary" href="#" role="button">Dettagli &raquo;</a></p>
+            
+            <div class="container-fluid">
+                <div class="row collapse" id="consigliati">
+                    <div class="libro_consigliato col-sm-3">
+                        <div class="copertina-consigliati">
+                            <img class="copertina" src="../../assets/img/IL.png"/>
+                        </div>
+                        <h2>Titolo</h2>
+                        <p>Descrizione veloce</p>
+                        <p>10.99 &euro;</p>
+                        <p><a class="btn btn-primary" href="#" role="button">Dettagli &raquo;</a></p>
+                    </div>
+                    <div class="libro_consigliato col-sm-3">
+                        <div class="copertina-consigliati">
+                            <img class="copertina" src="../../assets/img/ruotadeltempo.jpg"/>
+                        </div>
+                        <h2>Titolo</h2>
+                        <p>Descrizione veloce</p>
+                        <p>10.99 &euro;</p>
+                        <p><a class="btn btn-primary" href="#" role="button">Dettagli &raquo;</a></p>
+                    </div>
+                    <div class="libro_consigliato col-sm-3">
+                        <div class="copertina-consigliati">
+                            <img class="copertina" src="../../assets/img/download.jpg"/>
+                        </div>
+                        <h2>Titolo</h2>
+                        <p>Descrizione veloce</p>
+                        <p>10.99 &euro;</p>
+                        <p><a class="btn btn-primary" href="#" role="button">Dettagli &raquo;</a></p>
+                    </div>
+                    <div class="libro_consigliato col-sm-3">
+                        <div class="copertina-consigliati">
+                            <img class="copertina" src="../../assets/img/ruotadeltempo.jpg"/>
+                        </div>
+                        <h2>Titolo</h2>
+                        <p>Descrizione veloce</p>
+                        <p>10.99 &euro;</p>
+                        <p><a class="btn btn-primary" href="#" role="button">Dettagli &raquo;</a></p>
+                    </div>
                 </div>
             </div>
         </div>

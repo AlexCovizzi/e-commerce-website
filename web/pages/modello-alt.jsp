@@ -27,7 +27,7 @@
 
     <!-- content-area -->
     <div class="container content-area">
-
+        
     </div>
 
     <!-- footer -->
