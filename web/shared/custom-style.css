@@ -2,6 +2,28 @@
   Stili da condividere tra tutte le pagine per classi esistenti o per classi custom.
 */
 
+/* pagina */
+.header {
+  
+}
+
+.sotto-header {
+  padding-top: 50px;
+}
+
+.content-area {
+  min-height: calc(100vh - 150px);
+}
+
+.footer {
+  
+}
+
+
+/* In questo modo i navbar è di esattamente 50px */
+.navbar {
+  margin-bottom: 0px;
+}
 
 /* Dividers */
 

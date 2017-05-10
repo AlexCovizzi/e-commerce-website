@@ -4,7 +4,6 @@
     <div id="account-navbar-header" class="navbar-header">
       <button class="navbar-toggle pull-left" data-toggle="collapse"
         data-target="#account-navbar-menu" aria-expanded="false" aria-controls="account-navbar-menu">
-        <span class="sr-only">Toggle Navigation</span>
         Account
       </button>
     </div>
