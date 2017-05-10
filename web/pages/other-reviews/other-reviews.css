@@ -19,30 +19,24 @@ and open the template in the editor.
     text-align: center;
 }
 
- #titolo
- {
-    font-size: 16px;
-    padding-bottom: 10px;
- }
- 
- .informazioni
- {
-    font-size: 14px;
-    padding-bottom: 10px;
-    /*text-align: center;*/
-    /*float: left;*/
- }
- 
- .bottone
- {
-    float: left;
-    padding-right: 10px;
-    padding-bottom: 10px;
-    /*text-align: center;*/
- }
- 
- .recensione
- {
-     padding: 15px;
- }
- 
+#titolo
+{
+   font-size: 16px;
+   padding-bottom: 10px;
+}
+
+.informazioni
+{
+   font-size: 14px;
+   padding-bottom: 10px;
+   /*text-align: center;*/
+   /*float: left;*/
+}
+
+.bottone
+{
+   float: left;
+   padding-right: 10px;
+   padding-bottom: 10px;
+   /*text-align: center;*/
+}

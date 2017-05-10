@@ -9,7 +9,7 @@
   
 <jsp:attribute name="content_area">
     <!-- metti qui il contenuto della pagina -->
-    <div class="jumbotron">
+    <div class="my-jumbotron">
         <h4 class="form-title">L'indirizzo di consegna</h4>
         <table>
             <tr>
@@ -34,14 +34,14 @@
         <button class="btn btn-default">Inserisci nuovo indirizzo</button>
     </div>
     
-    <div class="jumbotron">
+    <div class="my-jumbotron">
         <h4 class="form-title">La carta di credito</h4>
         <form class="form-horizontal">
 
             <div class="form-group">
                 <div class="form-group">
                     <label class="control-label col-sm-2" for="codice">Codice</label>
-                    <div class="col-sm-8">
+                    <div class="col-sm-10">
                         <input type="text" class="form-control" id="codice"
                             pattern="([0-9]{16})" placeholder="Inserisci il codice (16 cifre) della carta">
                     </div>
@@ -49,7 +49,7 @@
                 
                 <div class="form-group">
                     <label class="control-label col-sm-2" for="titolare">Titolare</label>
-                    <div class="col-sm-8">
+                    <div class="col-sm-10">
                         <input type="text" class="form-control" id="titolare"
                             placeholder="Inserisci il titolare della carta">
                     </div>
@@ -58,7 +58,7 @@
                 <div class="form-group">
                     <div class="form-group">
                         <label class="control-label col-sm-2" for="mese-scadenza">Data di scadenza</label>
-                        <div class="col-sm-8">
+                        <div class="col-sm-10">
                             <select name="mese-scadenza">
                                 <option value="1">1</option>
                             </select>
@@ -72,7 +72,7 @@
                 
                 <div class="form-group">
                     <label class="control-label col-sm-2" for="sicurezza">Codice di sicurezza</label>
-                    <div class="col-sm-8">
+                    <div class="col-sm-10">
                         <input type="text" class="form-control" id="titolare"
                             pattern="([0-9]{3})" placeholder="Inserisci il codice di sicurezza (3 cifre)">
                     </div>

@@ -21,7 +21,7 @@
         <!--Menù sotto-header--> <!-- colspan="2"-->
         <%@ include file="../../shared/header/sotto-header.jsp" %>
         
-        <div class="jumbotron">
+        <div class="my-jumbotron">
             <div class="row">
                 <div class="col-md-4" id="col-copertina">
                     <img src="../../assets/img/download.jpg" id="copertina">
@@ -64,52 +64,52 @@
         </div>
         
         <!-- 1 -->
-        <div class="jumbotron recensione">
+        <div class="my-jumbotron recensione">
             <%@ include file="../../shared/review/review.jsp" %>
         </div>
         
         <!-- 2 -->
-        <div class="jumbotron recensione">
+        <div class="my-jumbotron recensione">
             <%@ include file="../../shared/review/review.jsp" %>
         </div>
         
         <!-- 3 -->
-        <div class="jumbotron recensione">
+        <div class="my-jumbotron recensione">
             <%@ include file="../../shared/review/review.jsp" %>
         </div>
         
         <!-- 4 -->
-        <div class="jumbotron recensione">
+        <div class="my-jumbotron recensione">
             <%@ include file="../../shared/review/review.jsp" %>
         </div>
         
         <!-- 5 -->
-        <div class="jumbotron recensione">
+        <div class="my-jumbotron recensione">
             <%@ include file="../../shared/review/review.jsp" %>
         </div>
         
         <!-- 6 -->
-        <div class="jumbotron recensione">
+        <div class="my-jumbotron recensione">
             <%@ include file="../../shared/review/review.jsp" %>
         </div>
         
         <!-- 7 -->
-        <div class="jumbotron recensione">
+        <div class="my-jumbotron recensione">
             <%@ include file="../../shared/review/review.jsp" %>
         </div>
         
         <!-- 8 -->
-        <div class="jumbotron recensione">
+        <div class="my-jumbotron recensione">
             <%@ include file="../../shared/review/review.jsp" %>
         </div>
         
         <!-- 9 -->
-        <div class="jumbotron recensione">
+        <div class="my-jumbotron recensione">
             <%@ include file="../../shared/review/review.jsp" %>
         </div>
         
         <!-- 10 -->
-        <div class="jumbotron recensione">
+        <div class="my-jumbotron recensione">
             <%@ include file="../../shared/review/review.jsp" %>
         </div>
         

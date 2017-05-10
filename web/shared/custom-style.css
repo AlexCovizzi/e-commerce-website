@@ -48,3 +48,20 @@
   background: #f8f8f8;
   border-radius: 4px;
 }
+
+.my-jumbotron
+{
+    padding: 10px 10px;
+    color: inherit;
+    background-color: #eee;
+    width: 90%;
+    margin: auto;
+    margin-bottom: 15px;
+    border-radius: 10px;
+}
+
+.form-horizontal, .form-group
+{
+    margin-right: 0px;
+    margin-left: 0px;
+}

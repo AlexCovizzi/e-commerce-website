@@ -20,7 +20,7 @@
 
             <div class="form-group">
                 <label class="control-label col-sm-2" for="copertina">Copertina</label>
-                <div class="col-sm-8">
+                <div class="col-sm-10">
                     <input type="file" id="copertina">
                     <p class="help-block">Carica la copertina del libro.</p>
                 </div>
@@ -28,7 +28,7 @@
             
             <div class="form-group">
                 <label class="control-label col-sm-2" for="titolo">Titolo</label>
-                <div class="col-sm-8">
+                <div class="col-sm-10">
                     <input type="text" class="form-control" id="titolo"
                         placeholder="Inserisci il titolo del libro">
                 </div>
@@ -36,7 +36,7 @@
 
             <div class="form-group">
                 <label class="control-label col-sm-2" for="autore">Autore</label>
-                <div class="col-sm-8">
+                <div class="col-sm-10">
                     <input type="text" class="form-control" id="autore"
                         placeholder="Inserisci l'autore del libro">
                 </div>
@@ -44,7 +44,7 @@
 
             <div class="form-group">
                 <label class="control-label col-sm-2" for="ISBN">Codice ISBN</label>
-                <div class="col-sm-8">
+                <div class="col-sm-10">
                     <input type="text" class="form-control" id="ISBN" 
                         pattern="([0-9]{15})" placeholder="Inserisci l'ISBN" maxlength="15" minlength="15">
                 </div>
@@ -52,7 +52,7 @@
 
             <div class="form-group">
                 <label class="control-label col-sm-2" for="pagine">Numero di pagine</label>
-                <div class="col-sm-8">
+                <div class="col-sm-10">
                     <input type="text" class="form-control" id="pagine"
                         pattern="([0-9]{1,})" placeholder="Inserisci il numero di pagine">
                 </div>
@@ -60,7 +60,7 @@
 
             <div class="form-group">
                 <label class="control-label col-sm-2" for="editore">Editore</label>
-                <div class="col-sm-8">
+                <div class="col-sm-10">
                     <input type="text" class="form-control" id="editore"
                         placeholder="Inserisci l'editore">
                 </div>
@@ -68,7 +68,7 @@
 
             <div class="form-group">
                 <label class="control-label col-sm-2" for="data-pubbl">Data di pubblicazione</label>
-                <div class="col-sm-8">
+                <div class="col-sm-10">
                     <input class="form-control" type="text" minlength="10" maxlength="10"
                         pattern="([0-9]{2})/([0-9]{2})/([0-9]{4})" id="data-pubbl"
                         placeholder="Inserisci la data di pubblicazione (gg/mm/aaaa)">
@@ -77,7 +77,7 @@
 
             <div class="form-group">
                 <label class="control-label col-sm-2" for="lingua">Lingua</label>
-                <div class="col-sm-8">
+                <div class="col-sm-10">
                     <input class="form-control" type="text" id="lingua"
                         placeholder="Inserisci la lingua">
                 </div>
@@ -85,7 +85,7 @@
             
             <div class="form-group">
                 <label class="control-label col-sm-2" for="prezzo">Prezzo</label>
-                <div class="col-sm-8">
+                <div class="col-sm-10">
                     <div class="input-group">
                         <div class="input-group-addon">&euro;</div>
                         <input type="text" class="form-control" id="prezzo"
@@ -97,7 +97,7 @@
             
             <div class="form-group">
                 <label class="control-label col-sm-2" for="lingua">Lingua</label>
-                <div class="col-sm-8">
+                <div class="col-sm-10">
                     <input class="form-control" type="text" id="lingua"
                         placeholder="Inserisci la lingua">
                 </div>

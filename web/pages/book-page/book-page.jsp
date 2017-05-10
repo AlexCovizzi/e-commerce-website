@@ -21,7 +21,7 @@
         
         <div id="copertina-info">
             
-            <div class="jumbotron" id="div_copertina">
+            <div class="my-jumbotron" id="div_copertina">
                 <div id="copertina-book-page">
                     <img class="copertina" src="../../assets/img/download.jpg"/>
                 </div>
@@ -39,7 +39,7 @@
                 <p><b><a href="#valutazioni_altri_utenti">VOTO MEDIO</a></b>: 0%</p>
             </div>
             
-            <div class="jumbotron" id="prezzo">
+            <div class="my-jumbotron" id="prezzo">
                 <h3><b>10.99 &euro;</b></h3>
                 Venduto e spedito da Libreria Sant'Ale
                 <div style="margin-bottom: 15px;"></div>
@@ -58,7 +58,7 @@
             
         <div class="horiz-divider"></div>
         
-        <div class="jumbotron sezione-bookpage">
+        <div class="my-jumbotron sezione-bookpage">
             <button id="btn_descrizione" class="btn btn-primary btn_bookpage" type="button" data-toggle="collapse"
                     data-target="#descrizione" aria-expanded="false" aria-controls="descrizione">
                 <b>DESCRIZIONE</b> <i class="glyphicon glyphicon-chevron-down"></i>
@@ -81,7 +81,7 @@
         </div>
             
             
-        <div id="consigliati_div" class="jumbotron sezione-bookpage">
+        <div id="consigliati_div" class="my-jumbotron sezione-bookpage">
             <button class="btn btn-primary btn_bookpage" type="button" data-toggle="collapse"
                     data-target="#consigliati" aria-expanded="false" aria-controls="consigliati">
                 Sant'Ale Ti Consiglia Anche <i class="glyphicon glyphicon-chevron-down"></i>
@@ -119,7 +119,7 @@
             </div>
         </div>
         
-        <div class="jumbotron" id="valutazione">
+        <div class="my-jumbotron" id="valutazione">
             <h3>La tua valutazione</h3>
             <!--<form name="valutazione_libro" method="post">-->
                 <table>
@@ -150,7 +150,7 @@
             <!--</form>-->
         </div>
         
-        <div class="jumbotron" id="valutazioni_altri_utenti">
+        <div class="my-jumbotron" id="valutazioni_altri_utenti">
             <h3>Gli altri utenti la pensano così...</h3>
             <%@ include file="../../shared/review/review.jsp" %>
             <%@ include file="../../shared/review/review.jsp" %>
