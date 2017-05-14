@@ -6,4 +6,12 @@
   margin-left: 4px;
   margin-right: 4px;
 }
+#account-navbar ul.nav {
+    white-space: nowrap;
+    overflow-x: auto;
+}
 
+#account-navbar ul.nav li {
+    display: inline-block;
+    float: none;
+}
