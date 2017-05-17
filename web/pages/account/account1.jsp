@@ -22,7 +22,7 @@
         <link href="../../framework/css/bootstrap.min.css" rel="stylesheet">
 
         <!-- File css necessari -->
-        <link href="../../shared/custom-style.css"  rel="stylesheet" type="text/css" />
+        <link href="../../shared/css-common.css"  rel="stylesheet" type="text/css" />
         <link href="../../shared/header/header.css"  rel="stylesheet" type="text/css" />
         <link href="../../shared/footer/footer.css"  rel="stylesheet" type="text/css" />
 

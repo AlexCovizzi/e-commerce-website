@@ -13,6 +13,7 @@
 
 .content-area {
   min-height: calc(100vh - 150px);
+  padding: 16px;
 }
 
 .footer {

@@ -6,7 +6,7 @@
     <title>Metti il tuo titolo qui</title>
 
     <!-- comprende css e script del framework, header e footer -->
-    <%@ include file="../../shared/common.html" %>
+    <%@ include file="../../shared/head-common.html" %>
 
     <!-- carica i tuoi file css qui -->
 
@@ -32,7 +32,7 @@
 
     <!-- footer -->
     <div class="footer">
-        <%@ include file="../../shared/footer/footer.jsp" %>
+      <%@ include file="../../shared/footer/footer.jsp" %>
     </div>
 
   </body>
