@@ -3,15 +3,13 @@
 
 <html>
   <head>
-    <title>Metti il tuo titolo qui</title>
+    <title>Cerca</title>
 
     <!-- comprende css e script del framework, header e footer -->
     <%@ include file="../../shared/head-common.html" %>
 
     <!-- carica i tuoi file css qui -->
     <link href="search.css" rel="stylesheet" type="text/css" />
-    <link href="../../shared/header/sotto-header.css" rel="stylesheet" type="text/css" />
-    <link href="../../shared/book-search/book-search.css" rel="stylesheet" type="text/css" />
 
     <!-- carica i tuoi file js qui -->
     <script type="text/javascript" src="search.js"></script>

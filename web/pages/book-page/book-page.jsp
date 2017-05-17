@@ -10,8 +10,6 @@
 
     <!-- carica i tuoi file css qui -->
     <link href="book-page.css" rel="stylesheet" type="text/css" />
-    <link href="../../shared/header/sotto-header.css" rel="stylesheet" type="text/css"/>
-    <link href="../../shared/review/review.css" rel="stylesheet" type="text/css"/>
 
     <!-- carica i tuoi file js qui -->
     <script type="text/javascript" src="book-page.js"></script>

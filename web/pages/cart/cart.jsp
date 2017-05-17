@@ -10,13 +10,9 @@
 
     <!-- carica i tuoi file css qui -->
     <link href="cart.css" rel="stylesheet" type="text/css" />
-    <link href="../../shared/account-sotto-header/account-sotto-header.css" rel="stylesheet" type="text/css" />
-    <link href="../../shared/cart-book/cart-book.css" rel="stylesheet" type="text/css" />
 
     <!-- carica i tuoi file js qui -->
     <script type="text/javascript" src="cart.js"></script>
-    <script type="text/javascript" src="../../shared/account-sotto-header/account-sotto-header.js"></script>
-    <script type="text/javascript" src="../../shared/cart-book/cart-book.js"></script>
 
   </head>
     

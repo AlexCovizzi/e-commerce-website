@@ -1,10 +1,6 @@
-<%-- 
-    Document   : footer
-    Created on : 13-apr-2017, 16.20.02
-    Author     : alemo
---%>
+<link href="../../shared/footer/footer.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="../../shared/footer/footer.js"></script>
 
-<%--<%@page contentType="text/html" pageEncoding="UTF-8"%>--%>
 
 <footer> <!--class="navbar navbar-fixed-bottom navbar-default" id="footer"-->
     <div class="container-fluid vertical-container" id="fixed_bottom">

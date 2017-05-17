@@ -1,71 +1,39 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<!--
-    NOTA BENE:
-    il tuo file .jsp deve essere inserito in una cartella
-    all'interno della cartella "pages".
-    In questo modo i file necessari al caricamento della pagina
-    verranno inclusi in modo corretto!
--->
 
 <html>
-    <head>
-        <title>
-            Metti il tuo titolo qui
-        </title>
-        
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+  <head>
+    <title>Metti il tuo titolo qui</title>
 
-        <!-- Bootstrap -->
-        <link href="../../framework/css/bootstrap.min.css" rel="stylesheet">
+    <!-- comprende css e script del framework, header e footer -->
+    <%@ include file="../../shared/head-common.html" %>
 
-        <!-- File css necessari -->
-        <link href="../../shared/custom-style.css"  rel="stylesheet" type="text/css" />
-        <link href="../../shared/header/header.css"  rel="stylesheet" type="text/css" />
-        <link href="../../shared/footer/footer.css"  rel="stylesheet" type="text/css" />
+    <!-- carica i tuoi file css qui -->
 
-        <!-- framework -->
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-        <script src="../../framework/js/bootstrap.min.js"></script>
+    <!-- carica i tuoi file js qui -->
 
-        <!-- File script necessari -->
-        <script src="../../shared/header/header.js"></script>
-        <script src="../../shared/footer/footer.js"></script>
-        
-        <!-- carica i tuoi file css qui -->
-        
-        <!-- fine dei tuoi file css -->
-        
-        
-        <!-- carica i tuoi file js qui -->
-        
-        <!-- fine dei tuoi file js -->
-    </head>
+  </head>
     
-    <body>
-        <div id="grande_scatola">
-            <!-- header -->
-            <%@ include file="../../shared/header/header.jsp" %>
+  <body>
+    <!-- header -->
+    <div class="header">
+      <%@ include file="../../shared/header/header.jsp" %>
+    </div>
+    
+    <!-- sotto-header -->
+    <div class="sotto-header">
+      <%@ include file="../../shared/account-sotto-header/account-sotto-header.jsp" %>
+    </div>
 
-            <div style="padding-top: 50px;">
-                <!-- metti sotto-header qui -->
-                
-                <!-- fine sotto-header -->
+    <!-- content-area -->
+    <div class="container content-area">
+        
+    </div>
 
-                <div class="container">
-                    <!-- metti contenuto pagina qui -->
-                    
-                    
-                    
-                    <!-- fine contenuto -->
-                </div>
-            </div>
-            <%@ include file="../../shared/footer/push.jsp" %>
-        </div> <!-- grande_scatola -->
+    <!-- footer -->
+    <div class="footer">
+      <%@ include file="../../shared/footer/footer.jsp" %>
+    </div>
 
-        <!-- footer -->
-        <%@ include file="../../shared/footer/footer.jsp" %>
-    </body>
+  </body>
 </html>

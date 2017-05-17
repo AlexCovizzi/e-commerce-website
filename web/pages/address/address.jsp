@@ -10,11 +10,9 @@
 
     <!-- carica i tuoi file css qui -->
     <link href="address.css" rel="stylesheet" type="text/css" />
-    <link href="../../shared/account-sotto-header/account-sotto-header.css" rel="stylesheet" type="text/css" />
 
     <!-- carica i tuoi file js qui -->
     <script type="text/javascript" src="address.js"></script>
-    <script type="text/javascript" src="../../shared/account-sotto-header/account-sotto-header.js"></script>
 
   </head>
     

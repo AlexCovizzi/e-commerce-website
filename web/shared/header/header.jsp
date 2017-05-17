@@ -1,6 +1,6 @@
-<!-- l'altezza della navar è fissa a 50px
-     ogni pagina che ha l'header dovrà quindi avere un margin-top di 50 px
-     in modo che non vengano coperti degli elementi dalla navbar -->
+<link href="../../shared/header/header.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="../../shared/header/header.js"></script>
+
 
 <nav id="navbar-shared" class="navbar navbar-default navbar-fixed-top">
   <div class="container-fluid">

@@ -1,3 +1,6 @@
+<link href="../../shared/review/review.css" rel="stylesheet" type="text/css" />
+<!-- <script type="text/javascript" src="../../shared/review/review.js"></script> -->
+
 
 <table class="recensione_singola">
     <tr>
