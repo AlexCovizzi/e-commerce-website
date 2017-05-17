@@ -1,8 +1,3 @@
-<%-- 
-    Document   : review
-    Created on : 3-mag-2017, 10.29.53
-    Author     : alemo
---%>
 
 <table class="recensione_singola">
     <tr>
