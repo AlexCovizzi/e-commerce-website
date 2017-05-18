@@ -1,26 +1,32 @@
-<%-- 
-    Document   : other-reviews
-    Created on : 3-mag-2017, 10.11.17
-    Author     : alemo
---%>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<!DOCTYPE html>
 
-<%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
- 
-<t:base-layout title="Recensioni Titolo del libro">
-  
-    <jsp:attribute name="css_imports">
-        <!-- metti qui i css da importare -->
-        <link href="other-reviews.css" rel="stylesheet" type="text/css" />
-        <link href="../../shared/header/sotto-header.css" rel="stylesheet" type="text/css"/>
-        <link href="../../shared/review/review.css" rel="stylesheet" type="text/css"/>
-    </jsp:attribute>
+<html>
+  <head>
+    <title>Recensioni Titolo del libro</title>
 
-    <jsp:attribute name="content_area">
-        <!-- metti qui il contenuto della pagina -->
-        
-        <!--Menù sotto-header--> <!-- colspan="2"-->
-        <%@ include file="../../shared/header/sotto-header.jsp" %>
-        
+    <!-- comprende css e script del framework, header e footer -->
+    <%@ include file="../../shared/head-common.html" %>
+
+    <!-- carica i tuoi file css qui -->
+    <link href="other-reviews.css" rel="stylesheet" type="text/css" />
+    <!-- carica i tuoi file js qui -->
+    <script type="text/javascript" src="../book-page/book-page.js"></script>
+  </head>
+    
+  <body>
+    <!-- header -->
+    <div class="header">
+      <%@ include file="../../shared/header/header.jsp" %>
+    </div>
+    
+    <!-- sotto-header -->
+    <div class="sotto-header">
+      <%@ include file="../../shared/header/sotto-header.jsp" %>
+    </div>
+
+    <!-- content-area -->
+    <div class="container content-area">
         <div class="my-jumbotron">
             <div class="row">
                 <div class="col-md-4" id="col-copertina">
@@ -123,11 +129,12 @@
             <li><a href="#">></a></li>
         </ul>
         
-    </jsp:attribute>
+    </div>
 
-    <jsp:attribute name="js_imports">
-        <!-- metti qui i js da importare -->
-        <script type="text/javascript" src="../book-page/book-page.js"></script>
-    </jsp:attribute>
+    <!-- footer -->
+    <div class="footer">
+      <%@ include file="../../shared/footer/footer.jsp" %>
+    </div>
 
-</t:base-layout>
+  </body>
+</html>

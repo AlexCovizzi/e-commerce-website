@@ -6,12 +6,41 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
+
 <html>
   <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>JSP Page</title>
+    <title>Storico degli ordini</title>
+
+    <!-- comprende css e script del framework, header e footer -->
+    <%@ include file="../../shared/head-common.html" %>
+
+    <!-- carica i tuoi file css qui -->
+
+    <!-- carica i tuoi file js qui -->
+
   </head>
+    
   <body>
-    <h1>Hello World!</h1>
+    <!-- header -->
+    <div class="header">
+      <%@ include file="../../shared/header/header.jsp" %>
+    </div>
+    
+    <!-- sotto-header -->
+    <div class="sotto-header">
+      <%@ include file="../../shared/account-sotto-header/account-sotto-header.jsp" %>
+    </div>
+
+    <!-- content-area -->
+    <div class="container content-area">
+        
+    </div>
+
+    <!-- footer -->
+    <div class="footer">
+      <%@ include file="../../shared/footer/footer.jsp" %>
+    </div>
+
   </body>
 </html>
+
