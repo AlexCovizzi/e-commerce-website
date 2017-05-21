@@ -36,6 +36,7 @@
 
       <form class="form-horizontal">
 
+        <!--
         <div class="form-group">
           <label class="control-label col-sm-4" for="signup-first-name">Nome</label>
           <div class="col-sm-4">
@@ -49,18 +50,26 @@
             <input type="text" class="form-control" id="signup-last-name" placeholder="Inserisci il tuo cognome">
           </div>
         </div>
+        -->
 
         <div class="form-group">
           <label class="control-label col-sm-4" for="signup-email">Email</label>
           <div class="col-sm-4">
-            <input type="email" class="form-control" id="signup-email" placeholder="Inserisci la tua email">
+            <input required type="email" class="form-control" id="signup-email" placeholder="Inserisci la tua email">
           </div>
         </div>
 
         <div class="form-group">
           <label class="control-label col-sm-4" for="signup-password">Password</label>
           <div class="col-sm-4">
-            <input type="password" minlength="6" class="form-control" id="signup-password" placeholder="Inserisci la tua password">
+            <input required type="password" minlength="6" class="form-control" id="signup-password" placeholder="Inserisci la tua password">
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <label class="control-label col-sm-4" for="signup-confirm-password">Conferma password</label>
+          <div class="col-sm-4">
+            <input required type="password" minlength="6" class="form-control" id="signup-confirm-password" placeholder="Reinserisci la tua password">
           </div>
         </div>
 

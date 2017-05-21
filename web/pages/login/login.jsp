@@ -39,14 +39,14 @@
         <div class="form-group">
           <label class="control-label col-sm-4" for="login-email">Email</label>
           <div class="col-sm-4">
-            <input type="email" class="form-control" id="login-email" placeholder="Inserisci la tua email">
+            <input required type="email" class="form-control" id="login-email" placeholder="Inserisci la tua email">
           </div>
         </div>
 
         <div class="form-group">
           <label class="control-label col-sm-4" for="login-password">Password</label>
           <div class="col-sm-4">
-            <input type="password" class="form-control" id="login-password" placeholder="Inserisci la tua password">
+            <input required type="password" class="form-control" id="login-password" placeholder="Inserisci la tua password">
           </div>
         </div>
 
