@@ -1,7 +1,3 @@
-<link href="../../shared/book-search/book-search.css" rel="stylesheet" type="text/css" />
-<script type="text/javascript" src="../../shared/book-search/book-search.js"></script>
-
-
 <div class="book-container row">
   
   <div class="img-wrapper col-xs-3 col-sm-2" style="min-width: 60px; max-width: 130px;">

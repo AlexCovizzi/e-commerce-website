@@ -1,7 +1,3 @@
-<link href="../../shared/header/header.css" rel="stylesheet" type="text/css" />
-<script type="text/javascript" src="../../shared/header/header.js"></script>
-
-
 <nav id="navbar-shared" class="navbar navbar-default navbar-fixed-top">
   <div class="container-fluid">
     

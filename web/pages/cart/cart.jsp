@@ -10,9 +10,11 @@
 
     <!-- carica i tuoi file css qui -->
     <link href="cart.css" rel="stylesheet" type="text/css" />
+    <link href="../../shared/cart-book/cart-book.css" rel="stylesheet" type="text/css" />
 
     <!-- carica i tuoi file js qui -->
     <script type="text/javascript" src="cart.js"></script>
+    <script type="text/javascript" src="../../shared/cart-book/cart-book.js"></script>
 
   </head>
     
@@ -24,7 +26,7 @@
     
     <!-- sotto-header -->
     <div class="sotto-header">
-      <%@ include file="../../shared/account-sotto-header/account-sotto-header.jsp" %>
+      <%@ include file="../../shared/sotto-header/account-sotto-header.jsp" %>
     </div>
 
     <!-- content-area -->

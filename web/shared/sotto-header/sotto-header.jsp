@@ -1,5 +1,3 @@
-<link href="../../shared/header/sotto-header.css" rel="stylesheet" type="text/css" />
-
 
 <!-- menu sotto header -->
 <div class="container-fluid">

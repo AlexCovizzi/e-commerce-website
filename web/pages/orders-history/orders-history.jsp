@@ -1,9 +1,3 @@
-<%-- 
-    Document   : orders-history
-    Created on : May 17, 2017, 3:54:32 PM
-    Author     : Alex
---%>
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 
@@ -15,8 +9,10 @@
     <%@ include file="../../shared/head-common.html" %>
 
     <!-- carica i tuoi file css qui -->
-
+    <link href="orders-history.css" rel="stylesheet" type="text/css" />
+    
     <!-- carica i tuoi file js qui -->
+    <script type="text/javascript" src="orders-history.js"></script>
 
   </head>
     
@@ -28,7 +24,7 @@
     
     <!-- sotto-header -->
     <div class="sotto-header">
-      <%@ include file="../../shared/account-sotto-header/account-sotto-header.jsp" %>
+      <%@ include file="../../shared/sotto-header/account-sotto-header.jsp" %>
     </div>
 
     <!-- content-area -->

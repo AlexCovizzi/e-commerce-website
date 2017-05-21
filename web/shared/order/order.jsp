@@ -1,7 +1,3 @@
-<link href="../../shared/order/order.css" rel="stylesheet" type="text/css" />
-<script type="text/javascript" src="../../shared/order/order.js"></script>
-
-
 <div class='order-container'>
   
   <div class="row">

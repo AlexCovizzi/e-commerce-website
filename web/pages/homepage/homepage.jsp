@@ -10,7 +10,7 @@
 
     <!-- carica i tuoi file css qui -->
     <link href="homepage.css" rel="stylesheet" type="text/css" />
-    <link href="../../shared/header/sotto-header.css" rel="stylesheet" type="text/css" />
+    
     <!-- carica i tuoi file js qui -->
 
   </head>

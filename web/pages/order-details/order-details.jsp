@@ -22,7 +22,7 @@
     
     <!-- sotto-header -->
     <div class="sotto-header">
-      <%@ include file="../../shared/account-sotto-header/account-sotto-header.jsp" %>
+      <%@ include file="../../shared/sotto-header/account-sotto-header.jsp" %>
     </div>
 
     <!-- content-area -->

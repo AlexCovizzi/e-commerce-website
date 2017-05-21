@@ -10,9 +10,11 @@
 
     <!-- carica i tuoi file css qui -->
     <link href="search.css" rel="stylesheet" type="text/css" />
+    <link href="../../shared/book-search/book-search.css" rel="stylesheet" type="text/css" />
 
     <!-- carica i tuoi file js qui -->
     <script type="text/javascript" src="search.js"></script>
+    <script type="text/javascript" src="../../shared/book-search/book-search.js"></script>
 
   </head>
     
@@ -24,7 +26,7 @@
     
     <!-- sotto-header -->
     <div class="sotto-header">
-      <%@ include file="../../shared/header/sotto-header.jsp" %>
+      <%@ include file="../../shared/sotto-header/sotto-header.jsp" %>
     </div>
 
     <!-- content-area -->

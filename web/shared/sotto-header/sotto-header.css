@@ -1,0 +1,40 @@
+/* sotto-header */
+#sotto_header {
+    float: left;
+}
+
+#scritta_categorie
+{
+    display: block;
+    float: left;
+    position: relative;
+    top: 15px;
+    left: 0px;
+    margin-right: 10px;
+    font-weight: bold;
+    font-size: 15px;
+    font-style: italic;
+    margin-bottom: 10px;
+}
+
+/* account-sotto-header */
+#account-navbar {
+  background: white;
+}
+
+#account-navbar-header {
+  margin-left: 4px;
+  margin-right: 4px;
+}
+
+#account-navbar ul.nav {
+    white-space: nowrap;
+    overflow-x: auto;
+}
+
+#account-navbar ul.nav li {
+    display: inline-block;
+    float: none;
+}
+
+/* admin-sotto-header */

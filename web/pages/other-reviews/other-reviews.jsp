@@ -10,8 +10,12 @@
 
     <!-- carica i tuoi file css qui -->
     <link href="other-reviews.css" rel="stylesheet" type="text/css" />
+    <link href="../../shared/review/review.css" rel="stylesheet" type="text/css" />
+    
     <!-- carica i tuoi file js qui -->
-    <script type="text/javascript" src="../book-page/book-page.js"></script>
+    <script type="text/javascript" src="other-reviews.js"></script>
+    <script type="text/javascript" src="../../shared/review/review.js"></script>
+    
   </head>
     
   <body>
@@ -22,7 +26,7 @@
     
     <!-- sotto-header -->
     <div class="sotto-header">
-      <%@ include file="../../shared/header/sotto-header.jsp" %>
+      <%@ include file="../../shared/sotto-header/sotto-header.jsp" %>
     </div>
 
     <!-- content-area -->

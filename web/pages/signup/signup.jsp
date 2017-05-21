@@ -24,7 +24,7 @@
     
     <!-- sotto-header -->
     <div class="sotto-header">
-      
+      <%@ include file="../../shared/sotto-header/sotto-header.jsp" %>
     </div>
 
     <!-- content-area -->

@@ -1,7 +1,3 @@
-<link href="../../shared/cart-book/cart-book.css" rel="stylesheet" type="text/css" />
-<script type="text/javascript" src="../../shared/cart-book/cart-book.js"></script>
-
-
 <div class="book-container row">
   
   <!-- immagine libro -->

@@ -10,7 +10,7 @@
 
     <!-- carica i tuoi file css qui -->
     <link href="order-address-payment.css" rel="stylesheet" type="text/css" />
-    <link href="../../shared/header/sotto-header.css" rel="stylesheet" type="text/css" />
+    
     <!-- carica i tuoi file js qui -->
 
   </head>
@@ -23,7 +23,7 @@
     
     <!-- sotto-header -->
     <div class="sotto-header">
-      <%@ include file="../../shared/account-sotto-header/account-sotto-header.jsp" %>
+      <%@ include file="../../shared/sotto-header/account-sotto-header.jsp" %>
     </div>
 
     <!-- content-area -->

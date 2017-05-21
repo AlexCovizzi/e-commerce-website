@@ -9,9 +9,13 @@
     <%@ include file="../../shared/head-common.html" %>
 
     <!-- carica i tuoi file css qui -->
+    <link href="../../shared/order/order.css" rel="stylesheet" type="text/css" />
     <link href="orders.css" rel="stylesheet" type="text/css" />
+    
     <!-- carica i tuoi file js qui -->
     <script type="text/javascript" src="orders.js"></script>
+    <script type="text/javascript" src="../../shared/order/order.js"></script>
+    
   </head>
     
   <body>
@@ -22,7 +26,7 @@
     
     <!-- sotto-header -->
     <div class="sotto-header">
-      <%@ include file="../../shared/account-sotto-header/account-sotto-header.jsp" %>
+      <%@ include file="../../shared/sotto-header/account-sotto-header.jsp" %>
     </div>
 
     <!-- content-area -->
