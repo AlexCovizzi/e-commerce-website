@@ -1,5 +1,28 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<!DOCTYPE html>
+<%@page info="Signup Page" %>
+<%@page contentType="text/html" %>
+<%@page session="false" %>
+<%@page buffer="30kb" %>
+<%@page errorPage="/ErrorPage.jsp" %>
+
+<%@ page import="services.session.*" %>
+
+<jsp:useBean id="loginManagement" scope="page" class="bflows.LoginManagement" />
+<jsp:setProperty name="loginManagement" property="*" />
+
+<%
+  Cookie[] cookies=null;
+  cookies=request.getCookies();
+  
+  String status = request.getParameter("status");
+  if (status == null) status="view";
+
+  util.Debug.println("status: "+status);
+    
+  if(status.equals("signup")) {
+      loginManagement.signup();
+  }
+%>
 
 <html>
   <head>
@@ -29,12 +52,14 @@
 
     <!-- content-area -->
     <div class="container content-area">
+      
+      <% if(status.equals("view")) {%>
         
       <h4>Registrati</h4>
 
       <div class="divider-horizontal"></div>
 
-      <form class="form-horizontal">
+      <form class="form-horizontal" method='post' action="signup.jsp">
 
         <!--
         <div class="form-group">
@@ -55,26 +80,29 @@
         <div class="form-group">
           <label class="control-label col-sm-4" for="signup-email">Email</label>
           <div class="col-sm-4">
-            <input required type="email" class="form-control" id="signup-email" placeholder="Inserisci la tua email">
+            <input required type="email" name='email' class="form-control" id="signup-email" placeholder="Inserisci la tua email">
           </div>
         </div>
 
         <div class="form-group">
           <label class="control-label col-sm-4" for="signup-password">Password</label>
           <div class="col-sm-4">
-            <input required type="password" minlength="6" class="form-control" id="signup-password" placeholder="Inserisci la tua password">
+            <input required type="password" name='password' minlength="6" class="form-control" id="signup-password" placeholder="Inserisci la tua password">
           </div>
         </div>
         
+        <!--
         <div class="form-group">
           <label class="control-label col-sm-4" for="signup-confirm-password">Conferma password</label>
           <div class="col-sm-4">
             <input required type="password" minlength="6" class="form-control" id="signup-confirm-password" placeholder="Reinserisci la tua password">
           </div>
         </div>
+        -->
 
         <div class="form-group"> 
           <div class="col-sm-offset-4 col-sm-4">
+            <input type="hidden" name="status" value="signup"/>
             <button type="submit" class="btn btn-default">Registrati</button>
           </div>
           <div class="col-sm-offset-4 col-sm-4" style="margin-top: 16px;">
@@ -84,6 +112,12 @@
         </div>
 
       </form>
+      
+      <%} else if(status.equals("signup")) {%>
+      
+      Registrazione avvenuta con successo. <a href="../login/login.jsp">Effettua l'accesso</a>
+      
+      <%}%>
       
     </div>
 

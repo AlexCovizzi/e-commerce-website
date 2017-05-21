@@ -1,6 +1,8 @@
 package blogics;
 
 import services.database.Database;
+import services.database.exception.NotFoundDBException;
+import util.Conversion;
 
 public class UserService {
     
@@ -8,8 +10,17 @@ public class UserService {
         return null;
     }
     
-    public static void insertUser(Database db, String email, String password) {
-        
+    public static void insertUser(Database db, String email, String password) throws NotFoundDBException {
+        util.Debug.println(db);
+        String sql =    "INSERT INTO user " +
+                        "(userID, email, password, timestamp_c) " +
+                        "VALUES (" +
+                        "NULL,"+
+                        "'"+Conversion.getDatabaseString(email)+"',"+
+                        "'"+Conversion.getDatabaseString(password)+"',"+
+                        "DEFAULT"+
+                        ");";
+        db.modify(sql);
     }
     
     public static void modifyUserEmail(Database db, int userId, String email) {

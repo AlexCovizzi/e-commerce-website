@@ -12,7 +12,7 @@ public class Constants {
   
   /** Constants for db connection */
   public static final String DB_USER_NAME         = "root";
-  public static final String DB_PASSWORD          = "";  
+  public static final String DB_PASSWORD          = "";
   public static final String DB_CONNECTION_STRING = "jdbc:mysql://localhost/mydb?user="+DB_USER_NAME+"&password="+DB_PASSWORD;
     
   /* Constants for log files*/
