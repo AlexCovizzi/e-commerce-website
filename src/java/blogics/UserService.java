@@ -10,13 +10,15 @@ public class UserService {
         return null;
     }
     
-    public static void insertUser(Database db, String email, String password) throws NotFoundDBException {
+    public static void insertUser(Database db, String email, String name, String surname, String password) throws NotFoundDBException {
         util.Debug.println(db);
         String sql =    "INSERT INTO user " +
-                        "(userID, email, password, timestamp_c) " +
+                        "(userID, email, name, surname,  password, timestamp_c) " +
                         "VALUES (" +
                         "NULL,"+
                         "'"+Conversion.getDatabaseString(email)+"',"+
+												"'"+Conversion.getDatabaseString(name)+"',"+
+												"'"+Conversion.getDatabaseString(surname)+"',"+
                         "'"+Conversion.getDatabaseString(password)+"',"+
                         "DEFAULT"+
                         ");";

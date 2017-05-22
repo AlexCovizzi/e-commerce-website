@@ -14,12 +14,12 @@
   Cookie[] cookies=null;
   cookies=request.getCookies();
   
-  String status = request.getParameter("status");
-  if (status == null) status="view";
+  String action = request.getParameter("action");
+  if (action == null) action="view";
 
-  util.Debug.println("status: "+status);
+  util.Debug.println("action: "+action);
     
-  if(status.equals("signup")) {
+  if(action.equals("signup")) {
       loginManagement.signup();
   }
 %>
@@ -53,7 +53,7 @@
     <!-- content-area -->
     <div class="container content-area">
       
-      <% if(status.equals("view")) {%>
+      <% if(action.equals("view")) {%>
         
       <h4>Registrati</h4>
 
@@ -61,21 +61,19 @@
 
       <form class="form-horizontal" method='post' action="signup.jsp">
 
-        <!--
         <div class="form-group">
           <label class="control-label col-sm-4" for="signup-first-name">Nome</label>
           <div class="col-sm-4">
-            <input type="text" class="form-control" id="signup-first-name" placeholder="Inserisci il tuo nome">
+            <input type="text" name="name" class="form-control" id="signup-first-name" placeholder="Inserisci il tuo nome">
           </div>
         </div>
 
         <div class="form-group">
           <label class="control-label col-sm-4" for="signup-last-name">Cognome</label>
           <div class="col-sm-4">
-            <input type="text" class="form-control" id="signup-last-name" placeholder="Inserisci il tuo cognome">
+            <input type="text" name="surname" class="form-control" id="signup-last-name" placeholder="Inserisci il tuo cognome">
           </div>
         </div>
-        -->
 
         <div class="form-group">
           <label class="control-label col-sm-4" for="signup-email">Email</label>
@@ -102,7 +100,7 @@
 
         <div class="form-group"> 
           <div class="col-sm-offset-4 col-sm-4">
-            <input type="hidden" name="status" value="signup"/>
+            <input type="hidden" name="action" value="signup"/>
             <button type="submit" class="btn btn-default">Registrati</button>
           </div>
           <div class="col-sm-offset-4 col-sm-4" style="margin-top: 16px;">
@@ -113,7 +111,7 @@
 
       </form>
       
-      <%} else if(status.equals("signup")) {%>
+      <%} else if(action.equals("signup")) {%>
       
       Registrazione avvenuta con successo. <a href="../login/login.jsp">Effettua l'accesso</a>
       

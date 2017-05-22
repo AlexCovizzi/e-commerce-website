@@ -7,47 +7,81 @@ import services.database.Database;
 import services.database.exception.NotFoundDBException;
 import services.errorservice.EService;
 
-public class LoginManagement implements Serializable {
+public class LoginManagement implements Serializable
+{
     
     private String email;
     private String password;
+		private String name;
+		private String surname;
     
-    public void signup() {
+    public void signup()
+		{
         Database database = null;
     
-        try {
+        try
+				{
             database = DBService.getDataBase();
       
-            UserService.insertUser(database, email, password);
+            UserService.insertUser(database, email, name, surname, password);
             
             database.commit();
             
-        } catch (NotFoundDBException ex) {
-            
-        } finally {
-            try {
+        }
+				catch (NotFoundDBException ex)
+				{ }
+				finally
+				{
+            try
+						{
                 if(database != null) database.close();
-            } catch (NotFoundDBException e) {
+            }
+						catch (NotFoundDBException e)
+						{
                 EService.logAndRecover(e);
             }
         }
     }
     
     /* Setters */
-    public void setEmail(String email) {
+    public void setEmail(String email)
+		{
         this.email = email;
     }
     
-    public void setPassword(String password) {
+    public void setPassword(String password)
+		{
         this.password = password;
     }
+		
+		public void setName(String name)
+		{
+			this.name = name;
+		}
+		
+		public void setSurname(String surname)
+		{
+			this.surname = surname;
+		}
     
     /* Getters */
-    public String getEmail() {
+    public String getEmail()
+		{
         return email;
     }
     
-    public String getPassword() {
+    public String getPassword()
+		{
         return password;
     }
+		
+		public String getName()
+		{
+			return name;
+		}
+
+		public String getSurname()
+		{
+			return surname;
+		}
 }
