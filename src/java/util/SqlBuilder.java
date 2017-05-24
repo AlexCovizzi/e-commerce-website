@@ -17,7 +17,7 @@ public class SqlBuilder {
     }
 
     public SqlBuilder where(String condition) {
-        return concat(command("WHERE"), condition);
+        return concat(command("WHERE"), "("+condition+")");
     }
 
     public SqlBuilder join(String table) {
@@ -51,13 +51,8 @@ public class SqlBuilder {
         return concat(command("INSERT INTO"), table, list(columns));
     }
 
-    public SqlBuilder values(Object...values) {
-		// converto tutti i valori in stringhe
-		String[] stringValues = new String[values.length];
-		for(int i=0; i<values.length; i++) {
-			stringValues[i] = String.valueOf(values[i]);
-		}
-        return concat(command("VALUES"), list(stringValues));
+    public SqlBuilder values(String...values) {
+        return concat(command("VALUES"), list(values));
     }
 	
 	/* UPDATE statement */
