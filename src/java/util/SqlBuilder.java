@@ -40,7 +40,7 @@ public class SqlBuilder {
         return concat(command("OFFSET"), String.valueOf(offset));
     }
 
-    public SqlBuilder limit(int offset, int number) {
+    public SqlBuilder limit(int number, int offset) {
         limit(number);
         offset(offset);
         return this;
