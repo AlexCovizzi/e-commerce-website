@@ -11,6 +11,7 @@ import java.util.Date;
 import services.database.Database;
 import services.database.exception.*;
 import util.Conversion;
+import util.SqlBuilder;
 
 /**
  *
@@ -28,13 +29,27 @@ public class BookService {
     String sql = "";
     
     /* Check di unicità */
+	/*
     sql +=  " SELECT bookID " +
             "   FROM book " +
             " WHERE " +
             "   FL_ACTIVE='S' and " +
             "   title='" + Conversion.getDatabaseString(title) + "' and " +
             "   ISBN='" + Conversion.getDatabaseString(isbn) + "' and " +
-            "   publisher='" +Conversion.getDatabaseString(publisher) + "' ";
+            "   publisher='" +Conversion.getDatabaseString(publisher) + "' "; */
+	
+	SqlBuilder sqlBuilder = new SqlBuilder();
+	
+	sql = sqlBuilder
+			.select("bookID")
+			.from("book")
+			.where("fl_active='S'")
+				.and("title=" + Conversion.getDatabaseString(title))
+				.and("ISBN=" + Conversion.getDatabaseString(isbn))
+				.and("publisher=" + Conversion.getDatabaseString(publisher))
+			.done();
+	
+	
     
     ResultSet resultSet = db.select(sql);
     
@@ -52,7 +67,11 @@ public class BookService {
     }
     
     /* Generazione bookID */
-    sql = "SELECT MAX(bookID) AS N FROM book";
+    // sql = "SELECT MAX(bookID) AS N FROM book";
+	
+	sql = sqlBuilder
+			.select("MAX(bookID)").as("N").from("book")
+			.done();
     
     int bookId;
     
@@ -71,6 +90,7 @@ public class BookService {
     }
     
     /* Inserimento */
+	/*
     sql = " INSERT INTO book " +
           "   (bookID, title, description, pages, price, publication_date, stock, isbn, language, publisher ,timestamp_c) " +
           " VALUES (" +
@@ -85,7 +105,24 @@ public class BookService {
           "   '" + Conversion.getDatabaseString(language) + "'," +
           "   '" + Conversion.getDatabaseString(publisher) + "'," +
           "   DEFAULT" +
-          " );";
+          " );"; */
+	
+	sql = sqlBuilder
+			.insertInto("book", "bookID", "title", "description", 
+					"pages", "price", "publication_date", "stock",
+					"isbn", "language", "publisher", "timestamp_c")
+			.values(bookId,
+					Conversion.getDatabaseString(title),
+					Conversion.getDatabaseString(description),
+					pages,
+					price,
+					publication_date,
+					stock,
+					Conversion.getDatabaseString(isbn),
+					Conversion.getDatabaseString(language),
+					Conversion.getDatabaseString(publisher),
+					"DEFAULT")
+			.done();
     
     db.modify(sql);
   }

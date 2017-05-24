@@ -2,6 +2,7 @@ package bflows;
 
 import blogics.UserService;
 import java.io.Serializable;
+import java.time.LocalDate;
 import services.database.DBService;
 import services.database.Database;
 import services.database.exception.NotFoundDBException;
@@ -12,21 +13,18 @@ public class LoginManagement implements Serializable
     
     private String email;
     private String password;
-		private String name;
-		private String surname;
+	private String name;
+	private String surname;
     
-    public void signup()
-		{
+    public void signup() {
         Database database = null;
-    
-        try
-				{
+        try {
+			
             database = DBService.getDataBase();
       
             UserService.insertUser(database, email, name, surname, password);
             
             database.commit();
-            
         }
 				catch (NotFoundDBException ex)
 				{ }
@@ -44,13 +42,11 @@ public class LoginManagement implements Serializable
     }
     
     /* Setters */
-    public void setEmail(String email)
-		{
+    public void setEmail(String email) {
         this.email = email;
     }
     
-    public void setPassword(String password)
-		{
+    public void setPassword(String password) {
         this.password = password;
     }
 		
