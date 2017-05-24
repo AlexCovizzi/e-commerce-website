@@ -4,40 +4,40 @@ public class SqlBuilder {
     private String statement = "";
 
     public SqlBuilder() {
-
+		
     }
 
     /* SELECT statement */
     public SqlBuilder select(String...params) {
-        return concat("SELECT", params(params));
+        return command("SELECT").params(params);
     }
 
     public SqlBuilder from(String...tables) {
-        return concat(command("FROM"), params(tables));
+        return command("FROM").params(tables);
     }
 
     public SqlBuilder where(String condition) {
-        return concat(command("WHERE"), "("+condition+")");
+        return command("WHERE").enclosedParams(condition);
     }
 
     public SqlBuilder join(String table) {
-        return concat(command("JOIN"), table);
+        return command("JOIN").params(table);
     }
 
     public SqlBuilder as(String alias) {
-        return concat(command("AS"), alias);
+        return command("AS").params(alias);
     }
 
     public SqlBuilder on(String condition) {
-        return concat(command("ON"), condition);
+        return command("ON").enclosedParams(condition);
     }
 
     public SqlBuilder limit(int number) {
-        return concat(command("LIMIT"), String.valueOf(number));
+        return command("LIMIT").params(String.valueOf(number));
     }
 
     public SqlBuilder offset(int offset) {
-        return concat(command("OFFSET"), String.valueOf(offset));
+        return command("OFFSET").params(String.valueOf(offset));
     }
 
     public SqlBuilder limit(int number, int offset) {
@@ -48,78 +48,68 @@ public class SqlBuilder {
 
     /* INSERT statement */
     public SqlBuilder insertInto(String table, String...columns) {
-        return concat(command("INSERT INTO"), table, list(columns));
+        return command("INSERT INTO").params(table).enclosedParams(columns);
     }
 
     public SqlBuilder values(String...values) {
-        return concat(command("VALUES"), list(values));
+        return command("VALUES").enclosedParams(values);
     }
 	
 	/* UPDATE statement */
 	public SqlBuilder update(String table) {
-        return concat(command("UPDATE"), table);
+        return command("UPDATE").params(table);
     }
 	
 	public SqlBuilder set(String...params) {
-        return concat(command("SET"), params(params));
+        return command("SET").params(params);
     }
-
-    /* Operations (sconsigliate, sono scomode da usare) */
-    public String count(String...params) {
-        return command("COUNT")+list(params);
-    }
-
-	public String min(String col) {
-		return command("MIN")+list(col);
-	}
-
-	public String max(String col) {
-		return command("MAX")+list(col);
-	}
 
     /* Logic operators */
 	public SqlBuilder not(String condition) {
-		return concat(command("NOT") + "("+condition+")");
+		return command("NOT").enclosedParams(condition);
 	}
 	
 	public SqlBuilder and(String condition) {
-		return concat(command("AND") + "("+condition+")");
+		return command("AND").enclosedParams(condition);
 	}
 	
 	public SqlBuilder or(String condition) {
-		return concat(command("OR") + "("+condition+")");
+		return command("OR").enclosedParams(condition);
 	}
 
     /* Core */
-    public String command(String command) {
-        return command;
+    public SqlBuilder command(String command) {
+        return concat(command);
     }
 
-    public String params(String...params) {
-        String formatted = "";
-        for(int i=0; i<params.length; i++) {
-            if(i == params.length-1) formatted += params[i] + " ";
-            else formatted += params[i] + ", ";
-        }
-        return formatted;
+    public SqlBuilder params(String...params) {
+        return concat(formatStringArray(params));
     }
-
-    //Come params ma con parentesi tonde davanti
-    public String list(String...params) {
-        return "("+params(params)+")";
-    }
-
-	// Concatena la stringa allo statement, è la base di partenza di qualsisi operazione
-    public SqlBuilder concat(String...strings) {
-        for(String string : strings) {
-            statement += string+" ";
-        }
-        return this;
-    }
+	
+	public SqlBuilder enclosedParams(String...params) {
+		return concat("( "+formatStringArray(params)+" )");
+	}
 
     public String done() {
 		String statementCpy = statement;
 		statement = "";
         return statementCpy + ";";
     }
+
+	/* Metodi utility */
+    private SqlBuilder concat(String...strings) {
+        for(String string : strings) {
+            statement += string+" ";
+        }
+        return this;
+    }
+	
+	private String formatStringArray(String...stringArray) {
+		String formatted = "";
+        for(int i=0; i<stringArray.length; i++) {
+            if(i == stringArray.length-1) formatted += stringArray[i] + " ";
+            else formatted += stringArray[i] + ", ";
+        }
+		return formatted;
+	}
 }
