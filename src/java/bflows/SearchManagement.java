@@ -5,10 +5,26 @@
  */
 package bflows;
 
+import java.io.Serializable;
+
 /**
  *
  * @author Alex
  */
-public class SearchManagement {
+public class SearchManagement implements Serializable {
 	
+	/* search.jsp/book-page.jsp : add-to-cart */
+	public void addToCart() {
+		
+	}
+	
+	/* search.jsp/book-page.jsp : add-to-wishlist */
+	public void addToWishlist() {
+		
+	}
+	
+	/* book-page.jsp : vote */
+	public void vote() {
+		
+	}
 }

@@ -10,12 +10,12 @@ import services.errorservice.EService;
 
 public class LoginManagement implements Serializable
 {
-    
     private String email;
     private String password;
 	private String name;
 	private String surname;
     
+	/* signup.jsp : signup */
     public void signup() {
         Database database = null;
         try {
@@ -40,6 +40,11 @@ public class LoginManagement implements Serializable
             }
         }
     }
+	
+	/* login.jsp : login */
+	public void login() {
+		
+	}
     
     /* Setters */
     public void setEmail(String email) {
