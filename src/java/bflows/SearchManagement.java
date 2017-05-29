@@ -13,6 +13,11 @@ import java.io.Serializable;
  */
 public class SearchManagement implements Serializable {
 	
+	/* search.jsp -> search.jsp : view */
+	public void view() {
+		
+	}
+	
 	/* search.jsp/book-page.jsp : add-to-cart */
 	public void addToCart() {
 		

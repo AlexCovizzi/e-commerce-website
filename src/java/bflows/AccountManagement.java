@@ -4,17 +4,12 @@ import java.io.Serializable;
 
 public class AccountManagement implements Serializable {
 	
-	/* account.jsp : logout */
-	public void logout() {
+	/* wishlist.jsp -> wishlist.jsp : remove */
+	public void removeFromWishlist() {
 		
 	}
 	
-	/* wishlist.jsp : remove */
-	public void removeBook() {
-		
-	}
-	
-	/* wishlist.jsp : add */
+	/* wishlist.jsp -> wishlist.jsp : add */
 	public void addToCart() {
 		
 	}
@@ -24,5 +19,13 @@ public class AccountManagement implements Serializable {
 		
 	}
 	
+	/* cart.jsp -> cart.jsp : remove */
+	public void removeFromCart() {
+		
+	}
 	
+	/* cart.jsp -> cart.jsp : modify */
+	public void modifyQuantity() {
+		
+	}
 }

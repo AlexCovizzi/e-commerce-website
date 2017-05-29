@@ -15,7 +15,7 @@ public class LoginManagement implements Serializable
 	private String name;
 	private String surname;
     
-	/* signup.jsp : signup */
+	/* signup.jsp -> login.jsp : signup */
     public void signup() {
         Database database = null;
         try {
@@ -41,8 +41,13 @@ public class LoginManagement implements Serializable
         }
     }
 	
-	/* login.jsp : login */
+	/* login.jsp -> login.jsp : login */
 	public void login() {
+		
+	}
+	
+	/* account.jsp -> login.jsp : logout */
+	public void logout() {
 		
 	}
     
