@@ -51,7 +51,7 @@ public class SqlBuilder {
         return command("INSERT INTO").params(table).enclosedParams(columns);
     }
 
-    public SqlBuilder values(String...values) {
+    public SqlBuilder values(Object...values) {
         return command("VALUES").enclosedParams(values);
     }
 	
@@ -82,12 +82,12 @@ public class SqlBuilder {
         return concat(command);
     }
 
-    public SqlBuilder params(String...params) {
-        return concat(formatStringArray(params));
+    public SqlBuilder params(Object...params) {
+        return concat(formatParamArray(params));
     }
 	
-	public SqlBuilder enclosedParams(String...params) {
-		return concat("( "+formatStringArray(params)+" )");
+	public SqlBuilder enclosedParams(Object...params) {
+		return concat("( "+formatParamArray(params)+" )");
 	}
 
     public String done() {
@@ -104,11 +104,11 @@ public class SqlBuilder {
         return this;
     }
 	
-	private String formatStringArray(String...stringArray) {
+	private String formatParamArray(Object...paramArray) {
 		String formatted = "";
-        for(int i=0; i<stringArray.length; i++) {
-            if(i == stringArray.length-1) formatted += stringArray[i] + " ";
-            else formatted += stringArray[i] + ", ";
+        for(int i=0; i<paramArray.length; i++) {
+            if(i == paramArray.length-1) formatted += paramArray[i].toString() + " ";
+            else formatted += paramArray[i].toString() + ", ";
         }
 		return formatted;
 	}

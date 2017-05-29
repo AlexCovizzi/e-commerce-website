@@ -2,10 +2,13 @@ package bflows;
 
 import blogics.UserService;
 import java.io.Serializable;
-import java.time.LocalDate;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import services.database.DBService;
 import services.database.Database;
+import services.database.exception.DuplicatedRecordDBException;
 import services.database.exception.NotFoundDBException;
+import services.database.exception.ResultSetDBException;
 import services.errorservice.EService;
 
 public class LoginManagement implements Serializable
@@ -22,12 +25,16 @@ public class LoginManagement implements Serializable
 			
             database = DBService.getDataBase();
       
-            UserService.insertUser(database, email, name, surname, password);
+            UserService.insertUser(database, email, name, surname, password, false);
             
             database.commit();
         }
 				catch (NotFoundDBException ex)
-				{ }
+				{ } catch (DuplicatedRecordDBException ex) {
+			Logger.getLogger(LoginManagement.class.getName()).log(Level.SEVERE, null, ex);
+		} catch (ResultSetDBException ex) {
+			Logger.getLogger(LoginManagement.class.getName()).log(Level.SEVERE, null, ex);
+		}
 				finally
 				{
             try
