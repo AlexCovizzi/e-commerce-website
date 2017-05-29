@@ -1,0 +1,20 @@
+.sezione
+{
+    padding-top: 10px;
+    margin: auto;
+    margin-bottom: 20px;
+}
+
+.libro_in_evidenza
+{
+    color: #555;
+}
+
+.icona_libro
+{
+    position: relative;
+    top: 0px;
+    bottom: 0px;
+    left: 15%;
+    right: 0px;
+}

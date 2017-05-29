@@ -33,4 +33,18 @@ public class AdminManagement implements Serializable {
 	public void disableCoupon() {
 		
 	}
+	
+	/* add-book.jsp -> add-book.jsp : add */
+	public void addBook() {
+		
+	}
+	
+	/* search-jsp/book-page.jsp -> add-book.jsp : view */
+	/* manda anche isbn libro come parametro */
+	
+	
+	/* add-book.jsp -> add-book.jsp : modify */
+	public void modifyBook() {
+		
+	}
 }

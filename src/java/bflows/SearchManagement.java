@@ -32,4 +32,8 @@ public class SearchManagement implements Serializable {
 	public void vote() {
 		
 	}
+	
+	public void addToHistory() {
+		
+	}
 }
