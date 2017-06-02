@@ -7,7 +7,7 @@ import services.errorservice.*;
 import services.database.*;
 import services.logservice.*;
 
-public class DuplicatedRecordDBException extends DBException implements Warning {
+public class DuplicatedRecordDBException extends RecoverableDBException {
   
   
   /** Creates new NotFoundDBException */

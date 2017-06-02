@@ -8,7 +8,7 @@ import services.errorservice.*;
 import services.database.*;
 import services.logservice.*;
 
-public class NotFoundDBException extends DBException implements FatalError {
+public class NotFoundDBException extends UnrecoverableDBException {
 
     public NotFoundDBException(String msg, Database database) {
 
@@ -31,11 +31,6 @@ public class NotFoundDBException extends DBException implements FatalError {
    /** Ritorna il messaggio di Errore corrispondente al Fatal Error **/   
     public String getLogMessage() {    
       return logMessage;    
-    }
-
-   /** Chiamata di RollBack (implementazione classe Astratta FatalError) **/   
-    public void makeRollBack() {          
-      if (database!=null) this.database.rollBack();           
     }
 
 }

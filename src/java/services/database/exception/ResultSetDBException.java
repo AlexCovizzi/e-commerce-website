@@ -7,7 +7,7 @@ import services.logservice.*;
 
 import java.io.*;
 
-public class ResultSetDBException extends DBException implements GeneralError {
+public class ResultSetDBException extends RecoverableDBException {
   
   
   public ResultSetDBException(String msg,Database database) {    
@@ -23,10 +23,6 @@ public class ResultSetDBException extends DBException implements GeneralError {
   
   public String getLogMessage() {    
     return logMessage;    
-  }
-    
-  public void makeRollBack() {    
-    if (database!=null) this.database.rollBack();    
   }
   
 }

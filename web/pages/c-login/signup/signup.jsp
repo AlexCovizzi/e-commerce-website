@@ -3,7 +3,7 @@
 <%@page contentType="text/html" %>
 <%@page session="false" %>
 <%@page buffer="30kb" %>
-<%@page errorPage="/ErrorPage.jsp" %>
+<%@page errorPage="../../ErrorPage.jsp" %>
 
 <%@ page import="services.session.*" %>
 
@@ -11,8 +11,6 @@
 <jsp:setProperty name="loginManagement" property="*" />
 
 <%
-  Cookie[] cookies=null;
-  cookies=request.getCookies();
   
   String action = request.getParameter("action");
   if (action == null) action="view";
@@ -20,7 +18,7 @@
   util.Debug.println("action: "+action);
     
   if(action.equals("signup")) {
-      loginManagement.signup();
+    loginManagement.signup();
   }
 %>
 
@@ -29,7 +27,7 @@
     <title>Registrazione</title>
 
     <!-- comprende css e script del framework, header e footer -->
-    <%@ include file="../../shared/head-common.html" %>
+    <%@ include file="../../../shared/head-common.html" %>
 
     <!-- carica i tuoi file css qui -->
     <link href="signup.css" rel="stylesheet" type="text/css" />
@@ -42,12 +40,12 @@
   <body>
     <!-- header -->
     <div class="header">
-      <%@ include file="../../shared/header/header.jsp" %>
+      <%@ include file="../../../shared/header/header.jsp" %>
     </div>
     
     <!-- sotto-header -->
     <div class="sotto-header">
-      <%@ include file="../../shared/sotto-header/sotto-header.jsp" %>
+      <%@ include file="../../../shared/sotto-header/sotto-header.jsp" %>
     </div>
 
     <!-- content-area -->
@@ -111,7 +109,7 @@
 
       </form>
       
-      <%} else if(action.equals("signup")) {%>
+      <%} else if(action.equals("signup") && loginManagement.getErrorMessage() == null) {%>
       
       Registrazione avvenuta con successo. <a href="../login/login.jsp">Effettua l'accesso</a>
       
@@ -121,8 +119,12 @@
 
     <!-- footer -->
     <div class="footer">
-      <%@ include file="../../shared/footer/footer.jsp" %>
+      <%@ include file="../../../shared/footer/footer.jsp" %>
     </div>
+    
+    <%if (loginManagement.getErrorMessage() != null) {%>
+      <script>alert("<%=loginManagement.getErrorMessage()%>");</script>
+    <%}%>
 
   </body>
 </html>

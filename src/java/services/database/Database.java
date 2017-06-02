@@ -13,21 +13,18 @@ public class Database {
     private Statement statement;
     
     public Database(Connection connection) throws NotFoundDBException {
+        this.connection = connection;
+		
         try{
-            this.connection=connection;
-            if (this.connection==null)
-                throw new NotFoundDBException("DataBase: DataBase(): Impossibile Aprire la Connessione Logica");
-
             this.connection.setAutoCommit(false);
-            statement=this.connection.createStatement();
-
+            statement = this.connection.createStatement();
         } catch (Exception ex) {
             ByteArrayOutputStream stackTrace=new ByteArrayOutputStream();
             ex.printStackTrace(new PrintWriter(stackTrace,true));
             throw new NotFoundDBException("DataBase: DataBase(): Impossibile Aprire la Connessione col DataBase: \n"+stackTrace);
         }
     }
-  
+	
     public ResultSet select(String sql) throws NotFoundDBException {
         ResultSet resultSet;
 
@@ -61,22 +58,29 @@ public class Database {
         }
     }
   
-    public void rollBack() {
+    public void rollBack() throws NotFoundDBException {
         try{
             connection.rollback();
-            statement.close();
-            statement=connection.createStatement();
-            return;
         } catch (SQLException ex){
-            new NotFoundDBException("DataBase: rollback(): Impossibile eseguire il RollBack sul DB. Eccezione: "+ex);
+            throw new NotFoundDBException("DataBase: rollback(): Impossibile eseguire il RollBack sul DB. Eccezione: "+ex);
         }
     }
   
     public void close() throws NotFoundDBException {
         try{
+			statement.close();
             connection.close();
         } catch (SQLException ex){
             throw new NotFoundDBException("DataBase: close(): Impossibile chiudere il DB. Eccezione: "+ex);
+        }
+    }
+	
+	public void closeQuietly() {
+        try{
+			statement.close();
+            connection.close();
+        } catch (SQLException ex){
+            //
         }
     }
   
