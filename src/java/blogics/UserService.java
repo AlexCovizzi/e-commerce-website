@@ -3,9 +3,8 @@ package blogics;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import services.database.Database;
-import services.database.exception.DuplicatedRecordDBException;
-import services.database.exception.NotFoundDBException;
-import services.database.exception.ResultSetDBException;
+import services.database.exception.DBException;
+import services.database.exception.RecoverableDBException;
 import util.Conversion;
 import util.SqlBuilder;
 
@@ -16,7 +15,8 @@ public class UserService {
     }
     
     public static void insertUser(Database db, String email, String name, String surname, String password, boolean admin)
-			throws NotFoundDBException, DuplicatedRecordDBException, ResultSetDBException {
+			throws RecoverableDBException {
+		
 		
 		SqlBuilder sqlBuilder = new SqlBuilder();
 		String sql;
@@ -36,12 +36,12 @@ public class UserService {
 			resultSet = db.select(sql);
 			exist = resultSet.next();
 			resultSet.close();
-		} catch (SQLException e) {
-			throw new ResultSetDBException("UserService: insertUser(): Errore sul ResultSet.");
+		} catch (SQLException ex) {
+			throw new RecoverableDBException(ex, "UserService", "insertUser", "Impossibile ricercare nel database se ci sono utenti con la stessa mail");
 		}
 
 		if (exist) {
-			throw new DuplicatedRecordDBException("UserService: insertUser(): Tentativo di inserimento di un utente con email già esistente.");
+			throw new RecoverableDBException("Esiste già un utente con questa mail");
 		}
 		
 		// Genero l'id del nuovo utente
@@ -58,8 +58,8 @@ public class UserService {
 				id = resultSet.getInt("N") + 1;
 			
 			resultSet.close();
-		} catch (SQLException e) {
-			throw new ResultSetDBException("UserService: insertUser(): Errore sul ResultSet --> impossibile calcolare id utente.");
+		} catch (SQLException ex) {
+			throw new RecoverableDBException(ex, "UserService", "insertUser", "Impossibile calcolare id utente.");
 		}
 		
 		// Inserisco il nuovo utente

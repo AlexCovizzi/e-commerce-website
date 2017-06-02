@@ -15,7 +15,7 @@ public class Session {
     public Session() {}
 
     public static Cookie[] createUserCookie(Database database, int userId) 
-        throws NotFoundDBException,ResultSetDBException {
+        throws RecoverableDBException {
 
         User user = UserService.getUser(database, userId);
         

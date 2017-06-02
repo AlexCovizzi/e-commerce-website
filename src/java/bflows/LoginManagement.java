@@ -23,7 +23,7 @@ public class LoginManagement implements Serializable {
             database.commit();
         } catch (RecoverableDBException ex) {
 			database.rollBack();
-			setErrorMessage(ex.toString());
+			setErrorMessage(ex.getMsg());
 		} finally {
             database.close();
         }

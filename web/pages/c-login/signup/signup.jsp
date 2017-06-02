@@ -11,6 +11,7 @@
 <jsp:setProperty name="loginManagement" property="*" />
 
 <%
+  String message = null;
   
   String action = request.getParameter("action");
   if (action == null) action="view";
@@ -20,6 +21,9 @@
   if(action.equals("signup")) {
     loginManagement.signup();
   }
+  
+  message = loginManagement.getErrorMessage();
+  if(message != null) action = "view";
 %>
 
 <html>
@@ -109,12 +113,11 @@
 
       </form>
       
-      <%} else if(action.equals("signup") && loginManagement.getErrorMessage() == null) {%>
+      <%} else if(action.equals("signup")) {%>
       
       Registrazione avvenuta con successo. <a href="../login/login.jsp">Effettua l'accesso</a>
       
       <%}%>
-      
     </div>
 
     <!-- footer -->
@@ -122,8 +125,9 @@
       <%@ include file="../../../shared/footer/footer.jsp" %>
     </div>
     
-    <%if (loginManagement.getErrorMessage() != null) {%>
-      <script>alert("<%=loginManagement.getErrorMessage()%>");</script>
+      
+    <%if (message != null) {%>
+      <script>alert("<%=message%>");</script>
     <%}%>
 
   </body>

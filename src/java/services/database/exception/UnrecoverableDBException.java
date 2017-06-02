@@ -5,12 +5,19 @@
  */
 package services.database.exception;
 
+import util.Logger;
+
+
 /**
  *
  * @author Alex
  */
 public class UnrecoverableDBException extends DBException {
 	public UnrecoverableDBException(String msg) {
-	  super(msg,null);
+	  super(msg);
+	}
+	
+	public UnrecoverableDBException(Exception ex, String className, String methodName, String msg) {
+		super(Logger.ERROR, ex, className, methodName, msg);
 	}
 }

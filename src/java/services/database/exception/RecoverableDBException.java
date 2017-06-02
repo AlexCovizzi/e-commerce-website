@@ -5,12 +5,19 @@
  */
 package services.database.exception;
 
+import util.Logger;
+
+
 /**
  *
  * @author Alex
  */
 public class RecoverableDBException extends DBException {
 	public RecoverableDBException(String msg) {
-	  super(msg,null);
+		super(msg);
+	}
+	
+	public RecoverableDBException(Exception ex, String className, String methodName, String msg) {
+		super(Logger.WARNING, ex, className, methodName, msg);
 	}
 }

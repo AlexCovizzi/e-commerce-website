@@ -24,7 +24,7 @@ public class BookService {
   
   public static void insertNewBook(Database db, String title, String description, int pages, float price,
       Date publication_date, int stock, String isbn, String language, String publisher)
-      throws NotFoundDBException,DuplicatedRecordDBException,ResultSetDBException
+      throws DBException
   {
     String sql = "";
     
@@ -59,11 +59,11 @@ public class BookService {
       exist=resultSet.next();
       resultSet.close();
     } catch (SQLException e) {
-      throw new ResultSetDBException("BookService: insertNewBook(): Errore sul ResultSet.");
+      throw new RecoverableDBException("BookService: insertNewBook(): Errore sul ResultSet.");
     }
     
     if (exist) {
-      throw new DuplicatedRecordDBException("BookService: insertNewBook(): Tentativo di inserimento di un libro già esistente.");
+      throw new RecoverableDBException("BookService: insertNewBook(): Tentativo di inserimento di un libro già esistente.");
     }
     
     /* Generazione bookID */
@@ -86,7 +86,7 @@ public class BookService {
       resultSet.close();
       
     } catch (SQLException e) {
-      throw new ResultSetDBException("BookService: insertNewBook(): Errore sul ResultSet --> impossibile calcolare bookID.");
+      throw new RecoverableDBException("BookService: insertNewBook(): Errore sul ResultSet --> impossibile calcolare bookID.");
     }
     
     /* Inserimento */
