@@ -15,7 +15,7 @@ public class DBException extends Exception {
 	}
 	
 	public DBException(String level, Exception ex, String className, String methodName, String msg) {
-		super(msg + "\n" + ex.getMessage());
+		super(msg + " : " + ex.getMessage());
 		this.message = msg;
 		Logger.log(level, className, methodName, msg + "\n" + ex.getMessage());
 	}

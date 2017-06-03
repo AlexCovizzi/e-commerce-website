@@ -6,7 +6,7 @@
     <title>Libreria Online Sant'Ale</title>
 
     <!-- comprende css e script del framework, header e footer -->
-    <%@ include file="../../shared/head-common.html" %>
+    <%@ include file="../../../shared/head-common.html" %>
 
     <!-- carica i tuoi file css qui -->
     <link href="homepage.css" rel="stylesheet" type="text/css" />
@@ -18,12 +18,12 @@
   <body>
     <!-- header -->
     <div class="header">
-      <%@ include file="../../shared/header/header.jsp" %>
+      <%@ include file="../../../shared/header/header.jsp" %>
     </div>
     
     <!-- sotto-header -->
     <div class="sotto-header">
-      <%@ include file="../../shared/sotto-header/sotto-header.jsp" %>
+      <%@ include file="../../../shared/sotto-header/sotto-header.jsp" %>
     </div>
 
     <!-- content-area -->
@@ -245,7 +245,7 @@
 
     <!-- footer -->
     <div class="footer">
-      <%@ include file="../../shared/footer/footer.jsp" %>
+      <%@ include file="../../../shared/footer/footer.jsp" %>
     </div>
 
   </body>

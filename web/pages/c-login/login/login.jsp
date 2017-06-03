@@ -51,6 +51,9 @@
     
     <% if(loggedIn) { %>
       <!-- Mando l'utente nella Home page -->
+      <script language="javascript">
+        window.location = "../../c-search/homepage/homepage.jsp";
+      </script>
     <% } %>
     
     <!-- header -->
