@@ -1,4 +1,20 @@
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ page pageEncoding="UTF-8"%>
+<%@ page contentType="text/html" %>
+<%@ page session="false" %>
+<%@ page errorPage="/ErrorPage.jsp" %>
+
+<%@ page import="services.session.*" %>
+
+<jsp:useBean id="SearchManagement" scope="page" class="bflows.SearchManagement" />
+<jsp:setProperty name="contactManagement" property="*" />
+
+<%int i;
+
+  Cookie[] cookies=null;
+  cookies=request.getCookies();
+  
+  /* Da finire - Faccio prima l'Admin - Alessio */
+%>
 <!DOCTYPE html>
 
 <html>
@@ -7,6 +23,7 @@
 
     <!-- comprende css e script del framework, header e footer -->
     <%@ include file="../../../shared/head-common.html" %>
+
 
     <!-- carica i tuoi file css qui -->
     <link href="homepage.css" rel="stylesheet" type="text/css" />
