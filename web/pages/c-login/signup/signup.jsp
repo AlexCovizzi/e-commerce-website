@@ -1,6 +1,5 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page info="Signup Page" %>
-<%@page contentType="text/html" %>
 <%@page session="false" %>
 <%@page buffer="30kb" %>
 <%@page errorPage="../../ErrorPage.jsp" %>

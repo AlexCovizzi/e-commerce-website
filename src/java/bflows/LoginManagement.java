@@ -1,14 +1,18 @@
 package bflows;
 
+import blogics.User;
 import blogics.UserService;
 import java.io.Serializable;
+import javax.servlet.http.Cookie;
 import services.database.DBService;
 import services.database.Database;
 import services.database.exception.RecoverableDBException;
 import services.database.exception.UnrecoverableDBException;
+import services.errorservice.EService;
+import services.session.Session;
 
-public class LoginManagement implements Serializable {
-	private String errorMessage;
+public class LoginManagement extends AbstractManagement {
+	private Cookie[] cookies;
 	
     private String email;
     private String password;
@@ -30,8 +34,22 @@ public class LoginManagement implements Serializable {
     }
 	
 	/* login.jsp -> login.jsp : login */
-	public void login() {
-		
+	public void login() throws UnrecoverableDBException {
+		Database database = DBService.getDataBase();
+        try {
+            User user = UserService.getUser(database, email, password);
+			if(user != null) {
+				setCookies(Session.createUserCookie(database, user));
+			} else {
+				setErrorMessage("Email o password errati.");
+			}
+            database.commit();
+        } catch (RecoverableDBException ex) {
+			database.rollBack();
+			setErrorMessage(ex.getMsg());
+		} finally {
+            database.close();
+        }
 	}
 	
 	/* account.jsp -> login.jsp : logout */
@@ -56,8 +74,12 @@ public class LoginManagement implements Serializable {
 		this.surname = surname;
 	}
 	
-	public void setErrorMessage(String errorMessage) {
-		this.errorMessage = errorMessage;
+	public void setCookie(int i, Cookie cookie) {
+		cookies[i] = cookie;
+	}
+	
+	public void setCookies(Cookie...cookies) {
+		this.cookies = cookies;
 	}
     
     /* Getters */
@@ -77,7 +99,11 @@ public class LoginManagement implements Serializable {
 		return surname;
 	}
 	
-	public String getErrorMessage() {
-		return errorMessage;
+	public Cookie getCookie(int i) {
+		return cookies[i];
+	}
+	
+	public Cookie[] getCookies() {
+		return cookies;
 	}
 }

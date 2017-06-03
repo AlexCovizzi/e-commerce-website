@@ -3,8 +3,6 @@ package services.session;
 import java.util.*;
 import javax.servlet.http.*;
 
-//import util.*;
-import services.errorservice.*;
 import services.database.*;
 import services.database.exception.*;
 
@@ -14,19 +12,21 @@ public class Session {
   
     public Session() {}
 
-    public static Cookie[] createUserCookie(Database database, int userId) 
+    public static Cookie[] createUserCookie(Database database, User user) 
         throws RecoverableDBException {
-
-        User user = UserService.getUser(database, userId);
         
-        Cookie[] cookies=new Cookie[2];
+        Cookie[] cookies=new Cookie[6];
 
-        cookies[0]= new Cookie("userId", String.valueOf(userId));
+        cookies[0]= new Cookie("id", String.valueOf(user.getId()));
         cookies[1] = new Cookie("email", user.getEmail());
+        cookies[2]= new Cookie("name", user.getName());
+        cookies[3] = new Cookie("surname", user.getSurname());
+        cookies[4]= new Cookie("admin", String.valueOf(user.isAdmin()));
+        cookies[5] = new Cookie("blocked", String.valueOf(user.isBlocked()));
 
-        for (int i=0; i<cookies.length; i++) {
+        for (Cookie cookie : cookies) {
             // setto il path a root cosi il cookie vale per tutta l'applicazione
-            cookies[i].setPath("/");
+            cookie.setPath("/");
         }
 
         return cookies;

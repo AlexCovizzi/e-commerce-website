@@ -1,5 +1,7 @@
 package blogics;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Timestamp;
 
 public class User {
@@ -13,7 +15,7 @@ public class User {
     public Timestamp timestamp;
     
     public User(int id, String name, String surname, String email, String password,
-			boolean admin, boolean blocked, Timestamp timestamp) {
+			boolean admin, boolean blocked) {
         this.id = id;
 		this.name = name;
 		this.surname = surname;
@@ -21,7 +23,16 @@ public class User {
         this.password = password;
 		this.admin = admin;
 		this.blocked = blocked;
-        this.timestamp = timestamp;
+    }
+	
+	public User(ResultSet resultSet) {
+		try { id = resultSet.getInt("id"); } catch (SQLException sqle) {}
+		try { name = resultSet.getString("name"); } catch (SQLException sqle) {}
+		try { surname = resultSet.getString("surname"); } catch (SQLException sqle) {}
+		try { email = resultSet.getString("email"); } catch (SQLException sqle) {}
+		try { password = resultSet.getString("password"); } catch (SQLException sqle) {}
+		try { admin = resultSet.getBoolean("is_admin"); } catch (SQLException sqle) {}
+		try { blocked = resultSet.getBoolean("is_blocked"); } catch (SQLException sqle) {}
     }
     
     /* Setters */

@@ -25,7 +25,7 @@ public class Conversion {
   public static String getDatabaseString(String inputString) {
 
     if (inputString == null)
-      return "-";
+      return "'-'";
 
     /* inputString = inputString.replace('"', '\''); */
 

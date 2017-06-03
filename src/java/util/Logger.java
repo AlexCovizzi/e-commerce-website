@@ -1,7 +1,7 @@
 package util;
 
 public class Logger {
-	private static String SEPARATOR = "------------------------------------------------------------------------\n";
+	private static String SEPARATOR = "----------------------------------------------------------------------------------\n";
 	public static String DEBUG = "DEBUG";
 	public static String WARNING = "WARNING";
 	public static String ERROR = "ERROR";

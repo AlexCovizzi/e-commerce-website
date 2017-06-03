@@ -15,7 +15,7 @@ public class DBService {
             Connection connection = DriverManager.getConnection(Constants.DB_CONNECTION_STRING);               
             return new Database(connection);
         } catch (Exception ex) {
-            throw new UnrecoverableDBException("Impossibile creare la Connessione al DataBase: ");
+            throw new UnrecoverableDBException(ex, "DBService", "getDataBase", "Impossibile creare la Connessione al DataBase");
         } 
     }
 }

@@ -82,11 +82,6 @@
   </body>
 </html>
 
-<%if (exception!=null){
-      EService.logFrontendException(exception,info,parameters); 
-  } else {
-      EService.logFrontend("No Exception",info,parameters);
-  }%>
 
 
 

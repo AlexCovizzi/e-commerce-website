@@ -6,17 +6,45 @@ import services.database.Database;
 import services.database.exception.DBException;
 import services.database.exception.RecoverableDBException;
 import util.Conversion;
+import util.Logger;
 import util.SqlBuilder;
 
 public class UserService {
     
-    public static User getUser(Database db, int id) {
-        return null;
+    public static User getUser(Database db, String email, String password)
+	throws RecoverableDBException {
+		
+        SqlBuilder sqlBuilder = new SqlBuilder();
+		String sql;
+		ResultSet resultSet;
+		User user = null;
+		
+		sql = sqlBuilder
+				.select("*")
+				.from("User")
+				.where("email = "+Conversion.getDatabaseString(email))
+				.and("password = "+Conversion.getDatabaseString(password))
+				.done();
+		Logger.debug("UserService", "getUser", sql);
+		
+		resultSet = db.select(sql);
+    
+		try {
+			if (resultSet.next()) {
+				user = new User(resultSet);
+			}
+		} catch (SQLException ex) {
+			throw new RecoverableDBException(ex, "UserService", "getUser", "Errore nel ResultSet");
+		} finally {
+			try { resultSet.close(); }
+			catch (SQLException ex) { Logger.error("UserService", "getUser", ex.getMessage());}
+		}
+		
+		return user;
     }
     
     public static void insertUser(Database db, String email, String name, String surname, String password, boolean admin)
-			throws RecoverableDBException {
-		
+	throws RecoverableDBException {
 		
 		SqlBuilder sqlBuilder = new SqlBuilder();
 		String sql;
@@ -32,12 +60,15 @@ public class UserService {
     
 		boolean exist = false;
 		
+		resultSet = db.select(sql);
+		
 		try {
-			resultSet = db.select(sql);
 			exist = resultSet.next();
-			resultSet.close();
 		} catch (SQLException ex) {
 			throw new RecoverableDBException(ex, "UserService", "insertUser", "Impossibile ricercare nel database se ci sono utenti con la stessa mail");
+		} finally {
+			try { resultSet.close(); }
+			catch (SQLException ex) { Logger.error("UserService", "insertUser", ex.getMessage());}
 		}
 
 		if (exist) {
@@ -77,7 +108,7 @@ public class UserService {
     }
     
     public static void modifyUserEmail(Database db, int userId, String email) {
-        
+		
     }
     
     public static void modifyUserPassword(Database db, int userId, String password) {
@@ -85,6 +116,10 @@ public class UserService {
     }
     
     public static void removeUser(Database db, int userId) {
+        
+    }
+	
+	public static void blockUser(Database db, int userId) {
         
     }
 }
