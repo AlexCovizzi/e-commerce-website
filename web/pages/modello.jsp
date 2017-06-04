@@ -1,4 +1,9 @@
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ page pageEncoding="UTF-8"%>
+<%@ page contentType="text/html" %>
+<%@ page session="false" %>
+<%@ page errorPage="/ErrorPage.jsp" %>
+
+<%@ page import="services.session.*" %>
 <!DOCTYPE html>
 
 <html>

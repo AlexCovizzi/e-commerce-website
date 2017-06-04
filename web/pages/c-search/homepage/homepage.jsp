@@ -5,8 +5,8 @@
 
 <%@ page import="services.session.*" %>
 
-<jsp:useBean id="SearchManagement" scope="page" class="bflows.SearchManagement" />
-<jsp:setProperty name="contactManagement" property="*" />
+<jsp:useBean id="searchManagement" scope="page" class="bflows.SearchManagement" />
+<jsp:setProperty name="searchManagement" property="*" />
 
 <%int i;
 

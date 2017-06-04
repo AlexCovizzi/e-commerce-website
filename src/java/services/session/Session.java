@@ -64,5 +64,18 @@ public class Session {
             util.Debug.println("Nome:" + cookies[i].getName() + " Valore:" +cookies[i].getValue());
         }
     }
-  
+    
+    public static int getUserId(Cookie[] cookies) {
+      String userIdString = getValue(cookies, "id", 0);
+      int userId = Integer.parseInt(userIdString);
+      return userId;
+    }
+    
+    public static String getUserName(Cookie[] cookies) {
+      return getValue(cookies, "name", 2);
+    }
+    
+    public static String getUserSurname(Cookie[] cookies) {
+      return getValue(cookies, "surname", 3);
+    }
 }

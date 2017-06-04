@@ -3,7 +3,7 @@
     
     <div class="navbar-header">
       
-      <a class="navbar-brand" href="../../pages/homepage/homepage.jsp">Libreria Sant'Ale</a>
+      <a class="navbar-brand" href="../../c-search/homepage/homepage.jsp">Libreria Sant'Ale</a>
       
       <button style="padding: 6px 10px;" type="button" class="navbar-toggle" data-toggle="collapse" data-target="#menu-right" aria-expanded="false" aria-controls="menu-right">
         <span class="sr-only">Toggle Navigation</span>
@@ -21,7 +21,7 @@
       <div id="menu-right" class="collapse navbar-collapse navbar-right">
         <ul class="nav navbar-nav">
           <li title="Il mio account: Nome utente">
-            <a href="../../pages/account/account.jsp"><i class="glyphicon glyphicon-user"></i>
+            <a href="../../c-account/account/account.jsp"><i class="glyphicon glyphicon-user"></i>
             <span class="visible-xs-inline" style="padding-left:16px;">Il mio account: Nome utente</span>
             </a>
           </li>
@@ -44,10 +44,10 @@
       <div id="menu-right" class="navbar-right navbar-collapse collapse">
           <ul class="nav navbar-nav">
             <li>
-              <a href="../../pages/login/login.jsp">Accedi</a>
+              <a href="../../c-login/login/login.jsp">Accedi</a>
             </li>
             <li>
-              <a href="../../pages/signup/signup.jsp">Registrati</a>
+              <a href="../../c-login/signup/signup.jsp">Registrati</a>
             </li>
           </ul>
       </div> <!-- menu a destra (logged out) -->
@@ -70,7 +70,7 @@
                 <li><a href="#">Editore</a></li>
                 <li><a href="#">ISBN</a></li>
                 <li class="divider"></li>
-                <li><a class="navbar-link" href="../../pages/signup/signup.jsp">Ricerca Avanzata</a></li>
+                <li><a class="navbar-link" href="../../c-login/signup/signup.jsp">Ricerca Avanzata</a></li>
               </ul>
             </div>
             <input id="search-input" type="text" class="form-control" placeholder="Cerca">

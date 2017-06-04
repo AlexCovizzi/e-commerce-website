@@ -1,5 +1,5 @@
-<link href="../../shared/account-sotto-header/account-sotto-header.css" rel="stylesheet" type="text/css" />
-<script type="text/javascript" src="../../shared/account-sotto-header/account-sotto-header.js"></script>
+<link href="../../shared/sotto-header/account-sotto-header.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="../../shared/sotto-header/account-sotto-header.js"></script>
 
 <nav id="account-navbar" class='navbar navbar-default'>
   <div class='container-fluid'>
