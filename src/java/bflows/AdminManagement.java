@@ -1,11 +1,16 @@
 package bflows;
 
+import blogics.BookHasAuthorService;
+import blogics.BookService;
 import java.io.Serializable;
+import services.database.*;
+import services.database.exception.*;
 
 public class AdminManagement extends AbstractManagement implements Serializable {
 	
   private int userId;
   private String titolo;
+  private String descrizione;
   private String autore;
   private String isbn = "null";
   private int pagine;
@@ -14,6 +19,7 @@ public class AdminManagement extends AbstractManagement implements Serializable 
   private String dataPubbl;
   private String lingua;
   private float prezzo;
+  private int stock;
   
 	/* users.jsp -> users.jsp : block */
 	public void blockUser() {
@@ -51,8 +57,23 @@ public class AdminManagement extends AbstractManagement implements Serializable 
 	}
   
 	/* add-book.jsp -> add-book.jsp : add */
-	public void addBook() {
-		
+	public void addBook() throws UnrecoverableDBException {
+    
+		Database database = DBService.getDataBase();
+    
+    try {
+      
+      BookService.insertNewBook(database, titolo, descrizione, pagine, prezzo, dataPubbl, stock, isbn, lingua, editore);
+      BookHasAuthorService.insertAuthorOfBook(database, isbn, autore);
+      
+      database.commit();
+      
+    } catch (RecoverableDBException ex) {
+      database.rollBack();
+      setErrorMessage(ex.getMsg());
+		} finally {
+      database.close();
+    }
 	}
 	
 	/* search-jsp/book-page.jsp -> add-book.jsp : view */
@@ -82,6 +103,10 @@ public class AdminManagement extends AbstractManagement implements Serializable 
   
   public String getTitolo() {
     return titolo;
+  }
+  
+  public String getDescrizione() {
+    return descrizione;
   }
   
   public String getAutore() {
@@ -120,6 +145,10 @@ public class AdminManagement extends AbstractManagement implements Serializable 
     return prezzo;
   }
   
+  public int getStock() {
+    return stock;
+  }
+  
   /* Setters */
   public void setUserId(int userId) {
     this.userId = userId;
@@ -127,6 +156,10 @@ public class AdminManagement extends AbstractManagement implements Serializable 
   
   public void setTitolo(String titolo) {
     this.titolo = titolo;
+  }
+  
+  public void setDescrizione(String descrizione) {
+    this.descrizione = descrizione;
   }
   
   public void setAutore(String autore) {
@@ -165,4 +198,7 @@ public class AdminManagement extends AbstractManagement implements Serializable 
     this.prezzo = prezzo;
   }
   
+  public void setStock(int stock) {
+    this.stock = stock;
+  }
 }

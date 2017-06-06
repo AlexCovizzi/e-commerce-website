@@ -3,7 +3,6 @@ package blogics;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.util.Date;
 
 /**
  * 
@@ -11,12 +10,12 @@ import java.util.Date;
  */
 
 public class Book {
-  private int id;
+  
   private String title;
   private String description;
   private int pages;
   private float price;
-  private Date publication_date;
+  private String publication_date; /* Ricordare di mettere come Stringa la data anche del DB */
   private int stock;
   private String isbn;
   private String language;
@@ -24,10 +23,9 @@ public class Book {
   private Timestamp timestamp;
   private String active;
   
-  public Book(int id, String title, String description, int pages, float price, Date publication_date,
+  public Book(String title, String description, int pages, float price, String publication_date,
       int stock, String isbn, String language, String publisher, Timestamp timestamp)
   {
-    this.id = id;
     this.title = title;
     this.description = description;
     this.pages = pages;
@@ -42,12 +40,11 @@ public class Book {
   
   public Book(ResultSet resultSet) {
     
-    try {id = resultSet.getInt("BOOKID"); } catch (SQLException sqle) {}
     try {title = resultSet.getString("TITLE");} catch (SQLException sqle) {}
     try {description = resultSet.getString("DESCRIPTION");} catch (SQLException sqle) {}
     try {pages = resultSet.getInt("PAGES");} catch (SQLException sqle) {}
     try {price = resultSet.getFloat("PRICE");} catch (SQLException sqle) {}
-    try {publication_date = resultSet.getDate("PUBLICATION_DATE");} catch (SQLException sqle) {}
+    try {publication_date = resultSet.getString("PUBLICATION_DATE");} catch (SQLException sqle) {}
     try {stock = resultSet.getInt("STOCK");} catch (SQLException sqle) {}
     try {isbn = resultSet.getString("ISBN");} catch (SQLException sqle) {}
     try {language = resultSet.getString("LANGUAGE");} catch (SQLException sqle) {}
@@ -57,12 +54,7 @@ public class Book {
     
   }
   
-  /* Setters */
-  public void setId(int id)
-  {
-    this.id = id;
-  }
-  
+  /* Setters */  
   public void setTitle(String title)
   {
     this.title = title;
@@ -83,7 +75,7 @@ public class Book {
     this.price = price;
   }
   
-  public void setPublicationDate(Date publication_date)
+  public void setPublicationDate(String publication_date)
   {
     this.publication_date = publication_date;
   }
@@ -113,12 +105,7 @@ public class Book {
     this.timestamp = timestamp;
   }
   
-  /* Getters */
-  public int getId()
-  {
-    return id;
-  }
-  
+  /* Getters */  
   public String getTitle()
   {
     return title;
@@ -139,7 +126,7 @@ public class Book {
     return price;
   }
   
-  public Date getPublicationDate()
+  public String getPublicationDate()
   {
     return publication_date;
   }
