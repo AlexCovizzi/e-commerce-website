@@ -5,12 +5,12 @@ import java.io.Serializable;
 public class AdminManagement extends AbstractManagement implements Serializable {
 	
   private int userId;
-  private int bookId = -1;
   private String titolo;
   private String autore;
-  private String isbn;
+  private String isbn = "null";
   private int pagine;
   private String editore;
+  private String[] genere;
   private String dataPubbl;
   private String lingua;
   private float prezzo;
@@ -64,13 +64,20 @@ public class AdminManagement extends AbstractManagement implements Serializable 
 		
 	}
   
+  public boolean checkGenere(String genere) {
+    if(isbn.equals("null"))
+      return false;
+    
+    for(int j = 0; j < this.genere.length; j++)
+      if(this.genere[j].equals(genere)) 
+        return true;
+    
+    return false;
+  }
+  
   /* Getters */
   public int getUserId() {
     return userId;
-  }
-  
-  public int getBookId() {
-    return bookId;
   }
   
   public String getTitolo() {
@@ -93,6 +100,14 @@ public class AdminManagement extends AbstractManagement implements Serializable 
     return editore;
   }
   
+  public String[] getGenere() {
+    return genere;
+  }
+  
+  public String getGenere(int index) {
+    return this.genere[index];
+  }
+  
   public String getDataPubbl() {
     return dataPubbl;
   }
@@ -108,10 +123,6 @@ public class AdminManagement extends AbstractManagement implements Serializable 
   /* Setters */
   public void setUserId(int userId) {
     this.userId = userId;
-  }
-  
-  public void setBookId(int bookId) {
-    this.bookId = bookId;
   }
   
   public void setTitolo(String titolo) {
@@ -132,6 +143,14 @@ public class AdminManagement extends AbstractManagement implements Serializable 
   
   public void setEditore(String editore) {
     this.editore = editore;
+  }
+  
+  public void setGenere(String[] genere) {
+    this.genere = genere;
+  }
+
+  public void setGenere(int index, String genere) {
+    this.genere[index] = genere;
   }
   
   public void setDataPubbl(String dataPubbl) {

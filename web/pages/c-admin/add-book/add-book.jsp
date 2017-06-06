@@ -25,7 +25,7 @@
   String action = request.getParameter("action");
   if (action == null) action="view";
   
-  if(action.equals("view") && adminManagement.getBookId() != -1) {
+  if(action.equals("view") && !adminManagement.getIsbn().equals("null")) {
     adminManagement.recuperaInfo();
   }
   if(action.equals("add")) {
@@ -42,7 +42,7 @@
 <html>
   <head>
     <title>Informazioni 
-    <% if(adminManagement.getBookId() == -1) { %> del libro
+    <% if(adminManagement.getIsbn().equals("null")) { %> del libro
     <% } else { %> di <%= adminManagement.getTitolo() %> <% } %>
     </title>
 
@@ -81,119 +81,171 @@
             <p class="help-block">Carica la copertina del libro.</p>
           </div>
         </div>
-
+        
+        <!-- Titolo -->
         <div class="form-group">
           <label class="control-label col-sm-2" for="titolo">Titolo</label>
           <div class="col-sm-10">
             <input type="text" class="form-control" name="titolo" id="titolo"
                   placeholder="Inserisci il titolo del libro"
-                  <% if(adminManagement.getBookId() != -1) { %>
+                  <% if(!adminManagement.getIsbn().equals("null")) { %>
                   value="<%= adminManagement.getTitolo() %>"
                   <% } %>
                   >
           </div>
         </div>
-
+        
+        <!-- Autore -->
         <div class="form-group">
           <label class="control-label col-sm-2" for="autore">Autore</label>
           <div class="col-sm-10">
             <input type="text" class="form-control" name="autore" id="autore"
               placeholder="Inserisci l'autore del libro"
-              <% if(adminManagement.getBookId() != -1) { %>
+              <% if(!adminManagement.getIsbn().equals("null")) { %>
                   value="<%= adminManagement.getAutore() %>"
                   <% } %>
               >
           </div>
         </div>
-
+        
+        <!-- Isbn -->
         <div class="form-group">
           <label class="control-label col-sm-2" for="ISBN">Codice ISBN</label>
           <div class="col-sm-10">
+            <% if(adminManagement.getIsbn().equals("null")) { %>
             <input type="text" class="form-control" name="isbn" id="ISBN" 
-              pattern="([0-9]{15})" placeholder="Inserisci il codice ISBN" maxlength="15" minlength="15"
-              <% if(adminManagement.getBookId() != -1) { %>
-                  value="<%= adminManagement.getIsbn() %>"
-                  <% } %>
-              >
+              placeholder="Inserisci il codice ISBN" maxlength="15" minlength="15">
+            <% } else { %>
+            <p name="ISBN"> <%= adminManagement.getIsbn() %> </p>
           </div>
         </div>
 
+        <!-- Pagine -->
         <div class="form-group">
-          <label class="control-label col-sm-2" for="pagine">Numero di pagine</label>
+          <label class="control-label col-sm-2" for="pagine">Numero di pagine*</label>
           <div class="col-sm-10">
             <input type="text" class="form-control" name="pagine" id="pagine"
-              pattern="([0-9]{1,})" placeholder="Inserisci il numero di pagine"
-              <% if(adminManagement.getBookId() != -1) { %>
+              placeholder="Inserisci il numero di pagine"
+              <% if(!adminManagement.getIsbn().equals("null")) { %>
                   value="<%= adminManagement.getPagine() %>"
                   <% } %>
               >
           </div>
         </div>
 
+        <!-- Editore -->
         <div class="form-group">
           <label class="control-label col-sm-2" for="editore">Editore</label>
           <div class="col-sm-10">
             <input type="text" class="form-control" name="editore" id="editore"
               placeholder="Inserisci l'editore"
-              <% if(adminManagement.getBookId() != -1) { %>
+              <% if(!adminManagement.getIsbn().equals("null")) { %>
                   value="<%= adminManagement.getEditore() %>"
                   <% } %>
               >
           </div>
         </div>
-
+         
+        <!-- Generi -->
         <div class="form-group">
           <label class="control-label col-sm-2">Generi</label>
           <table>
             <tr>
               <td style="padding-right: 10px">
-                <input type="checkbox" name="genere" value="giallo">Giallo<br/>
-                <input type="checkbox" name="genere" value="thriller">Thriller<br/>
-                <input type="checkbox" name="genere" value="horror">Horror<br/>
-                <input type="checkbox" name="genere" value="fantasy">Fantasy<br/>
-                <input type="checkbox" name="genere" value="fantascienza">Fantascienza<br/>
-                <input type="checkbox" name="genere" value="bambini">Per bambini<br/>
-                <input type="checkbox" name="genere" value="ragazzi">Per ragazzi<br/>
-                <input type="checkbox" name="genere" value="societa">Società<br/>
+                <input type="checkbox" name="genere" value="giallo"
+                      <% if(adminManagement.checkGenere("giallo")) { %>
+                      checked="checked"
+                      <% } %>>Giallo<br/>
+                <input type="checkbox" name="genere" value="thriller"
+                      <% if(adminManagement.checkGenere("thriller")) { %>
+                      checked="checked"
+                      <% } %>>Thriller<br/>
+                <input type="checkbox" name="genere" value="horror"
+                      <% if(adminManagement.checkGenere("horror")) { %>
+                      checked="checked"
+                      <% } %>>Horror<br/>
+                <input type="checkbox" name="genere" value="fantasy"
+                      <% if(adminManagement.checkGenere("fantasy")) { %>
+                      checked="checked"
+                      <% } %>>Fantasy<br/>
+                <input type="checkbox" name="genere" value="fantascienza"
+                      <% if(adminManagement.checkGenere("fantascienza")) { %>
+                      checked="checked"
+                      <% } %>>Fantascienza<br/>
+                <input type="checkbox" name="genere" value="bambini"
+                      <% if(adminManagement.checkGenere("bambini")) { %>
+                      checked="checked"
+                      <% } %>>Per bambini<br/>
+                <input type="checkbox" name="genere" value="ragazzi"
+                      <% if(adminManagement.checkGenere("ragazzi")) { %>
+                      checked="checked"
+                      <% } %>>Per ragazzi<br/>
+                <input type="checkbox" name="genere" value="societa"
+                      <% if(adminManagement.checkGenere("societa")) { %>
+                      checked="checked"
+                      <% } %>>Società<br/>
               </td>
               <td style="vertical-align: text-top">
-                <input type="checkbox" name="genere" value="politica">Politica<br/>
-                <input type="checkbox" name="genere" value="storia">Storia<br/>
-                <input type="checkbox" name="genere" value="economia">Economia<br/>
-                <input type="checkbox" name="genere" value="diritto">Diritto<br/>
-                <input type="checkbox" name="genere" value="cucina">Cucina<br/>
-                <input type="checkbox" name="genere" value="turismo">Turismo<br/>
-                <input type="checkbox" name="genere" value="fumetto">Fumetto<br/>
+                <input type="checkbox" name="genere" value="politica"
+                      <% if(adminManagement.checkGenere("politica")) { %>
+                      checked="checked"
+                      <% } %>>Politica<br/>
+                <input type="checkbox" name="genere" value="storia"
+                      <% if(adminManagement.checkGenere("storia")) { %>
+                      checked="checked"
+                      <% } %>>Storia<br/>
+                <input type="checkbox" name="genere" value="economia"
+                      <% if(adminManagement.checkGenere("economia")) { %>
+                      checked="checked"
+                      <% } %>>Economia<br/>
+                <input type="checkbox" name="genere" value="diritto"
+                      <% if(adminManagement.checkGenere("diritto")) { %>
+                      checked="checked"
+                      <% } %>>Diritto<br/>
+                <input type="checkbox" name="genere" value="cucina"
+                      <% if(adminManagement.checkGenere("cucina")) { %>
+                      checked="checked"
+                      <% } %>>Cucina<br/>
+                <input type="checkbox" name="genere" value="turismo"
+                      <% if(adminManagement.checkGenere("turismo")) { %>
+                      checked="checked"
+                      <% } %>>Turismo<br/>
+                <input type="checkbox" name="genere" value="fumetto"
+                      <% if(adminManagement.checkGenere("fumetto")) { %>
+                      checked="checked"
+                      <% } %>>Fumetto<br/>
               </td>
             </tr>
           </table>
         </div>
 
+        <!-- Data di pubblicazione -->
         <div class="form-group">
           <label class="control-label col-sm-2" for="data-pubbl">Data di pubblicazione*</label>
           <div class="col-sm-10">
             <input class="form-control" type="text" name="dataPubbl" minlength="10" maxlength="10"
-              pattern="([0-9]{2})/([0-9]{2})/([0-9]{4})" id="data-pubbl"
-              placeholder="Inserisci la data di pubblicazione (gg/mm/aaaa)"
-              <% if(adminManagement.getBookId() != -1) { %>
+              id="data-pubbl" placeholder="Inserisci la data di pubblicazione (gg/mm/aaaa)"
+              <% if(!adminManagement.getIsbn().equals("null")) { %>
                   value="<%= adminManagement.getDataPubbl() %>"
                   <% } %>
               >
           </div>
         </div>
 
+        <!-- Lingua -->
         <div class="form-group">
           <label class="control-label col-sm-2" for="lingua">Lingua</label>
           <div class="col-sm-10">
             <input class="form-control" type="text" name="lingua" id="lingua"
               placeholder="Inserisci la lingua"
-              <% if(adminManagement.getBookId() != -1) { %>
+              <% if(!adminManagement.getIsbn().equals("null")) { %>
                   value="<%= adminManagement.getLingua() %>"
                   <% } %>
               >
           </div>
         </div>
 
+        <!-- Prezzo -->
         <div class="form-group">
           <label class="control-label col-sm-2" for="prezzo">Prezzo</label>
           <div class="col-sm-10">
@@ -202,7 +254,7 @@
               <input type="text" class="form-control" name="prezzo" id="prezzo"
                 pattern="([0-9]{1,}).([0-9]{2})"
                 placeholder="Inserisci il prezzo (es.: 19.99)"
-                <% if(adminManagement.getBookId() != -1) { %>
+                <% if(!adminManagement.getIsbn().equals("null")) { %>
                   value="<%= adminManagement.getPrezzo() %>"
                   <% } %>
                 >
@@ -213,7 +265,7 @@
                 
         <div class="form-group"> 
           <div class="col-sm-offset-2 col-sm-10">
-            <% if(adminManagement.getBookId() != -1) { %>
+            <% if(!adminManagement.getIsbn().equals("null")) { %>
             <input type="hidden" name="action" value="modify">
             <input type="button" class="btn btn-default" onclick="submitInfoLibro()" value="Salva modifiche">
             <% } else { %>
