@@ -1,7 +1,11 @@
 package bflows;
 
+import blogics.Author;
+import blogics.AuthorService;
 import blogics.BookHasAuthorService;
+import blogics.BookHasGenreService;
 import blogics.BookService;
+import blogics.GenreService;
 import java.io.Serializable;
 import services.database.*;
 import services.database.exception.*;
@@ -63,9 +67,25 @@ public class AdminManagement extends AbstractManagement implements Serializable 
     
     try {
       
+      /* Inserisco il libro */
       BookService.insertNewBook(database, titolo, descrizione, pagine, prezzo, dataPubbl, stock, isbn, lingua, editore);
-      BookHasAuthorService.insertAuthorOfBook(database, isbn, autore);
       
+      /* Cerco l'ID dell'autore */
+      int idAutore = AuthorService.searchFromName(database, autore);
+      
+      /* Se l'autore non esiste, inserisco un nuovo autore con il nome indicato */
+      if(idAutore == -1)
+        idAutore = AuthorService.insertNewAuthor(database, autore);
+      
+      /* Inserisco il legame tra libro e autore */
+      BookHasAuthorService.insertAuthorOfBook(database, isbn, idAutore);
+      
+      /* Cerco gli ID dei generi selezionati, poi inserisco i legami tra libro e generi */
+      int[] idGeneri = GenreService.getIds(database, genere);
+      
+      BookHasGenreService.insertGenresOfBook(database, isbn, idGeneri);
+      
+      /* FINITO! */
       database.commit();
       
     } catch (RecoverableDBException ex) {

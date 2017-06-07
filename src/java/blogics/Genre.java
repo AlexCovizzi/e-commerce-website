@@ -12,16 +12,16 @@ import java.sql.SQLException;
  *
  * @author alemo
  */
-public class Author {
+public class Genre {
   private int id;
   private String name;
   
-  public Author(int id, String name) {
+  public Genre(int id, String name) {
     this.id = id;
     this.name = name;
   }
   
-  public Author(ResultSet resultSet) {
+  public Genre(ResultSet resultSet) {
     try {id = resultSet.getInt("ID");} catch (SQLException sqle) {}
     try {name = resultSet.getString("NAME");} catch (SQLException sqle) {}
   }
