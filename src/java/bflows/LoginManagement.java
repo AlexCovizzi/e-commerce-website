@@ -10,6 +10,7 @@ import services.database.exception.RecoverableDBException;
 import services.database.exception.UnrecoverableDBException;
 import services.errorservice.EService;
 import services.session.Session;
+import util.Logger;
 
 public class LoginManagement extends AbstractManagement {
 	private Cookie[] cookies;
@@ -54,7 +55,7 @@ public class LoginManagement extends AbstractManagement {
 	
 	/* account.jsp -> login.jsp : logout */
 	public void logout() {
-		
+		cookies = Session.deleteCookie(cookies);
 	}
     
     /* Setters */

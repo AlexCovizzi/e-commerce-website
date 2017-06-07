@@ -8,7 +8,10 @@ public class Constants {
   public static final String CD_LANGUAGE_ENGLISH = "ENG";
   
   /* Constants for Debug */
-  public static final boolean DEBUG=true; 
+  public static final boolean DEBUG = true;
+  public static final boolean WARNING = true;
+  public static final boolean ERROR = true;
+  
   
   /** Constants for db connection */
   public static final String DB_USER_NAME         = "root";

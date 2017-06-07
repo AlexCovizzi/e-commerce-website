@@ -6,7 +6,7 @@
     <title>Il mio account</title>
 
     <!-- comprende css e script del framework, header e footer -->
-    <%@ include file="../../shared/head-common.html" %>
+    <%@ include file="../../../shared/head-common.html" %>
 
     <!-- carica i tuoi file css qui -->
     <link href="account.css" rel="stylesheet" type="text/css" />
@@ -19,12 +19,12 @@
   <body>
     <!-- header -->
     <div class="header">
-      <%@ include file="../../shared/header/header.jsp" %>
+      <%@ include file="../../../shared/header/header.jsp" %>
     </div>
     
     <!-- sotto-header -->
     <div class="sotto-header">
-      <%@ include file="../../shared/sotto-header/account-sotto-header.jsp" %>
+      <%@ include file="../../../shared/sotto-header/account-sotto-header.jsp" %>
     </div>
 
     <!-- content-area -->
@@ -45,13 +45,19 @@
         <small>Indirizzo dell'utente</small>
       </h4>
       <h4 class="account-page-link"><a href="#">Cambia Password</a></h4>
-      <h4 class="account-page-link"><a href="../homepage/homepage.jsp">Logout</a></h4>
+      
+      <form action="../../c-login/login/login.jsp" id="logout" method="post">
+        <input type="hidden" name="action" value="logout" />
+      </form>
+      <h4 class="account-page-link">
+        <a href="javascript:;" onclick="javascript:document.getElementById('logout').submit()">Logout</a>
+      </h4>
       
     </div>
 
     <!-- footer -->
     <div class="footer">
-      <%@ include file="../../shared/footer/footer.jsp" %>
+      <%@ include file="../../../shared/footer/footer.jsp" %>
     </div>
 
   </body>
