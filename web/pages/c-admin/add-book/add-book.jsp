@@ -94,6 +94,18 @@
                   >
           </div>
         </div>
+                  
+        <div class="form-group">
+          <label class="control-label col-sm-2" for="descrizione">Descrizione*</label>
+          <div class="col-sm-10">
+            <textarea id="descrizione" name="descrizione" class="form-control"
+                placeholder="Scrivi la tua recensione... (facoltativo)"
+                cols="100" rows="5"
+                <% if(!adminManagement.getIsbn().equals("null")) { %>
+                  value="<%= adminManagement.getDescrizione() %>"
+                  <% } %>></textarea>
+          </div>
+        </div>
         
         <!-- Autore -->
         <div class="form-group">
@@ -252,10 +264,23 @@
             <div class="input-group">
               <div class="input-group-addon">&euro;</div>
               <input type="text" class="form-control" name="prezzo" id="prezzo"
-                pattern="([0-9]{1,}).([0-9]{2})"
                 placeholder="Inserisci il prezzo (es.: 19.99)"
                 <% if(!adminManagement.getIsbn().equals("null")) { %>
                   value="<%= adminManagement.getPrezzo() %>"
+                  <% } %>
+                >
+            </div>
+          </div>
+        </div>
+                
+        <div class="form-group">
+          <label class="control-label col-sm-2" for="stock">Stock</label>
+          <div class="col-sm-10">
+            <div class="input-group">
+              <input type="text" class="form-control" name="stock" id="stock"
+                placeholder="Inserisci il numero di libri presenti in magazzino"
+                <% if(!adminManagement.getIsbn().equals("null")) { %>
+                  value="<%= adminManagement.getStock() %>"
                   <% } %>
                 >
             </div>
