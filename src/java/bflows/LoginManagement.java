@@ -2,15 +2,12 @@ package bflows;
 
 import blogics.User;
 import blogics.UserService;
-import java.io.Serializable;
 import javax.servlet.http.Cookie;
 import services.database.DBService;
 import services.database.Database;
 import services.database.exception.RecoverableDBException;
 import services.database.exception.UnrecoverableDBException;
-import services.errorservice.EService;
 import services.session.Session;
-import util.Logger;
 
 public class LoginManagement extends AbstractManagement {
 	private Cookie[] cookies;
@@ -20,7 +17,7 @@ public class LoginManagement extends AbstractManagement {
 	private String name;
 	private String surname;
     
-	/* signup.jsp -> login.jsp : signup */
+	/* signup.jsp -> signup.jsp : signup */
     public void signup() throws UnrecoverableDBException {
         Database database = DBService.getDataBase();
         try {

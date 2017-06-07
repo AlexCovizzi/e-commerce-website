@@ -2,7 +2,7 @@ package bflows;
 
 import java.io.Serializable;
 
-public class AccountManagement implements Serializable {
+public class AccountManagement extends AbstractManagement implements Serializable {
 	
 	/* wishlist.jsp -> wishlist.jsp : remove */
 	public void removeFromWishlist() {

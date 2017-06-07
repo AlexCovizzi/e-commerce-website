@@ -31,9 +31,9 @@
     if (loggedIn) {
       loginManagement.setCookies(cookies);
       loginManagement.logout();
-      for(int i=0; i<loginManagement.getCookies().length; i++)
-        response.addCookie(loginManagement.getCookie(i));
-      loggedIn=false;
+      for(Cookie cookie : loginManagement.getCookies())
+        response.addCookie(cookie);
+      loggedIn = false;
     }
   }
   

@@ -14,7 +14,7 @@ public class Logger {
 			level.equals(ERROR) && Constants.ERROR) {
 			
 			java.util.Date now = new java.util.Date();
-			System.out.println(SEPARATOR + now + "\t" + level + "\n" + msg +"\n");
+			System.out.println(SEPARATOR + level + "\t" + now + "\n" + msg +"\n");
 		}
 	}
 	
@@ -24,7 +24,7 @@ public class Logger {
 			level.equals(ERROR) && Constants.ERROR) {
 			
 			java.util.Date now = new java.util.Date();
-			System.out.println(SEPARATOR + now + "\t" + level + "\t" + className + " : " + methodName + "\n" + msg +"\n");
+			System.out.println(SEPARATOR + level + "\t" + now + "\t" + className + " : " + methodName + "\n" + msg +"\n");
 		}
 	}
 	
