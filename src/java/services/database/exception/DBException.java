@@ -12,6 +12,7 @@ public class DBException extends Exception {
 	public DBException(String msg) {
 		super(msg);
 		this.message = msg;
+		Logger.log(Logger.WARNING, msg);
 	}
 	
 	public DBException(String level, Exception ex, String className, String methodName, String msg) {
