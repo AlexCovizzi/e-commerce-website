@@ -102,11 +102,10 @@ public class AuthorService {
 		}
     
     sql = sqlBuilder
-			.insertInto("author")
+			.insertInto("author", "id", "name")
 			.values(
-					String.valueOf(id),
-					Conversion.getDatabaseString(nome),
-					Conversion.getDatabaseString("S"))
+					id,
+					Conversion.getDatabaseString(nome))
 			.done();
     
     database.modify(sql);

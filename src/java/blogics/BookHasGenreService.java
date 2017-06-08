@@ -31,10 +31,10 @@ public class BookHasGenreService {
     /* Inserisco una riga nella tabella per ogni genere selzionato */
     for(int i = 0; i < generi.length; i++) {
       sql = sqlBuilder
-          .insertInto("book_has_genre")
+          .insertInto("Book_has_genre", "book_isbn", "genre_id")
           .values(
               Conversion.getDatabaseString(bookIsbn),
-              String.valueOf(generi[i]))
+              generi[i])
           .done();
       
       database.modify(sql);

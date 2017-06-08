@@ -28,10 +28,10 @@ public class BookHasAuthorService {
 
     /* Inserimento */
     sql = sqlBuilder
-			.insertInto("Book_has_author")
+			.insertInto("Book_has_author", "book_isbn", "author_id")
 			.values(
 					Conversion.getDatabaseString(isbn),
-					String.valueOf(idAutore))
+					idAutore)
 			.done();
     
     database.modify(sql);

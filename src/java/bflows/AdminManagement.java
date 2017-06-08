@@ -16,7 +16,7 @@ public class AdminManagement extends AbstractManagement implements Serializable 
   private String descrizione;
   private String autore;
   private String isbn = "null";
-  private int pagine;
+  private int pagine = -1;
   private String editore;
   private String[] genere;
   private String dataPubbl;
@@ -68,6 +68,7 @@ public class AdminManagement extends AbstractManagement implements Serializable 
     try {
       
       /* Inserisco il libro */
+      
       BookService.insertNewBook(database, titolo, descrizione, pagine, prezzo, dataPubbl, stock, isbn, lingua, editore);
       
       /* Cerco l'ID dell'autore */

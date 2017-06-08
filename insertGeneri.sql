@@ -12,4 +12,5 @@ INSERT INTO genre VALUES
 ("11", "economia", "S"),
 ("12", "diritto", "S"),
 ("13", "cucina", "S"),
-("14", "fumetto", "S");
+("14", "fumetto", "S"),
+("15", "turismo", "S");

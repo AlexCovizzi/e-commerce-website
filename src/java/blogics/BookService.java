@@ -53,17 +53,17 @@ public class BookService {
     }
     
     /* Inserimento */	
+    
     sql = sqlBuilder
 			.insertInto("book", "title", "description", 
 					"pages", "price", "publication_date", "stock",
-					"isbn", "language", "publisher", "timestamp_c")
-			.values(
-					Conversion.getDatabaseString(title),
+					"isbn", "language", "publisher", "timestamp")
+			.values(Conversion.getDatabaseString(title),
 					Conversion.getDatabaseString(description),
-					String.valueOf(pages),
-					String.valueOf(price),
+          pages,
+					price,
 					Conversion.getDatabaseString(publication_date),
-					String.valueOf(stock),
+					stock,
 					Conversion.getDatabaseString(isbn),
 					Conversion.getDatabaseString(language),
 					Conversion.getDatabaseString(publisher),

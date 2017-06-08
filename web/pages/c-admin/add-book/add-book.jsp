@@ -139,7 +139,7 @@
           <div class="col-sm-10">
             <input type="text" class="form-control" name="pagine" id="pagine"
               placeholder="Inserisci il numero di pagine"
-              <% if(!adminManagement.getIsbn().equals("null")) { %>
+              <% if(!adminManagement.getIsbn().equals("null") && adminManagement.getPagine() != -1) { %>
                   value="<%= adminManagement.getPagine() %>"
                   <% } %>
               >
