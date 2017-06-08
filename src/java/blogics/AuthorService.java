@@ -28,7 +28,7 @@ public class AuthorService {
 
     /* Cerco l'autore con il nome passato come parametro */
     sql = sqlBuilder
-        .select("*")
+        .select("id, name")
         .from("author")
         .where("fl_active='S'")
           .and("name = " + Conversion.getDatabaseString(nome))
