@@ -1,6 +1,5 @@
 package bflows;
 
-import blogics.Author;
 import blogics.AuthorService;
 import blogics.BookHasAuthorService;
 import blogics.BookHasGenreService;
@@ -55,7 +54,8 @@ public class AdminManagement extends AbstractManagement implements Serializable 
 		
 	}
 	
-  /* book-page.jsp / search.jsp -> add-book.jsp : view */
+  /* search-jsp/book-page.jsp -> add-book.jsp : view */
+	/* manda anche isbn libro come parametro */
 	public void recuperaInfo() {
 		
 	}
@@ -96,8 +96,7 @@ public class AdminManagement extends AbstractManagement implements Serializable 
     }
 	}
 	
-	/* search-jsp/book-page.jsp -> add-book.jsp : view */
-	/* manda anche isbn libro come parametro */
+	
 	
 	
 	/* add-book.jsp -> add-book.jsp : modify */

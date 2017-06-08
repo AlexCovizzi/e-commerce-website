@@ -99,7 +99,7 @@
           <label class="control-label col-sm-2" for="descrizione">Descrizione*</label>
           <div class="col-sm-10">
             <textarea id="descrizione" name="descrizione" class="form-control"
-                placeholder="Scrivi la tua recensione... (facoltativo)"
+                placeholder="Scrivi una breve descrizione del libro"
                 cols="100" rows="5"
                 <% if(!adminManagement.getIsbn().equals("null")) { %>
                   value="<%= adminManagement.getDescrizione() %>"
@@ -129,6 +129,7 @@
               placeholder="Inserisci il codice ISBN" maxlength="15" minlength="15">
             <% } else { %>
             <p name="ISBN"> <%= adminManagement.getIsbn() %> </p>
+            <% } %>
           </div>
         </div>
 

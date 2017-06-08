@@ -12,7 +12,7 @@ function isEmpty(value) {
 
 function isValidIsbn(value)
 {
-  if(value.length !== 15)
+  if(value.length !== 13)
     return false;
   
   for(var count = 0; count < value.length; count++) {
@@ -63,7 +63,7 @@ function submitInfoLibro()
   }
   
   if(!isValidIsbn(f.isbn.value)) {
-    alert("Il codice ISBN è formato da 15 cifre. Inserirne uno corretto.");
+    alert("Il codice ISBN è formato da 13 cifre. Inserirne uno corretto.");
     return;
   }
   
