@@ -27,6 +27,16 @@
     }
   }
   
+  if(action.equals("logout")) {
+    if (loggedIn) {
+      loginManagement.setCookies(cookies);
+      loginManagement.logout();
+      for(Cookie cookie : loginManagement.getCookies())
+        response.addCookie(cookie);
+      loggedIn = false;
+    }
+  }
+  
   message = loginManagement.getErrorMessage();
   if(message != null) action = "view";
   
@@ -50,9 +60,9 @@
   <body>
     
     <% if(loggedIn) { %>
-      <!-- Mando l'utente nella Home page -->
+      <!-- Mando l'utente nella Home page se è già loggato -->
       <script language="javascript">
-        window.location = "../../c-search/homepage/homepage.jsp";
+        location.replace("../../c-search/homepage/homepage.jsp");
       </script>
     <% } %>
     

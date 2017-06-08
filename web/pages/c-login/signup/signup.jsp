@@ -114,7 +114,13 @@
       
       <%} else if(action.equals("signup")) {%>
       
-      Registrazione avvenuta con successo. <a href="../login/login.jsp">Effettua l'accesso</a>
+      Registrazione avvenuta con successo. Verrai reindirizzato alla pagina di <a href="../login/login.jsp">login</a><br />
+      <script language="javascript">
+        setTimeout(function(){
+          window.location.replace("../login/login.jsp");
+        }, 1000);
+      </script>
+      
       
       <%}%>
     </div>

@@ -16,7 +16,7 @@
       
     </div>
 
-    <% if(true) {%>
+    <% if(loggedIn) {%>
       <!-- menu a destra (logged in) -->
       <div id="menu-right" class="collapse navbar-collapse navbar-right">
         <ul class="nav navbar-nav">

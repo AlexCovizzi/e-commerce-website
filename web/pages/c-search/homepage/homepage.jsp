@@ -8,10 +8,10 @@
 <jsp:useBean id="searchManagement" scope="page" class="bflows.SearchManagement" />
 <jsp:setProperty name="searchManagement" property="*" />
 
-<%int i;
-
-  Cookie[] cookies=null;
-  cookies=request.getCookies();
+<%
+  Cookie[] cookies = request.getCookies();
+  boolean loggedIn = (cookies != null);
+  
   
   /* Da finire - Faccio prima l'Admin - Alessio */
 %>

@@ -33,6 +33,7 @@ public class Session {
     }
 
     public static String getValue(Cookie cookies[], String name, int position) {
+		if(cookies == null) return null;
         int i;
         boolean found=false;
         String value=null;
@@ -72,10 +73,18 @@ public class Session {
     }
     
     public static String getUserName(Cookie[] cookies) {
-      return getValue(cookies, "name", 2);
+      return getValue(cookies, "name", 0);
     }
     
     public static String getUserSurname(Cookie[] cookies) {
-      return getValue(cookies, "surname", 3);
+      return getValue(cookies, "surname", 0);
+    }
+	
+	public static boolean isUserAdmin(Cookie[] cookies) {
+      return Boolean.getBoolean(getValue(cookies, "admin", 0));
+    }
+	
+	public static boolean isUserBlocked(Cookie[] cookies) {
+      return Boolean.getBoolean(getValue(cookies, "blocked", 0));
     }
 }

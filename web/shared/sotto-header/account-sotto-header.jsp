@@ -1,6 +1,3 @@
-<link href="../../shared/sotto-header/account-sotto-header.css" rel="stylesheet" type="text/css" />
-<script type="text/javascript" src="../../shared/sotto-header/account-sotto-header.js"></script>
-
 <nav id="account-navbar" class='navbar navbar-default'>
   <div class='container-fluid'>
     
@@ -15,8 +12,12 @@
         <li><a href="#">La mia Lista Desideri</a></li>
         <li><a href="../../pages/address/address.jsp">Il mio Indirizzo</a></li>
         <li><a href="#">Cambia Password</a></li>
-        <li><a href="../homepage/homepage.jsp">Logout</a></li>
+        <li><a href="javascript:;" onclick="javascript:document.getElementById('logout').submit()">Logout</a></li>
       </ul>
+      
+      <form action="../../c-login/login/login.jsp" id="logout" method="post">
+        <input type="hidden" name="action" value="logout" />
+      </form>
     </div>
     
   </div>
