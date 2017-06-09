@@ -103,3 +103,77 @@ Intanto lo lascio come testo, poi magari vederemo di inserirlo come scelta da ua
                             <option value="2002">2002</option>
                         </select>
                     </div><!-- input-group -->
+
+CODICE STATICO DEI GENERI
+<!-- Generi -->
+        <!-- <div class="form-group">
+          <label class="control-label col-sm-2">Generi</label>
+          <table>
+            <tr>
+              <td style="padding-right: 10px">
+                <input type="checkbox" name="bookGeneri" value="giallo"
+                      <% if(adminManagement.checkGenere("giallo")) { %>
+                      checked="checked"
+                      <% } %>>Giallo<br/>
+                <input type="checkbox" name="bookGeneri" value="thriller"
+                      <% if(adminManagement.checkGenere("thriller")) { %>
+                      checked="checked"
+                      <% } %>>Thriller<br/>
+                <input type="checkbox" name="bookGeneri" value="horror"
+                      <% if(adminManagement.checkGenere("horror")) { %>
+                      checked="checked"
+                      <% } %>>Horror<br/>
+                <input type="checkbox" name="bookGeneri" value="fantasy"
+                      <% if(adminManagement.checkGenere("fantasy")) { %>
+                      checked="checked"
+                      <% } %>>Fantasy<br/>
+                <input type="checkbox" name="bookGeneri" value="fantascienza"
+                      <% if(adminManagement.checkGenere("fantascienza")) { %>
+                      checked="checked"
+                      <% } %>>Fantascienza<br/>
+                <input type="checkbox" name="bookGeneri" value="bambini"
+                      <% if(adminManagement.checkGenere("bambini")) { %>
+                      checked="checked"
+                      <% } %>>Per bambini<br/>
+                <input type="checkbox" name="bookGeneri" value="ragazzi"
+                      <% if(adminManagement.checkGenere("ragazzi")) { %>
+                      checked="checked"
+                      <% } %>>Per ragazzi<br/>
+                <input type="checkbox" name="bookGeneri" value="societa"
+                      <% if(adminManagement.checkGenere("societa")) { %>
+                      checked="checked"
+                      <% } %>>Società<br/>
+              </td>
+              <td style="vertical-align: text-top">
+                <input type="checkbox" name="bookGeneri" value="politica"
+                      <% if(adminManagement.checkGenere("politica")) { %>
+                      checked="checked"
+                      <% } %>>Politica<br/>
+                <input type="checkbox" name="bookGeneri" value="storia"
+                      <% if(adminManagement.checkGenere("storia")) { %>
+                      checked="checked"
+                      <% } %>>Storia<br/>
+                <input type="checkbox" name="bookGeneri" value="economia"
+                      <% if(adminManagement.checkGenere("economia")) { %>
+                      checked="checked"
+                      <% } %>>Economia<br/>
+                <input type="checkbox" name="bookGeneri" value="diritto"
+                      <% if(adminManagement.checkGenere("diritto")) { %>
+                      checked="checked"
+                      <% } %>>Diritto<br/>
+                <input type="checkbox" name="bookGeneri" value="cucina"
+                      <% if(adminManagement.checkGenere("cucina")) { %>
+                      checked="checked"
+                      <% } %>>Cucina<br/>
+                <input type="checkbox" name="bookGeneri" value="turismo"
+                      <% if(adminManagement.checkGenere("turismo")) { %>
+                      checked="checked"
+                      <% } %>>Turismo<br/>
+                <input type="checkbox" name="bookGeneri" value="fumetto"
+                      <% if(adminManagement.checkGenere("fumetto")) { %>
+                      checked="checked"
+                      <% } %>>Fumetto<br/>
+              </td>
+            </tr>
+          </table>
+        </div> -->

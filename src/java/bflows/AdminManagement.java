@@ -18,11 +18,31 @@ public class AdminManagement extends AbstractManagement implements Serializable 
   private String isbn = "null";
   private int pagine = -1;
   private String editore;
-  private String[] genere;
+  private String[] bookGeneri; /* Serve per salvare i generi selezionati del libro */
   private String dataPubbl;
   private String lingua;
   private float prezzo;
   private int stock;
+  private String[] generi; /* Serve per scrivere i generi salvati nel DB */
+  
+  /* azione per view semplice */
+  public void visualizza() throws UnrecoverableDBException {
+    Database database = DBService.getDataBase();
+    
+    try {
+      
+      /* Recupero i generi dal DB */
+      this.recuperaGeneri(database);
+      
+      /* FINITO! */
+      database.commit();
+    } catch (RecoverableDBException ex) {
+      database.rollBack();
+      setErrorMessage(ex.getMsg());
+		} finally {
+      database.close();
+    }
+  }
   
 	/* users.jsp -> users.jsp : block */
 	public void blockUser() {
@@ -67,34 +87,61 @@ public class AdminManagement extends AbstractManagement implements Serializable 
     
     try {
       
-      /* Inserisco il libro */
+      /* Recupero i generi dal DB */
+      this.recuperaGeneri(database);
       
+      /* Inserisco il libro */
+      System.out.println("");
+      System.out.println("----- addBook -----");
+      System.out.println("Inserimento del libro...");
       BookService.insertNewBook(database, titolo, descrizione, pagine, prezzo, dataPubbl, stock, isbn, lingua, editore);
+      System.out.println("Libro inserito!");
       
       /* Cerco l'ID dell'autore */
+      System.out.println("Ricerca dell'autore...");
       int idAutore = AuthorService.searchFromName(database, autore);
-      
+      System.out.println("Id autore trovato: " + idAutore);
       /* Se l'autore non esiste, inserisco un nuovo autore con il nome indicato */
-      if(idAutore == -1)
+      if(idAutore == -1) {
+        System.out.println("Inserimento dell'autore...");
         idAutore = AuthorService.insertNewAuthor(database, autore);
+        System.out.println("Autore inserito!");
+      }
       
       /* Inserisco il legame tra libro e autore */
+      System.out.println("Scrittura del autore del libro...");
       BookHasAuthorService.insertAuthorOfBook(database, isbn, idAutore);
+      System.out.println("Scritto!");
       
       /* Cerco gli ID dei generi selezionati, poi inserisco i legami tra libro e generi */
-      int[] idGeneri = GenreService.getIds(database, genere);
+      for(int i = 0; i < bookGeneri.length; i++)
+        System.out.println(bookGeneri[i]);
       
+      System.out.println("");
+      
+      System.out.println("Cerco gli id dei generi indicati...");
+      int[] idGeneri = GenreService.getIds(database, bookGeneri);
+      for(int i = 0; i < idGeneri.length; i++)
+        System.out.println("Id del bookGeneri " + bookGeneri[i] + ": " + idGeneri[i]);
+      
+      System.out.println("Scrittura dei generi del libro...");
       BookHasGenreService.insertGenresOfBook(database, isbn, idGeneri);
+      System.out.println("Scritti!");
       
       /* FINITO! */
       database.commit();
+      System.out.println("Stato: committed");
       
     } catch (RecoverableDBException ex) {
+      System.out.println("Oh, cavolo! Qualcosa è andato storto!");
       database.rollBack();
       setErrorMessage(ex.getMsg());
 		} finally {
       database.close();
+      System.out.println("Chiusura del database... Fatto!");
     }
+    
+    System.out.println("Abbiamo finito, penso!");
 	}
 	
 	
@@ -105,15 +152,20 @@ public class AdminManagement extends AbstractManagement implements Serializable 
 		
 	}
   
-  public boolean checkGenere(String genere) {
+  /* Funzioni utili */
+  public boolean checkGenere(String bookGeneri) {
     if(isbn.equals("null"))
       return false;
     
-    for(int j = 0; j < this.genere.length; j++)
-      if(this.genere[j].equals(genere)) 
+    for(int j = 0; j < this.bookGeneri.length; j++)
+      if(this.bookGeneri[j].equals(bookGeneri)) 
         return true;
     
     return false;
+  }
+  
+  public void recuperaGeneri(Database database) throws RecoverableDBException {
+    generi = GenreService.getGeneri(database);
   }
   
   /* Getters */
@@ -145,12 +197,12 @@ public class AdminManagement extends AbstractManagement implements Serializable 
     return editore;
   }
   
-  public String[] getGenere() {
-    return genere;
+  public String[] getBookGeneri() {
+    return bookGeneri;
   }
   
-  public String getGenere(int index) {
-    return this.genere[index];
+  public String getBookGeneri(int index) {
+    return this.bookGeneri[index];
   }
   
   public String getDataPubbl() {
@@ -167,6 +219,14 @@ public class AdminManagement extends AbstractManagement implements Serializable 
   
   public int getStock() {
     return stock;
+  }
+  
+  public String[] getGeneri() {
+    return generi;
+  }
+  
+  public String getGeneri(int index) {
+    return this.generi[index];
   }
   
   /* Setters */
@@ -198,12 +258,12 @@ public class AdminManagement extends AbstractManagement implements Serializable 
     this.editore = editore;
   }
   
-  public void setGenere(String[] genere) {
-    this.genere = genere;
+  public void setBookGeneri(String[] bookGeneri) {
+    this.bookGeneri = bookGeneri;
   }
 
-  public void setGenere(int index, String genere) {
-    this.genere[index] = genere;
+  public void setBookGeneri(int index, String bookGeneri) {
+    this.bookGeneri[index] = bookGeneri;
   }
   
   public void setDataPubbl(String dataPubbl) {
@@ -220,5 +280,13 @@ public class AdminManagement extends AbstractManagement implements Serializable 
   
   public void setStock(int stock) {
     this.stock = stock;
+  }
+  
+  public void setGeneri(String[] generi) {
+    this.generi = generi;
+  }
+  
+  public void setGeneri(int index, String generi) {
+    this.generi[index] = generi;
   }
 }

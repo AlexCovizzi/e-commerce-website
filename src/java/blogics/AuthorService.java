@@ -40,6 +40,7 @@ public class AuthorService {
     
     try {
       exist = resultSet.next();
+      
       if(exist) {
         /* L'autore esiste e ritorno il suo ID */
         Author author = new Author(resultSet);

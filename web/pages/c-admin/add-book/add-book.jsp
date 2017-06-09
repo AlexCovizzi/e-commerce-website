@@ -25,7 +25,10 @@
   String action = request.getParameter("action");
   if (action == null) action="view";
   
-  if(action.equals("view") && !adminManagement.getIsbn().equals("null")) {
+  if(action.equals("view") && adminManagement.getIsbn().equals("null")) {
+    adminManagement.visualizza();
+  }
+  else {
     adminManagement.recuperaInfo();
   }
   if(action.equals("add")) {
@@ -159,74 +162,26 @@
           </div>
         </div>
          
-        <!-- Generi -->
+        <!-- Generi dinamici -->
         <div class="form-group">
           <label class="control-label col-sm-2">Generi</label>
           <table>
             <tr>
               <td style="padding-right: 10px">
-                <input type="checkbox" name="genere" value="giallo"
-                      <% if(adminManagement.checkGenere("giallo")) { %>
+                <% for(i = 0; i < ((adminManagement.getGeneri().length / 2) + 1); i++) { %>
+                <input type="checkbox" name="bookGeneri" value="<%= adminManagement.getGeneri(i) %>"
+                      <% if(adminManagement.checkGenere(adminManagement.getGeneri(i))) { %>
                       checked="checked"
-                      <% } %>>Giallo<br/>
-                <input type="checkbox" name="genere" value="thriller"
-                      <% if(adminManagement.checkGenere("thriller")) { %>
-                      checked="checked"
-                      <% } %>>Thriller<br/>
-                <input type="checkbox" name="genere" value="horror"
-                      <% if(adminManagement.checkGenere("horror")) { %>
-                      checked="checked"
-                      <% } %>>Horror<br/>
-                <input type="checkbox" name="genere" value="fantasy"
-                      <% if(adminManagement.checkGenere("fantasy")) { %>
-                      checked="checked"
-                      <% } %>>Fantasy<br/>
-                <input type="checkbox" name="genere" value="fantascienza"
-                      <% if(adminManagement.checkGenere("fantascienza")) { %>
-                      checked="checked"
-                      <% } %>>Fantascienza<br/>
-                <input type="checkbox" name="genere" value="bambini"
-                      <% if(adminManagement.checkGenere("bambini")) { %>
-                      checked="checked"
-                      <% } %>>Per bambini<br/>
-                <input type="checkbox" name="genere" value="ragazzi"
-                      <% if(adminManagement.checkGenere("ragazzi")) { %>
-                      checked="checked"
-                      <% } %>>Per ragazzi<br/>
-                <input type="checkbox" name="genere" value="societa"
-                      <% if(adminManagement.checkGenere("societa")) { %>
-                      checked="checked"
-                      <% } %>>Società<br/>
+                      <% } %>><%= adminManagement.getGeneri(i) %><br/>
+                <% } %>
               </td>
               <td style="vertical-align: text-top">
-                <input type="checkbox" name="genere" value="politica"
-                      <% if(adminManagement.checkGenere("politica")) { %>
+                <% for(i = ((adminManagement.getGeneri().length / 2) + 1); i < adminManagement.getGeneri().length; i++) { %>
+                <input type="checkbox" name="bookGeneri" value="<%= adminManagement.getGeneri(i) %>"
+                      <% if(adminManagement.checkGenere(adminManagement.getGeneri(i))) { %>
                       checked="checked"
-                      <% } %>>Politica<br/>
-                <input type="checkbox" name="genere" value="storia"
-                      <% if(adminManagement.checkGenere("storia")) { %>
-                      checked="checked"
-                      <% } %>>Storia<br/>
-                <input type="checkbox" name="genere" value="economia"
-                      <% if(adminManagement.checkGenere("economia")) { %>
-                      checked="checked"
-                      <% } %>>Economia<br/>
-                <input type="checkbox" name="genere" value="diritto"
-                      <% if(adminManagement.checkGenere("diritto")) { %>
-                      checked="checked"
-                      <% } %>>Diritto<br/>
-                <input type="checkbox" name="genere" value="cucina"
-                      <% if(adminManagement.checkGenere("cucina")) { %>
-                      checked="checked"
-                      <% } %>>Cucina<br/>
-                <input type="checkbox" name="genere" value="turismo"
-                      <% if(adminManagement.checkGenere("turismo")) { %>
-                      checked="checked"
-                      <% } %>>Turismo<br/>
-                <input type="checkbox" name="genere" value="fumetto"
-                      <% if(adminManagement.checkGenere("fumetto")) { %>
-                      checked="checked"
-                      <% } %>>Fumetto<br/>
+                      <% } %>><%= adminManagement.getGeneri(i) %><br/>
+                <% } %>
               </td>
             </tr>
           </table>
