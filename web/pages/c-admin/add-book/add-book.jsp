@@ -97,31 +97,56 @@
                   >
           </div>
         </div>
-                  
+        
+        <!-- Descrizione -->
         <div class="form-group">
           <label class="control-label col-sm-2" for="descrizione">Descrizione*</label>
           <div class="col-sm-10">
             <textarea id="descrizione" name="descrizione" class="form-control"
                 placeholder="Scrivi una breve descrizione del libro"
-                cols="100" rows="5"
-                <% if(!adminManagement.getIsbn().equals("null")) { %>
-                  value="<%= adminManagement.getDescrizione() %>"
-                  <% } %>></textarea>
+                cols="100" rows="5"><% if(!adminManagement.getIsbn().equals("null") && !adminManagement.getDescrizione().equals("-")) { %><%= adminManagement.getDescrizione() %><% } %></textarea>
           </div>
         </div>
         
         <!-- Autore -->
-        <div class="form-group">
-          <label class="control-label col-sm-2" for="autore">Autore</label>
+        <div class="form-group" id="autori">
+          <label class="control-label col-sm-2">Autori</label>
+          <div class ="col-sm-10" id="autoriDiv">
+            <div class="autoreCampo" id="autore0">
+              <input type="text" class="form-control" name="autore" id="formAutore0"
+                placeholder="Inserisci l'autore del libro"
+                <% if(!adminManagement.getIsbn().equals("null")) { %>
+                    value="<%= adminManagement.getAutore(0) %>"
+                    <% } %>
+                >
+            </div>
+          
+          <% if(!adminManagement.getIsbn().equals("null")) { %>
+          
+          <script> setCounter(<%= adminManagement.getAutore().length %>) </script>
+          
+            <% for(int j = 1; j < adminManagement.getAutore().length; j++) { %>
+              <div class="autoreCampo input-group" id="autore<%= j %>">
+                <input type="text" class="form-control" name="autore" id="formAutore<%= j %>"
+                  placeholder="Inserisci l'autore del libro"
+                  <% if(!adminManagement.getIsbn().equals("null")) { %>
+                      value="<%= adminManagement.getAutore(j) %>"
+                      <% } %>
+                  >
+                <span class="input-group-btn">
+                  <input type="button" class="btn btn-danger" onclick="removeElement('autoriDiv','autore<%= j %>')" value="X">
+                </span>
+              </div>
+            <% } %>
+          <% } %>
+          
+          </div>
+          <div class="col-sm-2"></div> <!-- Serve solo per allineare il bottone -->
           <div class="col-sm-10">
-            <input type="text" class="form-control" name="autore" id="autore"
-              placeholder="Inserisci l'autore del libro"
-              <% if(!adminManagement.getIsbn().equals("null")) { %>
-                  value="<%= adminManagement.getAutore() %>"
-                  <% } %>
-              >
+            <input type="button" class="btn btn-default" onclick="aggiungiAutore()" value="Aggiungi autore"/>
           </div>
         </div>
+        
         
         <!-- Isbn -->
         <div class="form-group">
@@ -193,7 +218,7 @@
           <div class="col-sm-10">
             <input class="form-control" type="text" name="dataPubbl" minlength="10" maxlength="10"
               id="data-pubbl" placeholder="Inserisci la data di pubblicazione (gg/mm/aaaa)"
-              <% if(!adminManagement.getIsbn().equals("null")) { %>
+              <% if(!adminManagement.getIsbn().equals("null") && !adminManagement.getDataPubbl().equals("-")) { %>
                   value="<%= adminManagement.getDataPubbl() %>"
                   <% } %>
               >
@@ -228,20 +253,20 @@
             </div>
           </div>
         </div>
-                
+        
+        <!-- Stock -->
         <div class="form-group">
           <label class="control-label col-sm-2" for="stock">Stock</label>
           <div class="col-sm-10">
-            <div class="input-group">
-              <input type="text" class="form-control" name="stock" id="stock"
-                placeholder="Inserisci il numero di libri presenti in magazzino"
-                <% if(!adminManagement.getIsbn().equals("null")) { %>
-                  value="<%= adminManagement.getStock() %>"
-                  <% } %>
-                >
-            </div>
+            <input type="text" class="form-control" name="stock" id="stock"
+              placeholder="Inserisci il numero di libri presenti in magazzino"
+              <% if(!adminManagement.getIsbn().equals("null")) { %>
+                value="<%= adminManagement.getStock() %>"
+                <% } %>
+              >
           </div>
         </div>
+              
         <small>*il campo non è obbligatorio</small>
                 
         <div class="form-group"> 

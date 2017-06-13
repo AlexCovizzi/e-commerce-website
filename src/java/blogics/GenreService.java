@@ -92,4 +92,31 @@ public class GenreService {
     
     return risultato;
   }
+  
+  public static String getGenreFromId(Database database, int id)
+      throws RecoverableDBException {
+    String sql = "";
+    SqlBuilder sqlBuilder = new SqlBuilder();
+
+    sql = sqlBuilder
+        .select("name")
+        .from("genre")
+        .where("fl_active = 'S'")
+          .and("id = " + id)
+        .done();
+    
+    String nome = null;
+    ResultSet resultSet = database.select(sql);
+    
+     try {
+      if(resultSet.next())
+        nome = resultSet.getString("name");
+      
+      resultSet.close();
+    } catch (SQLException e) {
+      throw new RecoverableDBException("GenreService: getGenreFromId(): Errore sul ResultSet.");
+    }
+    
+    return nome;
+  }
 }

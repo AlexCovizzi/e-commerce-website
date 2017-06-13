@@ -1,17 +1,15 @@
 
 function isEmpty(value) {
-
   if (value === null || value.length === 0)
     return true;
   for (var count = 0; count < value.length; count++) {
     if (value.charAt(count) !== " ") return false;
   }
+  
   return true;
-
 }
 
-function isValidIsbn(value)
-{
+function isValidIsbn(value) {
   if(value.length !== 13)
     return false;
   
@@ -23,25 +21,22 @@ function isValidIsbn(value)
   return true;
 }
 
-function isValidNumeroPagine(value)
-{
+function isValidNumeroPagine(value) {
   return !isNaN(value);
 }
 
-function isValidData(value)
-{
+function isValidData(value) {
   for(var count = 0; count < value.length; count++) {
     if((count === 2 || count === 5) && value.charAt(count) !== "/")
       return false;
-    else if(isNaN(value.charAt(count)))
+    if((count !== 2 && count !== 5) && isNaN(value.charAt(count)))
       return false;
   }
   
   return true;
 }
 
-function submitInfoLibro()
-{
+function submitInfoLibro() {
   f=document.infoLibroForm;
 
   // Titolo
@@ -51,10 +46,10 @@ function submitInfoLibro()
   }
   
   // Autore
-  if (isEmpty(f.autore.value)) {
+  /*if (isEmpty(f.autore.value)) {
     alert("Inserire il nome dell'autore.");
     return;
-  }
+  }*/
   
   // ISBN
   if (isEmpty(f.isbn.value)) {
@@ -103,8 +98,70 @@ function submitInfoLibro()
   return;
 }
 
-function annulla()
-{
+function annulla() {
   document.annullaForm.submit();
   return;
+}
+
+/* Variabile per tenere il conto degli autori inseriti */
+var i = 0;
+
+function inc() {
+  i = i + 1;
+}
+
+function dec() {
+  if(i > 1)
+    i = i - 1;
+}
+
+/* Rimuovo un div */
+function removeElement(parentDiv, childDiv) {
+  if (childDiv === parentDiv){
+    alert("The parent div cannot be removed.");
+  }
+  else if (document.getElementById(childDiv)) {
+    var child = document.getElementById(childDiv);
+    var parent = document.getElementById(parentDiv);
+    parent.removeChild(child);
+    dec();
+  }
+  else {
+    alert("Child div has already been removed or does not exist.");
+    return false;
+  }
+}
+
+/* Aggiungo un campo autore al click sul bottone "Aggiungi autore" */
+function aggiungiAutore() {
+  inc();
+  var divNuovoAutore = document.createElement('div');
+  divNuovoAutore.setAttribute("class", "autoreCampo input-group");
+  divNuovoAutore.setAttribute("id", "autore" + i);
+
+  var formNuovoAutore = document.createElement("input");
+  formNuovoAutore.setAttribute("type", "text");
+  formNuovoAutore.setAttribute("class", "form-control");
+  formNuovoAutore.setAttribute("name", "autore");
+  formNuovoAutore.setAttribute("id", "formAutore" + i);
+  formNuovoAutore.setAttribute("placeholder", "Inserisci l'autore del libro");
+
+  var spanInputGroupBtn = document.createElement("span");
+  spanInputGroupBtn.setAttribute("class", "input-group-btn");
+
+  var bottoneRimuovi = document.createElement("input");
+  bottoneRimuovi.setAttribute("type", "button");
+  bottoneRimuovi.setAttribute("class", "btn btn-danger");
+  bottoneRimuovi.setAttribute("onclick", "removeElement('autoriDiv','autore" + i + "')");
+  bottoneRimuovi.setAttribute("value", "X");
+
+  divNuovoAutore.appendChild(formNuovoAutore);
+  divNuovoAutore.appendChild(spanInputGroupBtn);
+  spanInputGroupBtn.appendChild(bottoneRimuovi);
+
+  document.getElementById("autoriDiv").appendChild(divNuovoAutore);
+}
+
+function setCounter(count) {
+  i = count;
 }

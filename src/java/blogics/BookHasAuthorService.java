@@ -3,6 +3,7 @@ package blogics;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Vector;
 import services.database.Database;
 import services.database.exception.RecoverableDBException;
 import util.Conversion;
@@ -35,5 +36,37 @@ public class BookHasAuthorService {
 			.done();
     
     database.modify(sql);
+  }
+  
+  public static BookHasAuthor[] getAuthorsFromIsbn(Database database, String isbn)
+  throws RecoverableDBException {
+    String sql = "";
+    SqlBuilder sqlBuilder = new SqlBuilder();
+    
+    sql = sqlBuilder
+        .select("*")
+        .from("book_has_author")
+        .where("book_isbn = " + Conversion.getDatabaseString(isbn))
+        .done();
+    
+    ResultSet resultSet = database.select(sql);
+    
+    Vector<BookHasAuthor> autoriVector = new Vector<BookHasAuthor>();
+    BookHasAuthor elemento;
+    
+     try {
+      while (resultSet.next()) {
+        elemento = new BookHasAuthor(resultSet);
+        autoriVector.add(elemento);
+      }
+      resultSet.close();
+    } catch (SQLException e) {
+      throw new RecoverableDBException("BookHasAuthorService: getAuthorsFromIsbn(): Errore sul ResultSet.");
+    }
+    
+    BookHasAuthor[] risultato = new BookHasAuthor[autoriVector.size()];
+    autoriVector.copyInto(risultato);
+    
+    return risultato;
   }
 }

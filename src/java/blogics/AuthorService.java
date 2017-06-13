@@ -99,7 +99,7 @@ public class AuthorService {
 			
 			resultSet.close();
 		} catch (SQLException ex) {
-			throw new RecoverableDBException(ex, "AuthorService", "insertNewAuthor", "Impossibile calcolare id autore.");
+			throw new RecoverableDBException("AuthorService: insertNewAuthor(): Impossibile calcolare id autore.");
 		}
     
     sql = sqlBuilder
@@ -112,5 +112,32 @@ public class AuthorService {
     database.modify(sql);
     
     return id;
+  }
+
+  public static String getAuthorFromId(Database database, int id)
+      throws RecoverableDBException {
+    String sql = "";
+    SqlBuilder sqlBuilder = new SqlBuilder();
+
+    sql = sqlBuilder
+        .select("name")
+        .from("author")
+        .where("fl_active = 'S'")
+          .and("id = " + id)
+        .done();
+    
+    String nome = null;
+    ResultSet resultSet = database.select(sql);
+    
+     try {
+      if(resultSet.next())
+        nome = resultSet.getString("name");
+      
+      resultSet.close();
+    } catch (SQLException e) {
+      throw new RecoverableDBException("AuthorService: getAuthorFromId(): Errore sul ResultSet.");
+    }
+    
+    return nome;
   }
 }

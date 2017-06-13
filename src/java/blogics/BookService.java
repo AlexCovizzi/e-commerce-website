@@ -3,6 +3,7 @@ package blogics;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Vector;
 import services.database.Database;
 import services.database.exception.*;
 import util.Conversion;
@@ -71,5 +72,32 @@ public class BookService {
 			.done();
     
     db.modify(sql);
+  }
+  
+  public static Book getBookFromIsbn(Database database, String isbn)
+      throws RecoverableDBException {
+    String sql = "";
+    SqlBuilder sqlBuilder = new SqlBuilder();
+
+    sql = sqlBuilder
+        .select("*")
+        .from("book")
+        .where("fl_active = 'S'")
+          .and("ISBN = " + Conversion.getDatabaseString(isbn))
+        .done();
+    
+    Book libro = null;
+    ResultSet resultSet = database.select(sql);
+    
+     try {
+      if(resultSet.next())
+        libro = new Book(resultSet);
+      
+      resultSet.close();
+    } catch (SQLException e) {
+      throw new RecoverableDBException("BookService: getBookFromIsbn(): Errore sul ResultSet.");
+    }
+    
+    return libro;
   }
 }
