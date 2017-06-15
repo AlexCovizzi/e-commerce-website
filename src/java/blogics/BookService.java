@@ -100,4 +100,33 @@ public class BookService {
     
     return libro;
   }
+  
+  public static void updateBook(Database database, String title, String description, int pages, float price,
+      String publication_date, int stock, String isbn, String language, String publisher)
+      throws RecoverableDBException {
+    
+    String sql = "";
+    SqlBuilder sqlBuilder = new SqlBuilder();
+    
+    /* Check di unicità non necessario: l'isbn è fisso */
+    /* Aggiornamento */	
+    System.out.println("Ciao! Sono una linea di prova!");
+    sql = sqlBuilder
+			.update("book")
+      .set(
+          "title = " + Conversion.getDatabaseString(title),
+          "description = " + Conversion.getDatabaseString(description), 
+					"pages = " + pages,
+          "price = " + price,
+          "publication_date = " + Conversion.getDatabaseString(publication_date),
+          "stock = " + stock,
+          "language = " + Conversion.getDatabaseString(language),
+          "publisher = " + Conversion.getDatabaseString(publisher))
+			.where("isbn = " + Conversion.getDatabaseString(isbn))
+        .and("fl_active = 'S'")
+			.done();
+    
+    database.modify(sql);
+    System.out.println("Libro modificato!");
+  }
 }

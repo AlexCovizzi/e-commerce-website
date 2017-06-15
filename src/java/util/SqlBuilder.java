@@ -63,6 +63,11 @@ public class SqlBuilder {
 	public SqlBuilder set(String...params) {
         return command("SET").params(params);
     }
+  
+  /* DELETE statement */
+  public SqlBuilder delete(String...params) {
+    return command("DELETE").params(params);
+  }
 
     /* Logic operators */
 	public SqlBuilder not(String condition) {

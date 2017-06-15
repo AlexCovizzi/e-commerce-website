@@ -69,4 +69,19 @@ public class BookHasAuthorService {
     
     return risultato;
   }
+  
+  public static void deleteAuthorOfBook(Database database, String isbn, int idAutore)
+      throws RecoverableDBException {
+    String sql = "";
+    SqlBuilder sqlBuilder = new SqlBuilder();
+    
+    sql = sqlBuilder
+        .delete("")
+        .from("book_has_author")
+        .where("book_isbn = " + Conversion.getDatabaseString(isbn))
+          .and("author_id = " + idAutore)
+        .done();
+    
+    database.modify(sql);
+  }
 }

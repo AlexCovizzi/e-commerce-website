@@ -28,7 +28,7 @@
   if(action.equals("view") && adminManagement.getIsbn().equals("null")) {
     adminManagement.visualizza();
   }
-  else {
+  if(action.equals("view") && !adminManagement.getIsbn().equals("null")) {
     adminManagement.recuperaInfo();
   }
   if(action.equals("add")) {
@@ -157,6 +157,7 @@
               placeholder="Inserisci il codice ISBN" maxlength="15" minlength="15">
             <% } else { %>
             <p name="ISBN"> <%= adminManagement.getIsbn() %> </p>
+            <input type="hidden" name="isbn" value="<%= adminManagement.getIsbn() %>">
             <% } %>
           </div>
         </div>

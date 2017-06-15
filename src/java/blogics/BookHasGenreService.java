@@ -21,7 +21,7 @@ public class BookHasGenreService {
   
   public BookHasGenreService() { }
   
-  public static void insertGenresOfBook(Database database, String bookIsbn, int[] generi)
+  public static void insertGenreOfBook(Database database, String bookIsbn, int genere)
       throws RecoverableDBException {
     
     String sql = "";
@@ -32,16 +32,14 @@ public class BookHasGenreService {
        nemmeno una riga in quest tabella corrisponedente a tale libro! */	
     
     /* Inserisco una riga nella tabella per ogni genere selzionato */
-    for(int i = 0; i < generi.length; i++) {
-      sql = sqlBuilder
-          .insertInto("Book_has_genre", "book_isbn", "genre_id")
-          .values(
-              Conversion.getDatabaseString(bookIsbn),
-              generi[i])
-          .done();
-      
-      database.modify(sql);
-    }
+    sql = sqlBuilder
+        .insertInto("Book_has_genre", "book_isbn", "genre_id")
+        .values(
+            Conversion.getDatabaseString(bookIsbn),
+            genere)
+        .done();
+
+    database.modify(sql);
   }
   
   public static BookHasGenre[] getGenresFromIsbn(Database database, String isbn)
@@ -74,5 +72,20 @@ public class BookHasGenreService {
     generiVector.copyInto(risultato);
     
     return risultato;
+  }
+  
+  public static void deleteGenreOfBook(Database database, String isbn, int idGenere)
+      throws RecoverableDBException {
+    String sql = "";
+    SqlBuilder sqlBuilder = new SqlBuilder();
+    
+    sql = sqlBuilder
+        .delete("")
+        .from("book_has_genre")
+        .where("book_isbn = " + Conversion.getDatabaseString(isbn))
+          .and("genre_id = " + idGenere)
+        .done();
+    
+    database.modify(sql);
   }
 }
