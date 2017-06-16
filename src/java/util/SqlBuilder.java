@@ -11,6 +11,10 @@ public class SqlBuilder {
     public SqlBuilder select(String...params) {
         return command("SELECT").params(params);
     }
+	
+	public SqlBuilder selectDistinct(String...params) {
+        return command("SELECT DISTINCT").params(params);
+    }
 
     public SqlBuilder from(String...tables) {
         return command("FROM").params(tables);

@@ -153,7 +153,8 @@ public class BookService {
 			.where("B.fl_active = 'S'");
 		*/
 		sqlBuilder
-			.select("title").from("BookView")
+			.selectDistinct("isbn", "title", "price", "publisher", "stock", "vote", "total", "coverUri")
+			.from("BookView")
 			.where("isbn LIKE '%"+isbn+"%'")
 			.and("title LIKE '%"+title+"%'");
 		
@@ -166,7 +167,7 @@ public class BookService {
 		String publishersCondition = "";
 		publishersCondition += " publisher LIKE '%"+publishers[0]+"%'";
 		for(int i=1; i<publishers.length; i++) {
-			authorsCondition += " OR publisher LIKE '%"+publishers[i]+"%'";
+			publishersCondition += " OR publisher LIKE '%"+publishers[i]+"%'";
 		}
 		
 		String genresCondition = "";

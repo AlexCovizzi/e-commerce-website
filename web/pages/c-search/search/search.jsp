@@ -1,32 +1,56 @@
+<%@page import="util.Logger"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<!DOCTYPE html>
+<%@page info="Account Page" %>
+<%@page session="false" %>
+<%@page buffer="30kb" %>
+<%@page errorPage="../../ErrorPage.jsp" %>
+
+<%@ page import="services.session.*" %>
+
+<jsp:useBean id="searchManagement" scope="page" class="bflows.SearchManagement" />
+<jsp:setProperty name="searchManagement" property="*" />
+
+<%
+  String message = null;
+  Cookie[] cookies = request.getCookies();
+  Logger.debug(String.valueOf(cookies));
+  boolean loggedIn = (cookies != null);
+  
+  String action = request.getParameter("action");
+  if (action == null) action="view";
+  
+  message = searchManagement.getErrorMessage();
+  if(message != null) action = "view";
+  
+  searchManagement.view();
+%>
 
 <html>
   <head>
     <title>Cerca</title>
 
     <!-- comprende css e script del framework, header e footer -->
-    <%@ include file="../../shared/head-common.html" %>
+    <%@ include file="../../../shared/head-common.html" %>
 
     <!-- carica i tuoi file css qui -->
     <link href="search.css" rel="stylesheet" type="text/css" />
-    <link href="../../shared/book-search/book-search.css" rel="stylesheet" type="text/css" />
+    <link href="../../../shared/book-search/book-search.css" rel="stylesheet" type="text/css" />
 
     <!-- carica i tuoi file js qui -->
     <script type="text/javascript" src="search.js"></script>
-    <script type="text/javascript" src="../../shared/book-search/book-search.js"></script>
+    <script type="text/javascript" src="../../../shared/book-search/book-search.js"></script>
 
   </head>
     
   <body>
     <!-- header -->
     <div class="header">
-      <%@ include file="../../shared/header/header.jsp" %>
+      <%@ include file="../../../shared/header/header.jsp" %>
     </div>
     
     <!-- sotto-header -->
     <div class="sotto-header">
-      <%@ include file="../../shared/sotto-header/sotto-header.jsp" %>
+      <%@ include file="../../../shared/sotto-header/sotto-header.jsp" %>
     </div>
 
     <!-- content-area -->
@@ -163,10 +187,8 @@
 
           <div class="divider-horizontal"></div>
 
-          <%@include file="../../shared/book-search/book-search.jsp" %>
-          <%@include file="../../shared/book-search/book-search.jsp" %>
-          <%@include file="../../shared/book-search/book-search.jsp" %>
-          <%@include file="../../shared/book-search/book-search.jsp" %>
+          <%@include file="../../../shared/book-search/book-search.jsp" %>
+          <%@include file="../../../shared/book-search/book-search.jsp" %>
 
           <ul class="pagination pagination-centered">
             <li><a href="#"><</a></li>
@@ -185,7 +207,7 @@
 
     <!-- footer -->
     <div class="footer">
-      <%@ include file="../../shared/footer/footer.jsp" %>
+      <%@ include file="../../../shared/footer/footer.jsp" %>
     </div>
 
   </body>

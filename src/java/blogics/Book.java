@@ -155,4 +155,9 @@ public class Book {
   {
     return timestamp;
   }
+  
+  @Override
+  public String toString() {
+	  return isbn+", "+title+", "+price+", "+publisher;
+  }
 }
