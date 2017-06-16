@@ -3,6 +3,7 @@ package blogics;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.List;
 
 /**
  * 
@@ -20,11 +21,12 @@ public class Book {
   private String isbn;
   private String language;
   private String publisher;
-  private Timestamp timestamp;
-  private String active;
+  
+  private List<Author> authors;
+  private List<Genre> genres;
   
   public Book(String title, String description, int pages, float price, String publication_date,
-      int stock, String isbn, String language, String publisher, Timestamp timestamp)
+      int stock, String isbn, String language, String publisher)
   {
     this.title = title;
     this.description = description;
@@ -35,7 +37,6 @@ public class Book {
     this.isbn = isbn;
     this.language = language;
     this.publisher = publisher;
-    this.timestamp = timestamp;
   }
   
   public Book(ResultSet resultSet) {
@@ -49,8 +50,6 @@ public class Book {
     try {isbn = resultSet.getString("ISBN");} catch (SQLException sqle) {}
     try {language = resultSet.getString("LANGUAGE");} catch (SQLException sqle) {}
     try {publisher = resultSet.getString("PUBLISHER");} catch (SQLException sqle) {}
-    try {active = resultSet.getString("FL_ACTIVE");} catch (SQLException sqle) {}
-    try {timestamp=resultSet.getTimestamp("TIMESTAMP");} catch (SQLException sqle) {}
     
   }
   
@@ -100,9 +99,11 @@ public class Book {
     this.publisher = publisher;
   }
   
-  public void setTimestamp(Timestamp timestamp)
-  {
-    this.timestamp = timestamp;
+  public void setAuthors(List<Author> authors) {
+	  this.authors = authors;
+  }
+  public void setGenres(List<Genre> genres) {
+	  this.genres = genres;
   }
   
   /* Getters */  
@@ -151,13 +152,23 @@ public class Book {
     return publisher;
   }
   
-  public Timestamp getTimestamp()
-  {
-    return timestamp;
+  public List<Author> getAuthors() {
+	  return authors;
+  }
+  
+  public List<Genre> genGenres() {
+	  return genres;
   }
   
   @Override
   public String toString() {
-	  return isbn+", "+title+", "+price+", "+publisher;
+	  String string = isbn+", "+title+", "+price+", "+publisher+", ";
+	  for(Author author:authors) {
+		  string += author.getName()+", ";
+	  }
+	  for(Genre genre:genres) {
+		  string += genre.getName()+", ";
+	  }
+	  return string;
   }
 }

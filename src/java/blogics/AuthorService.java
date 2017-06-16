@@ -7,9 +7,12 @@ package blogics;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import services.database.Database;
 import services.database.exception.RecoverableDBException;
 import util.Conversion;
+import util.Logger;
 import util.SqlBuilder;
 
 /**
@@ -140,4 +143,32 @@ public class AuthorService {
     
     return nome;
   }
+  
+	public static List<Author> getBookAuthors(Database db, String isbn) throws RecoverableDBException {
+		SqlBuilder sqlBuilder = new SqlBuilder();
+		List<Author> authors = new ArrayList<>();
+		
+		String sql = sqlBuilder
+				.select("id", "name")
+				.from("Author")
+				.join("Book_has_Author").on("book_isbn = "+isbn)
+				.where("id = author_id").and("fl_active = 'S'")
+				.done();
+		
+		ResultSet resultSet = db.select(sql);
+
+		try {
+			while(resultSet.next()) {
+				Author author = new Author(resultSet);
+				authors.add(author);
+			}
+		} catch (SQLException ex) {
+			throw new RecoverableDBException(ex, "AuthorService", "getBookAuthors", "Errore nel ResultSet");
+		} finally {
+			try { resultSet.close(); }
+			catch (SQLException ex) { Logger.error("AuthorService", "getBookAuthors", ex.getMessage());}
+		}
+		
+		return authors;
+	}
 }

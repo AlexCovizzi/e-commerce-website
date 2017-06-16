@@ -7,10 +7,13 @@ package blogics;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Vector;
 import services.database.Database;
 import services.database.exception.RecoverableDBException;
 import util.Conversion;
+import util.Logger;
 import util.SqlBuilder;
 
 /**
@@ -119,4 +122,32 @@ public class GenreService {
     
     return nome;
   }
+  
+	public static List<Genre> getBookGenres(Database db, String isbn) throws RecoverableDBException {
+		SqlBuilder sqlBuilder = new SqlBuilder();
+		List<Genre> genres = new ArrayList<>();
+
+		String sql = sqlBuilder
+				.select("id", "name")
+				.from("Genre")
+				.join("Book_has_Genre").on("book_isbn = "+isbn)
+				.where("id = genre_id").and("fl_active = 'S'")
+				.done();
+
+		ResultSet resultSet = db.select(sql);
+
+		try {
+			while(resultSet.next()) {
+				Genre genre = new Genre(resultSet);
+				genres.add(genre);
+			}
+		} catch (SQLException ex) {
+			throw new RecoverableDBException(ex, "GenreService", "getBookGenres", "Errore nel ResultSet");
+		} finally {
+			try { resultSet.close(); }
+			catch (SQLException ex) { Logger.error("GenreService", "getBookGenres", ex.getMessage());}
+		}
+
+		return genres;
+	}
 }
