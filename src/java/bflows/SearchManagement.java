@@ -30,6 +30,10 @@ public class SearchManagement extends AbstractManagement {
   private String[] genres = {""};
   private int page = 1;
   
+  private List<String> genreFilters;
+  private List<String> authorFilters;
+  private List<String> publisherFilters;
+  
 	private List<Book> books;
 	
 	/* search.jsp -> search.jsp : view */
@@ -45,6 +49,10 @@ public class SearchManagement extends AbstractManagement {
         book.setAuthors(bAuthors);
         book.setGenres(bGenres);
       }
+      
+      genreFilters = BookService.getFilterGenres(database, title, isbn);
+      authorFilters = BookService.getFilterAuthors(database, title, isbn);
+      publisherFilters = BookService.getFilterPublishers(database, title, isbn);
 
       database.commit();
     } catch (RecoverableDBException ex) {
@@ -128,9 +136,35 @@ public class SearchManagement extends AbstractManagement {
     return page;
   }
   
+  public List<String> getGenreFilters() {
+    return genreFilters;
+  }
+  
+  public List<String> getAuthorFilters() {
+    return authorFilters;
+  }
+  
+  public List<String> getPublisherFilters() {
+    return publisherFilters;
+  }
+  
   public boolean hasGenre(String genre) {
     for(String g : genres) {
       if(g.equals(genre)) return true;
+    }
+    return false;
+  }
+  
+  public boolean hasAuthor(String author) {
+    for(String a : authors) {
+      if(a.equals(author)) return true;
+    }
+    return false;
+  }
+  
+  public boolean hasPublisher(String publisher) {
+    for(String p : publishers) {
+      if(p.equals(publisher)) return true;
     }
     return false;
   }

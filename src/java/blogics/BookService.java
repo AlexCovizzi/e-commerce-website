@@ -206,4 +206,100 @@ public class BookService {
 		
 		return bookList;
 	}
+  
+  public static List<String> getFilterGenres(Database db, String title, String isbn) throws RecoverableDBException {
+    SqlBuilder sqlBuilder = new SqlBuilder();
+		ResultSet resultSet;
+		List<String> genres = new ArrayList();
+    
+    String sql = sqlBuilder
+			.select("g_name", "COUNT(*) AS n")
+			.from("BookView")
+			.where("isbn LIKE '%"+isbn+"%'")
+			.and("title LIKE '%"+title+"%'")
+      .command("GROUP BY").params("g_name")
+      .command("ORDER BY").params("n").command("DESC")
+      .limit(5)
+      .done();
+    
+    resultSet = db.select(sql);
+    
+		try {
+			while (resultSet.next()) {
+        String genre = resultSet.getString("g_name");
+				genres.add(genre);
+			}
+		} catch (SQLException ex) {
+			throw new RecoverableDBException(ex, "UserService", "getUser", "Errore nel ResultSet");
+		} finally {
+			try { resultSet.close(); }
+			catch (SQLException ex) { Logger.error("UserService", "getUser", ex.getMessage());}
+		}
+    
+    return genres;
+  }
+  
+  public static List<String> getFilterAuthors(Database db, String title, String isbn) throws RecoverableDBException {
+    SqlBuilder sqlBuilder = new SqlBuilder();
+		ResultSet resultSet;
+		List<String> authors = new ArrayList();
+    
+    String sql = sqlBuilder
+			.select("a_name", "COUNT(*) AS n")
+			.from("BookView")
+			.where("isbn LIKE '%"+isbn+"%'")
+			.and("title LIKE '%"+title+"%'")
+      .command("GROUP BY").params("a_name")
+      .command("ORDER BY").params("n").command("DESC")
+      .limit(5)
+      .done();
+    
+    resultSet = db.select(sql);
+    
+		try {
+			while (resultSet.next()) {
+        String author = resultSet.getString("a_name");
+				authors.add(author);
+			}
+		} catch (SQLException ex) {
+			throw new RecoverableDBException(ex, "UserService", "getUser", "Errore nel ResultSet");
+		} finally {
+			try { resultSet.close(); }
+			catch (SQLException ex) { Logger.error("UserService", "getUser", ex.getMessage());}
+		}
+    
+    return authors;
+  }
+  
+  public static List<String> getFilterPublishers(Database db, String title, String isbn) throws RecoverableDBException {
+    SqlBuilder sqlBuilder = new SqlBuilder();
+		ResultSet resultSet;
+		List<String> publishers = new ArrayList();
+    
+    String sql = sqlBuilder
+			.select("publisher", "COUNT(*) AS n")
+			.from("BookView")
+			.where("isbn LIKE '%"+isbn+"%'")
+			.and("title LIKE '%"+title+"%'")
+      .command("GROUP BY").params("publisher")
+      .command("ORDER BY").params("n").command("DESC")
+      .limit(5)
+      .done();
+    
+    resultSet = db.select(sql);
+    
+		try {
+			while (resultSet.next()) {
+        String publisher = resultSet.getString("publisher");
+				publishers.add(publisher);
+			}
+		} catch (SQLException ex) {
+			throw new RecoverableDBException(ex, "UserService", "getUser", "Errore nel ResultSet");
+		} finally {
+			try { resultSet.close(); }
+			catch (SQLException ex) { Logger.error("UserService", "getUser", ex.getMessage());}
+		}
+    
+    return publishers;
+  }
 }

@@ -75,39 +75,36 @@
 
           <div id="filter-menu" class="filter-menu collapse in">
           <form id="filter-form" type="get" action="search.jsp">
+            
             <h5><b>Genere</b></h5>
-            <a class="filter-link">
-              <label><input type="checkbox" name="genres" value="avventura" onclick="submitFilter()" <% if(searchManagement.hasGenre("avventura")) {%> checked <%}%> > Avventura </label>
-            </a></br>
-            <a class="filter-link" href="#">
-              <label><input type="checkbox" name="genres" value="fantasy" onclick="submitFilter()" <% if(searchManagement.hasGenre("fantasy")) {%> checked <%}%>> Fantasy </label>
-            </a></br>
-            <a class="filter-link" href="#">
-              <label><input type="checkbox" name="genres" value="giallo" onclick="submitFilter()" <% if(searchManagement.hasGenre("giallo")) {%> checked <%}%>> Giallo </label>
-            </a></br>
-            <a class="filter-link" href="#">
-              <label><input type="checkbox"> Guerra </label>
-            </a></br>
-            <a class="filter-link" href="#">
-              <label><input type="checkbox"> Romanzo </label>
-            </a></br>
-
+            
+            <% for(String genreFilter : searchManagement.getGenreFilters()) { %>
+            
+              <a class="filter-link">
+                <label><input type="checkbox" name="genres" value="<%=genreFilter%>" onclick="submitFilter()" <% if(searchManagement.hasGenre(genreFilter)) {%> checked <%}%> > <%=genreFilter%> </label>
+              </a></br>
+            
+            <% } %>
+            
             <h5><b>Autore</b></h5>
-            <a class="filter-link" href="#">
-              <label><input type="checkbox"> George RR Martino </label>
-            </a></br>
-            <a class="filter-link" href="#">
-              <label><input type="checkbox"> Giorgio R Martino </label>
-            </a></br>
-            <a class="filter-link" href="#">
-              <label><input type="checkbox"> Giorg ARAR Martinez </label>
-            </a></br>
-            <a class="filter-link" href="#">
-              <label><input type="checkbox"> Georrrg RRR Marrrtin </label>
-            </a></br>
-            <a class="filter-link" href="#">
-              <label><input type="checkbox"> Ancora Georgr Martino RR </label>
-            </a></br>
+            
+            <% for(String authorFilter : searchManagement.getAuthorFilters()) { %>
+            
+              <a class="filter-link">
+                <label><input type="checkbox" name="authors" value="<%=authorFilter%>" onclick="submitFilter()" <% if(searchManagement.hasAuthor(authorFilter)) {%> checked <%}%> > <%=authorFilter%> </label>
+              </a></br>
+            
+            <% } %>
+            
+            <h5><b>Editore</b></h5>
+            
+            <% for(String publisherFilter : searchManagement.getPublisherFilters()) { %>
+            
+              <a class="filter-link">
+                <label><input type="checkbox" name="publishers" value="<%=publisherFilter%>" onclick="submitFilter()" <% if(searchManagement.hasPublisher(publisherFilter)) {%> checked <%}%> > <%=publisherFilter%> </label>
+              </a></br>
+            
+            <% } %>
 
             <h5><b>Prezzo</b></h5>
             <a class="filter-link" href="#">
@@ -145,23 +142,7 @@
             <a class="filter-link" href="#">
               <label><input type="checkbox"> < 40% </label>
             </a></br>
-
-            <h5><b>Editore</b></h5>
-            <a class="filter-link" href="#">
-              <label><input type="checkbox"> Editore del trono di spade </label>
-            </a></br>
-            <a class="filter-link" href="#">
-              <label><input type="checkbox"> Editore di Game of Thrones </label>
-            </a></br>
-            <a class="filter-link" href="#">
-              <label><input type="checkbox"> Editore di GoT </label>
-            </a></br>
-            <a class="filter-link" href="#">
-              <label><input type="checkbox"> Altro editore di GoT </label>
-            </a></br>
-            <a class="filter-link" href="#">
-              <label><input type="checkbox"> Editore di Geroge RR Martin </label>
-            </a></br>
+            
           </form>
           </div>
         </div>
