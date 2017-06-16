@@ -156,7 +156,7 @@ public class Book {
 	  return authors;
   }
   
-  public List<Genre> genGenres() {
+  public List<Genre> getGenres() {
 	  return genres;
   }
   

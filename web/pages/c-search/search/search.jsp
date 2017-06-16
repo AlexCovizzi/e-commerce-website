@@ -21,9 +21,8 @@
   if (action == null) action="view";
   
   message = searchManagement.getErrorMessage();
-  if(message != null) action = "view";
   
-  searchManagement.view();
+  if(action.equals("view")) searchManagement.view();
 %>
 
 <html>
@@ -41,6 +40,11 @@
     <script type="text/javascript" src="search.js"></script>
     <script type="text/javascript" src="../../../shared/book-search/book-search.js"></script>
 
+    <script>
+      function submitFilter() {
+          document.getElementById("filter-form").submit();
+      }
+    </script>
   </head>
     
   <body>
@@ -70,15 +74,16 @@
           </h4>
 
           <div id="filter-menu" class="filter-menu collapse in">
+          <form id="filter-form" type="get" action="search.jsp">
             <h5><b>Genere</b></h5>
-            <a class="filter-link" href="#">
-              <label><input type="checkbox"> Avventura </label>
+            <a class="filter-link">
+              <label><input type="checkbox" name="genres" value="avventura" onclick="submitFilter()" <% if(searchManagement.hasGenre("avventura")) {%> checked <%}%> > Avventura </label>
             </a></br>
             <a class="filter-link" href="#">
-              <label><input type="checkbox"> Fantasia </label>
+              <label><input type="checkbox" name="genres" value="fantasy" onclick="submitFilter()" <% if(searchManagement.hasGenre("fantasy")) {%> checked <%}%>> Fantasy </label>
             </a></br>
             <a class="filter-link" href="#">
-              <label><input type="checkbox"> Storico </label>
+              <label><input type="checkbox" name="genres" value="giallo" onclick="submitFilter()" <% if(searchManagement.hasGenre("giallo")) {%> checked <%}%>> Giallo </label>
             </a></br>
             <a class="filter-link" href="#">
               <label><input type="checkbox"> Guerra </label>
@@ -157,6 +162,7 @@
             <a class="filter-link" href="#">
               <label><input type="checkbox"> Editore di Geroge RR Martin </label>
             </a></br>
+          </form>
           </div>
         </div>
 

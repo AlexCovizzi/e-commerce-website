@@ -55,7 +55,7 @@
 
     <!-- barra di ricerca -->
     <div id="search-bar" class="navbar-collapse collapse">
-      <form id="search-form" class="navbar-form">
+      <form id="search-form" class="navbar-form" action="../../c-search/search/search.jsp">
 
         <div id="search-form-group" class="form-group">
           <div id="search-input-group" class="input-group">
@@ -73,7 +73,7 @@
                 <li><a class="navbar-link" href="../../c-login/signup/signup.jsp">Ricerca Avanzata</a></li>
               </ul>
             </div>
-            <input id="search-input" type="text" class="form-control" placeholder="Cerca">
+            <input id="search-input" name="title" type="text" class="form-control" placeholder="Cerca">
             <div class="input-group-btn" style="width:1%;">
               <button class="btn btn-default" type="submit">
                 <i class="glyphicon glyphicon-search"></i>

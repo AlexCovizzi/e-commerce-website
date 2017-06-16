@@ -1,4 +1,5 @@
 <%@page import="blogics.Author"%>
+<%@page import="blogics.Genre"%>
 <%@page import="blogics.Book"%>
 <%
   Book book = (Book) request.getAttribute("book");
@@ -17,12 +18,18 @@
     <div class="col-xs-12 col-sm-8">
       <h4><b><a class="book-link" href="#"><%=book.getTitle()%></a></b></h4>
       <h6><b>Autore: </b>
-        <% for(Author author : book.getAuthors()) { %>
-          <a class="book-link" href="#"><%=author.getName()%></a>
+        <% for(int i=0; i<book.getAuthors().size(); i++) {
+          if(i > 0) %>, 
+          <a class="book-link" href="#"><%=book.getAuthors().get(i).getName()%></a>
         <% } %>
       </h6>
       <h6><b>Editore: </b><a class="book-link" href="#"><%=book.getPublisher()%></a></h6>
-      <h6><b>Genere: </b><a class="book-link" href="#">Fantasia</a></h6>
+      <h6><b>Genere: </b>
+        <% for(int i=0; i<book.getGenres().size(); i++) {
+          if(i > 0) %>, 
+          <a class="book-link" href="#"><%=book.getGenres().get(i).getName()%></a>
+        <% } %>
+      </h6>
       <h6><b>ISBN: </b><a class="book-link" href="#"><%=book.getIsbn()%></a></h6>
       <div class="custom-divider"></div>
       <h5><b>Voto: </b>92% <small>(1452 voti)</small></h5>
@@ -33,7 +40,7 @@
       <div class="col-xs-6 col-sm-12">
         <h4 style="color: #46b8da;"><b>&euro;<%=book.getPrice()%></b></h4>
 
-        <% if(true) { %>
+        <% if(book.getStock() > 0) { %>
           <h6 class="disponibilita-immediata">Disponibilità immediata</h6>
         <% } else { %>
           <h6 class="non-disponibile">Non disponibile</h6>
