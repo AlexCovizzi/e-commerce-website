@@ -26,7 +26,7 @@ public class Book {
   private List<Genre> genres;
   
   public Book(String title, String description, int pages, float price, String publication_date,
-      int stock, String isbn, String language, String publisher)
+      int stock, String isbn, String language, String publisher) 
   {
     this.title = title;
     this.description = description;

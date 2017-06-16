@@ -1,3 +1,4 @@
+<%@page import="blogics.Book"%>
 <%@page import="util.Logger"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page info="Account Page" %>
@@ -186,9 +187,11 @@
           </div>
 
           <div class="divider-horizontal"></div>
-
-          <%@include file="../../../shared/book-search/book-search.jsp" %>
-          <%@include file="../../../shared/book-search/book-search.jsp" %>
+          
+          <% for(Book book : searchManagement.getBooks()) { %>
+            <% request.setAttribute("book", book); %>
+            <jsp:include page="../../../shared/book-search/book-search.jsp" />
+          <% } %>
 
           <ul class="pagination pagination-centered">
             <li><a href="#"><</a></li>

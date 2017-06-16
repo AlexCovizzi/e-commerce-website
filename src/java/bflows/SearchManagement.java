@@ -29,24 +29,24 @@ public class SearchManagement extends AbstractManagement {
 	/* search.jsp -> search.jsp : view */
 	public void view() throws UnrecoverableDBException {
 		Database database = DBService.getDataBase();
-        try {
-            books = BookService.getBookList(database, "", "", new String[]{""}, new String[]{"mondadori","deagostini"}, new String[]{""}, new String[]{""}, new String[]{""}, "", 1, 25);
-			
-			for(Book book : books) {
-				List<Author> authors = AuthorService.getBookAuthors(database, book.getIsbn());
-				List<Genre> genres = GenreService.getBookGenres(database, book.getIsbn());
-				
-				book.setAuthors(authors);
-				book.setGenres(genres);
-			}
-			
-            database.commit();
-        } catch (RecoverableDBException ex) {
+    try {
+      books = BookService.getBookList(database, "", "", new String[]{""}, new String[]{"mondadori","deagostini"}, new String[]{""}, new String[]{""}, new String[]{""}, "", 1, 25);
+
+      for(Book book : books) {
+        List<Author> authors = AuthorService.getBookAuthors(database, book.getIsbn());
+        List<Genre> genres = GenreService.getBookGenres(database, book.getIsbn());
+
+        book.setAuthors(authors);
+        book.setGenres(genres);
+      }
+
+      database.commit();
+    } catch (RecoverableDBException ex) {
 			database.rollBack();
 			setErrorMessage(ex.getMsg());
 		} finally {
-            database.close();
-        }
+      database.close();
+    }
 	}
 	
 	/* search.jsp/book-page.jsp : add-to-cart */
@@ -67,4 +67,8 @@ public class SearchManagement extends AbstractManagement {
 	public void addToHistory() {
 		
 	}
+  
+  public List<Book> getBooks() {
+    return books;
+  }
 }
