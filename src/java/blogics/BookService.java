@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
+import util.Pair;
 import services.database.Database;
 import services.database.exception.*;
 import util.Conversion;
@@ -133,7 +134,7 @@ public class BookService {
     System.out.println("Libro modificato!");
   }
   
-	public static List<Book> getBookList(Database db, String isbn, String title, String[] authors,
+	public static List<Book> getBookList(Database db, String s_field, String s_value, String[] authors,
 			String[] publishers, String[] genres, String[] priceRange, String[] voteRange,
 			String order, int page, int booksPerPage) throws RecoverableDBException {
 		
@@ -142,46 +143,42 @@ public class BookService {
 		ResultSet resultSet;
 		List<Book> bookList = new ArrayList();
 		
-		/*
 		sqlBuilder
-			.select("*")
-			.from("Book").as("B")
-			.join("Book_has_Author").as("B_A").on("B_A.book_isbn = B.isbn")
-			.join("Author").as("A").on("A.id = B_A.author_id")
-			.join("Book_has_Genre").as("B_G").on("B_G.book_isbn = B.isbn")
-			.join("Genre").as("G").on("G.id = B_G.genre_id")
-			.where("B.fl_active = 'S'");
-		*/
-		sqlBuilder
-			.selectDistinct("isbn", "title", "price", "publisher", "stock", "vote", "total", "coverUri")
+			.selectDistinct("isbn", "title", "price", "publisher", "stock", "vote", "n_votes", "coverUri")
 			.from("BookView")
-			.where("isbn LIKE '%"+isbn+"%'")
-			.and("title LIKE '%"+title+"%'");
+      .join("BookAuthor").as("B_A").on("B_A.book_isbn = isbn")
+      .join("BookGenre").as("B_G").on("B_G.book_isbn = isbn")
+			.where(s_field+" LIKE '%"+s_value+"%'");
 		
-		String authorsCondition = "";
-		authorsCondition += " a_name LIKE '%"+authors[0]+"%'";
-		for(int i=1; i<authors.length; i++) {
-			authorsCondition += " OR a_name LIKE '%"+authors[i]+"%'";
-		}
+    if(authors != null) {
+      String authorsCondition = "";
+      authorsCondition += " a_name = "+Conversion.getDatabaseString(authors[0]);
+      for(int i=1; i<authors.length; i++) {
+        authorsCondition += " OR a_name = "+Conversion.getDatabaseString(authors[i]);
+      }
+      sqlBuilder.and(authorsCondition);
+    }
 		
-		String publishersCondition = "";
-		publishersCondition += " publisher LIKE '%"+publishers[0]+"%'";
-		for(int i=1; i<publishers.length; i++) {
-			publishersCondition += " OR publisher LIKE '%"+publishers[i]+"%'";
-		}
+    if(publishers != null) {
+      String publishersCondition = "";
+      publishersCondition += " publisher = "+Conversion.getDatabaseString(publishers[0]);
+      for(int i=1; i<publishers.length; i++) {
+        publishersCondition += " OR publisher = "+Conversion.getDatabaseString(publishers[i]);
+      }
+      sqlBuilder.and(publishersCondition);
+    }
 		
-		String genresCondition = "";
-		genresCondition += " g_name LIKE '%"+genres[0]+"%'";
-		for(int i=1; i<genres.length; i++) {
-			genresCondition += " OR g_name LIKE '%"+genres[i]+"%'";
-		}
+    if(genres != null) {
+      String genresCondition = "";
+      genresCondition += " g_name = "+Conversion.getDatabaseString(genres[0]);
+      for(int i=1; i<genres.length; i++) {
+        genresCondition += " OR g_name = "+Conversion.getDatabaseString(genres[i]);
+      }
+      sqlBuilder.and(genresCondition);
+    }
 		
 		// TODO: manca il price range, il vote range e l'ordine
 		
-		sqlBuilder
-			.and(authorsCondition)
-			.and(publishersCondition)
-			.and(genresCondition);
 		
 		sqlBuilder
 			.limit(booksPerPage, booksPerPage*page-booksPerPage);
@@ -207,16 +204,45 @@ public class BookService {
 		return bookList;
 	}
   
-  public static List<String> getFilterGenres(Database db, String title, String isbn) throws RecoverableDBException {
+  public static int getTotalResults(Database db, String field, String value) throws RecoverableDBException {
     SqlBuilder sqlBuilder = new SqlBuilder();
 		ResultSet resultSet;
-		List<String> genres = new ArrayList();
+    int totResults = 0;
+    
+    String sql = sqlBuilder
+			.selectDistinct("isbn")
+			.from("BookView")
+      .join("BookAuthor").as("B_A").on("B_A.book_isbn = isbn")
+      .join("BookGenre").as("B_G").on("B_G.book_isbn = isbn")
+			.where(field+" LIKE '%"+value+"%'")
+      .done();
+    
+    resultSet = db.select(sql);
+    
+		try {
+			while (resultSet.next()) {
+        totResults += 1;
+			}
+		} catch (SQLException ex) {
+			throw new RecoverableDBException(ex, "UserService", "getUser", "Errore nel ResultSet");
+		} finally {
+			try { resultSet.close(); }
+			catch (SQLException ex) { Logger.error("UserService", "getUser", ex.getMessage());}
+		}
+    
+    return totResults;
+  }
+  
+  public static List<Pair<String, Integer>> getFilterGenres(Database db, String s_field, String s_value) throws RecoverableDBException {
+    SqlBuilder sqlBuilder = new SqlBuilder();
+		ResultSet resultSet;
+		List<Pair<String, Integer>> genres = new ArrayList();
     
     String sql = sqlBuilder
 			.select("g_name", "COUNT(*) AS n")
 			.from("BookView")
-			.where("isbn LIKE '%"+isbn+"%'")
-			.and("title LIKE '%"+title+"%'")
+      .join("BookGenre").on("book_isbn = isbn")
+			.where(s_field+" LIKE '%"+s_value+"%'")
       .command("GROUP BY").params("g_name")
       .command("ORDER BY").params("n").command("DESC")
       .limit(5)
@@ -227,7 +253,9 @@ public class BookService {
 		try {
 			while (resultSet.next()) {
         String genre = resultSet.getString("g_name");
-				genres.add(genre);
+        int n = resultSet.getInt("n");
+        Pair<String, Integer> gen = new Pair(genre, n);
+				genres.add(gen);
 			}
 		} catch (SQLException ex) {
 			throw new RecoverableDBException(ex, "UserService", "getUser", "Errore nel ResultSet");
@@ -239,16 +267,16 @@ public class BookService {
     return genres;
   }
   
-  public static List<String> getFilterAuthors(Database db, String title, String isbn) throws RecoverableDBException {
+  public static List<Pair<String, Integer>> getFilterAuthors(Database db, String s_field, String s_value) throws RecoverableDBException {
     SqlBuilder sqlBuilder = new SqlBuilder();
 		ResultSet resultSet;
-		List<String> authors = new ArrayList();
+		List<Pair<String, Integer>> authors = new ArrayList();
     
     String sql = sqlBuilder
 			.select("a_name", "COUNT(*) AS n")
 			.from("BookView")
-			.where("isbn LIKE '%"+isbn+"%'")
-			.and("title LIKE '%"+title+"%'")
+      .join("BookAuthor").on("book_isbn = isbn")
+			.where(s_field+" LIKE '%"+s_value+"%'")
       .command("GROUP BY").params("a_name")
       .command("ORDER BY").params("n").command("DESC")
       .limit(5)
@@ -259,7 +287,9 @@ public class BookService {
 		try {
 			while (resultSet.next()) {
         String author = resultSet.getString("a_name");
-				authors.add(author);
+        int n = resultSet.getInt("n");
+        Pair<String, Integer> aut = new Pair(author, n);
+				authors.add(aut);
 			}
 		} catch (SQLException ex) {
 			throw new RecoverableDBException(ex, "UserService", "getUser", "Errore nel ResultSet");
@@ -271,16 +301,15 @@ public class BookService {
     return authors;
   }
   
-  public static List<String> getFilterPublishers(Database db, String title, String isbn) throws RecoverableDBException {
+  public static List<Pair<String, Integer>> getFilterPublishers(Database db, String s_field, String s_value) throws RecoverableDBException {
     SqlBuilder sqlBuilder = new SqlBuilder();
 		ResultSet resultSet;
-		List<String> publishers = new ArrayList();
+		List<Pair<String, Integer>> publishers = new ArrayList();
     
     String sql = sqlBuilder
 			.select("publisher", "COUNT(*) AS n")
 			.from("BookView")
-			.where("isbn LIKE '%"+isbn+"%'")
-			.and("title LIKE '%"+title+"%'")
+			.where(s_field+" LIKE '%"+s_value+"%'")
       .command("GROUP BY").params("publisher")
       .command("ORDER BY").params("n").command("DESC")
       .limit(5)
@@ -291,7 +320,9 @@ public class BookService {
 		try {
 			while (resultSet.next()) {
         String publisher = resultSet.getString("publisher");
-				publishers.add(publisher);
+        int n = resultSet.getInt("n");
+        Pair<String, Integer> pub = new Pair(publisher, n);
+				publishers.add(pub);
 			}
 		} catch (SQLException ex) {
 			throw new RecoverableDBException(ex, "UserService", "getUser", "Errore nel ResultSet");
@@ -299,6 +330,7 @@ public class BookService {
 			try { resultSet.close(); }
 			catch (SQLException ex) { Logger.error("UserService", "getUser", ex.getMessage());}
 		}
+    
     
     return publishers;
   }

@@ -20,7 +20,7 @@
       <h6><b>Autore: </b>
         <% for(int i=0; i<book.getAuthors().size(); i++) {
           if(i > 0) %>, 
-          <a class="book-link" href="#"><%=book.getAuthors().get(i).getName()%></a>
+          <a class="book-link" href="../../c-search/search/search.jsp?authors=<%=book.getAuthors().get(i).getName()%>"><%=book.getAuthors().get(i).getName()%></a>
         <% } %>
       </h6>
       <h6><b>Editore: </b><a class="book-link" href="#"><%=book.getPublisher()%></a></h6>

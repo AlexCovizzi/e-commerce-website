@@ -1,3 +1,4 @@
+<%@page import="util.Pair"%>
 <%@page import="blogics.Book"%>
 <%@page import="util.Logger"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -78,30 +79,33 @@
             
             <h5><b>Genere</b></h5>
             
-            <% for(String genreFilter : searchManagement.getGenreFilters()) { %>
+            <% for(Pair<String, Integer> genreFilter : searchManagement.getGenreFilters()) { %>
             
               <a class="filter-link">
-                <label><input type="checkbox" name="genres" value="<%=genreFilter%>" onclick="submitFilter()" <% if(searchManagement.hasGenre(genreFilter)) {%> checked <%}%> > <%=genreFilter%> </label>
+                <label><input type="checkbox" name="genres" value="<%=genreFilter.getFirst()%>" onclick="submitFilter()" <% if(searchManagement.hasGenre(genreFilter.getFirst())) {%> checked <%}%> > <%=genreFilter.getFirst()%> </label>
+                <small>(<%=genreFilter.getSecond()%>)</small>
               </a></br>
             
             <% } %>
             
             <h5><b>Autore</b></h5>
             
-            <% for(String authorFilter : searchManagement.getAuthorFilters()) { %>
+            <% for(Pair<String, Integer> authorFilter : searchManagement.getAuthorFilters()) { %>
             
               <a class="filter-link">
-                <label><input type="checkbox" name="authors" value="<%=authorFilter%>" onclick="submitFilter()" <% if(searchManagement.hasAuthor(authorFilter)) {%> checked <%}%> > <%=authorFilter%> </label>
+                <label><input type="checkbox" name="authors" value="<%=authorFilter.getFirst()%>" onclick="submitFilter()" <% if(searchManagement.hasAuthor(authorFilter.getFirst())) {%> checked <%}%> > <%=authorFilter.getFirst()%> </label>
+                <small>(<%=authorFilter.getSecond()%>)</small>
               </a></br>
             
             <% } %>
             
             <h5><b>Editore</b></h5>
             
-            <% for(String publisherFilter : searchManagement.getPublisherFilters()) { %>
+            <% for(Pair<String, Integer> publisherFilter : searchManagement.getPublisherFilters()) { %>
             
               <a class="filter-link">
-                <label><input type="checkbox" name="publishers" value="<%=publisherFilter%>" onclick="submitFilter()" <% if(searchManagement.hasPublisher(publisherFilter)) {%> checked <%}%> > <%=publisherFilter%> </label>
+                <label><input type="checkbox" name="publishers" value="<%=publisherFilter.getFirst()%>" onclick="submitFilter()" <% if(searchManagement.hasPublisher(publisherFilter.getFirst())) {%> checked <%}%> > <%=publisherFilter.getFirst()%> </label>
+                <small>(<%=publisherFilter.getSecond()%>)</small>
               </a></br>
             
             <% } %>
@@ -149,12 +153,12 @@
 
         <div class="col-xs-12 col-sm-9 col-md-9 col-lg-10">
 
-          <h5>Hai cercato: <b style="color: #46b8da;">Quello cercato</b></h5>
+          <h5>Hai cercato: <b style="color: #46b8da;"><%=searchManagement.getValue()%></b></h5>
 
 
           <div class="row">
             <div class="col-xs-9">
-              <h5>Risultati: 1-25 di <b>1200</b></h5>
+              <h5>Risultati: 1-25 di <b><%=searchManagement.getTotResults()%></b></h5>
             </div>
 
             <div class="col-xs-3">

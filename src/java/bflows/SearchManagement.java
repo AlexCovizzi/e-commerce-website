@@ -15,6 +15,7 @@ import blogics.UserService;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import util.Pair;
 import services.database.DBService;
 import services.database.Database;
 import services.database.exception.RecoverableDBException;
@@ -23,16 +24,17 @@ import util.Logger;
 
 
 public class SearchManagement extends AbstractManagement {
-	private String isbn = "";
-  private String title = "";
-  private String[] authors = {""};
-  private String[] publishers = {""};
-  private String[] genres = {""};
+  private int totResults = 0;
+	private String field = "title";
+  private String value = "";
+  private String[] authors;
+  private String[] publishers;
+  private String[] genres;
   private int page = 1;
   
-  private List<String> genreFilters;
-  private List<String> authorFilters;
-  private List<String> publisherFilters;
+  private List<Pair<String, Integer>> genreFilters;
+  private List<Pair<String, Integer>> authorFilters;
+  private List<Pair<String, Integer>> publisherFilters;
   
 	private List<Book> books;
 	
@@ -40,7 +42,9 @@ public class SearchManagement extends AbstractManagement {
 	public void view() throws UnrecoverableDBException {
 		Database database = DBService.getDataBase();
     try {
-      books = BookService.getBookList(database, isbn, title, authors, publishers, genres, new String[]{""}, new String[]{""}, "", page, 25);
+      totResults = BookService.getTotalResults(database, field, value);
+      
+      books = BookService.getBookList(database, field, value, authors, publishers, genres, new String[]{""}, new String[]{""}, "", page, 25);
 
       for(Book book : books) {
         List<Author> bAuthors = AuthorService.getBookAuthors(database, book.getIsbn());
@@ -50,9 +54,9 @@ public class SearchManagement extends AbstractManagement {
         book.setGenres(bGenres);
       }
       
-      genreFilters = BookService.getFilterGenres(database, title, isbn);
-      authorFilters = BookService.getFilterAuthors(database, title, isbn);
-      publisherFilters = BookService.getFilterPublishers(database, title, isbn);
+      genreFilters = BookService.getFilterGenres(database, field, value);
+      authorFilters = BookService.getFilterAuthors(database, field, value);
+      publisherFilters = BookService.getFilterPublishers(database, field, value);
 
       database.commit();
     } catch (RecoverableDBException ex) {
@@ -87,12 +91,16 @@ public class SearchManagement extends AbstractManagement {
   }
   
   /* Setters */
-  public void setIsbn(String isbn) {
-    this.isbn = isbn;
+  public void setField(String field) {
+    this.field = field;
   }
   
-  public void setTitle(String title) {
-    this.title = title;
+  public void setValue(String value) {
+    this.value = value;
+  }
+  
+  public void setTotResults(int totResults) {
+    this.totResults = totResults;
   }
   
   public void setAuthors(String[] authors) {
@@ -112,12 +120,16 @@ public class SearchManagement extends AbstractManagement {
   }
   
   /* Getters */
-  public String getIsbn() {
-    return isbn;
+  public String getField() {
+    return field;
   }
   
-  public String getTitle() {
-    return title;
+  public String getValue() {
+    return value;
+  }
+  
+  public int getTotResults() {
+    return totResults;
   }
   
   public String[] getAuthors() {
@@ -136,19 +148,20 @@ public class SearchManagement extends AbstractManagement {
     return page;
   }
   
-  public List<String> getGenreFilters() {
+  public List<Pair<String, Integer>> getGenreFilters() {
     return genreFilters;
   }
   
-  public List<String> getAuthorFilters() {
+  public List<Pair<String, Integer>> getAuthorFilters() {
     return authorFilters;
   }
   
-  public List<String> getPublisherFilters() {
+  public List<Pair<String, Integer>> getPublisherFilters() {
     return publisherFilters;
   }
   
   public boolean hasGenre(String genre) {
+    if(genres == null) return false;
     for(String g : genres) {
       if(g.equals(genre)) return true;
     }
@@ -156,6 +169,7 @@ public class SearchManagement extends AbstractManagement {
   }
   
   public boolean hasAuthor(String author) {
+    if(authors == null) return false;
     for(String a : authors) {
       if(a.equals(author)) return true;
     }
@@ -163,6 +177,7 @@ public class SearchManagement extends AbstractManagement {
   }
   
   public boolean hasPublisher(String publisher) {
+    if(publishers == null) return false;
     for(String p : publishers) {
       if(p.equals(publisher)) return true;
     }
