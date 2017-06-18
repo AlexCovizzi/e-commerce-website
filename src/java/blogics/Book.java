@@ -21,6 +21,8 @@ public class Book {
   private String isbn;
   private String language;
   private String publisher;
+  private float vote;
+  private int nVotes;
   
   private List<Author> authors;
   private List<Genre> genres;
@@ -50,6 +52,8 @@ public class Book {
     try {isbn = resultSet.getString("ISBN");} catch (SQLException sqle) {}
     try {language = resultSet.getString("LANGUAGE");} catch (SQLException sqle) {}
     try {publisher = resultSet.getString("PUBLISHER");} catch (SQLException sqle) {}
+    try {vote = resultSet.getFloat("VOTE");} catch (SQLException sqle) {}
+    try {nVotes = resultSet.getInt("N_VOTES");} catch (SQLException sqle) {}
     
   }
   
@@ -150,6 +154,14 @@ public class Book {
   public String getPublisher()
   {
     return publisher;
+  }
+  
+  public int getVotePercent() {
+    return (int) (vote*100);
+  }
+  
+  public int getNVotes() {
+    return nVotes;
   }
   
   public List<Author> getAuthors() {

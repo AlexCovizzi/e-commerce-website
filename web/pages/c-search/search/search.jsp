@@ -44,6 +44,12 @@
     <script>
       function submitFilter() {
           document.getElementById("filter-form").submit();
+          return;
+      }
+      function submitOrd(ord) {
+          document.getElementsByName("ord")[0].value = ord;
+          submitFilter();
+          return;
       }
     </script>
   </head>
@@ -76,6 +82,9 @@
 
           <div id="filter-menu" class="filter-menu collapse in">
           <form id="filter-form" type="get" action="search.jsp">
+            
+            <input type="hidden" name="search" value="<%=searchManagement.getSearch()%>" style="display: none;">
+            <input type="hidden" name="ord" value="<%=searchManagement.getOrd()%>" style="display: none;">
             
             <h5><b>Genere</b></h5>
             
@@ -153,13 +162,15 @@
 
         <div class="col-xs-12 col-sm-9 col-md-9 col-lg-10">
 
-          <h5>Hai cercato: <b style="color: #46b8da;"><%=searchManagement.getValue()%></b></h5>
 
 
           <div class="row">
+            
             <div class="col-xs-9">
-              <h5>Risultati: 1-25 di <b><%=searchManagement.getTotResults()%></b></h5>
+          <h5>Hai cercato: <b style="color: #46b8da;"><%=searchManagement.getSearch()%></b></h5>
+              <!--<h5>Risultati: 1-25 di <b><%=searchManagement.getTotResults()%></b></h5>-->
             </div>
+            
 
             <div class="col-xs-3">
               <button title="Ordina per" class="btn btn-default dropdown-toggle pull-right" type="button" id="sort-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
@@ -168,21 +179,24 @@
                 <span class="caret"></span>
               </button>
               <ul class="dropdown-menu pull-right" aria-labelledby="sort-dropdown">
-                <li><a href="#">Rilevanza</a></li>
-                <li><a href="#">Ultimi arrivi</a></li>
-                <li><a href="#">Voto</a></li>
-                <li><a href="#">Prezzo: crescente</a></li>
-                <li><a href="#">Prezzo: decrescente</a></li>
+                <li><a onclick="submitOrd('az')">A-Z</a></li>
+                <li><a onclick="submitOrd('last')">Ultimi arrivi</a></li>
+                <li><a onclick="submitOrd('best')">Voto</a></li>
+                <li><a onclick="submitOrd('aprice')">Prezzo: crescente</a></li>
+                <li><a onclick="submitOrd('dprice')">Prezzo: decrescente</a></li>
               </ul>
             </div>
           </div>
 
           <div class="divider-horizontal"></div>
           
-          <% for(Book book : searchManagement.getBooks()) { %>
-            <% request.setAttribute("book", book); %>
-            <jsp:include page="../../../shared/book-search/book-search.jsp" />
-          <% } %>
+          <% if(searchManagement.getBooks().isEmpty()) { %>
+            Nessun risultato trovato
+          <% } else {
+              for(Book book : searchManagement.getBooks()) { %>
+                <% request.setAttribute("book", book); %>
+                <jsp:include page="../../../shared/book-search/book-search.jsp" />
+          <% } } %>
 
           <ul class="pagination pagination-centered">
             <li><a href="#"><</a></li>

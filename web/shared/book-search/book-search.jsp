@@ -32,7 +32,7 @@
       </h6>
       <h6><b>ISBN: </b><a class="book-link" href="#"><%=book.getIsbn()%></a></h6>
       <div class="custom-divider"></div>
-      <h5><b>Voto: </b>92% <small>(1452 voti)</small></h5>
+      <h5><b>Voto: </b><%=book.getVotePercent()%>% <small>(<%=book.getNVotes()%> voti)</small></h5>
     </div>
     
     <div class="col-xs-12 col-sm-4">

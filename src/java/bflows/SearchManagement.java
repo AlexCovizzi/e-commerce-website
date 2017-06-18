@@ -24,9 +24,10 @@ import util.Logger;
 
 
 public class SearchManagement extends AbstractManagement {
+  
   private int totResults = 0;
-	private String field = "title";
-  private String value = "";
+	private String search = "";
+  private String ord = "az";
   private String[] authors;
   private String[] publishers;
   private String[] genres;
@@ -41,10 +42,11 @@ public class SearchManagement extends AbstractManagement {
 	/* search.jsp -> search.jsp : view */
 	public void view() throws UnrecoverableDBException {
 		Database database = DBService.getDataBase();
+    
     try {
-      totResults = BookService.getTotalResults(database, field, value);
+      totResults = BookService.getTotalResults(database, search);
       
-      books = BookService.getBookList(database, field, value, authors, publishers, genres, new String[]{""}, new String[]{""}, "", page, 25);
+      books = BookService.getBookList(database, search, authors, publishers, genres, new String[]{""}, new String[]{""}, getSqlOrder(ord), page, 25);
 
       for(Book book : books) {
         List<Author> bAuthors = AuthorService.getBookAuthors(database, book.getIsbn());
@@ -54,9 +56,9 @@ public class SearchManagement extends AbstractManagement {
         book.setGenres(bGenres);
       }
       
-      genreFilters = BookService.getFilterGenres(database, field, value);
-      authorFilters = BookService.getFilterAuthors(database, field, value);
-      publisherFilters = BookService.getFilterPublishers(database, field, value);
+      genreFilters = BookService.getFilterGenres(database, search);
+      authorFilters = BookService.getFilterAuthors(database, search);
+      publisherFilters = BookService.getFilterPublishers(database, search);
 
       database.commit();
     } catch (RecoverableDBException ex) {
@@ -91,12 +93,12 @@ public class SearchManagement extends AbstractManagement {
   }
   
   /* Setters */
-  public void setField(String field) {
-    this.field = field;
+  public void setSearch(String search) {
+    this.search = search;
   }
   
-  public void setValue(String value) {
-    this.value = value;
+  public void setOrd(String ord) {
+    this.ord = ord;
   }
   
   public void setTotResults(int totResults) {
@@ -120,12 +122,12 @@ public class SearchManagement extends AbstractManagement {
   }
   
   /* Getters */
-  public String getField() {
-    return field;
+  public String getSearch() {
+    return search;
   }
   
-  public String getValue() {
-    return value;
+  public String getOrd() {
+    return ord;
   }
   
   public int getTotResults() {
@@ -182,5 +184,18 @@ public class SearchManagement extends AbstractManagement {
       if(p.equals(publisher)) return true;
     }
     return false;
+  }
+  
+  
+  /* metodi utility */
+  private String getSqlOrder(String ord) {
+    switch (ord) {
+      case "az": return "title ASC";
+      case "last": return "timestamp ASC";
+      case "best": return "vote DESC";
+      case "aprice": return "price ASC";
+      case "dprice": return "price DESC";
+      default: return "title ASC";
+    }
   }
 }

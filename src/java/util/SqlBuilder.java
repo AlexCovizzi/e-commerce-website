@@ -49,6 +49,10 @@ public class SqlBuilder {
         offset(offset);
         return this;
     }
+    
+    public SqlBuilder orderBy(String column) {
+        return command("ORDER BY").params(column);
+    }
 
     /* INSERT statement */
     public SqlBuilder insertInto(String table, String...columns) {

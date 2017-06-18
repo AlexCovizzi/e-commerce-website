@@ -1,17 +1,5 @@
 <script>
-  $("#search-options li a").click(function(e){
-    var selText = $(this).text();
-    $(this).parents('.input-group').find('.dropdown-toggle').html(selText+' <span class="caret"></span>');
-    
-    var selValue = $(this).val();
-    $("#field-input").val(selValue);
-    console.log(selValue);
-  });
   
-  function changeField(field, name) {
-    document.getElementById("dropdownField").innerHTML = name+' <span class="caret"></span>';
-    document.getElementById("field-input").value = field;
-  }
 </script>
 
 <nav id="navbar-shared" class="navbar navbar-default navbar-fixed-top">
@@ -66,6 +54,7 @@
               <a href="../../c-login/signup/signup.jsp">Registrati</a>
             </li>
           </ul>
+          <button class="btn btn-default" type="button">Ricerca avanzata</button>
       </div> <!-- menu a destra (logged out) -->
     <% } %>
 
@@ -76,6 +65,10 @@
         <div id="search-form-group" class="form-group">
           <div id="search-input-group" class="input-group">
             <div class="input-group-btn" style="width:1%;">
+              <button class="btn btn-default" type="button" style="font-size: 12px; height: 34px;">
+                Ricerca avanzata
+              </button>
+              <!--
               <button class="btn btn-default dropdown-toggle" type="button" id="dropdownField" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                 Titolo
                 <span class="caret"></span>
@@ -87,11 +80,11 @@
                 <li class="divider"></li>
                 <li><a class="navbar-link" href="../../c-login/signup/signup.jsp">Ricerca Avanzata</a></li>
               </ul>
+              -->
             </div>
-            <input id="field-input" type="hidden" name="field" value="title" style="display:none;">
-            <input id="search-input" name="value" type="text" class="form-control" placeholder="Cerca">
+            <input id="search-input" name="search" type="text" class="form-control" placeholder="Cerca">
             <div class="input-group-btn" style="width:1%;">
-              <button class="btn btn-default" type="submit">
+              <button class="btn btn-default" type="submit" style="height: 34px;">
                 <i class="glyphicon glyphicon-search"></i>
               </button>
             </div>

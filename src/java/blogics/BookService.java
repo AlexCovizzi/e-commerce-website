@@ -134,9 +134,9 @@ public class BookService {
     System.out.println("Libro modificato!");
   }
   
-	public static List<Book> getBookList(Database db, String s_field, String s_value, String[] authors,
+	public static List<Book> getBookList(Database db, String search, String[] authors,
 			String[] publishers, String[] genres, String[] priceRange, String[] voteRange,
-			String order, int page, int booksPerPage) throws RecoverableDBException {
+			String ord, int page, int booksPerPage) throws RecoverableDBException {
 		
 		SqlBuilder sqlBuilder = new SqlBuilder();
 		String sql;
@@ -144,11 +144,11 @@ public class BookService {
 		List<Book> bookList = new ArrayList();
 		
 		sqlBuilder
-			.selectDistinct("isbn", "title", "price", "publisher", "stock", "vote", "n_votes", "coverUri")
+			.selectDistinct("isbn", "title", "price", "publisher", "stock", "vote", "n_votes", "coverUri", "timestamp")
 			.from("BookView")
       .join("BookAuthor").as("B_A").on("B_A.book_isbn = isbn")
       .join("BookGenre").as("B_G").on("B_G.book_isbn = isbn")
-			.where(s_field+" LIKE '%"+s_value+"%'");
+			.where("title LIKE '%"+search+"%' OR isbn = '"+search+"'");
 		
     if(authors != null) {
       String authorsCondition = "";
@@ -177,10 +177,11 @@ public class BookService {
       sqlBuilder.and(genresCondition);
     }
 		
-		// TODO: manca il price range, il vote range e l'ordine
+		// TODO: manca il price range, il vote range
 		
 		
 		sqlBuilder
+      .orderBy(ord)
 			.limit(booksPerPage, booksPerPage*page-booksPerPage);
 		
 		sql = sqlBuilder.done();
@@ -204,7 +205,7 @@ public class BookService {
 		return bookList;
 	}
   
-  public static int getTotalResults(Database db, String field, String value) throws RecoverableDBException {
+  public static int getTotalResults(Database db, String search) throws RecoverableDBException {
     SqlBuilder sqlBuilder = new SqlBuilder();
 		ResultSet resultSet;
     int totResults = 0;
@@ -214,7 +215,7 @@ public class BookService {
 			.from("BookView")
       .join("BookAuthor").as("B_A").on("B_A.book_isbn = isbn")
       .join("BookGenre").as("B_G").on("B_G.book_isbn = isbn")
-			.where(field+" LIKE '%"+value+"%'")
+			.where("title LIKE '%"+search+"%' OR isbn = '"+search+"'")
       .done();
     
     resultSet = db.select(sql);
@@ -233,7 +234,7 @@ public class BookService {
     return totResults;
   }
   
-  public static List<Pair<String, Integer>> getFilterGenres(Database db, String s_field, String s_value) throws RecoverableDBException {
+  public static List<Pair<String, Integer>> getFilterGenres(Database db, String search) throws RecoverableDBException {
     SqlBuilder sqlBuilder = new SqlBuilder();
 		ResultSet resultSet;
 		List<Pair<String, Integer>> genres = new ArrayList();
@@ -242,7 +243,7 @@ public class BookService {
 			.select("g_name", "COUNT(*) AS n")
 			.from("BookView")
       .join("BookGenre").on("book_isbn = isbn")
-			.where(s_field+" LIKE '%"+s_value+"%'")
+			.where("title LIKE '%"+search+"%' OR isbn = '"+search+"'")
       .command("GROUP BY").params("g_name")
       .command("ORDER BY").params("n").command("DESC")
       .limit(5)
@@ -267,7 +268,7 @@ public class BookService {
     return genres;
   }
   
-  public static List<Pair<String, Integer>> getFilterAuthors(Database db, String s_field, String s_value) throws RecoverableDBException {
+  public static List<Pair<String, Integer>> getFilterAuthors(Database db, String search) throws RecoverableDBException {
     SqlBuilder sqlBuilder = new SqlBuilder();
 		ResultSet resultSet;
 		List<Pair<String, Integer>> authors = new ArrayList();
@@ -276,7 +277,7 @@ public class BookService {
 			.select("a_name", "COUNT(*) AS n")
 			.from("BookView")
       .join("BookAuthor").on("book_isbn = isbn")
-			.where(s_field+" LIKE '%"+s_value+"%'")
+			.where("title LIKE '%"+search+"%' OR isbn = '"+search+"'")
       .command("GROUP BY").params("a_name")
       .command("ORDER BY").params("n").command("DESC")
       .limit(5)
@@ -301,7 +302,7 @@ public class BookService {
     return authors;
   }
   
-  public static List<Pair<String, Integer>> getFilterPublishers(Database db, String s_field, String s_value) throws RecoverableDBException {
+  public static List<Pair<String, Integer>> getFilterPublishers(Database db, String search) throws RecoverableDBException {
     SqlBuilder sqlBuilder = new SqlBuilder();
 		ResultSet resultSet;
 		List<Pair<String, Integer>> publishers = new ArrayList();
@@ -309,7 +310,7 @@ public class BookService {
     String sql = sqlBuilder
 			.select("publisher", "COUNT(*) AS n")
 			.from("BookView")
-			.where(s_field+" LIKE '%"+s_value+"%'")
+			.where("title LIKE '%"+search+"%' OR isbn = '"+search+"'")
       .command("GROUP BY").params("publisher")
       .command("ORDER BY").params("n").command("DESC")
       .limit(5)

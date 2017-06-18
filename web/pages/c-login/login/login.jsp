@@ -58,13 +58,13 @@
   </head>
     
   <body>
-    
+    <!--
     <% if(loggedIn) { %>
-      <!-- Mando l'utente nella Home page se è già loggato -->
       <script language="javascript">
         location.replace("../../c-search/homepage/homepage.jsp");
       </script>
     <% } %>
+    -->
     
     <!-- header -->
     <div class="header">
