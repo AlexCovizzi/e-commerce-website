@@ -150,4 +150,40 @@ public class GenreService {
 
 		return genres;
 	}
+  
+  public static void insertGenreOfBook(Database database, String bookIsbn, int genere)
+      throws RecoverableDBException {
+    
+    String sql = "";
+    SqlBuilder sqlBuilder = new SqlBuilder();
+    
+    /* Check di unicità non necessario: questa funzione è sempre chiamata dopo BookService.insertNewBook()
+       che si occupa di fare un check sull'unicità: quindi se il libro non è presente, non può essere presente
+       nemmeno una riga in quest tabella corrisponedente a tale libro! */	
+    
+    /* Inserisco una riga nella tabella per ogni genere selzionato */
+    sql = sqlBuilder
+        .insertInto("Book_has_genre", "book_isbn", "genre_id")
+        .values(
+            Conversion.getDatabaseString(bookIsbn),
+            genere)
+        .done();
+
+    database.modify(sql);
+  }
+  
+  public static void deleteGenreOfBook(Database database, String isbn, int idGenere)
+      throws RecoverableDBException {
+    String sql = "";
+    SqlBuilder sqlBuilder = new SqlBuilder();
+    
+    sql = sqlBuilder
+        .delete("")
+        .from("book_has_genre")
+        .where("book_isbn = " + Conversion.getDatabaseString(isbn))
+          .and("genre_id = " + idGenere)
+        .done();
+    
+    database.modify(sql);
+  }
 }

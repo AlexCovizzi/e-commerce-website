@@ -1,14 +1,15 @@
 package bflows;
 
+import blogics.Author;
 import blogics.AuthorService;
 import blogics.Book;
-import blogics.BookHasAuthor;
-import blogics.BookHasAuthorService;
-import blogics.BookHasGenre;
-import blogics.BookHasGenreService;
 import blogics.BookService;
+import blogics.Coupon;
+import blogics.CouponService;
+import blogics.Genre;
 import blogics.GenreService;
 import java.io.Serializable;
+import java.util.List;
 import services.database.*;
 import services.database.exception.*;
 
@@ -31,43 +32,90 @@ public class AdminManagement extends AbstractManagement implements Serializable 
   
   private String[] generi; /* Serve per scrivere i generi salvati nel DB */
   
+  /* Servono per i coupon */
+  private String codice;
+  private int sconto;
+  private List<Coupon> coupons;
   
   
   
 	/* users.jsp -> users.jsp : block */
-	public void blockUser() {
+	public void blockUser() throws UnrecoverableDBException {
 		
 	}
 	
+  
+  
 	/* admins.jsp -> admins-jsp : remove */
-	public void removeAdmin() {
+	public void removeAdmin() throws UnrecoverableDBException {
 		
 	}
 	
 	/* signup.jsp -> admins.jsp : add */
-	public void signupAdmin() {
+	public void signupAdmin() throws UnrecoverableDBException {
 		
 	}
 	
+  
+  
 	/* admin-orders.jsp -> admin-orders.jsp : change-state */
-	public void changeOrderState() {
+	public void changeOrderState() throws UnrecoverableDBException {
 		
 	}
 	
+  
+  
+  /* FATTO */
+  /* pagina qualsiasi -> coupons.jsp : view */
+	public void visualizzaTabellaCoupon() throws UnrecoverableDBException {
+		Database database = DBService.getDataBase();
+    
+    try {
+      /* Recupero i coupon dal DB */
+      this.recuperaCoupons(database);
+      
+      /* FINITO! */
+      database.commit();
+    } catch (RecoverableDBException ex) {
+      database.rollBack();
+      setErrorMessage(ex.getMsg());
+		} finally {
+      database.close();
+    }
+	}
+  
 	/* add-coupon.jsp -> coupons.jsp : add */
-	public void addCoupon() {
-		
+	public void addCoupon() throws UnrecoverableDBException {
+		Database database = DBService.getDataBase();
+    
+    try {
+      /* Aggiungo il coupon */
+      CouponService.addCoupon(database, codice, sconto);
+      
+      /* Recupero i coupon dal DB */
+      this.recuperaCoupons(database);
+      
+      /* FINITO! */
+      database.commit();
+    } catch (RecoverableDBException ex) {
+      database.rollBack();
+      setErrorMessage(ex.getMsg());
+		} finally {
+      database.close();
+    }
 	}
 	
 	/* coupons.jsp -> coupons.jsp : disable */
-	public void disableCoupon() {
+	public void disableCoupon() throws UnrecoverableDBException {
 		
 	}
 	
+  
+  
   /* FATTO */
   /* add-book.jsp : view */
   /* azione per view senza isbn */
-  public void visualizza() throws UnrecoverableDBException {
+  public void visualizzaFormAddBook() throws UnrecoverableDBException {
     Database database = DBService.getDataBase();
     
     try {
@@ -107,19 +155,18 @@ Database database = DBService.getDataBase();
       stock = libro.getStock();
       
       /* Per l'autore e i generi funziona un po' diversamente... */
-      BookHasAuthor[] autori = BookHasAuthorService.getAuthorsFromIsbn(database, isbn);
+      List<Author> autori = AuthorService.getBookAuthors(database, isbn);
        
-      autore = new String[autori.length];
+      autore = new String[autori.size()];
+
       for(int i = 0; i < autore.length; i++)
-        autore[i] = AuthorService.getAuthorFromId(database, autori[i].getAuthorId());
-        
-      this.recuperaGeneri(database);
+        autore[i] = autori.get(i).getName();
       
-      BookHasGenre[] bookHasGenre = BookHasGenreService.getGenresFromIsbn(database, isbn);
+      List<Genre> bookHasGenre = GenreService.getBookGenres(database, isbn);
       
-      bookGeneri = new String[bookHasGenre.length];
+      bookGeneri = new String[bookHasGenre.size()];
       for(int i = 0; i < bookGeneri.length; i++)
-        bookGeneri[i] = GenreService.getGenreFromId(database, bookHasGenre[i].getGenreId());
+        bookGeneri[i] = bookHasGenre.get(i).getName();
       
       /* FINITO! */
       database.commit();
@@ -159,7 +206,7 @@ Database database = DBService.getDataBase();
       /* Inserisco il legame tra libro e autore */
       System.out.println("Scrittura del autore del libro...");
       for(int i = 0; i < idAutore.length; i++)
-        BookHasAuthorService.insertAuthorOfBook(database, isbn, idAutore[i]);
+        AuthorService.insertAuthorOfBook(database, isbn, idAutore[i]);
       
       /* Cerco gli ID dei generi selezionati, poi inserisco i legami tra libro e generi */
       for(int i = 0; i < bookGeneri.length; i++)
@@ -174,7 +221,7 @@ Database database = DBService.getDataBase();
       
       System.out.println("Scrittura dei generi del libro...");
       for(int i = 0; i < idGeneri.length; i++)
-        BookHasGenreService.insertGenreOfBook(database, isbn, idGeneri[i]);
+        GenreService.insertGenreOfBook(database, isbn, idGeneri[i]);
       System.out.println("Scritti!");
       
       /* FINITO! */
@@ -213,24 +260,24 @@ Database database = DBService.getDataBase();
       int[] idAutori = this.controlloAutori(database, autore);
       
       /* Prendo il vettore degli autori vecchi del libro */
-      BookHasAuthor[] vecchiAutori = BookHasAuthorService.getAuthorsFromIsbn(database, isbn);
+      List<Author> vecchiAutori = AuthorService.getBookAuthors(database, isbn);
       
       /* Inserisco il legame tra libro e autore nuovo */
       for(int i = 0; i < idAutori.length; i++) {
         boolean presente = false;
-        for(int j = 0; j < vecchiAutori.length; j++) 
-          if(vecchiAutori[j].getAuthorId() == idAutori[i]) {
+        for(int j = 0; j < vecchiAutori.size(); j++) 
+          if(vecchiAutori.get(j).getId() == idAutori[i]) {
             presente = true;
             break;
           }
         
         if(!presente)
-          BookHasAuthorService.insertAuthorOfBook(database, isbn, idAutori[i]);
+          AuthorService.insertAuthorOfBook(database, isbn, idAutori[i]);
       }
       
       /* Tolgo le righe della tabelle book_has_author degli autori non più presenti */
-      for(int i = 0; i < vecchiAutori.length; i++) {
-        int idVecchioAutore = vecchiAutori[i].getAuthorId();
+      for(int i = 0; i < vecchiAutori.size(); i++) {
+        int idVecchioAutore = vecchiAutori.get(i).getId();
         
         boolean presente = false;
         
@@ -241,31 +288,31 @@ Database database = DBService.getDataBase();
           }
         
         if(!presente)
-          BookHasAuthorService.deleteAuthorOfBook(database, isbn, idVecchioAutore);
+          AuthorService.deleteAuthorOfBook(database, isbn, idVecchioAutore);
       }
       
       /* Cerco gli ID dei generi selezionati */ 
       int[] idGeneri = GenreService.getIds(database, bookGeneri);
       
       /* Prendo il vettore degi generi vecchi del libro */
-      BookHasGenre[] vecchiGeneri = BookHasGenreService.getGenresFromIsbn(database, isbn);
+      List<Genre> vecchiGeneri = GenreService.getBookGenres(database, isbn);
       
       /* Inserisco i legami tra libro e generi nuovi */
       for(int i = 0; i < idGeneri.length; i++) {
         boolean presente = false;
-        for(int j = 0; j < vecchiGeneri.length; j++) 
-          if(vecchiGeneri[j].getGenreId() == idGeneri[i]) {
+        for(int j = 0; j < vecchiGeneri.size(); j++) 
+          if(vecchiGeneri.get(j).getId() == idGeneri[i]) {
             presente = true;
             break;
           }
         
         if(!presente)
-          BookHasGenreService.insertGenreOfBook(database, isbn, idGeneri[i]);
+          GenreService.insertGenreOfBook(database, isbn, idGeneri[i]);
       }
       
       /* Tolgo le righe della tabelle book_has_genre dei generi non più presenti */
-      for(int i = 0; i < vecchiGeneri.length; i++) {
-        int idVecchioGenere = vecchiGeneri[i].getGenreId();
+      for(int i = 0; i < vecchiGeneri.size(); i++) {
+        int idVecchioGenere = vecchiGeneri.get(i).getId();
         
         boolean presente = false;
         
@@ -276,7 +323,7 @@ Database database = DBService.getDataBase();
           }
         
         if(!presente)
-          BookHasGenreService.deleteGenreOfBook(database, isbn, idVecchioGenere);
+          GenreService.deleteGenreOfBook(database, isbn, idVecchioGenere);
       }
       
       /* FINITO! */
@@ -290,6 +337,8 @@ Database database = DBService.getDataBase();
     }
     
 	}
+  
+  
   
   /* Funzioni utili */
   public boolean checkGenere(String bookGeneri) {
@@ -328,6 +377,12 @@ Database database = DBService.getDataBase();
       descrizione = "-";
     if(dataPubbl == null)
       dataPubbl = "-";
+  }
+  
+  
+  
+  public void recuperaCoupons(Database database) throws RecoverableDBException {
+    coupons = CouponService.getCoupons(database);
   }
   
   /* Getters */
@@ -395,6 +450,20 @@ Database database = DBService.getDataBase();
     return this.generi[index];
   }
   
+  public String getCodice() {
+    return codice;
+  }
+  
+  public int getSconto() {
+    return sconto;
+  }
+  
+  public List<Coupon> getCoupons() {
+    return coupons;
+  }
+  
+  
+  
   /* Setters */
   public void setUserId(int userId) {
     this.userId = userId;
@@ -458,5 +527,17 @@ Database database = DBService.getDataBase();
   
   public void setGeneri(int index, String generi) {
     this.generi[index] = generi;
+  }
+  
+  public void setCodice(String codice) {
+    this.codice = codice;
+  }
+  
+  public void setSconto(int sconto) {
+    this.sconto = sconto;
+  }
+  
+  public void setCoupons(List<Coupon> coupons) {
+    this.coupons = coupons;
   }
 }

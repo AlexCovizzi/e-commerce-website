@@ -20,13 +20,13 @@
   cookies=request.getCookies();
   boolean loggedIn = (cookies != null);
   
-  //adminManagement.setUserId(Session.getUserId(cookies)); /* Indica l'utente loggato in questo momento */
+  adminManagement.setUserId(Session.getUserId(cookies)); /* Indica l'utente loggato in questo momento */
   
   String action = request.getParameter("action");
   if (action == null) action="view";
   
   if(action.equals("view") && adminManagement.getIsbn().equals("null")) {
-    adminManagement.visualizza();
+    adminManagement.visualizzaFormAddBook();
   }
   if(action.equals("view") && !adminManagement.getIsbn().equals("null")) {
     adminManagement.recuperaInfo();

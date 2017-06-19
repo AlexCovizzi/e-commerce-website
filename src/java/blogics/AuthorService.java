@@ -9,6 +9,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Vector;
 import services.database.Database;
 import services.database.exception.RecoverableDBException;
 import util.Conversion;
@@ -171,4 +172,73 @@ public class AuthorService {
 		
 		return authors;
 	}
+  
+  public static void insertAuthorOfBook(Database database, String isbn, int idAutore)
+  throws RecoverableDBException
+  {
+    String sql = "";
+    SqlBuilder sqlBuilder = new SqlBuilder();
+    
+    /* Check di unicità non necessario: questa funzione è sempre chiamata dopo BookService.insertNewBook()
+       che si occupa di fare un check sull'unicità: quindi se il libro non è presente, non può essere presente
+       nemmeno una riga in quest tabella corrisponedente a tale libro! */	
+
+    /* Inserimento */
+    sql = sqlBuilder
+			.insertInto("Book_has_author", "book_isbn", "author_id")
+			.values(
+					Conversion.getDatabaseString(isbn),
+					idAutore)
+			.done();
+    
+    database.modify(sql);
+  }
+  
+  public static int[] getAuthorsFromIsbn(Database database, String isbn)
+  throws RecoverableDBException {
+    String sql = "";
+    SqlBuilder sqlBuilder = new SqlBuilder();
+    
+    sql = sqlBuilder
+        .select("author_id")
+        .from("book_has_author")
+        .where("book_isbn = " + Conversion.getDatabaseString(isbn))
+        .done();
+    
+    ResultSet resultSet = database.select(sql);
+    
+    Vector<Integer> autoriVector = new Vector<Integer>();
+    int elemento;
+    
+     try {
+      while (resultSet.next()) {
+        elemento = resultSet.getInt("author_id");
+        autoriVector.add(elemento);
+      }
+      resultSet.close();
+    } catch (SQLException e) {
+      throw new RecoverableDBException("BookHasAuthorService: getAuthorsFromIsbn(): Errore sul ResultSet.");
+    }
+    
+    int[] risultato = new int[autoriVector.size()];
+    for(int i = 0; i < risultato.length; i++)
+      risultato[i] = autoriVector.get(i);
+    
+    return risultato;
+  }
+  
+  public static void deleteAuthorOfBook(Database database, String isbn, int idAutore)
+      throws RecoverableDBException {
+    String sql = "";
+    SqlBuilder sqlBuilder = new SqlBuilder();
+    
+    sql = sqlBuilder
+        .delete("")
+        .from("book_has_author")
+        .where("book_isbn = " + Conversion.getDatabaseString(isbn))
+          .and("author_id = " + idAutore)
+        .done();
+    
+    database.modify(sql);
+  }
 }
