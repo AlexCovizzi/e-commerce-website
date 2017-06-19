@@ -1,6 +1,7 @@
 
 package blogics;
 
+import bflows.SearchManagement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -12,6 +13,7 @@ import services.database.exception.*;
 import util.Conversion;
 import util.Logger;
 import util.SqlBuilder;
+import util.Triplet;
 
 /**
  *
@@ -135,7 +137,7 @@ public class BookService {
   }
   
 	public static List<Book> getBookList(Database db, String search, String[] authors,
-			String[] publishers, String[] genres, String[] priceRange, String[] voteRange,
+			String[] publishers, String[] genres, int[] prices, int[] votes,
 			String ord, int page, int booksPerPage) throws RecoverableDBException {
 		
 		SqlBuilder sqlBuilder = new SqlBuilder();
@@ -176,9 +178,24 @@ public class BookService {
       }
       sqlBuilder.and(genresCondition);
     }
-		
-		// TODO: manca il price range, il vote range
-		
+    
+    if(prices != null) {
+      String pricesCondition = "";
+      pricesCondition += " price BETWEEN "+SearchManagement.priceRangeOptions[prices[0]].getSecond()+ " AND " + SearchManagement.priceRangeOptions[prices[0]].getThird();
+      for(int i=1; i<prices.length; i++) {
+        pricesCondition += " OR price BETWEEN "+SearchManagement.priceRangeOptions[prices[i]].getSecond()+ " AND " + SearchManagement.priceRangeOptions[prices[i]].getThird();
+      }
+      sqlBuilder.and(pricesCondition);
+    }
+    
+    if(votes != null) {
+      String votesCondition = "";
+      votesCondition += " vote BETWEEN "+SearchManagement.voteRangeOptions[votes[0]].getSecond()+ " AND " + SearchManagement.voteRangeOptions[votes[0]].getThird();
+      for(int i=1; i<votes.length; i++) {
+        votesCondition += " OR vote BETWEEN "+SearchManagement.voteRangeOptions[votes[i]].getSecond()+ " AND " + SearchManagement.voteRangeOptions[votes[i]].getThird();
+      }
+      sqlBuilder.and(votesCondition);
+    }
 		
 		sqlBuilder
       .orderBy(ord)
@@ -334,5 +351,77 @@ public class BookService {
     
     
     return publishers;
+  }
+  
+  public static int[] getFilterPrices(Database db, String search, Triplet<String, Float, Float>[] priceOptions) throws RecoverableDBException {
+    SqlBuilder sqlBuilder = new SqlBuilder();
+		ResultSet resultSet;
+		int[] prices = new int[SearchManagement.priceRangeOptions.length];
+    
+    sqlBuilder
+			.select("T.price_range", "COUNT(*) AS n");
+    
+    String q = "(SELECT CASE ";
+    for(int i=0; i<priceOptions.length; i++) {
+      Triplet option = priceOptions[i];
+      q += "WHEN price BETWEEN "+option.getSecond()+" AND "+ option.getThird()+" THEN "+i+" ";
+    }
+    q += "END AS price_range FROM (SELECT price FROM BookView WHERE title LIKE '%"+search+"%' OR isbn = '"+search+"') B) AS T";
+    
+    sqlBuilder.from(q)
+      .command("GROUP BY").params("T.price_range");
+    
+    resultSet = db.select(sqlBuilder.done());
+    
+		try {
+			while (resultSet.next()) {
+        int priceRange = resultSet.getInt("price_range");
+        int n = resultSet.getInt("n");
+        prices[priceRange] = n;
+			}
+		} catch (SQLException ex) {
+			throw new RecoverableDBException(ex, "UserService", "getUser", "Errore nel ResultSet");
+		} finally {
+			try { resultSet.close(); }
+			catch (SQLException ex) { Logger.error("UserService", "getUser", ex.getMessage());}
+		}
+    
+    return prices;
+  }
+  
+  public static int[] getFilterVotes(Database db, String search, Triplet<String, Float, Float>[] voteOptions) throws RecoverableDBException {
+    SqlBuilder sqlBuilder = new SqlBuilder();
+		ResultSet resultSet;
+		int[] votes = new int[SearchManagement.voteRangeOptions.length];
+    
+    sqlBuilder
+			.select("T.vote_range", "COUNT(*) AS n");
+    
+    String q = "(SELECT CASE ";
+    for(int i=0; i<voteOptions.length; i++) {
+      Triplet option = voteOptions[i];
+      q += "WHEN vote BETWEEN "+option.getSecond()+" AND "+ option.getThird()+" THEN "+i+" ";
+    }
+    q += "END AS vote_range FROM (SELECT vote FROM BookView WHERE title LIKE '%"+search+"%' OR isbn = '"+search+"') B) AS T";
+    
+    sqlBuilder.from(q)
+      .command("GROUP BY").params("T.vote_range");
+    
+    resultSet = db.select(sqlBuilder.done());
+    
+		try {
+			while (resultSet.next()) {
+        int priceRange = resultSet.getInt("vote_range");
+        int n = resultSet.getInt("n");
+        votes[priceRange] = n;
+			}
+		} catch (SQLException ex) {
+			throw new RecoverableDBException(ex, "UserService", "getUser", "Errore nel ResultSet");
+		} finally {
+			try { resultSet.close(); }
+			catch (SQLException ex) { Logger.error("UserService", "getUser", ex.getMessage());}
+		}
+    
+    return votes;
   }
 }

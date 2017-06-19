@@ -1,3 +1,4 @@
+<%@page import="bflows.SearchManagement"%>
 <%@page import="util.Pair"%>
 <%@page import="blogics.Book"%>
 <%@page import="util.Logger"%>
@@ -118,43 +119,22 @@
               </a></br>
             
             <% } %>
-
+            
             <h5><b>Prezzo</b></h5>
-            <a class="filter-link" href="#">
-              <label><input type="checkbox"> < 5,00 </label>
-            </a></br>
-            <a class="filter-link" href="#">
-              <label><input type="checkbox"> 5,00 - 7,49 </label>
-            </a></br>
-            <a class="filter-link" href="#">
-              <label><input type="checkbox"> 7,50 - 9,99 </label>
-            </a></br>
-            <a class="filter-link" href="#">
-              <label><input type="checkbox"> 10,00 - 14,99 </label>
-            </a></br>
-            <a class="filter-link" href="#">
-              <label><input type="checkbox"> 15,00 - 29,99 </label>
-            </a></br>
-            <a class="filter-link" href="#">
-              <label><input type="checkbox"> > 30,00 </label>
-            </a></br>
-
+            <% for(int i= 0; i<SearchManagement.priceRangeOptions.length; i++) { %>
+              <a class="filter-link" href="#">
+                <label><input type="checkbox" value="<%=i%>" name="prices" onclick="submitFilter()" <% if(searchManagement.hasPrice(i)) {%> checked <%}%>> <%=SearchManagement.priceRangeOptions[i].getFirst()%> </label>
+                <small>(<%=searchManagement.getPriceFilters()[i]%>)</small>
+              </a></br>
+            <% } %>
+            
             <h5><b>Voto</b></h5>
-            <a class="filter-link" href="#">
-              <label><input type="checkbox"> > 90% </label>
-            </a></br>
-            <a class="filter-link" href="#">
-              <label><input type="checkbox"> 75% - 90% </label>
-            </a></br>
-            <a class="filter-link" href="#">
-              <label><input type="checkbox"> 60% - 75% </label>
-            </a></br>
-            <a class="filter-link" href="#">
-              <label><input type="checkbox"> 40% - 75% </label>
-            </a></br>
-            <a class="filter-link" href="#">
-              <label><input type="checkbox"> < 40% </label>
-            </a></br>
+            <% for(int i= 0; i<SearchManagement.voteRangeOptions.length; i++) { %>
+              <a class="filter-link" href="#">
+                <label><input type="checkbox" value="<%=i%>" name="votes" onclick="submitFilter()" <% if(searchManagement.hasVote(i)) {%> checked <%}%>> <%=SearchManagement.voteRangeOptions[i].getFirst()%> </label>
+                <small>(<%=searchManagement.getVoteFilters()[i]%>)</small>
+              </a></br>
+            <% } %>
             
           </form>
           </div>
@@ -179,11 +159,9 @@
                 <span class="caret"></span>
               </button>
               <ul class="dropdown-menu pull-right" aria-labelledby="sort-dropdown">
-                <li><a onclick="submitOrd('az')">A-Z</a></li>
-                <li><a onclick="submitOrd('last')">Ultimi arrivi</a></li>
-                <li><a onclick="submitOrd('best')">Voto</a></li>
-                <li><a onclick="submitOrd('aprice')">Prezzo: crescente</a></li>
-                <li><a onclick="submitOrd('dprice')">Prezzo: decrescente</a></li>
+                <% for(int i=0; i<SearchManagement.orderOptions.length; i++) { %>
+                  <li><a onclick="submitOrd(<%=i%>)"><%=SearchManagement.orderOptions[i]%></a></li>
+                <% } %>
               </ul>
             </div>
           </div>
