@@ -80,33 +80,6 @@ public class BookService {
     db.modify(sql);
   }
   
-  public static Book getBookFromIsbn(Database database, String isbn)
-      throws RecoverableDBException {
-    String sql = "";
-    SqlBuilder sqlBuilder = new SqlBuilder();
-
-    sql = sqlBuilder
-        .select("*")
-        .from("book")
-        .where("fl_active = 'S'")
-          .and("ISBN = " + Conversion.getDatabaseString(isbn))
-        .done();
-    
-    Book libro = null;
-    ResultSet resultSet = database.select(sql);
-    
-     try {
-      if(resultSet.next())
-        libro = new Book(resultSet);
-      
-      resultSet.close();
-    } catch (SQLException e) {
-      throw new RecoverableDBException("BookService: getBookFromIsbn(): Errore sul ResultSet.");
-    }
-    
-    return libro;
-  }
-  
   public static void updateBook(Database database, String title, String description, int pages, float price,
       String publication_date, int stock, String isbn, String language, String publisher)
       throws RecoverableDBException {
@@ -134,6 +107,32 @@ public class BookService {
     
     database.modify(sql);
     System.out.println("Libro modificato!");
+  }
+  
+  public static Book getBookFromIsbn(Database database, String isbn)
+      throws RecoverableDBException {
+    String sql = "";
+    SqlBuilder sqlBuilder = new SqlBuilder();
+
+    sql = sqlBuilder
+        .selectDistinct("*")
+        .from("BookView")
+        .where("isbn = "+Conversion.getDatabaseString(isbn))
+        .done();
+    
+    Book book = null;
+    ResultSet resultSet = database.select(sql);
+    
+     try {
+      if(resultSet.next())
+        book = new Book(resultSet);
+      
+      resultSet.close();
+    } catch (SQLException e) {
+      throw new RecoverableDBException("BookService: getBookFromIsbn(): Errore sul ResultSet.");
+    }
+    
+    return book;
   }
   
 	public static List<Book> getBookList(Database db, String search, String[] authors,

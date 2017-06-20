@@ -1,12 +1,37 @@
+<%@page import="blogics.Review"%>
+<%@page import="blogics.Book"%>
+<%@page import="bflows.SearchManagement"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<!DOCTYPE html>
+<%@page info="Book Page" %>
+<%@page session="false" %>
+<%@page buffer="30kb" %>
+<%@page errorPage="../../ErrorPage.jsp" %>
+
+<%@ page import="services.session.*" %>
+
+<jsp:useBean id="searchManagement" scope="page" class="bflows.SearchManagement" />
+<jsp:setProperty name="searchManagement" property="*" />
+
+<%
+  String message = null;
+  Cookie[] cookies = request.getCookies();
+  boolean loggedIn = (cookies != null);
+  
+  String action = request.getParameter("action");
+  if (action == null) action="view";
+  
+  message = searchManagement.getErrorMessage();
+  
+  if(action.equals("view")) searchManagement.bookView();
+  Book book = searchManagement.getBooks().get(0);
+%>
 
 <html>
   <head>
     <title>Dettagli libro</title>
 
     <!-- comprende css e script del framework, header e footer -->
-    <%@ include file="../../shared/head-common.html" %>
+    <%@ include file="../../../shared/head-common.html" %>
 
     <!-- carica i tuoi file css qui -->
     <link href="book-page.css" rel="stylesheet" type="text/css" />
@@ -19,12 +44,12 @@
   <body>
     <!-- header -->
     <div class="header">
-      <%@ include file="../../shared/header/header.jsp" %>
+      <%@ include file="../../../shared/header/header.jsp" %>
     </div>
     
     <!-- sotto-header -->
     <div class="sotto-header">
-      <%@ include file="../../shared/sotto-header/sotto-header.jsp" %>
+      <%@ include file="../../../shared/sotto-header/sotto-header.jsp" %>
     </div>
 
     <!-- content-area -->
@@ -36,26 +61,31 @@
 
       <div class="row" id="copertina-info">
 
-          <div class="my-jumbotron col-sm-3 " id="div_copertina">
+          <div class="img-wrapper col-sm-3 " id="div_copertina">
               <div id="copertina-book-page">
                   <img class="copertina" src="../../assets/img/download.jpg"/>
               </div>
           </div>
 
           <div class="col-sm-4" id="informazioni">
-              <h2>Il Trono di Spade</h2>
-              <h3>Giorgio R.R. Martino</h3>
+              <h2><%=book.getTitle()%></h2>
+              
+              <h3><%=book.getAuthors().get(0).getName()%>
+              <% for(int i=1; i<book.getAuthors().size(); i++) { %>
+                , <%=book.getAuthors().get(i).getName()%>
+              <% } %>
+              </h3>
 
-              <p><i>ISBN:</i> 777777777777777</p>
-              <p><i>Pagine:</i> 777</p>
-              <p><i>Editore:</i> NonnoLaser Editore</p>
-              <p><i>Data di pubblicazione:</i> 01/01/2000</p>
-              <p><i>Lingua:</i> Italiano</p>
-              <p><b><a href="#valutazioni_altri_utenti">VOTO MEDIO</a></b>: 0%</p>
+              <p><b>ISBN:</b> <%=book.getIsbn()%></p>
+              <p><b>Pagine:</b> <%=book.getPages()%></p>
+              <p><b>Editore:</b> <%=book.getPublisher() %></p>
+              <p><b>Data di pubblicazione:</b> <%=book.getPublicationDate() %></p>
+              <p><b>Lingua:</b> <%=book.getLanguage() %></p>
+              <p><b><a href="#valutazioni_altri_utenti">Voto</a></b>: <%=book.getVotePercent()%>% <small>(<%=book.getNVotes()%> voti)</small></p>
           </div>
 
           <div class="col-sm-4" id="prezzo">
-              <h3><b>10.99 &euro;</b></h3>
+              <h3><b><%=book.getPrice()%> &euro;</b></h3>
               Venduto e spedito da Libreria Sant'Ale
               <div style="margin-bottom: 15px;"></div>
               <div id="carrello-desideri">
@@ -80,18 +110,7 @@
           </button>
 
           <div class="collapse" id="descrizione">
-              Eddard Stark, lord di Grande Inverno, viene incaricato dal suo re e
-              amico Robert Baratheon di recarsi ad Approdo del Re per ricoprire la
-              carica di Primo Cavaliere del Re. La guerra fra i Sette Regni è però
-              alle porte, a causa degli intrighi e delle mire al Trono di Spade dei
-              membri della nobile Casa Lannister. Jon Snow, figlio illegittimo di
-              Eddard Stark, si arruola invece nei Guardiani della notte e si reca
-              sulla Barriera, enorme muro di ghiaccio che separa il mondo degli
-              uomini dalle ostili terre dell'Eterno Inverno, da cui sta arrivando
-              una minaccia terribile. Nel frattempo, Daenerys Targaryen e il suo crudele
-              fratello Viserys, ultimi superstiti della nobile Casa Targaryen
-              regnante prima della rivolta dei Baratheon, cercano di ricostruire
-              l'antico potere nelle selvagge terre al di là del mare.
+              <%=book.getDescription()%>
           </div>
       </div>
 
@@ -177,9 +196,11 @@
 
       <div class="my-jumbotron" id="valutazioni_altri_utenti">
           <h3>Gli altri utenti la pensano così...</h3>
-          <%@ include file="../../shared/review/review.jsp" %>
-          <%@ include file="../../shared/review/review.jsp" %>
-          <%@ include file="../../shared/review/review.jsp" %>
+          
+          <% for(Review review : searchManagement.getBookReviews()) { %>
+            <% request.setAttribute("review", review); %>
+            <jsp:include page="../../../shared/review/review.jsp" />
+          <% } %>
 
           <a href="../other-reviews/other-reviews.jsp">
               <button id="altre_recensioni" class="btn btn-primary" type="button">
@@ -192,7 +213,7 @@
 
     <!-- footer -->
     <div class="footer">
-      <%@ include file="../../shared/footer/footer.jsp" %>
+      <%@ include file="../../../shared/footer/footer.jsp" %>
     </div>
 
   </body>

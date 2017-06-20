@@ -8,7 +8,7 @@
 <div class="book-container row">
   
   <div class="img-wrapper col-xs-3 col-sm-2" style="min-width: 60px; max-width: 130px;">
-    <a href="#">
+    <a href="../book-page/book-page.jsp?isbn=<%=book.getIsbn()%>">
       <img src="../../assets/img/download.jpg" class="img-thumbnail">
     </a>
   </div>
@@ -16,21 +16,21 @@
   <div class="col-xs-9 col-sm-10" style="padding-left: 4px;">
     
     <div class="col-xs-12 col-sm-8">
-      <h4><b><a class="book-link" href="#"><%=book.getTitle()%></a></b></h4>
+      <h4><b><a class="book-link" href="../book-page/book-page.jsp?isbn=<%=book.getIsbn()%>"><%=book.getTitle()%></a></b></h4>
       <h6><b>Autore: </b>
         <% for(int i=0; i<book.getAuthors().size(); i++) {
           if(i > 0) %>, 
           <a class="book-link" href="../../c-search/search/search.jsp?authors=<%=book.getAuthors().get(i).getName()%>"><%=book.getAuthors().get(i).getName()%></a>
         <% } %>
       </h6>
-      <h6><b>Editore: </b><a class="book-link" href="#"><%=book.getPublisher()%></a></h6>
+      <h6><b>Editore: </b><a class="book-link" href="../../c-search/search/search.jsp?publishers=<%=book.getPublisher()%>"><%=book.getPublisher()%></a></h6>
       <h6><b>Genere: </b>
         <% for(int i=0; i<book.getGenres().size(); i++) {
           if(i > 0) %>, 
-          <a class="book-link" href="#"><%=book.getGenres().get(i).getName()%></a>
+          <a class="book-link" href="../../c-search/search/search.jsp?genres=<%=book.getGenres().get(i).getName()%>"><%=book.getGenres().get(i).getName()%></a>
         <% } %>
       </h6>
-      <h6><b>ISBN: </b><a class="book-link" href="#"><%=book.getIsbn()%></a></h6>
+      <h6><b>ISBN: </b><%=book.getIsbn()%></h6>
       <div class="custom-divider"></div>
       <h5><b>Voto: </b><%=book.getVotePercent()%>% <small>(<%=book.getNVotes()%> voti)</small></h5>
     </div>
@@ -41,7 +41,7 @@
         <h4 style="color: #46b8da;"><b>&euro;<%=book.getPrice()%></b></h4>
 
         <% if(book.getStock() > 0) { %>
-          <h6 class="disponibilita-immediata">Disponibilità immediata</h6>
+          <h6 class="disponibilita-immediata">Disponibilite</h6>
         <% } else { %>
           <h6 class="non-disponibile">Non disponibile</h6>
         <% } %>

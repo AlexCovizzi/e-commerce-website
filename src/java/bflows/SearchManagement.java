@@ -11,6 +11,8 @@ import blogics.Book;
 import blogics.BookService;
 import blogics.Genre;
 import blogics.GenreService;
+import blogics.Review;
+import blogics.ReviewService;
 import blogics.UserService;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -32,6 +34,7 @@ public class SearchManagement extends AbstractManagement {
   private int totResults = 0;
 	private String search = "";
   private int ord = 0;
+  private String isbn;
   private String[] authors;
   private String[] publishers;
   private String[] genres;
@@ -45,15 +48,15 @@ public class SearchManagement extends AbstractManagement {
   private int[] priceFilters;
   private int[] voteFilters;
   
+  private List<Review> bookReviews;
+  
 	private List<Book> books;
 	
-	/* search.jsp -> search.jsp : view */
-	public void view() throws UnrecoverableDBException {
+	/* search.jsp -> search.jsp : searchView */
+	public void searchView() throws UnrecoverableDBException {
 		Database database = DBService.getDataBase();
     
     try {
-      totResults = BookService.getTotalResults(database, search);
-      
       books = BookService.getBookList(database, search, authors, publishers, genres, prices, votes, getSqlOrder(ord), page, 25);
 
       for(Book book : books) {
@@ -78,6 +81,32 @@ public class SearchManagement extends AbstractManagement {
       database.close();
     }
 	}
+  
+  public void bookView() throws UnrecoverableDBException {
+    Database database = DBService.getDataBase();
+    
+    try {
+      Book book = BookService.getBookFromIsbn(database, isbn);
+      
+      List<Author> bAuthors = AuthorService.getBookAuthors(database, book.getIsbn());
+      List<Genre> bGenres = GenreService.getBookGenres(database, book.getIsbn());
+
+      book.setAuthors(bAuthors);
+      book.setGenres(bGenres);
+      
+      books = new ArrayList<>();
+      books.add(book);
+      
+      bookReviews = ReviewService.getBookReviews(database, book.getIsbn());
+
+      database.commit();
+    } catch (RecoverableDBException ex) {
+			database.rollBack();
+			setErrorMessage(ex.getMsg());
+		} finally {
+      database.close();
+    }
+  }
 	
 	/* search.jsp/book-page.jsp : add-to-cart */
 	public void addToCart() {
@@ -115,6 +144,10 @@ public class SearchManagement extends AbstractManagement {
     this.totResults = totResults;
   }
   
+  public void setIsbn(String isbn) {
+    this.isbn = isbn;
+  }
+  
   public void setAuthors(String[] authors) {
     this.authors = authors;
   }
@@ -150,6 +183,10 @@ public class SearchManagement extends AbstractManagement {
   
   public int getTotResults() {
     return totResults;
+  }
+  
+  public String getIsbn() {
+    return isbn;
   }
   
   public String[] getAuthors() {
@@ -194,6 +231,10 @@ public class SearchManagement extends AbstractManagement {
   
   public int[] getVoteFilters() {
     return voteFilters;
+  }
+  
+  public List<Review> getBookReviews() {
+    return bookReviews;
   }
   
   public boolean hasGenre(String genre) {

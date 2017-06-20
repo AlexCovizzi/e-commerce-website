@@ -54,7 +54,6 @@
               <a href="../../c-login/signup/signup.jsp">Registrati</a>
             </li>
           </ul>
-          <button class="btn btn-default" type="button">Ricerca avanzata</button>
       </div> <!-- menu a destra (logged out) -->
     <% } %>
 

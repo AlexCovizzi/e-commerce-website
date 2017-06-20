@@ -3,7 +3,7 @@
 <%@page import="blogics.Book"%>
 <%@page import="util.Logger"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@page info="Account Page" %>
+<%@page info="Search Page" %>
 <%@page session="false" %>
 <%@page buffer="30kb" %>
 <%@page errorPage="../../ErrorPage.jsp" %>
@@ -24,7 +24,7 @@
   
   message = searchManagement.getErrorMessage();
   
-  if(action.equals("view")) searchManagement.view();
+  if(action.equals("view")) searchManagement.searchView();
 %>
 
 <html>
