@@ -2,7 +2,6 @@ package blogics;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Timestamp;
 import java.util.List;
 
 /**
@@ -16,7 +15,7 @@ public class Book {
   private String description;
   private int pages;
   private float price;
-  private String publication_date; /* Ricordare di mettere come Stringa la data anche del DB */
+  private String publication_date;
   private int stock;
   private String isbn;
   private String language;
@@ -51,10 +50,9 @@ public class Book {
     try {stock = resultSet.getInt("STOCK");} catch (SQLException sqle) {}
     try {isbn = resultSet.getString("ISBN");} catch (SQLException sqle) {}
     try {language = resultSet.getString("LANGUAGE");} catch (SQLException sqle) {}
-    try {publisher = resultSet.getString("PUBLISHER");} catch (SQLException sqle) {}
+    try {publisher = resultSet.getString("PUBLISHER_NAME");} catch (SQLException sqle) {}
     try {vote = resultSet.getFloat("VOTE");} catch (SQLException sqle) {}
     try {nVotes = resultSet.getInt("N_VOTES");} catch (SQLException sqle) {}
-    
   }
   
   /* Setters */  
