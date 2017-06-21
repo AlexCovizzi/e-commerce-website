@@ -6,7 +6,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Vector;
 import util.Pair;
 import services.database.Database;
 import services.database.exception.*;
@@ -25,21 +24,21 @@ public class BookService {
   public BookService() { }
   
   public static void insertNewBook(Database db, String title, String description, int pages, float price,
-      String publication_date, int stock, String isbn, String language, String publisher)
+      String publication_date, int stock, String isbn, String language, int publisher)
       throws RecoverableDBException
   {
     String sql = "";
     SqlBuilder sqlBuilder = new SqlBuilder();
     
     /* Check di unicità */
-
+    System.out.println("Check di unicità");
     sql = sqlBuilder
         .select("isbn")
         .from("book")
         .where("fl_active='S'")
           .and("title=" + Conversion.getDatabaseString(title))
           .and("ISBN=" + Conversion.getDatabaseString(isbn))
-          .and("publisher=" + Conversion.getDatabaseString(publisher))
+          .and("publisher_id=" + publisher)
         .done();
 	
 	
@@ -60,20 +59,20 @@ public class BookService {
     }
     
     /* Inserimento */	
-    
+    System.out.println("Inserimento del libro...");
     sql = sqlBuilder
 			.insertInto("book", "title", "description", 
 					"pages", "price", "publication_date", "stock",
-					"isbn", "language", "publisher", "timestamp")
+					"isbn", "language", "publisher_id", "timestamp")
 			.values(Conversion.getDatabaseString(title),
 					Conversion.getDatabaseString(description),
           pages,
 					price,
-					Conversion.getDatabaseString(publication_date),
+					publication_date,
 					stock,
 					Conversion.getDatabaseString(isbn),
 					Conversion.getDatabaseString(language),
-					Conversion.getDatabaseString(publisher),
+					publisher,
 					"DEFAULT")
 			.done();
     
@@ -81,7 +80,7 @@ public class BookService {
   }
   
   public static void updateBook(Database database, String title, String description, int pages, float price,
-      String publication_date, int stock, String isbn, String language, String publisher)
+      String publication_date, int stock, String isbn, String language, int publisher)
       throws RecoverableDBException {
     
     String sql = "";
@@ -89,7 +88,6 @@ public class BookService {
     
     /* Check di unicità non necessario: l'isbn è fisso */
     /* Aggiornamento */	
-    System.out.println("Ciao! Sono una linea di prova!");
     sql = sqlBuilder
 			.update("book")
       .set(
@@ -97,10 +95,10 @@ public class BookService {
           "description = " + Conversion.getDatabaseString(description), 
 					"pages = " + pages,
           "price = " + price,
-          "publication_date = " + Conversion.getDatabaseString(publication_date),
+          "publication_date = " + publication_date,
           "stock = " + stock,
           "language = " + Conversion.getDatabaseString(language),
-          "publisher = " + Conversion.getDatabaseString(publisher))
+          "publisher_id = " + publisher)
 			.where("isbn = " + Conversion.getDatabaseString(isbn))
         .and("fl_active = 'S'")
 			.done();
@@ -145,7 +143,7 @@ public class BookService {
 		List<Book> bookList = new ArrayList();
 		
 		sqlBuilder
-			.selectDistinct("isbn", "title", "price", "publisher", "stock", "vote", "n_votes", "coverUri", "timestamp")
+			.selectDistinct("isbn", "title", "price", "publisher_name", "stock", "vote", "n_votes", "coverUri", "timestamp")
 			.from("BookView")
       .join("BookAuthor").as("B_A").on("B_A.book_isbn = isbn")
       .join("BookGenre").as("B_G").on("B_G.book_isbn = isbn")
@@ -202,7 +200,7 @@ public class BookService {
 		
 		sql = sqlBuilder.done();
 		
-		Logger.debug("UserService", "getUser", sql);
+		Logger.debug("BookService", "getUser", sql);
 		
 		resultSet = db.select(sql);
     
@@ -327,7 +325,7 @@ public class BookService {
 			.select("publisher", "COUNT(*) AS n")
 			.from("BookView")
 			.where("title LIKE '%"+search+"%' OR isbn = '"+search+"'")
-      .command("GROUP BY").params("publisher")
+      .command("GROUP BY").params("publisher_name")
       .command("ORDER BY").params("n").command("DESC")
       .limit(5)
       .done();
@@ -336,7 +334,7 @@ public class BookService {
     
 		try {
 			while (resultSet.next()) {
-        String publisher = resultSet.getString("publisher");
+        String publisher = resultSet.getString("publisher_name");
         int n = resultSet.getInt("n");
         Pair<String, Integer> pub = new Pair(publisher, n);
 				publishers.add(pub);

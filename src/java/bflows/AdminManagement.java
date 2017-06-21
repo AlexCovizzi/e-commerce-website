@@ -8,6 +8,7 @@ import blogics.Coupon;
 import blogics.CouponService;
 import blogics.Genre;
 import blogics.GenreService;
+import blogics.PublisherService;
 import java.io.Serializable;
 import java.util.List;
 import services.database.*;
@@ -191,11 +192,14 @@ Database database = DBService.getDataBase();
       /* Recupero i generi dal DB */
       this.recuperaGeneri(database);
       
+      /* Controllo l'editore */
+      int idEditore = this.controlloEditore(database, editore);
+      
       /* Inserisco il libro */
       System.out.println("");
       System.out.println("----- addBook -----");
       System.out.println("Inserimento del libro...");
-      BookService.insertNewBook(database, titolo, descrizione, pagine, prezzo, dataPubbl, stock, isbn, lingua, editore);
+      BookService.insertNewBook(database, titolo, descrizione, pagine, prezzo, dataPubbl, stock, isbn, lingua, idEditore);
       System.out.println("Libro inserito!");
       
       
@@ -253,8 +257,11 @@ Database database = DBService.getDataBase();
       /* Recupero i generi dal DB */
       this.recuperaGeneri(database);
       
+      /* Controllo l'editore */
+      int idEditore = this.controlloEditore(database, editore);
+      
       /* Aggiorno le info del libro */      
-      BookService.updateBook(database, titolo, descrizione, pagine, prezzo, dataPubbl, stock, isbn, lingua, editore);
+      BookService.updateBook(database, titolo, descrizione, pagine, prezzo, dataPubbl, stock, isbn, lingua, idEditore);
       
       /* Controllo gli autori */
       int[] idAutori = this.controlloAutori(database, autore);
@@ -372,6 +379,17 @@ Database database = DBService.getDataBase();
       return idAutore;
   }
   
+  public int controlloEditore(Database database, String editore) throws RecoverableDBException {
+    /* Cerco l'ID dell'editore */
+    int idEditore = PublisherService.searchFromName(database, editore);
+    
+    /* Se l'editore non esiste, inserisco un nuovo editore con il nome indicato */
+    if(idEditore == -1)
+      idEditore = PublisherService.insertNewPublisher(database, editore);
+
+    return idEditore;
+  }
+  
   public void controlliCampiOpzionali() {
     if(descrizione == null)
       descrizione = "-";
@@ -379,11 +397,11 @@ Database database = DBService.getDataBase();
       dataPubbl = "-";
   }
   
-  
-  
   public void recuperaCoupons(Database database) throws RecoverableDBException {
     coupons = CouponService.getCoupons(database);
   }
+  
+  
   
   /* Getters */
   public int getUserId() {
