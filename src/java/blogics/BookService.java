@@ -134,7 +134,7 @@ public class BookService {
   }
   
 	public static List<Book> getBookList(Database db, String search, String[] authors,
-			String[] publishers, String[] genres, int[] prices, int[] votes,
+			String[] publishers, String[] genres, float[][] priceRanges, float[][] voteRanges,
 			String ord, int page, int booksPerPage) throws RecoverableDBException {
 		
 		SqlBuilder sqlBuilder = new SqlBuilder();
@@ -143,7 +143,7 @@ public class BookService {
 		List<Book> bookList = new ArrayList();
 		
 		sqlBuilder
-			.selectDistinct("isbn", "title", "price", "publisher_name", "stock", "vote", "n_votes", "coverUri", "timestamp")
+			.selectDistinct("isbn", "title", "price", "publisher_name", "publication_date", "stock", "vote", "n_votes", "coverUri")
 			.from("BookView")
       .join("BookAuthor").as("B_A").on("B_A.book_isbn = isbn")
       .join("BookGenre").as("B_G").on("B_G.book_isbn = isbn")
@@ -176,20 +176,20 @@ public class BookService {
       sqlBuilder.and(genresCondition);
     }
     
-    if(prices != null) {
+    if(priceRanges != null) {
       String pricesCondition = "";
-      pricesCondition += " price BETWEEN "+SearchManagement.PRICE_RANGE_OPTIONS[prices[0]].getSecond()+ " AND " + SearchManagement.PRICE_RANGE_OPTIONS[prices[0]].getThird();
-      for(int i=1; i<prices.length; i++) {
-        pricesCondition += " OR price BETWEEN "+SearchManagement.PRICE_RANGE_OPTIONS[prices[i]].getSecond()+ " AND " + SearchManagement.PRICE_RANGE_OPTIONS[prices[i]].getThird();
+      pricesCondition += " price BETWEEN "+priceRanges[0][0]+ " AND " + priceRanges[0][1];
+      for(int i=1; i<priceRanges.length; i++) {
+        pricesCondition += " OR price BETWEEN "+priceRanges[i][0]+ " AND " + priceRanges[i][1];
       }
       sqlBuilder.and(pricesCondition);
     }
     
-    if(votes != null) {
+    if(voteRanges != null) {
       String votesCondition = "";
-      votesCondition += " vote BETWEEN "+SearchManagement.VOTE_RANGE_OPTIONS[votes[0]].getSecond()+ " AND " + SearchManagement.VOTE_RANGE_OPTIONS[votes[0]].getThird();
-      for(int i=1; i<votes.length; i++) {
-        votesCondition += " OR vote BETWEEN "+SearchManagement.VOTE_RANGE_OPTIONS[votes[i]].getSecond()+ " AND " + SearchManagement.VOTE_RANGE_OPTIONS[votes[i]].getThird();
+      votesCondition += " vote BETWEEN "+voteRanges[0][0]+ " AND " + voteRanges[0][1];
+      for(int i=1; i<priceRanges.length; i++) {
+        votesCondition += " OR vote BETWEEN "+voteRanges[i][0]+ " AND " + voteRanges[i][1];
       }
       sqlBuilder.and(votesCondition);
     }
@@ -350,18 +350,17 @@ public class BookService {
     return publishers;
   }
   
-  public static int[] getFilterPrices(Database db, String search, Triplet<String, Float, Float>[] priceOptions) throws RecoverableDBException {
+  public static int[] getFilterPrices(Database db, String search, float[][] priceRangeOptions) throws RecoverableDBException {
     SqlBuilder sqlBuilder = new SqlBuilder();
 		ResultSet resultSet;
-		int[] prices = new int[SearchManagement.PRICE_RANGE_OPTIONS.length];
+		int[] prices = new int[priceRangeOptions.length];
     
     sqlBuilder
 			.select("T.price_range", "COUNT(*) AS n");
     
     String q = "(SELECT CASE ";
-    for(int i=0; i<priceOptions.length; i++) {
-      Triplet option = priceOptions[i];
-      q += "WHEN price BETWEEN "+option.getSecond()+" AND "+ option.getThird()+" THEN "+i+" ";
+    for(int i=0; i<priceRangeOptions.length; i++) {
+      q += "WHEN price BETWEEN "+priceRangeOptions[i][0]+" AND "+ priceRangeOptions[i][1]+" THEN "+i+" ";
     }
     q += "END AS price_range FROM (SELECT price FROM BookView WHERE title LIKE '%"+search+"%' OR isbn = '"+search+"') B) AS T";
     
@@ -386,18 +385,17 @@ public class BookService {
     return prices;
   }
   
-  public static int[] getFilterVotes(Database db, String search, Triplet<String, Float, Float>[] voteOptions) throws RecoverableDBException {
+  public static int[] getFilterVotes(Database db, String search, float[][] voteRangeOptions) throws RecoverableDBException {
     SqlBuilder sqlBuilder = new SqlBuilder();
 		ResultSet resultSet;
-		int[] votes = new int[SearchManagement.PRICE_RANGE_OPTIONS.length];
+		int[] votes = new int[voteRangeOptions.length];
     
     sqlBuilder
 			.select("T.vote_range", "COUNT(*) AS n");
     
     String q = "(SELECT CASE ";
-    for(int i=0; i<voteOptions.length; i++) {
-      Triplet option = voteOptions[i];
-      q += "WHEN vote BETWEEN "+option.getSecond()+" AND "+ option.getThird()+" THEN "+i+" ";
+    for(int i=0; i<voteRangeOptions.length; i++) {
+      q += "WHEN vote BETWEEN "+voteRangeOptions[i][0]+" AND "+ voteRangeOptions[i][1]+" THEN "+i+" ";
     }
     q += "END AS vote_range FROM (SELECT vote FROM BookView WHERE title LIKE '%"+search+"%' OR isbn = '"+search+"') B) AS T";
     

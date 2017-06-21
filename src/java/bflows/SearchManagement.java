@@ -32,8 +32,13 @@ public class SearchManagement extends AbstractManagement {
     le opzioni di filtraggio per costo, le opzioni di filtraggio per voto
   */
   public static final String[] ORDER_OPTIONS = {"A-Z", "Ultimi arrivi", "Voto", "Prezzo: crescente", "Prezzo: decrescente"};
-  public static final Triplet[] PRICE_RANGE_OPTIONS = {new Triplet("< 5,00", 0, 4.99), new Triplet("5,00 - 7,49", 5, 7.49), new Triplet("7,50 - 9,99", 7.5, 9.99), new Triplet("10,00 - 14,99", 10, 14.99), new Triplet("15,00 - 29,99", 15, 29.99), new Triplet("> 30,00", 30, 999999)};
-  public static final Triplet[] VOTE_RANGE_OPTIONS = {new Triplet("> 90%", 0.9, 1.0), new Triplet("75% - 90%", 0.75, 0.89999), new Triplet("60% - 75%", 0.6, 0.749999), new Triplet("40% - 60%", 0.4, 0.59999), new Triplet("< 40%", 0, 0.39999)};
+  public static final String[] PRICE_RANGE_OPTIONS = {"< 5,00", "5,00 - 7,49", "7,50 - 9,99", "10,00 - 14,99", "15,00 - 29,99", "> 30,00"};
+  public static final String[] VOTE_RANGE_OPTIONS = {"> 90%", "75% - 90%", "60% - 75%", "40% - 60%", "< 40%"};
+  
+  public static final float[][] PRICE_RANGE_VALUES = { {0.00f, 5.00f, 7.50f, 10.00f, 15.00f, 30.00f},
+                                                        {4.99f, 7.49f, 9.99f, 14.99f, 29.99f, 9999} };
+  public static final float[][] VOTE_RANGE_VALUES =  { {0.9f, 0.75f,   0.6f,     0.4f,    0},
+                                                        {1.0f, 0.8999f, 0.74999f, 0.5999f, 0.3999f} };
   
   /* Pagina: Search */
   // parametri
@@ -66,7 +71,25 @@ public class SearchManagement extends AbstractManagement {
 		Database database = DBService.getDataBase();
     
     try {
-      books = BookService.getBookList(database, search, authors, publishers, genres, prices, votes, getSqlOrder(ord), page, 25);
+      float[][] priceRanges = null;
+      float[][] voteRanges = null;
+      
+      if(prices != null) {
+        priceRanges = new float[prices.length][2];
+        for(int i=0; i<priceRanges.length; i++) {
+          priceRanges[i][0] = PRICE_RANGE_VALUES[prices[i]][0];
+          priceRanges[i][1] = PRICE_RANGE_VALUES[prices[i]][1];
+        }
+      }
+      if(votes != null) {
+        voteRanges = new float[votes.length][2];
+        for(int i=0; i<voteRanges.length; i++) {
+          voteRanges[i][0] = VOTE_RANGE_VALUES[votes[i]][0];
+          voteRanges[i][1] = VOTE_RANGE_VALUES[votes[i]][1];
+        }
+      }
+      
+      books = BookService.getBookList(database, search, authors, publishers, genres, priceRanges, voteRanges, getSqlOrder(ord), page, 25);
 
       for(Book b : books) {
         List<Author> bAuthors = AuthorService.getBookAuthors(database, b.getIsbn());
@@ -80,8 +103,8 @@ public class SearchManagement extends AbstractManagement {
       genreFilters = BookService.getFilterGenres(database, search);
       authorFilters = BookService.getFilterAuthors(database, search);
       publisherFilters = BookService.getFilterPublishers(database, search);
-      priceFilters = BookService.getFilterPrices(database, search, PRICE_RANGE_OPTIONS);
-      voteFilters = BookService.getFilterVotes(database, search, VOTE_RANGE_OPTIONS);
+      priceFilters = BookService.getFilterPrices(database, search, PRICE_RANGE_VALUES);
+      voteFilters = BookService.getFilterVotes(database, search, VOTE_RANGE_VALUES);
 
       database.commit();
     } catch (RecoverableDBException ex) {

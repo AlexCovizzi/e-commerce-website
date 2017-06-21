@@ -121,17 +121,17 @@
             <% } %>
             
             <h5><b>Prezzo</b></h5>
-            <% for(int i= 0; i<SearchManagement.priceRangeOptions.length; i++) { %>
+            <% for(int i= 0; i<SearchManagement.PRICE_RANGE_OPTIONS.length; i++) { %>
               <a class="filter-link" href="#">
-                <label><input type="checkbox" value="<%=i%>" name="prices" onclick="submitFilter()" <% if(searchManagement.hasPrice(i)) {%> checked <%}%>> <%=SearchManagement.priceRangeOptions[i].getFirst()%> </label>
+                <label><input type="checkbox" value="<%=i%>" name="prices" onclick="submitFilter()" <% if(searchManagement.hasPrice(i)) {%> checked <%}%>> <%=SearchManagement.PRICE_RANGE_OPTIONS[i] %> </label>
                 <small>(<%=searchManagement.getPriceFilters()[i]%>)</small>
               </a></br>
             <% } %>
             
             <h5><b>Voto</b></h5>
-            <% for(int i= 0; i<SearchManagement.voteRangeOptions.length; i++) { %>
+            <% for(int i= 0; i<SearchManagement.VOTE_RANGE_OPTIONS.length; i++) { %>
               <a class="filter-link" href="#">
-                <label><input type="checkbox" value="<%=i%>" name="votes" onclick="submitFilter()" <% if(searchManagement.hasVote(i)) {%> checked <%}%>> <%=SearchManagement.voteRangeOptions[i].getFirst()%> </label>
+                <label><input type="checkbox" value="<%=i%>" name="votes" onclick="submitFilter()" <% if(searchManagement.hasVote(i)) {%> checked <%}%>> <%=SearchManagement.VOTE_RANGE_OPTIONS[i]%> </label>
                 <small>(<%=searchManagement.getVoteFilters()[i]%>)</small>
               </a></br>
             <% } %>
@@ -159,8 +159,8 @@
                 <span class="caret"></span>
               </button>
               <ul class="dropdown-menu pull-right" aria-labelledby="sort-dropdown">
-                <% for(int i=0; i<SearchManagement.orderOptions.length; i++) { %>
-                  <li><a onclick="submitOrd(<%=i%>)"><%=SearchManagement.orderOptions[i]%></a></li>
+                <% for(int i=0; i<SearchManagement.ORDER_OPTIONS.length; i++) { %>
+                  <li><a onclick="submitOrd(<%=i%>)"><%=SearchManagement.ORDER_OPTIONS[i]%></a></li>
                 <% } %>
               </ul>
             </div>
