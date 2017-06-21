@@ -76,11 +76,11 @@ function submitInfoLibro() {
   }
   
   // Data di pubblicazione
-  if(!isEmpty(f.dataPubbl.value))
+  /*if(!isEmpty(f.dataPubbl.value))
     if(!isValidData(f.dataPubbl.value)) {
       alert("Inserire una data nel formato: \"gg/mm/aaaa\".");
       return;
-    }
+    }*/
   
   // Lingua
   if (isEmpty(f.lingua.value)) {

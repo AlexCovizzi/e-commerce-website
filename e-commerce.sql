@@ -335,7 +335,7 @@ CREATE TABLE IF NOT EXISTS `mydb`.`BookPublisher` (`book_isbn` INT, `p_name` INT
 DROP TABLE IF EXISTS `mydb`.`BookView`;
 USE `mydb`;
 CREATE  OR REPLACE VIEW `BookView` AS
-SELECT B.isbn, B.title, B.description, B.pages, B.price, B.publication_date, B.language, P.name, B.stock, BV.vote, BV.total as n_votes, B.coverUri, B.timestamp
+SELECT B.isbn, B.title, B.description, B.pages, B.price, B.publication_date, B.language, P.name as publisher_name, B.stock, BV.vote, BV.total as n_votes, B.coverUri, B.timestamp
 FROM Book as B
 LEFT JOIN BookVote as BV ON BV.book_isbn = B.isbn 
 JOIN Publisher as P ON B.publisher_id = P.id

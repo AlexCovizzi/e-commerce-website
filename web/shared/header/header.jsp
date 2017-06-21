@@ -21,7 +21,7 @@
       
     </div>
 
-    <% if(loggedIn) {%>
+    <% if(loggedIn && !Session.isUserAdmin(cookies)) {%>
       <!-- menu a destra (logged in) -->
       <div id="menu-right" class="collapse navbar-collapse navbar-right">
         <ul class="nav navbar-nav">
@@ -43,6 +43,29 @@
           </li>
         </ul>
       </div> <!-- menu a destra (logged in) -->
+    
+    <% } else if(loggedIn && Session.isUserAdmin(cookies)) { %>
+      <!-- menu a destra (admin) -->
+      <div id="menu-right" class="collapse navbar-collapse navbar-right">
+        <ul class="nav navbar-nav">
+          <li title="Account Amministratore: <%= Session.getUserName(cookies) %> <%= Session.getUserSurname(cookies) %>">
+            <a href="../../c-admin/admin-account/admin.jsp"><i class="glyphicon glyphicon-user"></i>
+            <span class="visible-xs-inline" style="padding-left:16px;">Account Amministratore: <%= Session.getUserName(cookies) %> <%= Session.getUserSurname(cookies) %></span>
+            </a>
+          </li>
+          <li title="Aggiungi libro">
+            <a href="../../c-admin/add-book/add-book.jsp"><i class="glyphicon glyphicon-book"></i>
+            <span class="visible-xs-inline" style="padding-left:16px;">Aggiungi libro</span>
+            <span class="badge">4</span>
+            </a>
+          </li>
+          <li title="Lista utenti">
+            <a href="../../c-admin/users/users.jsp"><i class="glyphicon glyphicon-heart"></i>
+            <span class="visible-xs-inline" style="padding-left:16px;">Lista desideri</span>
+            </a>
+          </li>
+        </ul>
+      </div> <!-- menu a destra (admin) -->
     
     <%} else {%>
       <!-- menu a destra (logged out) -->
