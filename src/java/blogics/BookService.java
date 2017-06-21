@@ -180,18 +180,18 @@ public class BookService {
     
     if(prices != null) {
       String pricesCondition = "";
-      pricesCondition += " price BETWEEN "+SearchManagement.PRICE_RANGE_OPTIONS[prices[0]].getSecond()+ " AND " + SearchManagement.PRICE_RANGE_OPTIONS[prices[0]].getThird();
+      pricesCondition += " price BETWEEN "+SearchManagement.priceRangeOptions[prices[0]].getSecond()+ " AND " + SearchManagement.priceRangeOptions[prices[0]].getThird();
       for(int i=1; i<prices.length; i++) {
-        pricesCondition += " OR price BETWEEN "+SearchManagement.PRICE_RANGE_OPTIONS[prices[i]].getSecond()+ " AND " + SearchManagement.PRICE_RANGE_OPTIONS[prices[i]].getThird();
+        pricesCondition += " OR price BETWEEN "+SearchManagement.priceRangeOptions[prices[i]].getSecond()+ " AND " + SearchManagement.priceRangeOptions[prices[i]].getThird();
       }
       sqlBuilder.and(pricesCondition);
     }
     
     if(votes != null) {
       String votesCondition = "";
-      votesCondition += " vote BETWEEN "+SearchManagement.VOTE_RANGE_OPTIONS[votes[0]].getSecond()+ " AND " + SearchManagement.VOTE_RANGE_OPTIONS[votes[0]].getThird();
+      votesCondition += " vote BETWEEN "+SearchManagement.voteRangeOptions[votes[0]].getSecond()+ " AND " + SearchManagement.voteRangeOptions[votes[0]].getThird();
       for(int i=1; i<votes.length; i++) {
-        votesCondition += " OR vote BETWEEN "+SearchManagement.VOTE_RANGE_OPTIONS[votes[i]].getSecond()+ " AND " + SearchManagement.VOTE_RANGE_OPTIONS[votes[i]].getThird();
+        votesCondition += " OR vote BETWEEN "+SearchManagement.voteRangeOptions[votes[i]].getSecond()+ " AND " + SearchManagement.voteRangeOptions[votes[i]].getThird();
       }
       sqlBuilder.and(votesCondition);
     }
@@ -355,7 +355,7 @@ public class BookService {
   public static int[] getFilterPrices(Database db, String search, Triplet<String, Float, Float>[] priceOptions) throws RecoverableDBException {
     SqlBuilder sqlBuilder = new SqlBuilder();
 		ResultSet resultSet;
-		int[] prices = new int[SearchManagement.PRICE_RANGE_OPTIONS.length];
+		int[] prices = new int[SearchManagement.priceRangeOptions.length];
     
     sqlBuilder
 			.select("T.price_range", "COUNT(*) AS n");
@@ -391,7 +391,7 @@ public class BookService {
   public static int[] getFilterVotes(Database db, String search, Triplet<String, Float, Float>[] voteOptions) throws RecoverableDBException {
     SqlBuilder sqlBuilder = new SqlBuilder();
 		ResultSet resultSet;
-		int[] votes = new int[SearchManagement.VOTE_RANGE_OPTIONS.length];
+		int[] votes = new int[SearchManagement.voteRangeOptions.length];
     
     sqlBuilder
 			.select("T.vote_range", "COUNT(*) AS n");
