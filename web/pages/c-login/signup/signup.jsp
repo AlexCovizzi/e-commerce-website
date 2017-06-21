@@ -11,11 +11,11 @@
 
 <%
   String message = null;
+  Cookie[] cookies = request.getCookies();
+  boolean loggedIn = Session.isUserLoggedIn(cookies);
   
   String action = request.getParameter("action");
   if (action == null) action="view";
-
-  util.Debug.println("action: "+action);
     
   if(action.equals("signup")) {
     loginManagement.signup();
@@ -28,6 +28,12 @@
 <html>
   <head>
     <title>Registrazione</title>
+    
+    <% if(loggedIn && !Session.isUserAdmin(cookies)) { %>
+      <script language="javascript">
+        location.replace("../../c-search/homepage/homepage.jsp");
+      </script>
+    <% } %>
 
     <!-- comprende css e script del framework, header e footer -->
     <%@ include file="../../../shared/head-common.html" %>
@@ -114,13 +120,12 @@
       
       <%} else if(action.equals("signup")) {%>
       
-      Registrazione avvenuta con successo. Verrai reindirizzato alla pagina di <a href="../login/login.jsp">login</a><br />
-      <script language="javascript">
-        setTimeout(function(){
-          window.location.replace("../login/login.jsp");
-        }, 1000);
-      </script>
-      
+        Registrazione avvenuta con successo. Verrai reindirizzato alla pagina di <a href="../login/login.jsp">login</a><br />
+        <script language="javascript">
+          setTimeout(function(){
+            window.location.replace("../login/login.jsp");
+          }, 1000);
+        </script>
       
       <%}%>
     </div>

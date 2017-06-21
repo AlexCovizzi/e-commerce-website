@@ -27,11 +27,16 @@ import util.Triplet;
 
 
 public class SearchManagement extends AbstractManagement {
-  public static final String[] orderOptions = {"A-Z", "Ultimi arrivi", "Voto", "Prezzo: crescente", "Prezzo: decrescente"};
-  public static final Triplet[] priceRangeOptions = {new Triplet("< 5,00", 0, 4.99), new Triplet("5,00 - 7,49", 5, 7.49), new Triplet("7,50 - 9,99", 7.5, 9.99), new Triplet("10,00 - 14,99", 10, 14.99), new Triplet("15,00 - 29,99", 15, 29.99), new Triplet("> 30,00", 30, 999999)};
-  public static final Triplet[] voteRangeOptions = {new Triplet("> 90%", 0.9, 1.0), new Triplet("75% - 90%", 0.75, 0.89999), new Triplet("60% - 75%", 0.6, 0.749999), new Triplet("40% - 60%", 0.4, 0.59999), new Triplet("< 40%", 0, 0.39999)};
+  /* 
+    Array che descrivono rispettivamente le opzione di ordine della ricerca libri,
+    le opzioni di filtraggio per costo, le opzioni di filtraggio per voto
+  */
+  public static final String[] ORDER_OPTIONS = {"A-Z", "Ultimi arrivi", "Voto", "Prezzo: crescente", "Prezzo: decrescente"};
+  public static final Triplet[] PRICE_RANGE_OPTIONS = {new Triplet("< 5,00", 0, 4.99), new Triplet("5,00 - 7,49", 5, 7.49), new Triplet("7,50 - 9,99", 7.5, 9.99), new Triplet("10,00 - 14,99", 10, 14.99), new Triplet("15,00 - 29,99", 15, 29.99), new Triplet("> 30,00", 30, 999999)};
+  public static final Triplet[] VOTE_RANGE_OPTIONS = {new Triplet("> 90%", 0.9, 1.0), new Triplet("75% - 90%", 0.75, 0.89999), new Triplet("60% - 75%", 0.6, 0.749999), new Triplet("40% - 60%", 0.4, 0.59999), new Triplet("< 40%", 0, 0.39999)};
   
-  private int totResults = 0;
+  /* Pagina: Search */
+  // parametri
 	private String search = "";
   private int ord = 0;
   private String isbn;
@@ -41,37 +46,42 @@ public class SearchManagement extends AbstractManagement {
   private int[] prices;
   private int[] votes;
   private int page = 1;
-  
+  // opzioni dei filtri
   private List<Pair<String, Integer>> genreFilters;
   private List<Pair<String, Integer>> authorFilters;
   private List<Pair<String, Integer>> publisherFilters;
   private int[] priceFilters;
   private int[] voteFilters;
+  // risultati della ricerca
+  private int totResults = 0;
+	private List<Book> books;
   
+  /* Pagina: Book */
+  private Book book;
   private List<Review> bookReviews;
   
-	private List<Book> books;
 	
-	/* search.jsp -> search.jsp : searchView */
+	/* search.jsp -> search.jsp : view */
 	public void searchView() throws UnrecoverableDBException {
 		Database database = DBService.getDataBase();
     
     try {
       books = BookService.getBookList(database, search, authors, publishers, genres, prices, votes, getSqlOrder(ord), page, 25);
 
-      for(Book book : books) {
-        List<Author> bAuthors = AuthorService.getBookAuthors(database, book.getIsbn());
-        List<Genre> bGenres = GenreService.getBookGenres(database, book.getIsbn());
+      for(Book b : books) {
+        List<Author> bAuthors = AuthorService.getBookAuthors(database, b.getIsbn());
+        List<Genre> bGenres = GenreService.getBookGenres(database, b.getIsbn());
 
-        book.setAuthors(bAuthors);
-        book.setGenres(bGenres);
+        b.setAuthors(bAuthors);
+        b.setGenres(bGenres);
       }
       
+      // mi servono per "compilare" il menu a sx nella pagina search.jsp
       genreFilters = BookService.getFilterGenres(database, search);
       authorFilters = BookService.getFilterAuthors(database, search);
       publisherFilters = BookService.getFilterPublishers(database, search);
-      priceFilters = BookService.getFilterPrices(database, search, priceRangeOptions);
-      voteFilters = BookService.getFilterVotes(database, search, voteRangeOptions);
+      priceFilters = BookService.getFilterPrices(database, search, PRICE_RANGE_OPTIONS);
+      voteFilters = BookService.getFilterVotes(database, search, VOTE_RANGE_OPTIONS);
 
       database.commit();
     } catch (RecoverableDBException ex) {
@@ -82,6 +92,7 @@ public class SearchManagement extends AbstractManagement {
     }
 	}
   
+  /* search.jsp -> search.jsp : view */
   public void bookView() throws UnrecoverableDBException {
     Database database = DBService.getDataBase();
     
@@ -118,7 +129,7 @@ public class SearchManagement extends AbstractManagement {
 		
 	}
 	
-	/* book-page.jsp : vote */
+	/* b-page.jsp : vote */
 	public void vote() {
 		
 	}
@@ -279,10 +290,11 @@ public class SearchManagement extends AbstractManagement {
   
   
   /* metodi utility */
+  
   private String getSqlOrder(int ord) {
     switch (ord) {
       case 0: return "title ASC";
-      case 1: return "timestamp ASC";
+      case 1: return "publication_date ASC";
       case 2: return "vote DESC";
       case 3: return "price ASC";
       case 4: return "price DESC";

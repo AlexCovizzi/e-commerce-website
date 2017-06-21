@@ -1,3 +1,4 @@
+<%@page import="services.session.Session"%>
 <script>
   
 </script>
@@ -24,9 +25,9 @@
       <!-- menu a destra (logged in) -->
       <div id="menu-right" class="collapse navbar-collapse navbar-right">
         <ul class="nav navbar-nav">
-          <li title="Il mio account: Nome utente">
+          <li title="Il mio account: <%=Session.getUserFullName(cookies)%>">
             <a href="../../c-account/account/account.jsp"><i class="glyphicon glyphicon-user"></i>
-            <span class="visible-xs-inline" style="padding-left:16px;">Il mio account: Nome utente</span>
+              <span class="visible-xs-inline" style="padding-left:16px;">Il mio account: <%=Session.getUserFullName(cookies)%></span>
             </a>
           </li>
           <li title="Carrello">

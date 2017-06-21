@@ -12,42 +12,42 @@ import services.session.Session;
 public class LoginManagement extends AbstractManagement {
 	private Cookie[] cookies;
 	
-    private String email;
-    private String password;
+  private String email;
+  private String password;
 	private String name;
 	private String surname;
     
 	/* signup.jsp -> signup.jsp : signup */
-    public void signup() throws UnrecoverableDBException {
-        Database database = DBService.getDataBase();
-        try {
-            UserService.insertUser(database, email, name, surname, password, false);
-            database.commit();
-        } catch (RecoverableDBException ex) {
+  public void signup() throws UnrecoverableDBException {
+    Database database = DBService.getDataBase();
+    try {
+      UserService.insertUser(database, email, name, surname, password, false);
+      database.commit();
+    } catch (RecoverableDBException ex) {
 			database.rollBack();
 			setErrorMessage(ex.getMsg());
 		} finally {
-            database.close();
-        }
+      database.close();
     }
+  }
 	
 	/* login.jsp -> login.jsp : login */
 	public void login() throws UnrecoverableDBException {
 		Database database = DBService.getDataBase();
-        try {
-            User user = UserService.getUser(database, email, password);
-			if(user != null) {
-				setCookies(Session.createUserCookie(database, user));
-			} else {
-				setErrorMessage("Email o password errati.");
-			}
-            database.commit();
-        } catch (RecoverableDBException ex) {
+    try {
+      User user = UserService.getUser(database, email, password);
+      if(user != null) {
+        setCookies(Session.createUserCookie(database, user));
+      } else {
+        setErrorMessage("Email o password errati.");
+      }
+      database.commit();
+    } catch (RecoverableDBException ex) {
 			database.rollBack();
 			setErrorMessage(ex.getMsg());
 		} finally {
-            database.close();
-        }
+      database.close();
+    }
 	}
 	
 	/* account.jsp -> login.jsp : logout */

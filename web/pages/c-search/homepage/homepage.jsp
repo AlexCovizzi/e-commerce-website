@@ -10,7 +10,7 @@
 
 <%
   Cookie[] cookies = request.getCookies();
-  boolean loggedIn = (cookies != null);
+  boolean loggedIn = Session.isUserLoggedIn(cookies);
   
   
   /* Da finire - Faccio prima l'Admin - Alessio */

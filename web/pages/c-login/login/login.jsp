@@ -12,7 +12,7 @@
 <%
   String message = null;
   Cookie[] cookies = request.getCookies();
-  boolean loggedIn = (cookies != null);
+  boolean loggedIn = Session.isUserLoggedIn(cookies);
   
   String action = request.getParameter("action");
   if (action == null) action="view";
@@ -45,6 +45,12 @@
 <html>
   <head>
     <title>Login</title>
+    
+    <% if(loggedIn) { %>
+      <script language="javascript">
+        location.replace("../../c-search/homepage/homepage.jsp");
+      </script>
+    <% } %>
 
     <!-- comprende css e script del framework, header e footer -->
     <%@ include file="../../../shared/head-common.html" %>
@@ -58,13 +64,6 @@
   </head>
     
   <body>
-    <!--
-    <% if(loggedIn) { %>
-      <script language="javascript">
-        location.replace("../../c-search/homepage/homepage.jsp");
-      </script>
-    <% } %>
-    -->
     
     <!-- header -->
     <div class="header">
