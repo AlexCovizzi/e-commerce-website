@@ -26,6 +26,13 @@ public class Conversion {
 
     if (inputString == null)
       return "'-'";
+    
+    /* Mi serve per inserire le date nel caso non vi sia alcuna data inserita
+     * Problema: non si potrà mai inserire una stringa identica a DEFAULT --> Posso tenerlo?
+     * ----- Alessio
+    */
+    if(inputString.equals("DEFAULT"))
+      return inputString;
 
     /* inputString = inputString.replace('"', '\''); */
 

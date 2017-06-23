@@ -10,6 +10,7 @@ import blogics.Genre;
 import blogics.GenreService;
 import blogics.PublisherService;
 import java.io.Serializable;
+import java.sql.Date;
 import java.util.List;
 import services.database.*;
 import services.database.exception.*;
@@ -19,6 +20,7 @@ public class AdminManagement extends AbstractManagement implements Serializable 
   private int userId;
   
   /* Servono per i libri */
+  private String copertina;
   private String titolo;
   private String descrizione;
   private String autore[];
@@ -85,6 +87,7 @@ public class AdminManagement extends AbstractManagement implements Serializable 
     }
 	}
   
+  /* FATTO */
 	/* add-coupon.jsp -> coupons.jsp : add */
 	public void addCoupon() throws UnrecoverableDBException {
 		Database database = DBService.getDataBase();
@@ -146,6 +149,7 @@ Database database = DBService.getDataBase();
       /* Recuperiamo tutto le info del libro */
       Book libro = BookService.getBookFromIsbn(database, isbn);
       
+      copertina = libro.getCover();
       titolo = libro.getTitle();
       descrizione = libro.getDescription();
       pagine = libro.getPages();
@@ -187,8 +191,6 @@ Database database = DBService.getDataBase();
     
     try {
       
-      this.controlliCampiOpzionali();
-      
       /* Recupero i generi dal DB */
       this.recuperaGeneri(database);
       
@@ -198,8 +200,9 @@ Database database = DBService.getDataBase();
       /* Inserisco il libro */
       System.out.println("");
       System.out.println("----- addBook -----");
+      System.out.println(dataPubbl);
       System.out.println("Inserimento del libro...");
-      BookService.insertNewBook(database, titolo, descrizione, pagine, prezzo, dataPubbl, stock, isbn, lingua, idEditore);
+      BookService.insertNewBook(database, copertina, titolo, descrizione, pagine, prezzo, /*Date.valueOf(*/dataPubbl/*)*/, stock, isbn, lingua, idEditore);
       System.out.println("Libro inserito!");
       
       
@@ -242,6 +245,8 @@ Database database = DBService.getDataBase();
     }
     
     System.out.println("Abbiamo finito, penso!");
+    
+    this.controlliCampiOpzionali();
 	}
 	
   /* FATTO */
@@ -261,7 +266,7 @@ Database database = DBService.getDataBase();
       int idEditore = this.controlloEditore(database, editore);
       
       /* Aggiorno le info del libro */      
-      BookService.updateBook(database, titolo, descrizione, pagine, prezzo, dataPubbl, stock, isbn, lingua, idEditore);
+      BookService.updateBook(database, copertina, titolo, descrizione, pagine, prezzo, dataPubbl, stock, isbn, lingua, idEditore);
       
       /* Controllo gli autori */
       int[] idAutori = this.controlloAutori(database, autore);
@@ -343,6 +348,7 @@ Database database = DBService.getDataBase();
       database.close();
     }
     
+    this.controlliCampiOpzionali();
 	}
   
   
@@ -395,6 +401,8 @@ Database database = DBService.getDataBase();
       descrizione = "-";
     if(dataPubbl == null)
       dataPubbl = "-";
+    if(copertina == null)
+      copertina = "-";
   }
   
   public void recuperaCoupons(Database database) throws RecoverableDBException {
@@ -406,6 +414,10 @@ Database database = DBService.getDataBase();
   /* Getters */
   public int getUserId() {
     return userId;
+  }
+  
+  public String getCopertina() {
+    return copertina;
   }
   
   public String getTitolo() {
@@ -485,6 +497,10 @@ Database database = DBService.getDataBase();
   /* Setters */
   public void setUserId(int userId) {
     this.userId = userId;
+  }
+  
+  public void setCopertina(String copertina) {
+    this.copertina = copertina;
   }
   
   public void setTitolo(String titolo) {

@@ -11,6 +11,7 @@ import java.util.List;
 
 public class Book {
   
+  private String cover;
   private String title;
   private String description;
   private int pages;
@@ -26,9 +27,10 @@ public class Book {
   private List<Author> authors;
   private List<Genre> genres;
   
-  public Book(String title, String description, int pages, float price, String publication_date,
+  public Book(String cover, String title, String description, int pages, float price, String publication_date,
       int stock, String isbn, String language, String publisher) 
   {
+    this.cover = cover;
     this.title = title;
     this.description = description;
     this.pages = pages;
@@ -42,6 +44,7 @@ public class Book {
   
   public Book(ResultSet resultSet) {
     
+    try {cover = resultSet.getString("COVERURI");} catch (SQLException sqle) {}
     try {title = resultSet.getString("TITLE");} catch (SQLException sqle) {}
     try {description = resultSet.getString("DESCRIPTION");} catch (SQLException sqle) {}
     try {pages = resultSet.getInt("PAGES");} catch (SQLException sqle) {}
@@ -55,7 +58,12 @@ public class Book {
     try {nVotes = resultSet.getInt("N_VOTES");} catch (SQLException sqle) {}
   }
   
-  /* Setters */  
+  /* Setters */
+  public void setCover(String cover)
+  {
+    this.cover = cover;
+  }
+  
   public void setTitle(String title)
   {
     this.title = title;
@@ -108,7 +116,12 @@ public class Book {
 	  this.genres = genres;
   }
   
-  /* Getters */  
+  /* Getters */
+  public String getCover()
+  {
+    return cover;
+  }
+  
   public String getTitle()
   {
     return title;

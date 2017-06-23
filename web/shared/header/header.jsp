@@ -56,12 +56,11 @@
           <li title="Aggiungi libro">
             <a href="../../c-admin/add-book/add-book.jsp"><i class="glyphicon glyphicon-book"></i>
             <span class="visible-xs-inline" style="padding-left:16px;">Aggiungi libro</span>
-            <span class="badge">4</span>
             </a>
           </li>
-          <li title="Lista utenti">
-            <a href="../../c-admin/users/users.jsp"><i class="glyphicon glyphicon-heart"></i>
-            <span class="visible-xs-inline" style="padding-left:16px;">Lista desideri</span>
+          <li title="Lista ordini">
+            <a href="../../c-admin/admin-orders/admin-orders.jsp"><i class="glyphicon glyphicon-list"></i>
+            <span class="visible-xs-inline" style="padding-left:16px;">Lista ordini</span>
             </a>
           </li>
         </ul>

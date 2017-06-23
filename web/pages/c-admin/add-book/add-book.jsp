@@ -74,14 +74,19 @@
     <div class="container content-area">
       
       <h4 class="form-title">Informazioni del libro</h4>
-
+      
       <form class="form-horizontal" name="infoLibroForm" action="add-book.jsp" method="post">
 
+        <!-- Copertina -->
         <div class="form-group">
-          <label class="control-label col-sm-2" for="copertina">Copertina</label>
+          <label class="control-label col-sm-2" for="copertina">Copertina*</label>
           <div class="col-sm-10">
-            <input type="file" id="copertina">
-            <p class="help-block">Carica la copertina del libro.</p>
+            <input type="text" class="form-control" name="copertina" id="copertina"
+                placeholder="Inserisci l'URL della copertina"
+                <% if(!adminManagement.getIsbn().equals("null") && !adminManagement.getCopertina().equals("-")) { %>
+                value="<%= adminManagement.getCopertina() %>"
+                <% } %>
+                >
           </div>
         </div>
         
@@ -154,7 +159,7 @@
           <div class="col-sm-10">
             <% if(adminManagement.getIsbn().equals("null")) { %>
             <input type="text" class="form-control" name="isbn" id="ISBN" 
-              placeholder="Inserisci il codice ISBN" maxlength="15" minlength="15">
+              placeholder="Inserisci il codice ISBN" maxlength="13">
             <% } else { %>
             <p name="ISBN"> <%= adminManagement.getIsbn() %> </p>
             <input type="hidden" name="isbn" value="<%= adminManagement.getIsbn() %>">
@@ -218,7 +223,7 @@
           <label class="control-label col-sm-2" for="data-pubbl">Data di pubblicazione*</label>
           <div class="col-sm-10">
             <input class="form-control" type="text" name="dataPubbl" minlength="10" maxlength="10"
-              id="data-pubbl" placeholder="Inserisci la data di pubblicazione (gg/mm/aaaa)"
+              id="data-pubbl" placeholder="Inserisci la data di pubblicazione (aaaa-mm-gg)"
               <% if(!adminManagement.getIsbn().equals("null") && !adminManagement.getDataPubbl().equals("-")) { %>
                   value="<%= adminManagement.getDataPubbl() %>"
                   <% } %>

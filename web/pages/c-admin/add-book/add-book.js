@@ -27,9 +27,9 @@ function isValidNumeroPagine(value) {
 
 function isValidData(value) {
   for(var count = 0; count < value.length; count++) {
-    if((count === 2 || count === 5) && value.charAt(count) !== "/")
+    if((count === 4 || count === 7) && value.charAt(count) !== "-")
       return false;
-    if((count !== 2 && count !== 5) && isNaN(value.charAt(count)))
+    if((count !== 4 && count !== 7) && isNaN(value.charAt(count)))
       return false;
   }
   
@@ -37,7 +37,7 @@ function isValidData(value) {
 }
 
 function submitInfoLibro() {
-  f=document.infoLibroForm;
+  f = document.infoLibroForm;
 
   // Titolo
   if (isEmpty(f.titolo.value)) {
@@ -46,10 +46,11 @@ function submitInfoLibro() {
   }
   
   // Autore
-  /*if (isEmpty(f.autore.value)) {
-    alert("Inserire il nome dell'autore.");
+  var autore = document.getElementById("formAutore0");
+  if (isEmpty(autore.value)) {
+    alert("Inserire il nome dell'autore nel primo campo.");
     return;
-  }*/
+  }
   
   // ISBN
   if (isEmpty(f.isbn.value)) {
@@ -70,26 +71,41 @@ function submitInfoLibro() {
     }
   
   // Editore
-  if (isEmpty(f.editore.value)) {
+  if(isEmpty(f.editore.value)) {
     alert("Inserire l'editore.");
     return;
   }
   
+  // Genere
+  var checkedGenere = false;
+  var bookGeneri = document.getElementsByName("bookGeneri");
+  for (i = 0; i < bookGeneri.length; i++) {
+    if (bookGeneri[i].checked) {
+      checkedGenere = true;
+      break;
+    }
+  }
+  
+  if(!checkedGenere) {
+    alert("Selezionare almeno un genere.");
+    return;
+  }
+  
   // Data di pubblicazione
-  /*if(!isEmpty(f.dataPubbl.value))
+  if(!isEmpty(f.dataPubbl.value))
     if(!isValidData(f.dataPubbl.value)) {
-      alert("Inserire una data nel formato: \"gg/mm/aaaa\".");
+      alert("Inserire una data nel formato: \"aaaa-mm-gg\".");
       return;
-    }*/
+    }
   
   // Lingua
-  if (isEmpty(f.lingua.value)) {
+  if(isEmpty(f.lingua.value)) {
     alert("Inserire la lingua.");
     return;
   }
   
   // Prezzo
-  if (isEmpty(f.prezzo.value)) {
+  if(isEmpty(f.prezzo.value)) {
     alert("Inserire il prezzo.");
     return;
   }
