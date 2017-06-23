@@ -10,7 +10,6 @@ import blogics.Genre;
 import blogics.GenreService;
 import blogics.PublisherService;
 import java.io.Serializable;
-import java.sql.Date;
 import java.util.List;
 import services.database.*;
 import services.database.exception.*;
@@ -111,7 +110,23 @@ public class AdminManagement extends AbstractManagement implements Serializable 
 	
 	/* coupons.jsp -> coupons.jsp : disable */
 	public void disableCoupon() throws UnrecoverableDBException {
-		
+		Database database = DBService.getDataBase();
+    
+    try {
+      /* Setto il flag del coupon a "N" */
+      CouponService.disable(database, codice);
+      
+      /* Recupero i coupon dal DB */
+      this.recuperaCoupons(database);
+      
+      /* FINITO! */
+      database.commit();
+    } catch (RecoverableDBException ex) {
+      database.rollBack();
+      setErrorMessage(ex.getMsg());
+		} finally {
+      database.close();
+    }
 	}
 	
   

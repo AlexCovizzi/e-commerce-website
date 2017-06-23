@@ -10,8 +10,8 @@ function aggiungiCoupon() {
 }
 
 function disabilitaCoupon(j) {
-  var nomeForm = "disabilitaCoupon" + j + "Form";
-  var f = document.getElementsByName(nomeForm);
+  var f = document.disabilitaCouponForm;
+  f.codice.value = j;
   f.submit();
   return;
 }

@@ -65,7 +65,8 @@
           <label class="control-label col-sm-2" for="codice">Codice</label>
           <div class="col-sm-10">
             <input type="text" class="form-control" name="codice" id="codice"
-                  placeholder="Inserisci il codice del coupon (15 caratteri)">
+                  placeholder="Inserisci il codice del coupon (15 caratteri)"
+                  maxlength="15">
           </div>
         </div>
         
@@ -91,7 +92,7 @@
         </div>
       </form> 
       
-      <form name="annullaForm" action="../admin-account/admin.jsp">
+      <form name="annullaForm" action="../coupons/coupons.jsp">
         <input type="hidden" name="action" value="view">
       </form>
     </div>

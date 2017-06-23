@@ -86,12 +86,8 @@
             <% } %>
           </td>
           <td>
-            <form name="disabilitaCoupon<%= j %>Form" action="coupons.jsp" method="post">
-              <input type="hidden" name="action" value="disable">
-              <input type="hidden" name="codice" value="<%= adminManagement.getCoupons().get(j).getCode() %>">
-            </form>
             
-            <button class="btn btn-default" onclick="disabilitaCoupon(<%= j %>)">
+            <button class="btn btn-default" onclick="disabilitaCoupon('<%= adminManagement.getCoupons().get(j).getCode() %>')">
               <span class="glyphicon glyphicon-trash"/>
             </button>
           </td>
@@ -102,6 +98,11 @@
       
       <form name="aggiungiCouponForm" action="../add-coupon/add-coupon.jsp" method="post">
         <input type="hidden" name="action" value="view">
+      </form>
+      
+      <form name="disabilitaCouponForm" action="coupons.jsp" method="post">
+        <input type="hidden" name="action" value="disable">
+        <input type="hidden" name="codice">
       </form>
 
       <button class="btn btn-default" onclick="aggiungiCoupon()">Aggiungi un coupon</button>

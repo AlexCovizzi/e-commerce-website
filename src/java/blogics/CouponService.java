@@ -83,4 +83,19 @@ public class CouponService {
     
     database.modify(sql);
   }
+  
+   public static void disable(Database database, String codice)
+      throws RecoverableDBException {
+     String sql = "";
+    SqlBuilder sqlBuilder = new SqlBuilder();
+    
+    /* Inserisco il coupon */
+    sql = sqlBuilder
+				.update("coupon")
+        .set("fl_active = \'N\'")
+        .where("code = " + Conversion.getDatabaseString(codice))
+				.done();
+    
+    database.modify(sql);
+   }
 }
