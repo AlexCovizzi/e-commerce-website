@@ -23,7 +23,7 @@ public class BookService {
   
   public BookService() { }
   
-  public static void insertNewBook(Database db, String title, String description, int pages, float price,
+  public static void insertNewBook(Database db, String cover, String title, String description, int pages, float price,
       String publication_date, int stock, String isbn, String language, int publisher)
       throws RecoverableDBException
   {
@@ -61,10 +61,11 @@ public class BookService {
     /* Inserimento */	
     System.out.println("Inserimento del libro...");
     sql = sqlBuilder
-			.insertInto("book", "title", "description", 
+			.insertInto("book", "coverURI", "title", "description", 
 					"pages", "price", "publication_date", "stock",
 					"isbn", "language", "publisher_id", "timestamp")
-			.values(Conversion.getDatabaseString(title),
+			.values(Conversion.getDatabaseString(cover),
+          Conversion.getDatabaseString(title),
 					Conversion.getDatabaseString(description),
           pages,
 					price,
@@ -79,7 +80,7 @@ public class BookService {
     db.modify(sql);
   }
   
-  public static void updateBook(Database database, String title, String description, int pages, float price,
+  public static void updateBook(Database database, String cover, String title, String description, int pages, float price,
       String publication_date, int stock, String isbn, String language, int publisher)
       throws RecoverableDBException {
     
@@ -91,6 +92,7 @@ public class BookService {
     sql = sqlBuilder
 			.update("book")
       .set(
+          "coverURI = " + Conversion.getDatabaseString(cover),
           "title = " + Conversion.getDatabaseString(title),
           "description = " + Conversion.getDatabaseString(description), 
 					"pages = " + pages,
