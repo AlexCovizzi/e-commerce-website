@@ -1,1 +1,0 @@
-INSERT INTO `user` (`id`, `name`, `surname`, `email`, `password`, `is_admin`, `is_blocked`, `fl_active`, `timestamp_c`) VALUES ('1', 'Alessio', 'Morselli', 'detective.goro@giappo.it', 'conan', '1', '0', 'S', CURRENT_TIMESTAMP);

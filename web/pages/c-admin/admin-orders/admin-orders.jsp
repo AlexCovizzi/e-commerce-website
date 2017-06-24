@@ -71,24 +71,77 @@
           <th>Costo totale</th>
           <th>Stato</th>
           <th>Nome del destinatario</th>
-          <th>Coupon usato (opzionale)</th>
+          <th>Coupon usato</th>
         </tr>
         
         <% for(int j = 0; j < adminManagement.getOrders().size(); j++) { %>
         <tr>
-          <td><%= adminManagement.getOrders().get(j).getOrderCode() %></td>
-          <td><%= adminManagement.getOrders().get(j).getOrderUser() %></td>
-          <td><%= adminManagement.getOrders().get(j).getOrderCreation() %></td>
-          <td><%= adminManagement.getOrders().get(j).getOrderCost() %></td>
-          <td><%= adminManagement.getOrders().get(j).getOrderState() %></td>
-          <td><%= adminManagement.getOrders().get(j).getOrderReceiver() %></td>
+          <td><%= adminManagement.getOrders().get(j).getId() %></td>
+          <td><%= adminManagement.getOrders().get(j).getUserName() %> <%= adminManagement.getOrders().get(j).getUserSurname() %></td>
+          <td><%= adminManagement.getOrders().get(j).getCreated() %></td>
+          <td><%= adminManagement.getOrders().get(j).getTotPrice() %></td>
+          <td>
+            <div class="input-group">
+              <select name="orderStateList" class="form-control"
+                <% if(adminManagement.getOrders().get(j).getState().equals("Consegnato") || adminManagement.getOrders().get(j).getState().equals("Cancellato")) { %>
+                  disabled
+                <% } %>>
+                <option
+                  <% if(adminManagement.getOrders().get(j).getState().equals("In preparazione")) { %>
+                    selected="selected"
+                  <% } %>
+                  >In preparazione</option>
+                <option
+                  <% if(adminManagement.getOrders().get(j).getState().equals("In spedizione")) { %>
+                    selected="selected"
+                  <% } %>
+                  >In spedizione</option>
+                <option
+                  <% if(adminManagement.getOrders().get(j).getState().equals("In magazzino")) { %>
+                    selected="selected"
+                  <% } %>
+                  >In magazzino</option>
+                <option
+                  <% if(adminManagement.getOrders().get(j).getState().equals("In consegna")) { %>
+                    selected="selected"
+                  <% } %>
+                  >In consegna</option>
+                <option
+                  <% if(adminManagement.getOrders().get(j).getState().equals("Consegnato")) { %>
+                    selected="selected"
+                  <% } %>
+                  >Consegnato</option>
+                <option
+                  <% if(adminManagement.getOrders().get(j).getState().equals("Cancellato")) { %>
+                    selected="selected"
+                  <% } %>
+                  >Cancellato</option>
+              </select>
+                  
+                  <button class="btn btn-default"
+                    onclick="submitCambiaStatoForm(<%= adminManagement.getOrders().get(j).getId() %>)"
+                    <% if(adminManagement.getOrders().get(j).getState().equals("Consegnato") || adminManagement.getOrders().get(j).getState().equals("Cancellato")) { %>
+                      disabled
+                    <% } %>
+                  >Cambia stato</button>
+            </div>
+          </td>
+          <td><%= adminManagement.getOrders().get(j).getReceiver() %></td>
+          <td>
+            <% if(adminManagement.getOrders().get(j).getCouponCode() != null) { %>
+              <%= adminManagement.getOrders().get(j).getCouponCode() %>
+            <% } else { %>
+              Nessun coupon
+            <% } %>
+          </td>
         </tr>
         <% } %>
       </table>
       
       <form name="cambiaStatoForm" action="coupons.jsp" method="post">
         <input type="hidden" name="action" value="change">
-        <input type="hidden" name="orderCode">
+        <input type="hidden" name="orderId">
+        <input type="hidden" name="orderState">
       </form>
 
       

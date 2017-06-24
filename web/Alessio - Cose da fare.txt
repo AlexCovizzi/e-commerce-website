@@ -1,3 +1,8 @@
 
  - Mettere a posto l'inserimento della data - Problema nel caso di data vuota!! ----- FATTOOOOOOOOOOO
- - Finire la pagina degli ordini
+ - Finire la pagina degli ordini ----- FATTOOOOOOOOOOO
+ - Sistemare la visualizzazione del nome utente in admin-orders.jsp ----- FATTOOOOOOOOOOO
+ - Creare la vista orderView che aggiunge nome e cognome dell'utente che ha creato l'ordine ----- FATTOOOOOOOOOOO
+ - Il codice dell'ordine deve portare alla pagina di ordine singolo
+ - Gestione utenti
+ - Gestione admin

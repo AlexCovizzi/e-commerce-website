@@ -8,6 +8,8 @@ import blogics.Coupon;
 import blogics.CouponService;
 import blogics.Genre;
 import blogics.GenreService;
+import blogics.Order;
+import blogics.OrderService;
 import blogics.PublisherService;
 import java.io.Serializable;
 import java.util.List;
@@ -39,6 +41,12 @@ public class AdminManagement extends AbstractManagement implements Serializable 
   private int sconto;
   private List<Coupon> coupons;
   
+  /* Servono per gli ordini */
+  private List<Order> orders;
+  private int orderId;
+  private int orderUser = -1;
+  private String orderState;
+  
   
   
 	/* users.jsp -> users.jsp : block */
@@ -60,8 +68,26 @@ public class AdminManagement extends AbstractManagement implements Serializable 
 	
   
   
-	/* admin-orders.jsp -> admin-orders.jsp : change-state */
-	public void changeOrderState() throws UnrecoverableDBException {
+  /* admin.jsp -> admin-orders.jsp : view */
+  public void visualizzaTabellaOrdini() throws UnrecoverableDBException {
+    Database database = DBService.getDataBase();
+    
+    try {
+      /* Recupero i coupon dal DB */
+      this.recuperaOrders(database);
+      
+      /* FINITO! */
+      database.commit();
+    } catch (RecoverableDBException ex) {
+      database.rollBack();
+      setErrorMessage(ex.getMsg());
+		} finally {
+      database.close();
+    }
+  }
+  
+	/* admin-orders.jsp -> admin-orders.jsp : change */
+	public void cambiaStatoOrdine() throws UnrecoverableDBException {
 		
 	}
 	
@@ -424,6 +450,10 @@ Database database = DBService.getDataBase();
     coupons = CouponService.getCoupons(database);
   }
   
+  public void recuperaOrders(Database database) throws RecoverableDBException {
+    orders = OrderService.getOrders(database, orderUser);
+  }
+  
   
   
   /* Getters */
@@ -505,6 +535,22 @@ Database database = DBService.getDataBase();
   
   public List<Coupon> getCoupons() {
     return coupons;
+  }
+  
+  public List<Order> getOrders() {
+    return orders;
+  }
+  
+  public int getOrderId() {
+    return orderId;
+  }
+  
+  public int getOrderUser() {
+    return orderUser;
+  }
+  
+  public String getOrderState() {
+    return orderState;
   }
   
   
@@ -589,4 +635,21 @@ Database database = DBService.getDataBase();
   public void setCoupons(List<Coupon> coupons) {
     this.coupons = coupons;
   }
+  
+  public void setOrders(List<Order> orders) {
+    this.orders = orders;
+  }
+  
+  public void setOrderCode(int orderId) {
+    this.orderId = orderId;
+  }
+  
+  public void setOrderUser(int orderUser) {
+    this.orderUser = orderUser;
+  }
+  
+  public void setOrderState(String orderState) {
+    this.orderState = orderState;
+  }
+  
 }
