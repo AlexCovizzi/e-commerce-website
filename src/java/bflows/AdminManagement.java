@@ -47,6 +47,12 @@ public class AdminManagement extends AbstractManagement implements Serializable 
   private int orderUser = -1;
   private String orderState;
   
+  /* Dividere i risultati in diverse pagine */
+  public static int risultatiPerPagina = 25;
+  private int numeroPagine = -1;
+  private int pagina = 1;
+  private int offset = 0;
+  
   
   
 	/* users.jsp -> users.jsp : block */
@@ -73,7 +79,7 @@ public class AdminManagement extends AbstractManagement implements Serializable 
     Database database = DBService.getDataBase();
     
     try {
-      /* Recupero i coupon dal DB */
+      /* Recupero gli ordini dal DB */
       this.recuperaOrders(database);
       
       /* FINITO! */
@@ -88,7 +94,23 @@ public class AdminManagement extends AbstractManagement implements Serializable 
   
 	/* admin-orders.jsp -> admin-orders.jsp : change */
 	public void cambiaStatoOrdine() throws UnrecoverableDBException {
-		
+		Database database = DBService.getDataBase();
+    
+    try {
+      /* Cambio lo stato dell'ordine passato */
+      OrderService.changeState(database, orderId, orderState);
+      
+      /* Recupero gli ordini dal DB */
+      this.recuperaOrders(database);
+      
+      /* FINITO! */
+      database.commit();
+    } catch (RecoverableDBException ex) {
+      database.rollBack();
+      setErrorMessage(ex.getMsg());
+		} finally {
+      database.close();
+    }
 	}
 	
   
@@ -447,11 +469,27 @@ Database database = DBService.getDataBase();
   }
   
   public void recuperaCoupons(Database database) throws RecoverableDBException {
-    coupons = CouponService.getCoupons(database);
+    /* Conto le pagine solo se non le ho già contate prima */
+    if(numeroPagine < 0) {
+      int numeroRisultati = CouponService.countCoupons(database);
+      numeroPagine = numeroRisultati / risultatiPerPagina;
+      if(numeroPagine > 0 && (numeroRisultati % risultatiPerPagina) != 0)
+        numeroPagine++;
+    }
+    
+    coupons = CouponService.getCoupons(database, risultatiPerPagina, offset);
   }
   
   public void recuperaOrders(Database database) throws RecoverableDBException {
-    orders = OrderService.getOrders(database, orderUser);
+    /* Conto le pagine solo se non le ho già contate prima */
+    if(numeroPagine < 0) {
+      int numeroRisultati = OrderService.countOrders(database, orderUser);
+      numeroPagine = numeroRisultati / risultatiPerPagina;
+      if(numeroPagine > 0 && (numeroRisultati % risultatiPerPagina) != 0)
+        numeroPagine++;
+    }
+    
+    orders = OrderService.getOrders(database, orderUser, risultatiPerPagina, offset);
   }
   
   
@@ -553,6 +591,18 @@ Database database = DBService.getDataBase();
     return orderState;
   }
   
+  public int getPagina() {
+    return pagina;
+  }
+
+  public int getOffset() {
+    return offset;
+  }
+  
+  public int getNumeroPagine() {
+    return numeroPagine;
+  }
+  
   
   
   /* Setters */
@@ -650,6 +700,18 @@ Database database = DBService.getDataBase();
   
   public void setOrderState(String orderState) {
     this.orderState = orderState;
+  }
+  
+  public void setOffset(int offset) {
+    this.offset = offset;
+  }
+  
+  public void setPagina(int pagina) {
+    this.pagina = pagina;
+  }
+
+  public void setNumeroPagine(int numeroPagine) {
+    this.numeroPagine = numeroPagine;
   }
   
 }

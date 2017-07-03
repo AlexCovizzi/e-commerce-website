@@ -7,7 +7,9 @@ function submitCambiaStatoForm(codice) {
   return;
 }
 
-function annulla() {
-  document.annullaForm.submit();
+function submitVediOrdineForm(codice) {
+  var f = document.vediOrdineForm;
+  f.orderId.value = codice;
+  f.submit();
   return;
 }

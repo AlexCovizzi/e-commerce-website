@@ -60,8 +60,3 @@ function submitCouponForm() {
   f.submit();
   return;
 }
-
-function annulla() {
-  document.annullaForm.submit();
-  return;
-}

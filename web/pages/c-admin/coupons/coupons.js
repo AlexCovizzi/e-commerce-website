@@ -15,8 +15,3 @@ function disabilitaCoupon(j) {
   f.submit();
   return;
 }
-
-function annulla() {
-  document.annullaForm.submit();
-  return;
-}

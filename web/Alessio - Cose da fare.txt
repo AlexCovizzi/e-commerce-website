@@ -3,6 +3,8 @@
  - Finire la pagina degli ordini ----- FATTOOOOOOOOOOO
  - Sistemare la visualizzazione del nome utente in admin-orders.jsp ----- FATTOOOOOOOOOOO
  - Creare la vista orderView che aggiunge nome e cognome dell'utente che ha creato l'ordine ----- FATTOOOOOOOOOOO
- - Il codice dell'ordine deve portare alla pagina di ordine singolo
+ - Il codice dell'ordine deve portare alla pagina di ordine singolo ----- FATTOOOOOOOOOOO
+ - Dividi in pagine gli ordini ----- FATTOOOOOOOOOOO
+ - Dividi in pagina i coupon ----- FATTOOOOOOOOOOO
  - Gestione utenti
  - Gestione admin

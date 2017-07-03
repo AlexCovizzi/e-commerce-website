@@ -22,7 +22,34 @@ import util.SqlBuilder;
 public class CouponService {
   public CouponService() { }
   
-  public static List<Coupon> getCoupons(Database database)
+  public static int countCoupons(Database database)
+      throws RecoverableDBException {
+    String sql = "";
+    SqlBuilder sqlBuilder = new SqlBuilder();
+    int risultato;
+    
+    sql = sqlBuilder
+				.select("count(code)").as("N")
+				.from("Coupon")
+				.where("fl_active = 'S'")
+				.done();
+    
+    ResultSet resultSet = database.select(sql);
+    
+    try {
+			resultSet.next();
+      risultato = resultSet.getInt("N");
+		} catch (SQLException ex) {
+			throw new RecoverableDBException(ex, "CouponService", "getCoupons", "Errore nel ResultSet");
+		} finally {
+			try { resultSet.close(); }
+			catch (SQLException ex) { Logger.error("CouponService", "getCoupons", ex.getMessage());}
+		}
+
+		return risultato;
+  }
+  
+  public static List<Coupon> getCoupons(Database database, int limit, int offset)
       throws RecoverableDBException {
     String sql = "";
     SqlBuilder sqlBuilder = new SqlBuilder();
@@ -32,6 +59,7 @@ public class CouponService {
 				.select("code", "valid", "discount")
 				.from("Coupon")
 				.where("fl_active = 'S'")
+        .limit(limit).offset(offset)
 				.done();
     
     ResultSet resultSet = database.select(sql);

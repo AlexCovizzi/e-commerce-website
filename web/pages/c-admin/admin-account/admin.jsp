@@ -5,6 +5,7 @@
 <%@ page errorPage="../../ErrorPage.jsp" %>
 
 <%@ page import="services.session.*" %>
+<%@ page import="bflows.AdminManagement"%>
 <!DOCTYPE html>
 
 <jsp:useBean id="adminManagement" scope="page" class="bflows.AdminManagement" />

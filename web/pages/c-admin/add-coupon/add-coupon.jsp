@@ -4,6 +4,7 @@
 <%@ page errorPage="../../ErrorPage.jsp" %>
 
 <%@ page import="services.session.*" %>
+<%@ page import="bflows.AdminManagement"%>
 <!DOCTYPE html>
 
 <jsp:useBean id="adminManagement" scope="page" class="bflows.AdminManagement" />
@@ -40,6 +41,7 @@
 
     <!-- carica i tuoi file js qui -->
     <script type="text/javascript" src="add-coupon.js"></script>
+    <script type="text/javascript" src="../shared.js"></script>
   </head>
   
   <body>

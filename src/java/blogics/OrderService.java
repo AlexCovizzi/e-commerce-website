@@ -22,7 +22,39 @@ import util.SqlBuilder;
 public class OrderService {
   public OrderService() { }
   
-  public static List<Order> getOrders(Database database, int orderUser)
+  public static int countOrders(Database database, int orderUser)
+      throws RecoverableDBException {
+    String sql = "";
+    SqlBuilder sqlBuilder = new SqlBuilder();
+    int risultato;
+    
+    sqlBuilder = sqlBuilder
+				.select("count(id)").as("N")
+				.from("OrderView");
+    
+    if(orderUser >= 0)
+      sqlBuilder = sqlBuilder.where("user_id = " + orderUser);
+    
+    sql = sqlBuilder.done();
+   
+    System.out.println(sql);
+    
+    ResultSet resultSet = database.select(sql);
+
+    try {
+			resultSet.next();
+      risultato = resultSet.getInt("N");
+		} catch (SQLException ex) {
+			throw new RecoverableDBException(ex, "OrderService", "countOrders", "Errore nel ResultSet");
+		} finally {
+			try { resultSet.close(); }
+			catch (SQLException ex) { Logger.error("OrderService", "countOrders", ex.getMessage());}
+		}
+
+		return risultato;
+  }
+  
+  public static List<Order> getOrders(Database database, int orderUser, int limit, int offset)
       throws RecoverableDBException {
     String sql = "";
     SqlBuilder sqlBuilder = new SqlBuilder();
@@ -35,7 +67,9 @@ public class OrderService {
     if(orderUser >= 0)
       sqlBuilder = sqlBuilder.where("user_id = " + orderUser);
     
-    sql = sqlBuilder.done();
+    sql = sqlBuilder
+        .limit(limit).offset(offset)
+        .done();
    
     System.out.println(sql);
     
@@ -54,5 +88,19 @@ public class OrderService {
 		}
 
 		return orders;
+  }
+  
+  public static void changeState(Database database, int id, String state)
+      throws RecoverableDBException {
+    String sql = "";
+    SqlBuilder sqlBuilder = new SqlBuilder();
+    
+    sql = sqlBuilder
+        .update("orders")
+        .set("state = " + Conversion.getDatabaseString(state))
+        .where("id = " + id)
+        .done();
+    
+    database.modify(sql);
   }
 }

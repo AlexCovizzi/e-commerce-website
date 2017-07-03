@@ -4,6 +4,7 @@
 <%@ page errorPage="../../ErrorPage.jsp" %>
 
 <%@ page import="services.session.*" %>
+<%@ page import="bflows.AdminManagement"%>
 <!DOCTYPE html>
 
 <jsp:useBean id="adminManagement" scope="page" class="bflows.AdminManagement" />
@@ -50,6 +51,7 @@
 
     <!-- carica i tuoi file js qui -->
     <script type="text/javascript" src="coupons.js"></script>
+    <script type="text/javascript" src="../shared.js"></script>
   </head>
   
   <body>
@@ -112,7 +114,39 @@
       </form>
 
       <button class="btn btn-link" onclick="annulla()">Torna all'account</button>
+      
+      <div class="container">
+        <ul class="list-inline">
+          <% for(int j = 1; j <= adminManagement.getNumeroPagine(); j++) { %>
+          <% if(j == 1) { %>
+          <li> < </li>
+          <% } %>
+          <li>
+            <% if(j != adminManagement.getPagina()) { %>
+              <a href="javascript: submitCambiaPaginaForm(<%= j %>, <%= (j - 1) * AdminManagement.risultatiPerPagina %>)">
+                <%= j %>
+              </a>
+            <% } else { %>
+              <%= j %>
+            <% } %>
+          </li>
+          <% if(j == adminManagement.getNumeroPagine()) { %>
+          <li> > </li>
+          <% } %>
+          <% } %>
+        </ul>
+      </div>
     </div>
+      
+    
+    
+    <form name="cambiaPaginaForm" action="coupons.jsp" method="post">
+      <input type="hidden" name="action" value="view">
+      <input type="hidden" name="pagina">
+      <input type="hidden" name="offset">
+      <input type="hidden" name="numeroPagine" value="<%= adminManagement.getNumeroPagine() %>">
+    </form>
+    
     <!-- footer -->
     <div class="footer">
       <%@ include file="../../../shared/footer/footer.jsp" %>

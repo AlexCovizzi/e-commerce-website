@@ -4,6 +4,8 @@ import java.io.Serializable;
 
 public class AccountManagement extends AbstractManagement implements Serializable {
 	
+  private int orderId;
+  
 	/* wishlist.jsp -> wishlist.jsp : remove */
 	public void removeFromWishlist() {
 		
@@ -28,4 +30,15 @@ public class AccountManagement extends AbstractManagement implements Serializabl
 	public void modifyQuantity() {
 		
 	}
+  
+  
+  /* Getters */
+  public int getOrderId() {
+    return orderId;
+  }
+  
+  /* Setters */
+  public void setOrderCode(int orderId) {
+    this.orderId = orderId;
+  }
 }

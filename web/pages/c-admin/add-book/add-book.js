@@ -114,11 +114,6 @@ function submitInfoLibro() {
   return;
 }
 
-function annulla() {
-  document.annullaForm.submit();
-  return;
-}
-
 /* Variabile per tenere il conto degli autori inseriti */
 var i = 0;
 
