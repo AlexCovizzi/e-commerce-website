@@ -10,10 +10,9 @@
 <jsp:useBean id="adminManagement" scope="page" class="bflows.AdminManagement" />
 <jsp:setProperty name="adminManagement" property="*" />
 
-<% /* 3 azioni:
+<% /* 2 azioni:
     * view
-    * add
-    * modify
+    * change
     */
   int i;
 
@@ -64,7 +63,7 @@
 
     <!-- content-area -->
     <div class="container content-area">
-      <h4>Lista dei coupon disponibili</h4>
+      <h4>Lista degli ordini effettuati</h4>
       <table class="table table-striped">
         <tr>
           <th>Codice</th>

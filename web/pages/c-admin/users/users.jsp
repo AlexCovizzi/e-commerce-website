@@ -12,8 +12,8 @@
 
 <% /* 3 azioni:
     * view
-    * add
-    * modify
+    * block
+    * unblock
     */
   int i;
 
@@ -27,10 +27,13 @@
   if (action == null) action="view";
   
   if(action.equals("view")) {
-    adminManagement.visualizzaTabellaOrdini();
+    adminManagement.visualizzaTabellaUtenti();
   }
-  if(action.equals("change")) {
-    adminManagement.cambiaStatoOrdine();
+  if(action.equals("block")) {
+    adminManagement.bloccaUtente();
+  }
+  if(action.equals("unblock")) {
+    adminManagement.sbloccaUtente();
   }
   
   String message=null;
@@ -39,7 +42,7 @@
 %>
 <html>
   <head>
-    <title>Tabella degli ordini</title>
+    <title>Tabella degli utenti</title>
 
     <!-- comprende css e script del framework, header e footer -->
     <%@ include file="../../../shared/head-common.html" %>
@@ -47,7 +50,7 @@
     <!-- carica i tuoi file css qui -->
 
     <!-- carica i tuoi file js qui -->
-    <script type="text/javascript" src="admin-orders.js"></script>
+    <script type="text/javascript" src="users.js"></script>
     <script type="text/javascript" src="../shared.js"></script>
   </head>
   
@@ -64,95 +67,66 @@
 
     <!-- content-area -->
     <div class="container content-area">
-      <h4>Lista dei coupon disponibili</h4>
+      <h4>Lista degli utenti iscritti</h4>
       <table class="table table-striped">
         <tr>
-          <th>Codice</th>
-          <th>Utente</th>
-          <th>Creato</th>
-          <th>Costo totale</th>
-          <th>Stato</th>
-          <th>Nome del destinatario</th>
-          <th>Coupon usato</th>
+          <th>ID</th>
+          <th>Nome</th>
+          <th>Cognome</th>
+          <th>Indirizzo e-mail</th>
+          <th>Bloccato</th>
+          <th>Blocca/Sblocca Utente</th>
+          <th>Numero di ordini</th>
+          <th>Numero di recensioni</th>
         </tr>
         
-        <% for(int j = 0; j < adminManagement.getOrders().size(); j++) { %>
+        <% for(int j = 0; j < adminManagement.getUsers().size(); j++) { %>
         <tr>
+          <td><%= adminManagement.getUsers().get(j).getId() %></td>
+          <td><%= adminManagement.getUsers().get(j).getName() %></td>
+          <td><%= adminManagement.getUsers().get(j).getSurname() %></td>
+          <td><%= adminManagement.getUsers().get(j).getEmail() %></td>
+          <% if(adminManagement.getUsers().get(j).isBlocked()) { %>
           <td>
-            <a href="javascript: submitVediOrdineForm(<%= adminManagement.getOrders().get(j).getId() %>)">
-              <%= adminManagement.getOrders().get(j).getId() %>
+            Sì
+          </td>
+          <td>
+            <button class="btn btn-default glyphicon glyphicon-ok" onclick="submitSbloccaUtenteForm(<%= adminManagement.getUsers().get(j).getId() %>)">
+            </button>
+          </td>
+          <% } else { %>
+          <td>
+            No
+          </td>
+          <td>
+            <button class="btn btn-default glyphicon glyphicon-remove" onclick="submitBloccaUtenteForm(<%= adminManagement.getUsers().get(j).getId() %>)">
+            </button>
+          </td>
+          <% } %>
+          
+          <td>
+            <a href="javascript: submitVediOrdiniUtenteForm(<%= adminManagement.getUsers().get(j).getId() %>)">
+              <%= adminManagement.getNumeroOrdini().get(j) %>
             </a>
           </td>
-          <td><%= adminManagement.getOrders().get(j).getUserName() %> <%= adminManagement.getOrders().get(j).getUserSurname() %></td>
-          <td><%= adminManagement.getOrders().get(j).getCreated() %></td>
-          <td><%= adminManagement.getOrders().get(j).getTotPrice() %></td>
-          <td>
-            <div class="input-group">
-              <select name="orderStateList" class="form-control"
-                <% if(adminManagement.getOrders().get(j).getState().equals("Consegnato") || adminManagement.getOrders().get(j).getState().equals("Cancellato")) { %>
-                  disabled
-                <% } %>>
-                <option
-                  <% if(adminManagement.getOrders().get(j).getState().equals("In preparazione")) { %>
-                    selected="selected"
-                  <% } %>
-                  >In preparazione</option>
-                <option
-                  <% if(adminManagement.getOrders().get(j).getState().equals("In spedizione")) { %>
-                    selected="selected"
-                  <% } %>
-                  >In spedizione</option>
-                <option
-                  <% if(adminManagement.getOrders().get(j).getState().equals("In magazzino")) { %>
-                    selected="selected"
-                  <% } %>
-                  >In magazzino</option>
-                <option
-                  <% if(adminManagement.getOrders().get(j).getState().equals("In consegna")) { %>
-                    selected="selected"
-                  <% } %>
-                  >In consegna</option>
-                <option
-                  <% if(adminManagement.getOrders().get(j).getState().equals("Consegnato")) { %>
-                    selected="selected"
-                  <% } %>
-                  >Consegnato</option>
-                <option
-                  <% if(adminManagement.getOrders().get(j).getState().equals("Cancellato")) { %>
-                    selected="selected"
-                  <% } %>
-                  >Cancellato</option>
-              </select>
-                  
-                  <button class="btn btn-default"
-                    onclick="submitCambiaStatoForm(<%= adminManagement.getOrders().get(j).getId() %>)"
-                    <% if(adminManagement.getOrders().get(j).getState().equals("Consegnato") || adminManagement.getOrders().get(j).getState().equals("Cancellato")) { %>
-                      disabled
-                    <% } %>
-                  >Cambia stato</button>
-            </div>
-          </td>
-          <td><%= adminManagement.getOrders().get(j).getReceiver() %></td>
-          <td>
-            <% if(adminManagement.getOrders().get(j).getCouponCode() != null) { %>
-              <%= adminManagement.getOrders().get(j).getCouponCode() %>
-            <% } else { %>
-              Nessun coupon
-            <% } %>
-          </td>
+          <td><%= adminManagement.getNumeroRecensioni().get(j) %></td>
         </tr>
         <% } %>
       </table>
       
-      <form name="cambiaStatoForm" action="coupons.jsp" method="post">
-        <input type="hidden" name="action" value="change">
-        <input type="hidden" name="orderId">
-        <input type="hidden" name="orderState">
+      <form name="bloccaUtenteForm" action="users.jsp" method="post">
+        <input type="hidden" name="action" value="block">
+        <input type="hidden" name="listUserId">
       </form>
-
-      <form name="vediOrdineForm" action="../../c-account/order-details/order-details.jsp" method="post">
+      
+      <form name="sbloccaUtenteForm" action="users.jsp" method="post">
+        <input type="hidden" name="action" value="unblock">
+        <input type="hidden" name="listUserId">
+      </form>
+      
+      <form name="vediOrdiniUtenteForm" action="../admin-orders/admin-orders.jsp">
         <input type="hidden" name="action" value="view">
-        <input type="hidden" name="orderId">
+        <input type="hidden" name="orderUser">
       </form>
       
       <form name="annullaForm" action="../admin-account/admin.jsp" method="post">
@@ -184,7 +158,7 @@
       </div>
     </div>
     
-    <form name="cambiaPaginaForm" action="admin-orders.jsp" method="post">
+    <form name="cambiaPaginaForm" action="users.jsp" method="post">
       <input type="hidden" name="action" value="view">
       <input type="hidden" name="pagina">
       <input type="hidden" name="offset">

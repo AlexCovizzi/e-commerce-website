@@ -11,7 +11,7 @@
 <jsp:setProperty name="adminManagement" property="*" />
 
 <% /* 3 azioni:
-    * view
+    * view (2 versioni: con o senza ISBN)
     * add
     * modify
     */

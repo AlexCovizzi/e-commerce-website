@@ -11,7 +11,11 @@ import blogics.GenreService;
 import blogics.Order;
 import blogics.OrderService;
 import blogics.PublisherService;
+import blogics.ReviewService;
+import blogics.User;
+import blogics.UserService;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import services.database.*;
 import services.database.exception.*;
@@ -47,6 +51,12 @@ public class AdminManagement extends AbstractManagement implements Serializable 
   private int orderUser = -1;
   private String orderState;
   
+  /* Servono per gli utenti */
+  private List<User> users;
+  private List<Integer> numeroOrdini;
+  private List<Integer> numeroRecensioni;
+  private int listUserId;
+  
   /* Dividere i risultati in diverse pagine */
   public static int risultatiPerPagina = 25;
   private int numeroPagine = -1;
@@ -55,9 +65,83 @@ public class AdminManagement extends AbstractManagement implements Serializable 
   
   
   
-	/* users.jsp -> users.jsp : block */
-	public void blockUser() throws UnrecoverableDBException {
-		
+	/* admin.jsp -> users.jsp : view */
+	public void visualizzaTabellaUtenti() throws UnrecoverableDBException {
+		Database database = DBService.getDataBase();
+    
+    try {
+      /* Recupero gli utenti dal DB */
+      this.recuperaUtenti(database);
+      
+      /* Conto gli ordini */
+      this.contaOrdiniPerUtente(database);
+      
+      /* Conto le recensioni */
+      this.contaRecensioniPerUtente(database);
+      
+      /* FINITO! */
+      database.commit();
+    } catch (RecoverableDBException ex) {
+      database.rollBack();
+      setErrorMessage(ex.getMsg());
+		} finally {
+      database.close();
+    }
+	}
+  
+  /* users.jsp -> users.jsp : block */
+	public void bloccaUtente() throws UnrecoverableDBException {
+		Database database = DBService.getDataBase();
+    
+    try {
+      /* Blocco l'utente */
+      System.out.println(listUserId);
+      UserService.blockUser(database, listUserId);
+      
+      /* Recupero gli utenti dal DB */
+      this.recuperaUtenti(database);
+      
+      /* Conto gli ordini */
+      this.contaOrdiniPerUtente(database);
+      
+      /* Conto le recensioni */
+      this.contaRecensioniPerUtente(database);
+      
+      /* FINITO! */
+      database.commit();
+    } catch (RecoverableDBException ex) {
+      database.rollBack();
+      setErrorMessage(ex.getMsg());
+		} finally {
+      database.close();
+    }
+	}
+  
+  /* users.jsp -> users.jsp : unblock */
+	public void sbloccaUtente() throws UnrecoverableDBException {
+		Database database = DBService.getDataBase();
+    
+    try {
+      /* Blocco l'utente */
+      UserService.unblockUser(database, listUserId);
+      
+      /* Recupero gli utenti dal DB */
+      this.recuperaUtenti(database);
+      
+      /* Conto gli ordini */
+      this.contaOrdiniPerUtente(database);
+      
+      /* Conto le recensioni */
+      this.contaRecensioniPerUtente(database);
+      
+      /* FINITO! */
+      database.commit();
+    } catch (RecoverableDBException ex) {
+      database.rollBack();
+      setErrorMessage(ex.getMsg());
+		} finally {
+      database.close();
+    }
 	}
 	
   
@@ -74,6 +158,7 @@ public class AdminManagement extends AbstractManagement implements Serializable 
 	
   
   
+  /* FATTO */
   /* admin.jsp -> admin-orders.jsp : view */
   public void visualizzaTabellaOrdini() throws UnrecoverableDBException {
     Database database = DBService.getDataBase();
@@ -92,6 +177,7 @@ public class AdminManagement extends AbstractManagement implements Serializable 
     }
   }
   
+  /* FATTO */
 	/* admin-orders.jsp -> admin-orders.jsp : change */
 	public void cambiaStatoOrdine() throws UnrecoverableDBException {
 		Database database = DBService.getDataBase();
@@ -156,6 +242,7 @@ public class AdminManagement extends AbstractManagement implements Serializable 
     }
 	}
 	
+  /* FATTO */
 	/* coupons.jsp -> coupons.jsp : disable */
 	public void disableCoupon() throws UnrecoverableDBException {
 		Database database = DBService.getDataBase();
@@ -492,6 +579,34 @@ Database database = DBService.getDataBase();
     orders = OrderService.getOrders(database, orderUser, risultatiPerPagina, offset);
   }
   
+  public void recuperaUtenti(Database database) throws RecoverableDBException {
+    /* Conto le pagine solo se non le ho già contate prima */
+    if(numeroPagine < 0) {
+      int numeroRisultati = UserService.countUsers(database);
+      numeroPagine = numeroRisultati / risultatiPerPagina;
+      if(numeroPagine > 0 && (numeroRisultati % risultatiPerPagina) != 0)
+        numeroPagine++;
+    }
+    
+    users = UserService.getUsers(database, risultatiPerPagina, offset);
+  }
+  
+  public void contaOrdiniPerUtente(Database database) throws RecoverableDBException {
+    numeroOrdini = new ArrayList();
+    for(int i = 0; i < users.size(); i++) {
+      int numeroDiOrdini = OrderService.countOrders(database, users.get(i).getId());
+      numeroOrdini.add(numeroDiOrdini);
+    }
+  }
+  
+  public void contaRecensioniPerUtente(Database database) throws RecoverableDBException {
+    numeroRecensioni = new ArrayList();
+    for(int i = 0; i < users.size(); i++) {
+      int numeroDiRecensioni = ReviewService.countVotes(database, users.get(i).getId());
+      numeroRecensioni.add(numeroDiRecensioni);
+    }
+  }
+  
   
   
   /* Getters */
@@ -602,6 +717,22 @@ Database database = DBService.getDataBase();
   public int getNumeroPagine() {
     return numeroPagine;
   }
+
+  public List<User> getUsers() {
+    return users;
+  }
+
+  public List<Integer> getNumeroOrdini() {
+    return numeroOrdini;
+  }
+
+  public List<Integer> getNumeroRecensioni() {
+    return numeroRecensioni;
+  }
+
+  public int getListUserId() {
+    return listUserId;
+  }
   
   
   
@@ -693,6 +824,10 @@ Database database = DBService.getDataBase();
   public void setOrderCode(int orderId) {
     this.orderId = orderId;
   }
+
+  public void setOrderId(int orderId) {
+    this.orderId = orderId;
+  }
   
   public void setOrderUser(int orderUser) {
     this.orderUser = orderUser;
@@ -712,6 +847,22 @@ Database database = DBService.getDataBase();
 
   public void setNumeroPagine(int numeroPagine) {
     this.numeroPagine = numeroPagine;
+  }
+
+  public void setUsers(List<User> users) {
+    this.users = users;
+  }
+
+  public void setNumeroOrdini(List<Integer> numeroOrdini) {
+    this.numeroOrdini = numeroOrdini;
+  }
+
+  public void setNumeroRecensioni(List<Integer> numeroRecensioni) {
+    this.numeroRecensioni = numeroRecensioni;
+  }
+
+  public void setListUserId(int listUserId) {
+    this.listUserId = listUserId;
   }
   
 }

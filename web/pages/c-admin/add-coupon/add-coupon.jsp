@@ -10,10 +10,8 @@
 <jsp:useBean id="adminManagement" scope="page" class="bflows.AdminManagement" />
 <jsp:setProperty name="adminManagement" property="*" />
 
-<% /* 3 azioni:
+<% /* 1 azione:
     * view
-    * add
-    * modify
     */
   int i;
 

@@ -13,6 +13,16 @@ public class Review {
   private boolean thumbUp;
   private String comment;
   private Date timestamp;
+
+  public Review(String bookIsbn, int userId, String userName, String userSurname, boolean thumbUp, String comment, Date timestamp) {
+    this.bookIsbn = bookIsbn;
+    this.userId = userId;
+    this.userName = userName;
+    this.userSurname = userSurname;
+    this.thumbUp = thumbUp;
+    this.comment = comment;
+    this.timestamp = timestamp;
+  }
   
   public Review(ResultSet resultSet) {
     try {bookIsbn = resultSet.getString("book_isbn");} catch (SQLException sqle) {}

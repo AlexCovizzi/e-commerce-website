@@ -45,4 +45,31 @@ public class ReviewService {
 		
 		return reviews;
   }
+  
+  public static int countVotes(Database database, int userId)
+      throws RecoverableDBException {
+    String sql = "";
+    SqlBuilder sqlBuilder = new SqlBuilder();
+    int risultato;
+    
+    sql = sqlBuilder
+				.select("count(*)").as("N")
+				.from("Vote")
+        .where("user_id = " + userId)
+        .done();
+    
+    ResultSet resultSet = database.select(sql);
+
+    try {
+			resultSet.next();
+      risultato = resultSet.getInt("N");
+		} catch (SQLException ex) {
+			throw new RecoverableDBException(ex, "VoteService", "countVotes", "Errore nel ResultSet");
+		} finally {
+			try { resultSet.close(); }
+			catch (SQLException ex) { Logger.error("VoteService", "countVotes", ex.getMessage());}
+		}
+
+		return risultato;
+  }
 }

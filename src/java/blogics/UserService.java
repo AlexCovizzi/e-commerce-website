@@ -2,6 +2,8 @@ package blogics;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import services.database.Database;
 import services.database.exception.DBException;
 import services.database.exception.RecoverableDBException;
@@ -119,7 +121,96 @@ public class UserService {
         
     }
 	
-	public static void blockUser(Database db, int userId) {
-        
-    }
+  public static int countUsers(Database database)
+      throws RecoverableDBException {
+    String sql = "";
+    SqlBuilder sqlBuilder = new SqlBuilder();
+    int risultato;
+    
+    sql = sqlBuilder
+				.select("count(id)").as("N")
+				.from("User")
+				.where("fl_active = 'S'")
+          .and("is_admin = false")
+				.done();
+    
+    ResultSet resultSet = database.select(sql);
+    
+    try {
+			resultSet.next();
+      risultato = resultSet.getInt("N");
+		} catch (SQLException ex) {
+			throw new RecoverableDBException(ex, "UserService", "countUsers", "Errore nel ResultSet");
+		} finally {
+			try { resultSet.close(); }
+			catch (SQLException ex) { Logger.error("UserService", "countUsers", ex.getMessage());}
+		}
+
+		return risultato;
+  }
+  
+  public static List<User> getUsers(Database database, int limit, int offset)
+      throws RecoverableDBException {
+    String sql = "";
+    SqlBuilder sqlBuilder = new SqlBuilder();
+    List<User> users = new ArrayList<>();
+    
+    sql = sqlBuilder
+				.select("id", "name", "surname", "email", "password", "is_admin", "is_blocked")
+				.from("User")
+				.where("fl_active = 'S'")
+          .and("is_admin = 0")
+        .limit(limit).offset(offset)
+				.done();
+    
+    ResultSet resultSet = database.select(sql);
+    
+    try {
+			while(resultSet.next()) {
+				User user = new User(resultSet);
+				users.add(user);
+			}
+		} catch (SQLException ex) {
+			throw new RecoverableDBException(ex, "UserService", "getUsers", "Errore nel ResultSet");
+		} finally {
+			try { resultSet.close(); }
+			catch (SQLException ex) { Logger.error("UserService", "getUsers", ex.getMessage());}
+		}
+
+		return users;
+  }
+    
+	public static void blockUser(Database database, int userId)
+      throws RecoverableDBException {
+    String sql = "";
+    SqlBuilder sqlBuilder = new SqlBuilder();
+    
+    /* Aggiornamento */	
+    sql = sqlBuilder
+			.update("user")
+      .set("is_blocked = 1")
+			.where("id = " + userId)
+        .and("fl_active = 'S'")
+			.done();
+    
+    System.out.println(sql);
+    
+    database.modify(sql);
+  }
+  
+  public static void unblockUser(Database database, int userId)
+      throws RecoverableDBException {
+    String sql = "";
+    SqlBuilder sqlBuilder = new SqlBuilder();
+    
+    /* Aggiornamento */	
+    sql = sqlBuilder
+			.update("user")
+      .set("is_blocked = 0")
+			.where("id = " + userId)
+        .and("fl_active = 'S'")
+			.done();
+    
+    database.modify(sql);
+  }
 }

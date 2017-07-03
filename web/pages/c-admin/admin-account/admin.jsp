@@ -11,7 +11,10 @@
 <jsp:useBean id="adminManagement" scope="page" class="bflows.AdminManagement" />
 <jsp:setProperty name="adminManagement" property="*" />
 
-<%int i;
+<%/* 1 azione:
+    * view
+    */
+  int i;
 
   Cookie[] cookies=null;
   cookies=request.getCookies();
