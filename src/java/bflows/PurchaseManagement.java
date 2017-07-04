@@ -2,7 +2,7 @@ package bflows;
 
 import java.io.Serializable;
 
-public class PurchaseManagement implements Serializable {
+public class PurchaseManagement extends AbstractManagement implements Serializable {
 	
 	/* address.jsp , order-payment.jsp , order-summary.jsp */
 	

@@ -7,4 +7,8 @@
  - Dividi in pagine gli ordini ----- FATTOOOOOOOOOOO
  - Dividi in pagina i coupon ----- FATTOOOOOOOOOOO
  - Gestione utenti ----- FATTOOOOOOOOOOO
- - Gestione admin
+ - Gestione admin ----- FATTOOOOOOOOOOO
+ - Mettere un gestione base base di autori e generi??? --> Vediamo
+ - Fare l'inserimento dell'indirizzo
+ - Fare l'inserimento delle coordinate di pagamento
+ - Fare la pagina di riepilogo ordine
