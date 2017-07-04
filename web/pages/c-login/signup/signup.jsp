@@ -62,11 +62,23 @@
       
       <% if(action.equals("view")) {%>
         
-      <h4>Registrati</h4>
+      <h4>
+        <% if(loggedIn && Session.isUserAdmin(cookies)) { %>
+        Aggiungi amministratore
+        <% } else { %>
+        Registrati
+        <% } %>
+      </h4>
 
       <div class="divider-horizontal"></div>
 
-      <form class="form-horizontal" method='post' action="signup.jsp">
+      <form class="form-horizontal" method='post'
+        <% if(loggedIn && Session.isUserAdmin(cookies)) { %>
+        action="../../c-admin/admin-users/admin-users.jsp"
+        <% } else { %>
+        action="signup.jsp"
+        <% } %>
+        >
 
         <div class="form-group">
           <label class="control-label col-sm-4" for="signup-first-name">Nome</label>
@@ -107,13 +119,28 @@
 
         <div class="form-group"> 
           <div class="col-sm-offset-4 col-sm-4">
-            <input type="hidden" name="action" value="signup"/>
-            <button type="submit" class="btn btn-default">Registrati</button>
+            <input type="hidden" name="action"
+              <% if(loggedIn && Session.isUserAdmin(cookies)) { %>
+              value="add"
+              <% } else { %>
+              value="signup"
+              <% } %>
+              />
+            <button type="submit" class="btn btn-default">
+              <% if(loggedIn && Session.isUserAdmin(cookies)) { %>
+              Aggiungi amministratore
+              <% } else { %>
+              Registrati
+              <% } %>
+            </button>
           </div>
+          <% if(loggedIn && Session.isUserAdmin(cookies)) { %>
+          <% } else { %>
           <div class="col-sm-offset-4 col-sm-4" style="margin-top: 16px;">
             Sei già registrato? 
             <a href="../login/login.jsp">Accedi ora.</a>
           </div>
+          <% } %>
         </div>
 
       </form>

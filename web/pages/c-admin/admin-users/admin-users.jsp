@@ -12,8 +12,8 @@
 
 <% /* 3 azioni:
     * view
-    * block
-    * unblock
+    * remove
+    * add
     */
   int i;
 
@@ -27,13 +27,13 @@
   if (action == null) action="view";
   
   if(action.equals("view")) {
-    adminManagement.visualizzaTabellaUtenti();
+    adminManagement.visualizzaTabellaAdmin();
   }
-  if(action.equals("block")) {
-    adminManagement.bloccaUtente();
+  if(action.equals("remove")) {
+    adminManagement.rimuoviAdmin();
   }
-  if(action.equals("unblock")) {
-    adminManagement.sbloccaUtente();
+  if(action.equals("add")) {
+    adminManagement.aggiungiAdmin();
   }
   
   String message=null;
@@ -42,7 +42,7 @@
 %>
 <html>
   <head>
-    <title>Tabella degli utenti</title>
+    <title>Tabella degli amministratori</title>
 
     <!-- comprende css e script del framework, header e footer -->
     <%@ include file="../../../shared/head-common.html" %>
@@ -50,7 +50,7 @@
     <!-- carica i tuoi file css qui -->
 
     <!-- carica i tuoi file js qui -->
-    <script type="text/javascript" src="users.js"></script>
+    <script type="text/javascript" src="admin-users.js"></script>
     <script type="text/javascript" src="../shared.js"></script>
   </head>
   
@@ -67,16 +67,13 @@
 
     <!-- content-area -->
     <div class="container content-area">
-      <h4>Lista degli utenti iscritti</h4>
+      <h4>Lista degli utenti amministratori</h4>
       <table class="table table-striped">
         <tr>
           <th>Nome</th>
           <th>Cognome</th>
           <th>Indirizzo e-mail</th>
-          <th>Bloccato</th>
-          <th>Blocca/Sblocca Utente</th>
-          <th>Numero di ordini</th>
-          <th>Numero di recensioni</th>
+          <th>Rimuovi amministratore</th>
         </tr>
         
         <% for(int j = 0; j < adminManagement.getUsers().size(); j++) { %>
@@ -84,53 +81,28 @@
           <td><%= adminManagement.getUsers().get(j).getName() %></td>
           <td><%= adminManagement.getUsers().get(j).getSurname() %></td>
           <td><%= adminManagement.getUsers().get(j).getEmail() %></td>
-          <% if(adminManagement.getUsers().get(j).isBlocked()) { %>
           <td>
-            Sì
-          </td>
-          <td>
-            <button class="btn btn-default glyphicon glyphicon-ok" onclick="submitSbloccaUtenteForm(<%= adminManagement.getUsers().get(j).getId() %>)">
+            <button class="btn btn-default glyphicon glyphicon-trash" onclick="submitRimuoviAdminForm(<%= adminManagement.getUsers().get(j).getId() %>)">
             </button>
           </td>
-          <% } else { %>
-          <td>
-            No
-          </td>
-          <td>
-            <button class="btn btn-default glyphicon glyphicon-remove" onclick="submitBloccaUtenteForm(<%= adminManagement.getUsers().get(j).getId() %>)">
-            </button>
-          </td>
-          <% } %>
-          
-          <td>
-            <a href="javascript: submitVediOrdiniUtenteForm(<%= adminManagement.getUsers().get(j).getId() %>)">
-              <%= adminManagement.getNumeroOrdini().get(j) %>
-            </a>
-          </td>
-          <td><%= adminManagement.getNumeroRecensioni().get(j) %></td>
         </tr>
         <% } %>
       </table>
       
-      <form name="bloccaUtenteForm" action="users.jsp" method="post">
-        <input type="hidden" name="action" value="block">
+      <form name="rimuoviAdminForm" action="admin-users.jsp" method="post">
+        <input type="hidden" name="action" value="remove">
         <input type="hidden" name="listUserId">
       </form>
       
-      <form name="sbloccaUtenteForm" action="users.jsp" method="post">
-        <input type="hidden" name="action" value="unblock">
-        <input type="hidden" name="listUserId">
-      </form>
-      
-      <form name="vediOrdiniUtenteForm" action="../admin-orders/admin-orders.jsp">
+      <form name="aggiungiAdminForm" action="../../c-login/signup/signup.jsp" method="post">
         <input type="hidden" name="action" value="view">
-        <input type="hidden" name="orderUser">
       </form>
       
       <form name="annullaForm" action="../admin-account/admin.jsp" method="post">
         <input type="hidden" name="action" value="view">
       </form>
-
+      
+      <button class="btn btn-default" onclick="submitAggiungiAdminForm()">Aggiungi un amministratore</button>
       <button class="btn btn-link" onclick="annulla()">Torna all'account</button>
       
       <div class="container">
@@ -156,7 +128,7 @@
       </div>
     </div>
     
-    <form name="cambiaPaginaForm" action="users.jsp" method="post">
+    <form name="cambiaPaginaForm" action="admin-users.jsp" method="post">
       <input type="hidden" name="action" value="view">
       <input type="hidden" name="pagina">
       <input type="hidden" name="offset">

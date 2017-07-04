@@ -6,7 +6,7 @@
             </div>
 
             <div class="nav navbar-nav navbar-right scritta_footer" id="destra">
-                Scritta
+                Libreria Online Sant'Ale
             </div>
         </div>
     </div>

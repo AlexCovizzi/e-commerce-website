@@ -117,8 +117,21 @@ public class UserService {
         
     }
     
-    public static void removeUser(Database db, int userId) {
-        
+    public static void removeUser(Database database, int userId)
+        throws RecoverableDBException {
+      String sql = "";
+      SqlBuilder sqlBuilder = new SqlBuilder();
+
+      /* Aggiornamento */	
+      sql = sqlBuilder
+        .update("user")
+        .set("fl_active = 'N'")
+        .where("id = " + userId)
+        .done();
+
+      System.out.println(sql);
+
+      database.modify(sql);
     }
 	
   public static int countUsers(Database database)
@@ -149,7 +162,7 @@ public class UserService {
 		return risultato;
   }
   
-  public static List<User> getUsers(Database database, int limit, int offset)
+  public static List<User> getUsers(Database database, int limit, int offset, boolean isAdmin)
       throws RecoverableDBException {
     String sql = "";
     SqlBuilder sqlBuilder = new SqlBuilder();
@@ -159,9 +172,11 @@ public class UserService {
 				.select("id", "name", "surname", "email", "password", "is_admin", "is_blocked")
 				.from("User")
 				.where("fl_active = 'S'")
-          .and("is_admin = 0")
+          .and("is_admin = " + isAdmin)
         .limit(limit).offset(offset)
 				.done();
+    
+    System.out.println(sql);
     
     ResultSet resultSet = database.select(sql);
     

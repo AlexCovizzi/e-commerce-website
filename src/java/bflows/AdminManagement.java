@@ -28,7 +28,7 @@ public class AdminManagement extends AbstractManagement implements Serializable 
   private String copertina;
   private String titolo;
   private String descrizione;
-  private String autore[];
+  private String[] autore;
   private String isbn = "null";
   private int pagine = -1;
   private String editore;
@@ -57,6 +57,12 @@ public class AdminManagement extends AbstractManagement implements Serializable 
   private List<Integer> numeroRecensioni;
   private int listUserId;
   
+  /* Servono per gli amministratori */
+  private String name;
+  private String surname;
+  private String email;
+  private String password;
+  
   /* Dividere i risultati in diverse pagine */
   public static int risultatiPerPagina = 25;
   private int numeroPagine = -1;
@@ -65,13 +71,14 @@ public class AdminManagement extends AbstractManagement implements Serializable 
   
   
   
+  /* FATTO */
 	/* admin.jsp -> users.jsp : view */
 	public void visualizzaTabellaUtenti() throws UnrecoverableDBException {
 		Database database = DBService.getDataBase();
     
     try {
       /* Recupero gli utenti dal DB */
-      this.recuperaUtenti(database);
+      this.recuperaUtenti(database, false);
       
       /* Conto gli ordini */
       this.contaOrdiniPerUtente(database);
@@ -89,6 +96,7 @@ public class AdminManagement extends AbstractManagement implements Serializable 
     }
 	}
   
+  /* FATTO */
   /* users.jsp -> users.jsp : block */
 	public void bloccaUtente() throws UnrecoverableDBException {
 		Database database = DBService.getDataBase();
@@ -99,7 +107,7 @@ public class AdminManagement extends AbstractManagement implements Serializable 
       UserService.blockUser(database, listUserId);
       
       /* Recupero gli utenti dal DB */
-      this.recuperaUtenti(database);
+      this.recuperaUtenti(database, false);
       
       /* Conto gli ordini */
       this.contaOrdiniPerUtente(database);
@@ -117,6 +125,7 @@ public class AdminManagement extends AbstractManagement implements Serializable 
     }
 	}
   
+  /* FATTO */
   /* users.jsp -> users.jsp : unblock */
 	public void sbloccaUtente() throws UnrecoverableDBException {
 		Database database = DBService.getDataBase();
@@ -126,7 +135,7 @@ public class AdminManagement extends AbstractManagement implements Serializable 
       UserService.unblockUser(database, listUserId);
       
       /* Recupero gli utenti dal DB */
-      this.recuperaUtenti(database);
+      this.recuperaUtenti(database, false);
       
       /* Conto gli ordini */
       this.contaOrdiniPerUtente(database);
@@ -146,14 +155,64 @@ public class AdminManagement extends AbstractManagement implements Serializable 
 	
   
   
+  /* FATTO */
+  /* admin.jsp -> admin-users.jsp : view */
+	public void visualizzaTabellaAdmin() throws UnrecoverableDBException {
+		Database database = DBService.getDataBase();
+    
+    try {
+      /* Recupero gli utenti amministratori dal DB */
+      this.recuperaUtenti(database, true);
+      /* FINITO! */
+      database.commit();
+    } catch (RecoverableDBException ex) {
+      database.rollBack();
+      setErrorMessage(ex.getMsg());
+		} finally {
+      database.close();
+    }
+	}
+  
+  /* FATTO */
 	/* admins.jsp -> admins-jsp : remove */
-	public void removeAdmin() throws UnrecoverableDBException {
-		
+	public void rimuoviAdmin() throws UnrecoverableDBException {
+		Database database = DBService.getDataBase();
+    
+    try {
+      /* Rimuovo l'amministratore indicato */
+      UserService.removeUser(database, listUserId);
+      
+      /* Recupero gli utenti amministratori dal DB */
+      this.recuperaUtenti(database, true);
+      /* FINITO! */
+      database.commit();
+    } catch (RecoverableDBException ex) {
+      database.rollBack();
+      setErrorMessage(ex.getMsg());
+		} finally {
+      database.close();
+    }
 	}
 	
+  /* FATTO */
 	/* signup.jsp -> admins.jsp : add */
-	public void signupAdmin() throws UnrecoverableDBException {
-		
+	public void aggiungiAdmin() throws UnrecoverableDBException {
+		Database database = DBService.getDataBase();
+    
+    try {
+      /* Aggiungo un amministratore con i dati indicati */
+      UserService.insertUser(database, email, name, surname, password, true);
+      
+      /* Recupero gli utenti amministratori dal DB */
+      this.recuperaUtenti(database, true);
+      /* FINITO! */
+      database.commit();
+    } catch (RecoverableDBException ex) {
+      database.rollBack();
+      setErrorMessage(ex.getMsg());
+		} finally {
+      database.close();
+    }
 	}
 	
   
@@ -579,7 +638,7 @@ Database database = DBService.getDataBase();
     orders = OrderService.getOrders(database, orderUser, risultatiPerPagina, offset);
   }
   
-  public void recuperaUtenti(Database database) throws RecoverableDBException {
+  public void recuperaUtenti(Database database, boolean isAdmin) throws RecoverableDBException {
     /* Conto le pagine solo se non le ho già contate prima */
     if(numeroPagine < 0) {
       int numeroRisultati = UserService.countUsers(database);
@@ -588,7 +647,7 @@ Database database = DBService.getDataBase();
         numeroPagine++;
     }
     
-    users = UserService.getUsers(database, risultatiPerPagina, offset);
+    users = UserService.getUsers(database, risultatiPerPagina, offset, isAdmin);
   }
   
   public void contaOrdiniPerUtente(Database database) throws RecoverableDBException {
@@ -733,6 +792,22 @@ Database database = DBService.getDataBase();
   public int getListUserId() {
     return listUserId;
   }
+
+  public String getName() {
+    return name;
+  }
+
+  public String getSurname() {
+    return surname;
+  }
+
+  public String getEmail() {
+    return email;
+  }
+
+  public String getPassword() {
+    return password;
+  }
   
   
   
@@ -863,6 +938,22 @@ Database database = DBService.getDataBase();
 
   public void setListUserId(int listUserId) {
     this.listUserId = listUserId;
+  }
+
+  public void setName(String name) {
+    this.name = name;
+  }
+
+  public void setSurname(String surname) {
+    this.surname = surname;
+  }
+
+  public void setEmail(String email) {
+    this.email = email;
+  }
+
+  public void setPassword(String password) {
+    this.password = password;
   }
   
 }

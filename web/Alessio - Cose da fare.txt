@@ -6,5 +6,5 @@
  - Il codice dell'ordine deve portare alla pagina di ordine singolo ----- FATTOOOOOOOOOOO
  - Dividi in pagine gli ordini ----- FATTOOOOOOOOOOO
  - Dividi in pagina i coupon ----- FATTOOOOOOOOOOO
- - Gestione utenti
+ - Gestione utenti ----- FATTOOOOOOOOOOO
  - Gestione admin
