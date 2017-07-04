@@ -28,8 +28,8 @@ public class Logger {
 		}
 	}
 	
-	public static void debug(String msg) {
-		log(DEBUG, msg);
+	public static void debug(Object obj) {
+		log(DEBUG, obj.toString());
 	}
 	
 	public static void debug(String className, String methodName, String msg) {

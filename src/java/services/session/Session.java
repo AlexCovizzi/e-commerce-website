@@ -90,8 +90,7 @@ public class Session {
   }
 	
 	public static boolean isUserAdmin(Cookie[] cookies) {
-    Logger.debug(Boolean.valueOf("true")+"");
-    return true;
+    return Boolean.valueOf(getValue(cookies, "admin", 0));
   }
 	
 	public static boolean isUserBlocked(Cookie[] cookies) {

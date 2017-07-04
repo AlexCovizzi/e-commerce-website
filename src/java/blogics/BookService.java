@@ -136,71 +136,19 @@ public class BookService {
   }
   
 	public static List<Book> getBookList(Database db, String search, String[] authors,
-			String[] publishers, String[] genres, float[][] priceRanges, float[][] voteRanges,
+			String[] publishers, String[] genres, int priceMin, int priceMax,
 			String ord, int page, int booksPerPage) throws RecoverableDBException {
 		
-		SqlBuilder sqlBuilder = new SqlBuilder();
-		String sql;
 		ResultSet resultSet;
 		List<Book> bookList = new ArrayList();
 		
-		sqlBuilder
-			.selectDistinct("isbn", "title", "price", "publisher_name", "publication_date", "stock", "vote", "n_votes", "coverUri")
-			.from("BookView")
-      .join("BookAuthor").as("B_A").on("B_A.book_isbn = isbn")
-      .join("BookGenre").as("B_G").on("B_G.book_isbn = isbn")
-			.where("title LIKE '%"+search+"%' OR isbn = '"+search+"'");
-		
-    if(authors != null) {
-      String authorsCondition = "";
-      authorsCondition += " a_name = "+Conversion.getDatabaseString(authors[0]);
-      for(int i=1; i<authors.length; i++) {
-        authorsCondition += " OR a_name = "+Conversion.getDatabaseString(authors[i]);
-      }
-      sqlBuilder.and(authorsCondition);
-    }
-		
-    if(publishers != null) {
-      String publishersCondition = "";
-      publishersCondition += " publisher = "+Conversion.getDatabaseString(publishers[0]);
-      for(int i=1; i<publishers.length; i++) {
-        publishersCondition += " OR publisher = "+Conversion.getDatabaseString(publishers[i]);
-      }
-      sqlBuilder.and(publishersCondition);
-    }
-		
-    if(genres != null) {
-      String genresCondition = "";
-      genresCondition += " g_name = "+Conversion.getDatabaseString(genres[0]);
-      for(int i=1; i<genres.length; i++) {
-        genresCondition += " OR g_name = "+Conversion.getDatabaseString(genres[i]);
-      }
-      sqlBuilder.and(genresCondition);
-    }
+    SqlBuilder sqlBuilder = getBookSearchQuery(search, authors, publishers, genres, priceMin, priceMax);
     
-    if(priceRanges != null) {
-      String pricesCondition = "";
-      pricesCondition += " price BETWEEN "+priceRanges[0][0]+ " AND " + priceRanges[0][1];
-      for(int i=1; i<priceRanges.length; i++) {
-        pricesCondition += " OR price BETWEEN "+priceRanges[i][0]+ " AND " + priceRanges[i][1];
-      }
-      sqlBuilder.and(pricesCondition);
-    }
-    
-    if(voteRanges != null) {
-      String votesCondition = "";
-      votesCondition += " vote BETWEEN "+voteRanges[0][0]+ " AND " + voteRanges[0][1];
-      for(int i=1; i<priceRanges.length; i++) {
-        votesCondition += " OR vote BETWEEN "+voteRanges[i][0]+ " AND " + voteRanges[i][1];
-      }
-      sqlBuilder.and(votesCondition);
-    }
-		
 		sqlBuilder
       .orderBy(ord)
 			.limit(booksPerPage, booksPerPage*page-booksPerPage);
 		
-		sql = sqlBuilder.done();
+		String sql = sqlBuilder.done();
 		
 		Logger.debug("BookService", "getUser", sql);
 		
@@ -221,24 +169,23 @@ public class BookService {
 		return bookList;
 	}
   
-  public static int getTotalResults(Database db, String search) throws RecoverableDBException {
+  public static int getTotalResults(Database db, String search, String[] authors, String[] publishers, String[] genres, int priceMin, int priceMax) throws RecoverableDBException {
     SqlBuilder sqlBuilder = new SqlBuilder();
 		ResultSet resultSet;
     int totResults = 0;
     
+    String innerSql = getBookSearchQuery(search, authors, publishers, genres, priceMin, priceMax).toString();
+    
     String sql = sqlBuilder
-			.selectDistinct("isbn")
-			.from("BookView")
-      .join("BookAuthor").as("B_A").on("B_A.book_isbn = isbn")
-      .join("BookGenre").as("B_G").on("B_G.book_isbn = isbn")
-			.where("title LIKE '%"+search+"%' OR isbn = '"+search+"'")
+			.select("COUNT(*) AS n")
+      .from("("+innerSql+") AS inner_sql")
       .done();
     
     resultSet = db.select(sql);
     
 		try {
-			while (resultSet.next()) {
-        totResults += 1;
+			if (resultSet.next()) {
+        totResults = resultSet.getInt("n");
 			}
 		} catch (SQLException ex) {
 			throw new RecoverableDBException(ex, "UserService", "getUser", "Errore nel ResultSet");
@@ -324,7 +271,7 @@ public class BookService {
 		List<Pair<String, Integer>> publishers = new ArrayList();
     
     String sql = sqlBuilder
-			.select("publisher", "COUNT(*) AS n")
+			.select("publisher_name", "COUNT(*) AS n")
 			.from("BookView")
 			.where("title LIKE '%"+search+"%' OR isbn = '"+search+"'")
       .command("GROUP BY").params("publisher_name")
@@ -352,17 +299,19 @@ public class BookService {
     return publishers;
   }
   
-  public static int[] getFilterPrices(Database db, String search, float[][] priceRangeOptions) throws RecoverableDBException {
+  public static int[] getFilterPrices(Database db, String search, int[][] priceRangeOptions) throws RecoverableDBException {
     SqlBuilder sqlBuilder = new SqlBuilder();
 		ResultSet resultSet;
-		int[] prices = new int[priceRangeOptions.length];
+		int[] prices = new int[priceRangeOptions[0].length];
     
     sqlBuilder
 			.select("T.price_range", "COUNT(*) AS n");
     
     String q = "(SELECT CASE ";
     for(int i=0; i<priceRangeOptions.length; i++) {
-      q += "WHEN price BETWEEN "+priceRangeOptions[i][0]+" AND "+ priceRangeOptions[i][1]+" THEN "+i+" ";
+      int min = priceRangeOptions[0][i]; if(min < 0) min = 0;
+      int max = priceRangeOptions[1][i]; if(max < 0) max = 999999;
+      q += "WHEN price BETWEEN "+min+" AND "+ max+" THEN "+i+" ";
     }
     q += "END AS price_range FROM (SELECT price FROM BookView WHERE title LIKE '%"+search+"%' OR isbn = '"+search+"') B) AS T";
     
@@ -408,9 +357,9 @@ public class BookService {
     
 		try {
 			while (resultSet.next()) {
-        int priceRange = resultSet.getInt("vote_range");
+        int voteRange = resultSet.getInt("vote_range");
         int n = resultSet.getInt("n");
-        votes[priceRange] = n;
+        votes[voteRange] = n;
 			}
 		} catch (SQLException ex) {
 			throw new RecoverableDBException(ex, "UserService", "getUser", "Errore nel ResultSet");
@@ -420,5 +369,50 @@ public class BookService {
 		}
     
     return votes;
+  }
+  
+  private static SqlBuilder getBookSearchQuery(String search, String[] authors, String[] publishers, String[] genres, int priceMin, int priceMax) {
+    SqlBuilder sqlBuilder = new SqlBuilder();
+    
+		sqlBuilder
+			.selectDistinct("isbn", "title", "price", "publisher_name", "publication_date", "stock", "vote", "n_votes", "coverUri")
+			.from("BookView")
+      .join("BookAuthor").as("B_A").on("B_A.book_isbn = isbn")
+      .join("BookGenre").as("B_G").on("B_G.book_isbn = isbn")
+			.where("title LIKE '%"+search+"%' OR isbn = '"+search+"'");
+		
+    if(authors != null) {
+      String authorsCondition = "";
+      authorsCondition += " a_name = "+Conversion.getDatabaseString(authors[0]);
+      for(int i=1; i<authors.length; i++) {
+        authorsCondition += " OR a_name = "+Conversion.getDatabaseString(authors[i]);
+      }
+      sqlBuilder.and(authorsCondition);
+    }
+		
+    if(publishers != null) {
+      String publishersCondition = "";
+      publishersCondition += " publisher_name = "+Conversion.getDatabaseString(publishers[0]);
+      for(int i=1; i<publishers.length; i++) {
+        publishersCondition += " OR publisher_name = "+Conversion.getDatabaseString(publishers[i]);
+      }
+      sqlBuilder.and(publishersCondition);
+    }
+		
+    if(genres != null) {
+      String genresCondition = "";
+      genresCondition += " g_name = "+Conversion.getDatabaseString(genres[0]);
+      for(int i=1; i<genres.length; i++) {
+        genresCondition += " OR g_name = "+Conversion.getDatabaseString(genres[i]);
+      }
+      sqlBuilder.and(genresCondition);
+    }
+    
+    if(priceMin == -1) priceMin = 0;
+    if(priceMax == -1) priceMax = 999999;
+    String priceCondition = " price BETWEEN "+priceMin+ " AND " + priceMax;
+    sqlBuilder.and(priceCondition);
+    
+    return sqlBuilder;
   }
 }

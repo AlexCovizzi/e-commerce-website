@@ -103,11 +103,16 @@ public class SqlBuilder {
 		return concat("( "+formatParamArray(params)+" )");
 	}
 
-    public String done() {
-		String statementCpy = statement;
-		statement = "";
-        return statementCpy + ";";
-    }
+  public String done() {
+  String statementCpy = statement;
+  statement = "";
+      return statementCpy + ";";
+  }
+
+  @Override
+  public String toString() {
+    return statement; //To change body of generated methods, choose Tools | Templates.
+  }
 
 	/* Metodi utility */
     private SqlBuilder concat(String...strings) {
