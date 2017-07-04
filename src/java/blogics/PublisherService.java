@@ -7,9 +7,13 @@ package blogics;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import services.database.Database;
 import services.database.exception.RecoverableDBException;
 import util.Conversion;
+import util.Logger;
+import util.Pair;
 import util.SqlBuilder;
 
 /**
@@ -113,5 +117,44 @@ public class PublisherService {
     } catch (SQLException e) {
       throw new RecoverableDBException("PublisherService: getIdFromName(): Errore sul ResultSet.");
     }
+  }
+  
+  
+  /*
+    Restituisce i 5 editori con piu occorrenze nella ricerca effettuata
+    Serve per scrivere i filtri nella pagina di ricerca
+  */
+  public static List<Pair<String, Integer>> getSearchPublishers(Database db, String search) throws RecoverableDBException {
+    SqlBuilder sqlBuilder = new SqlBuilder();
+		ResultSet resultSet;
+		List<Pair<String, Integer>> publishers = new ArrayList();
+    
+    String sql = sqlBuilder
+			.select("publisher_name", "COUNT(*) AS n")
+			.from("BookView")
+			.where("title LIKE '%"+search+"%' OR isbn = '"+search+"'")
+      .command("GROUP BY").params("publisher_name")
+      .command("ORDER BY").params("n").command("DESC")
+      .limit(5)
+      .done();
+    
+    resultSet = db.select(sql);
+    
+		try {
+			while (resultSet.next()) {
+        String publisher = resultSet.getString("publisher_name");
+        int n = resultSet.getInt("n");
+        Pair<String, Integer> pub = new Pair(publisher, n);
+				publishers.add(pub);
+			}
+		} catch (SQLException ex) {
+			throw new RecoverableDBException(ex, "PublisherService", "getSearchPublishers", "Errore nel ResultSet");
+		} finally {
+			try { resultSet.close(); }
+			catch (SQLException ex) { Logger.error("PublisherService", "getSearchPublishers", ex.getMessage());}
+		}
+    
+    
+    return publishers;
   }
 }

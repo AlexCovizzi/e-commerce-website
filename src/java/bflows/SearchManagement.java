@@ -11,6 +11,7 @@ import blogics.Book;
 import blogics.BookService;
 import blogics.Genre;
 import blogics.GenreService;
+import blogics.PublisherService;
 import blogics.Review;
 import blogics.ReviewService;
 import blogics.UserService;
@@ -83,9 +84,9 @@ public class SearchManagement extends AbstractManagement {
       }
       
       // mi servono per "compilare" il menu a sx nella pagina search.jsp
-      genreFilters = BookService.getFilterGenres(database, search);
-      authorFilters = BookService.getFilterAuthors(database, search);
-      publisherFilters = BookService.getFilterPublishers(database, search);
+      genreFilters = GenreService.getSearchGenres(database, search);
+      authorFilters = AuthorService.getSearchAuthors(database, search);
+      publisherFilters = PublisherService.getSearchPublishers(database, search);
       priceFilters = BookService.getFilterPrices(database, search, PRICE_RANGE_VALUES);
 
       database.commit();

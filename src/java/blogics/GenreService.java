@@ -14,6 +14,7 @@ import services.database.Database;
 import services.database.exception.RecoverableDBException;
 import util.Conversion;
 import util.Logger;
+import util.Pair;
 import util.SqlBuilder;
 
 /**
@@ -185,5 +186,43 @@ public class GenreService {
         .done();
     
     database.modify(sql);
+  }
+  
+  /*
+    Restituisce i 5 generi con piu occorrenze nella ricerca effettuata
+    Serve per scrivere i filtri nella pagina di ricerca
+  */
+  public static List<Pair<String, Integer>> getSearchGenres(Database db, String search) throws RecoverableDBException {
+    SqlBuilder sqlBuilder = new SqlBuilder();
+		ResultSet resultSet;
+		List<Pair<String, Integer>> genres = new ArrayList();
+    
+    String sql = sqlBuilder
+			.select("g_name", "COUNT(*) AS n")
+			.from("BookView")
+      .join("BookGenre").on("book_isbn = isbn")
+			.where("title LIKE '%"+search+"%' OR isbn = '"+search+"'")
+      .command("GROUP BY").params("g_name")
+      .command("ORDER BY").params("n").command("DESC")
+      .limit(5)
+      .done();
+    
+    resultSet = db.select(sql);
+    
+		try {
+			while (resultSet.next()) {
+        String genre = resultSet.getString("g_name");
+        int n = resultSet.getInt("n");
+        Pair<String, Integer> gen = new Pair(genre, n);
+				genres.add(gen);
+			}
+		} catch (SQLException ex) {
+			throw new RecoverableDBException(ex, "GenreService", "getSearchGenre", "Errore nel ResultSet");
+		} finally {
+			try { resultSet.close(); }
+			catch (SQLException ex) { Logger.error("GenreService", "getSearchGenre", ex.getMessage());}
+		}
+    
+    return genres;
   }
 }

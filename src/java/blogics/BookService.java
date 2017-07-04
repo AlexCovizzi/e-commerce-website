@@ -150,8 +150,6 @@ public class BookService {
 		
 		String sql = sqlBuilder.done();
 		
-		Logger.debug("BookService", "getUser", sql);
-		
 		resultSet = db.select(sql);
     
 		try {
@@ -160,10 +158,10 @@ public class BookService {
 				bookList.add(book);
 			}
 		} catch (SQLException ex) {
-			throw new RecoverableDBException(ex, "UserService", "getUser", "Errore nel ResultSet");
+			throw new RecoverableDBException(ex, "BookService", "getBookList", "Errore nel ResultSet");
 		} finally {
 			try { resultSet.close(); }
-			catch (SQLException ex) { Logger.error("UserService", "getUser", ex.getMessage());}
+			catch (SQLException ex) { Logger.error("BookService", "getBookList", ex.getMessage());}
 		}
 		
 		return bookList;
@@ -188,117 +186,16 @@ public class BookService {
         totResults = resultSet.getInt("n");
 			}
 		} catch (SQLException ex) {
-			throw new RecoverableDBException(ex, "UserService", "getUser", "Errore nel ResultSet");
+			throw new RecoverableDBException(ex, "BookService", "getTotalResults", "Errore nel ResultSet");
 		} finally {
 			try { resultSet.close(); }
-			catch (SQLException ex) { Logger.error("UserService", "getUser", ex.getMessage());}
+			catch (SQLException ex) { Logger.error("BookService", "getTotalResults", ex.getMessage());}
 		}
     
     return totResults;
   }
   
-  public static List<Pair<String, Integer>> getFilterGenres(Database db, String search) throws RecoverableDBException {
-    SqlBuilder sqlBuilder = new SqlBuilder();
-		ResultSet resultSet;
-		List<Pair<String, Integer>> genres = new ArrayList();
-    
-    String sql = sqlBuilder
-			.select("g_name", "COUNT(*) AS n")
-			.from("BookView")
-      .join("BookGenre").on("book_isbn = isbn")
-			.where("title LIKE '%"+search+"%' OR isbn = '"+search+"'")
-      .command("GROUP BY").params("g_name")
-      .command("ORDER BY").params("n").command("DESC")
-      .limit(5)
-      .done();
-    
-    resultSet = db.select(sql);
-    
-		try {
-			while (resultSet.next()) {
-        String genre = resultSet.getString("g_name");
-        int n = resultSet.getInt("n");
-        Pair<String, Integer> gen = new Pair(genre, n);
-				genres.add(gen);
-			}
-		} catch (SQLException ex) {
-			throw new RecoverableDBException(ex, "UserService", "getUser", "Errore nel ResultSet");
-		} finally {
-			try { resultSet.close(); }
-			catch (SQLException ex) { Logger.error("UserService", "getUser", ex.getMessage());}
-		}
-    
-    return genres;
-  }
-  
-  public static List<Pair<String, Integer>> getFilterAuthors(Database db, String search) throws RecoverableDBException {
-    SqlBuilder sqlBuilder = new SqlBuilder();
-		ResultSet resultSet;
-		List<Pair<String, Integer>> authors = new ArrayList();
-    
-    String sql = sqlBuilder
-			.select("a_name", "COUNT(*) AS n")
-			.from("BookView")
-      .join("BookAuthor").on("book_isbn = isbn")
-			.where("title LIKE '%"+search+"%' OR isbn = '"+search+"'")
-      .command("GROUP BY").params("a_name")
-      .command("ORDER BY").params("n").command("DESC")
-      .limit(5)
-      .done();
-    
-    resultSet = db.select(sql);
-    
-		try {
-			while (resultSet.next()) {
-        String author = resultSet.getString("a_name");
-        int n = resultSet.getInt("n");
-        Pair<String, Integer> aut = new Pair(author, n);
-				authors.add(aut);
-			}
-		} catch (SQLException ex) {
-			throw new RecoverableDBException(ex, "UserService", "getUser", "Errore nel ResultSet");
-		} finally {
-			try { resultSet.close(); }
-			catch (SQLException ex) { Logger.error("UserService", "getUser", ex.getMessage());}
-		}
-    
-    return authors;
-  }
-  
-  public static List<Pair<String, Integer>> getFilterPublishers(Database db, String search) throws RecoverableDBException {
-    SqlBuilder sqlBuilder = new SqlBuilder();
-		ResultSet resultSet;
-		List<Pair<String, Integer>> publishers = new ArrayList();
-    
-    String sql = sqlBuilder
-			.select("publisher_name", "COUNT(*) AS n")
-			.from("BookView")
-			.where("title LIKE '%"+search+"%' OR isbn = '"+search+"'")
-      .command("GROUP BY").params("publisher_name")
-      .command("ORDER BY").params("n").command("DESC")
-      .limit(5)
-      .done();
-    
-    resultSet = db.select(sql);
-    
-		try {
-			while (resultSet.next()) {
-        String publisher = resultSet.getString("publisher_name");
-        int n = resultSet.getInt("n");
-        Pair<String, Integer> pub = new Pair(publisher, n);
-				publishers.add(pub);
-			}
-		} catch (SQLException ex) {
-			throw new RecoverableDBException(ex, "UserService", "getUser", "Errore nel ResultSet");
-		} finally {
-			try { resultSet.close(); }
-			catch (SQLException ex) { Logger.error("UserService", "getUser", ex.getMessage());}
-		}
-    
-    
-    return publishers;
-  }
-  
+  /* Restituisce il numero di occorrenze in base al range di prezzo */
   public static int[] getFilterPrices(Database db, String search, int[][] priceRangeOptions) throws RecoverableDBException {
     SqlBuilder sqlBuilder = new SqlBuilder();
 		ResultSet resultSet;
@@ -327,10 +224,10 @@ public class BookService {
         prices[priceRange] = n;
 			}
 		} catch (SQLException ex) {
-			throw new RecoverableDBException(ex, "UserService", "getUser", "Errore nel ResultSet");
+			throw new RecoverableDBException(ex, "BookService", "getFilterPrices", "Errore nel ResultSet");
 		} finally {
 			try { resultSet.close(); }
-			catch (SQLException ex) { Logger.error("UserService", "getUser", ex.getMessage());}
+			catch (SQLException ex) { Logger.error("BookService", "getFilterPrices", ex.getMessage());}
 		}
     
     return prices;
@@ -362,15 +259,16 @@ public class BookService {
         votes[voteRange] = n;
 			}
 		} catch (SQLException ex) {
-			throw new RecoverableDBException(ex, "UserService", "getUser", "Errore nel ResultSet");
+			throw new RecoverableDBException(ex, "BookService", "getFilterVotes", "Errore nel ResultSet");
 		} finally {
 			try { resultSet.close(); }
-			catch (SQLException ex) { Logger.error("UserService", "getUser", ex.getMessage());}
+			catch (SQLException ex) { Logger.error("BookService", "getFilterVotes", ex.getMessage());}
 		}
     
     return votes;
   }
   
+  /* Query di ricerca completa (ricerca base + filtri) */
   private static SqlBuilder getBookSearchQuery(String search, String[] authors, String[] publishers, String[] genres, int priceMin, int priceMax) {
     SqlBuilder sqlBuilder = new SqlBuilder();
     
