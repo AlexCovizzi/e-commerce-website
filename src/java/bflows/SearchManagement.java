@@ -18,11 +18,13 @@ import blogics.UserService;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import javax.servlet.http.Cookie;
 import util.Pair;
 import services.database.DBService;
 import services.database.Database;
 import services.database.exception.RecoverableDBException;
 import services.database.exception.UnrecoverableDBException;
+import services.session.Session;
 import util.Logger;
 import util.Triplet;
 
@@ -39,6 +41,8 @@ public class SearchManagement extends AbstractManagement {
   public static final String[] PRICE_RANGE_OPTIONS = {"Meno di 5", "5 - 10", "10 - 20", "20 - 50", "Piu di 50"};
   public static final int[][] PRICE_RANGE_VALUES = { {0, 5,  10, 20, 50},
                                                      {5, 10, 20, 50, -1} };
+  
+  Cookie[] cookies;
   
   /* Pagina: Search */
   // parametri
@@ -63,6 +67,10 @@ public class SearchManagement extends AbstractManagement {
   /* Pagina: Book */
   private Book book;
   private List<Review> bookReviews;
+  private Review userBookReview;
+  // inserimento recensione
+  private boolean thumbUp;
+  private String comment;
   
 	
 	/* search.jsp -> search.jsp : view */
@@ -112,7 +120,24 @@ public class SearchManagement extends AbstractManagement {
       book.setGenres(bGenres);
       
       bookReviews = ReviewService.getBookReviews(database, book.getIsbn());
+      userBookReview = ReviewService.getUserBookReview(database, Session.getUserId(cookies), book.getIsbn());
+      Logger.debug(userBookReview);
 
+      database.commit();
+    } catch (RecoverableDBException ex) {
+			database.rollBack();
+			setErrorMessage(ex.getMsg());
+		} finally {
+      database.close();
+    }
+  }
+  
+  /* search.jsp -> search.jsp : review */
+  public void bookReview() throws UnrecoverableDBException {
+    Database database = DBService.getDataBase();
+    
+    try {
+      ReviewService.insertReview(database, Session.getUserId(cookies), isbn, thumbUp, comment);
       database.commit();
     } catch (RecoverableDBException ex) {
 			database.rollBack();
@@ -146,6 +171,10 @@ public class SearchManagement extends AbstractManagement {
   }
   
   /* Setters */
+  public void setCookies(Cookie[] cookies) {
+    this.cookies = cookies;
+  }
+  
   public void setSearch(String search) {
     this.search = search;
   }
@@ -186,7 +215,19 @@ public class SearchManagement extends AbstractManagement {
     this.page = page;
   }
   
+  public void setThumbUp(boolean thumbUp) {
+    this.thumbUp = thumbUp;
+  }
+  
+  public void setComment(String comment) {
+    this.comment = comment;
+  }
+  
   /* Getters */
+  public Cookie[] getCookies() {
+    return cookies;
+  }
+  
   public String getSearch() {
     return search;
   }
@@ -227,6 +268,14 @@ public class SearchManagement extends AbstractManagement {
     return page;
   }
   
+  public boolean getThumbUp() {
+    return thumbUp;
+  }
+  
+  public String getComment() {
+    return comment;
+  }
+  
   public List<Pair<String, Integer>> getGenreFilters() {
     return genreFilters;
   }
@@ -247,10 +296,19 @@ public class SearchManagement extends AbstractManagement {
     return voteFilters;
   }
   
+  public Book getBook() {
+    return book;
+  }
+  
   public List<Review> getBookReviews() {
     return bookReviews;
   }
   
+  public Review getUserBookReview() {
+    return userBookReview;
+  }
+  
+  /* Metodi utility */
   public boolean hasGenre(String genre) {
     if(genres == null) return false;
     for(String g : genres) {

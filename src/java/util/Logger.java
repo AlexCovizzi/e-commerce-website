@@ -29,7 +29,7 @@ public class Logger {
 	}
 	
 	public static void debug(Object obj) {
-		log(DEBUG, obj.toString());
+		log(DEBUG, ""+obj);
 	}
 	
 	public static void debug(String className, String methodName, String msg) {

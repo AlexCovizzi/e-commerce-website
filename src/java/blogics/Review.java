@@ -61,4 +61,11 @@ public class Review {
   public Date getTimestamp() {
     return timestamp;
   }
+
+  @Override
+  public String toString() {
+    return "review: "+thumbUp+", "+comment; //To change body of generated methods, choose Tools | Templates.
+  }
+  
+  
 }

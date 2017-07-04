@@ -16,9 +16,8 @@
 <%
   String message = null;
   Cookie[] cookies = request.getCookies();
-  Logger.debug(String.valueOf(cookies));
   boolean loggedIn = Session.isUserLoggedIn(cookies);
-  boolean isAdmin = Session.isUserAdmin(cookies);
+  boolean admin = Session.isUserAdmin(cookies);
   
   String action = request.getParameter("action");
   if (action == null) action="view";
@@ -184,7 +183,7 @@
           <% } else {
               for(Book book : searchManagement.getBooks()) { %>
                 <% request.setAttribute("book", book); %>
-                <% request.setAttribute("isAdmin", isAdmin); %>
+                <% request.setAttribute("admin", admin); %>
                 <jsp:include page="../../../shared/book-search/book-search.jsp" />
           <% } } %>
 

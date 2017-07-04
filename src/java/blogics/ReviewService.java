@@ -14,6 +14,23 @@ import util.SqlBuilder;
 
 public class ReviewService {
   
+  public static void insertReview(Database db, int userId, String isbn, boolean thumbUp, String comment)
+          throws RecoverableDBException {
+    SqlBuilder sqlBuilder = new SqlBuilder();
+    String sql;
+    
+    sql = sqlBuilder
+			.insertInto("Vote", "user_id", "book_isbn", "thumb_up", "comment")
+			.values(
+					userId,
+					Conversion.getDatabaseString(isbn),
+          thumbUp,
+          Conversion.getDatabaseString(comment))
+			.done();
+    
+    db.modify(sql);
+  }
+  
   public static List<Review> getBookReviews(Database db, String bookIsbn) throws RecoverableDBException {
     List<Review> reviews = new ArrayList<>();
     
@@ -40,10 +57,37 @@ public class ReviewService {
 			throw new RecoverableDBException(ex, "ReviewService", "getBookReviews", "Errore nel ResultSet");
 		} finally {
 			try { resultSet.close(); }
-			catch (SQLException ex) { Logger.error("UserService", "getUser", ex.getMessage());}
+			catch (SQLException ex) { Logger.error("ReviewService", "getBookReviews", ex.getMessage());}
 		}
 		
 		return reviews;
+  }
+  
+  public static Review getUserBookReview(Database db, int userId, String bookIsbn) throws RecoverableDBException {
+    Review review = null;
+    SqlBuilder sqlBuilder = new SqlBuilder();
+		
+		String sql = sqlBuilder
+            .select("*")
+            .from("Vote V")
+            .where("V.book_isbn ="+Conversion.getDatabaseString(bookIsbn))
+              .and("V.user_id = "+userId)
+            .done();
+		
+		ResultSet resultSet = db.select(sql);
+    
+		try {
+			if (resultSet.next()) {
+				review = new Review(resultSet);
+			}
+		} catch (SQLException ex) {
+			throw new RecoverableDBException(ex, "ReviewService", "getUserBookReview", "Errore nel ResultSet");
+		} finally {
+			try { resultSet.close(); }
+			catch (SQLException ex) { Logger.error("ReviewService", "getUserBookReview", ex.getMessage());}
+		}
+		
+		return review;
   }
   
   public static int countVotes(Database database, int userId)
@@ -72,4 +116,6 @@ public class ReviewService {
 
 		return risultato;
   }
+  
+  
 }

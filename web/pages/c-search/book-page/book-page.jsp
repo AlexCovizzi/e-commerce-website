@@ -15,15 +15,21 @@
 <%
   String message = null;
   Cookie[] cookies = request.getCookies();
-  boolean loggedIn = (cookies != null);
+  searchManagement.setCookies(cookies);
+  boolean loggedIn = Session.isUserLoggedIn(cookies);
+  boolean admin = Session.isUserAdmin(cookies);
   
   String action = request.getParameter("action");
   if (action == null) action="view";
   
   message = searchManagement.getErrorMessage();
   
-  if(action.equals("view")) searchManagement.bookView();
-  Book book = searchManagement.getBooks().get(0);
+  if(action.equals("view")) {
+    searchManagement.bookView();
+  }
+  Book book = searchManagement.getBook();
+  
+  if(action.equals("review")) searchManagement.bookReview();
 %>
 
 <html>
@@ -55,6 +61,7 @@
     <!-- content-area -->
     <div class="container content-area">
       
+      <% if(action.equals("view")) { %>
       <div class="navbar-default">
           <h5><a href="#">Categoria</a> &raquo; Il Trono di Spade</h5>
       </div>
@@ -79,7 +86,7 @@
               <p><b>ISBN:</b> <%=book.getIsbn()%></p>
               <p><b>Pagine:</b> <%=book.getPages()%></p>
               <p><b>Editore:</b> <%=book.getPublisher() %></p>
-              <p><b>Data di pubblicazione:</b> <%=book.getPublicationDate() %></p>
+              <p><b>Data di pubblicazione:</b> <%=book.getPublicationDate()%></p>
               <p><b>Lingua:</b> <%=book.getLanguage() %></p>
               <p><b><a href="#valutazioni_altri_utenti">Voto</a></b>: <%=book.getVotePercent()%>% <small>(<%=book.getNVotes()%> voti)</small></p>
           </div>
@@ -88,16 +95,27 @@
               <h3><b><%=book.getPrice()%> &euro;</b></h3>
               Venduto e spedito da Libreria Sant'Ale
               <div style="margin-bottom: 15px;"></div>
-              <div id="carrello-desideri">
-                  <button title="Aggiungi al Carrello" class="btn btn-primary" type="button">
-                      <i class="glyphicon glyphicon-shopping-cart"></i> Aggiungi al Carrello
-                  </button>
-                  <br/><div style="margin-bottom: 15px;"></div>
-                  <button title="Aggiungi ai Desideri" id="desiderato"
-                          class="btn btn-primary" type="button" onclick="cambia_colore()" >
-                      <i class="glyphicon glyphicon-heart"></i> Aggiungi ai Desideri
-                  </button>
-              </div>
+              
+              <% if(!admin) { %>
+                <div id="carrello-desideri">
+                    <button title="Aggiungi al Carrello" class="btn btn-primary" type="button">
+                        <i class="glyphicon glyphicon-shopping-cart"></i> Aggiungi al Carrello
+                    </button>
+                    <br/><div style="margin-bottom: 15px;"></div>
+                    <button title="Aggiungi ai Desideri" id="desiderato"
+                            class="btn btn-primary" type="button" onclick="cambia_colore()" >
+                        <i class="glyphicon glyphicon-heart"></i> Aggiungi ai Desideri
+                    </button>
+                </div>
+              <% } else { %>
+                <button title="Modifica" class="btn btn-primary" type="button">
+                  <i class="glyphicon glyphicon-edit"></i> Modifica
+                </button>
+                <br/><div style="margin-bottom: 15px;"></div>
+                <button title="Rimuovi" class="btn btn-danger" type="button" >
+                  <i class="glyphicon glyphicon-remove"></i> Rimuovi
+                </button>
+              <% } %>
           </div>
       </div>
 
@@ -165,49 +183,71 @@
 
       <div class="my-jumbotron" id="valutazione">
           <h3>La tua valutazione</h3>
-          <!--<form name="valutazione_libro" method="post">-->
+          
+          <form name="valutazione_libro" action='book-page.jsp' method="post">
+            <input type='hidden' name='action' value='review' />
+            <input type='hidden' name='isbn' value='<%=searchManagement.getIsbn()%>' />
               <table>
                   <tr>
                       <th>
                           <div id="voto" class="btn-group-vertical" data-toggle="buttons">
                               <label title="Lo Consiglio" class="btn btn-primary">
-                                  <input type="radio" name="options" id="option1" autocomplete="off">
+                                  <input type="radio" name="thumbUp" value='true' id="option1" autocomplete="off"
+                                         <%if(searchManagement.getUserBookReview() != null) { 
+                                           if(searchManagement.getUserBookReview().isThumbUp()) {%> checked <%}}%> >
                                   <i class="glyphicon glyphicon-thumbs-up"></i>
                               </label>
                               <label title="Non lo Consiglio" class="btn btn-primary">
-                                  <input type="radio" name="options" id="option2" autocomplete="off">
+                                  <input type="radio" name="thumbUp" value='false' id="option2" autocomplete="off"
+                                         <%if(searchManagement.getUserBookReview() != null) { 
+                                           if(!searchManagement.getUserBookReview().isThumbUp()) {%> checked <%}}%> >
                                   <i class="glyphicon glyphicon-thumbs-down"></i>
                               </label>
                           </div>
                       </th>
                       <td>
-                          <textarea id="recensione" class="form-control"
+                          <textarea name='comment' id="recensione" class="form-control"
                                   placeholder="Scrivi la tua recensione... (facoltativo)"
-                                  cols="100" rows="5"></textarea>
+                                  cols="100" rows="5" 
+                                  <%if(searchManagement.getUserBookReview() != null) { 
+                                    if(searchManagement.getUserBookReview().getComment() != null) {%>
+                                    value='<%=searchManagement.getComment()%>'
+                                  <%}}%> ></textarea>
                       </td>
                   </tr>
               </table>
-
-              <button id="submit_voto" class="btn btn-primary" type="button">
-                  <i class="glyphicon glyphicon-ok"></i> Invia Valutazione
-              </button>
-          <!--</form>-->
+            
+              <% if(loggedIn) { %>
+                <button id="submit_voto" class="btn btn-primary" type="submit">
+                    <i class="glyphicon glyphicon-ok"></i> Invia Valutazione
+                </button>
+              <% } else { %>
+                Devi essere registrato per valutare questo libro!
+                <a href="../../c-login/login/login.jsp">Accedi</a>
+              <% } %>
+          </form>
+          
+          </BR>
       </div>
 
       <div class="my-jumbotron" id="valutazioni_altri_utenti">
           <h3>Gli altri utenti la pensano così...</h3>
           
+          <% if(searchManagement.getBookReviews().size() == 0) { %>
+            Non c'è nessuna recensione
+          <% } %>
+          
           <% for(Review review : searchManagement.getBookReviews()) { %>
             <% request.setAttribute("review", review); %>
+            <% request.setAttribute("admin", admin); %>
             <jsp:include page="../../../shared/review/review.jsp" />
           <% } %>
-
-          <a href="../other-reviews/other-reviews.jsp">
-              <button id="altre_recensioni" class="btn btn-primary" type="button">
-                      <i class="glyphicon glyphicon-eye-open"></i> Altre recensioni...
-              </button>
-          </a>
       </div>
+      
+      <% } else if(action.equals("review")) { %>
+        La tua recensione è stata inserita, grazie del contributo! </br>
+        <a href='book-page.jsp?isbn=<%=searchManagement.getIsbn()%>'>Ritorna al libro</a>
+      <% } %>
         
     </div>
 
@@ -215,6 +255,6 @@
     <div class="footer">
       <%@ include file="../../../shared/footer/footer.jsp" %>
     </div>
-
+    
   </body>
 </html>

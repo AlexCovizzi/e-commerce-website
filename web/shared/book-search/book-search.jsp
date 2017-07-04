@@ -4,7 +4,7 @@
 <%@page import="blogics.Book"%>
 <%
   Book book = (Book) request.getAttribute("book");
-  boolean isAdmin = (Boolean) request.getAttribute("isAdmin");
+  boolean admin = (Boolean) request.getAttribute("admin");
 %>
 
 <div class="book-container row">
@@ -49,7 +49,7 @@
         <% } %>
       </div>
 
-      <% if(!isAdmin) { %>
+      <% if(!admin) { %>
         <div class="col-xs-6 col-sm-12">
           <div class="">
           <button title="Aggiungi al carrello" class="btn btn-default" style="margin-top: 1px; margin-bottom: 1px;">
@@ -59,6 +59,19 @@
           <button title="Aggiungi alla lista desideri" class="btn btn-default" style="margin-top: 1px; margin-bottom: 1px;">
             <i class="glyphicon glyphicon-heart-empty" style="font-size: 18px;"></i>
             <span class="hidden-xs hidden-sm hidden-md">Aggiungi ai desideri</span>
+          </button>
+          </div>
+        </div>
+      <% } else {%>
+        <div class="col-xs-6 col-sm-12">
+          <div class="">
+          <button title="Modifica" class="btn btn-default" style="margin-top: 1px; margin-bottom: 1px;">
+            <i class="glyphicon glyphicon-edit" style="font-size: 18px;"></i>
+            <span class="hidden-xs hidden-sm hidden-md">Modifica</span>
+          </button>
+          <button title="Aggiungi alla lista desideri" class="btn btn-danger" style="margin-top: 1px; margin-bottom: 1px;">
+            <i class="glyphicon glyphicon-remove" style="font-size: 18px;"></i>
+            <span class="hidden-xs hidden-sm hidden-md">Rimuovi</span>
           </button>
           </div>
         </div>

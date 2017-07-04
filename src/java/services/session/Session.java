@@ -94,7 +94,7 @@ public class Session {
   }
 	
 	public static boolean isUserBlocked(Cookie[] cookies) {
-    return Boolean.getBoolean(getValue(cookies, "blocked", 0));
+    return Boolean.valueOf(getValue(cookies, "blocked", 0));
   }
   
   
