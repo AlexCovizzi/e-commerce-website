@@ -1,5 +1,5 @@
 /* 
- * Contiene i metodi usati dalla maggior parte delle pagine di questa conversazione
+ * Contiene i metodi usati da diverse pagine
  */
 
 /* Torno alla pagina definita come precedente */

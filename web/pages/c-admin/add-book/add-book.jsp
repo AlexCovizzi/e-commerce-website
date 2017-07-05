@@ -58,7 +58,7 @@
 
     <!-- carica i tuoi file js qui -->
     <script type="text/javascript" src="add-book.js"></script>
-    <script type="text/javascript" src="../shared.js"></script>
+    <script type="text/javascript" src="../../../shared/shared.js"></script>
   </head>
   
   <body>

@@ -31,7 +31,7 @@
 %>
 <html>
   <head>
-    <title>Tabella degli amministratori</title>
+    <title>Inserisci l'indirizzo</title>
 
     <!-- comprende css e script del framework, header e footer -->
     <%@ include file="../../../shared/head-common.html" %>
@@ -42,6 +42,7 @@
     
     <!-- carica i tuoi file js qui -->
     <script type="text/javascript" src="order-address.js"></script>
+    <script type="text/javascript" src="../../../shared/shared.js"></script>
   </head>
   
   <body>
@@ -52,7 +53,7 @@
     
     <!-- sotto-header -->
     <div class="sotto-header">
-      <%@ include file="../../../shared/sotto-header/admin-sotto-header.jsp" %>
+      <%@ include file="../../../shared/sotto-header/account-sotto-header.jsp" %>
     </div>
     
     <!-- content-area -->
@@ -62,7 +63,7 @@
       <h4 class="form-title">Inserisci l'indirizzo</h4>
       
       <form class="form-horizontal" name="indirizzoForm"
-            <% if(!purchaseManagement.getIndirizzo().equals("null")) { %>
+            <% if(purchaseManagement.getIndirizzo() != null) { %>
               action="../order-summary/order-summary.jsp"
             <% } else { %>
               action="../order-payment/order-payment.jsp"
@@ -75,7 +76,7 @@
           <div class="col-sm-10">
             <input type="text" class="form-control" name="indirizzo" id="indirizzo"
                 placeholder="Inserisci l'indirizzo"
-                <% if(!purchaseManagement.getIndirizzo().equals("null")) { %>
+                <% if(purchaseManagement.getIndirizzo() != null) { %>
                 value="<%= purchaseManagement.getIndirizzo() %>"
                 <% } %>
                 >
@@ -84,11 +85,11 @@
         
         <!-- Numero Civico -->
         <div class="form-group">
-          <label class="control-label col-sm-2" for="titolo">Numero civico</label>
+          <label class="control-label col-sm-2" for="numeroCivico">Numero civico</label>
           <div class="col-sm-10">
             <input type="text" class="form-control" name="numeroCivico" id="numeroCivico"
                   placeholder="Inserisci il numero civico"
-                  <% if(!purchaseManagement.getNumeroCivico().equals("null")) { %>
+                  <% if(purchaseManagement.getNumeroCivico() != null) { %>
                   value="<%= purchaseManagement.getNumeroCivico() %>"
                   <% } %>
                   >
@@ -100,8 +101,8 @@
           <label class="control-label col-sm-2" for="citta">Città</label>
           <div class="col-sm-10">
             <input type="text" class="form-control" name="citta" id="citta"
-                  placeholder="Inserisci il numero civico"
-                  <% if(!purchaseManagement.getCitta().equals("null")) { %>
+                  placeholder="Inserisci il nome della città"
+                  <% if(purchaseManagement.getCitta() != null) { %>
                   value="<%= purchaseManagement.getCitta() %>"
                   <% } %>
                   >
@@ -113,8 +114,8 @@
           <label class="control-label col-sm-2" for="provincia">Provincia</label>
           <div class="col-sm-10">
             <input type="text" class="form-control" name="provincia" id="provincia"
-                  placeholder="Inserisci la provincia"
-                  <% if(!purchaseManagement.getProvincia().equals("null")) { %>
+                  placeholder="Inserisci il nome della provincia"
+                  <% if(purchaseManagement.getProvincia() != null) { %>
                   value="<%= purchaseManagement.getProvincia() %>"
                   <% } %>
                   >
@@ -127,8 +128,8 @@
           <label class="control-label col-sm-2" for="stato">Stato</label>
           <div class="col-sm-10">
             <input type="text" class="form-control" name="stato" id="stato"
-                  placeholder="Inserisci lo stato"
-                  <% if(!purchaseManagement.getStato().equals("null")) { %>
+                  placeholder="Inserisci il nome dello stato"
+                  <% if(purchaseManagement.getStato() != null) { %>
                   value="<%= purchaseManagement.getStato() %>"
                   <% } %>
                   >
@@ -140,8 +141,8 @@
           <label class="control-label col-sm-2" for="cap">CAP</label>
           <div class="col-sm-10">
             <input type="text" class="form-control" name="cap" id="cap"
-                  placeholder="Inserisci il CAP"
-                  <% if(!purchaseManagement.getCap().equals("null")) { %>
+                  placeholder="Inserisci il CAP" maxlength="5"
+                  <% if(purchaseManagement.getCap() != null) { %>
                   value="<%= purchaseManagement.getCap() %>"
                   <% } %>
                   >
@@ -153,9 +154,9 @@
           <label class="control-label col-sm-2" for="destinatario">Destinatario</label>
           <div class="col-sm-10">
             <input type="text" class="form-control" name="destinatario" id="destinatario"
-                  placeholder="Inserisci il destinatario"
-                  <% if(!purchaseManagement.getDestinario().equals("null")) { %>
-                  value="<%= purchaseManagement.getDestinario() %>"
+                  placeholder="Inserisci il nome del destinatario"
+                  <% if(purchaseManagement.getDestinatario() != null) { %>
+                  value="<%= purchaseManagement.getDestinatario() %>"
                   <% } else { %>
                   value="<%= Session.getUserName(cookies) %> <%= Session.getUserSurname(cookies) %>"
                   <% } %>
@@ -166,23 +167,25 @@
         <div class="form-group"> 
           <div class="col-sm-offset-2 col-sm-10">
             <input type="hidden" name="action" value="view">
-            <input type="button" class="btn btn-default" onclick="submitIndirizzoForm()" value="Salva modifiche">
+            <input type="button" class="btn btn-default" onclick="submitIndirizzoForm()" value="Procedi">
             <input type="button" class="btn btn-link" onclick="annulla()" style="margin-left: 16px;" value="Annulla">
           </div>
         </div>
                   
-        <% if(!purchaseManagement.getIndirizzo().equals("null")) { %>    
+        <% if(purchaseManagement.getIndirizzo() != null) { %>    
           <input type="hidden" name="codiceCarta" value="<%= purchaseManagement.getCodiceCarta() %>">
           <input type="hidden" name="titolareCarta" value="<%= purchaseManagement.getTitolareCarta() %>">
           <input type="hidden" name="meseScadenza" value="<%= purchaseManagement.getMeseScadenza() %>">
           <input type="hidden" name="annoScadenza" value="<%= purchaseManagement.getAnnoScadenza() %>">
           <input type="hidden" name="codiceSicurezza" value="<%= purchaseManagement.getCodiceSicurezza() %>">
+          <% if(purchaseManagement.getCodiceCoupon() != null) { %>
           <input type="hidden" name="codiceCoupon" value="<%= purchaseManagement.getCodiceCoupon() %>">
+          <% } %>
         <% } %>
       </form>
       
       <form name="annullaForm"
-        <% if(!purchaseManagement.getIndirizzo().equals("null")) { %>
+        <% if(purchaseManagement.getIndirizzo() != null) { %>
         <% /* Arrivo dalla order-summary e voglio modificare le informazioni */ %>
           action="../order-summary/order-summary.jsp"
         <% } else { %>
@@ -190,7 +193,7 @@
           action="../../c-account/cart/cart.jsp"
         <% } %>
         >
-        <% if(!purchaseManagement.getIndirizzo().equals("null")) { %>
+        <% if(purchaseManagement.getIndirizzo() != null) { %>
           <input type="hidden" name="action" value="view">
           <input type="hidden" name="indirizzo" value="<%= purchaseManagement.getIndirizzo() %>">
           <input type="hidden" name="numeroCivico" value="<%= purchaseManagement.getNumeroCivico() %>">
@@ -198,12 +201,15 @@
           <input type="hidden" name="provincia" value="<%= purchaseManagement.getProvincia() %>">
           <input type="hidden" name="stato" value="<%= purchaseManagement.getStato() %>">
           <input type="hidden" name="cap" value="<%= purchaseManagement.getCap() %>">
+          <input type="hidden" name="destinatario" value="<%= purchaseManagement.getDestinatario() %>">
           <input type="hidden" name="codiceCarta" value="<%= purchaseManagement.getCodiceCarta() %>">
           <input type="hidden" name="titolareCarta" value="<%= purchaseManagement.getTitolareCarta() %>">
           <input type="hidden" name="meseScadenza" value="<%= purchaseManagement.getMeseScadenza() %>">
           <input type="hidden" name="annoScadenza" value="<%= purchaseManagement.getAnnoScadenza() %>">
           <input type="hidden" name="codiceSicurezza" value="<%= purchaseManagement.getCodiceSicurezza() %>">
+          <% if(purchaseManagement.getCodiceCoupon() != null) { %>
           <input type="hidden" name="codiceCoupon" value="<%= purchaseManagement.getCodiceCoupon() %>">
+          <% } %>
         <% } else { %>
           <input type="hidden" name="action" value="view">
         <% } %>
