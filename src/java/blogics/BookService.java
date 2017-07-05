@@ -124,8 +124,9 @@ public class BookService {
     ResultSet resultSet = database.select(sql);
     
      try {
-      if(resultSet.next())
+      if(resultSet.next()) {
         book = new Book(resultSet);
+      }
       
       resultSet.close();
     } catch (SQLException e) {
@@ -205,7 +206,7 @@ public class BookService {
 			.select("T.price_range", "COUNT(*) AS n");
     
     String q = "(SELECT CASE ";
-    for(int i=0; i<priceRangeOptions.length; i++) {
+    for(int i=0; i<priceRangeOptions[0].length; i++) {
       int min = priceRangeOptions[0][i]; if(min < 0) min = 0;
       int max = priceRangeOptions[1][i]; if(max < 0) max = 999999;
       q += "WHEN price BETWEEN "+min+" AND "+ max+" THEN "+i+" ";

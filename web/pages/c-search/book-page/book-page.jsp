@@ -26,15 +26,21 @@
   
   if(action.equals("view")) {
     searchManagement.bookView();
+  } else if(action.equals("review")) {
+    searchManagement.bookReview();
   }
-  Book book = searchManagement.getBook();
-  
-  if(action.equals("review")) searchManagement.bookReview();
 %>
 
 <html>
   <head>
     <title>Dettagli libro</title>
+    
+    <!-- Torna alla pagina di ricerca se non è stato trovato nessun libro -->
+    <% if(searchManagement.getBook() == null) { %>
+      <script language="javascript">
+        location.replace('../search/search.jsp');
+      </script>
+    <% } %>
 
     <!-- comprende css e script del framework, header e footer -->
     <%@ include file="../../../shared/head-common.html" %>
@@ -61,7 +67,7 @@
     <!-- content-area -->
     <div class="container content-area">
       
-      <% if(action.equals("view")) { %>
+      <% if(action.equals("view") && searchManagement.getBook() != null) { %>
       <div class="navbar-default">
           <h5><a href="#">Categoria</a> &raquo; Il Trono di Spade</h5>
       </div>
@@ -75,24 +81,24 @@
           </div>
 
           <div class="col-sm-4" id="informazioni">
-              <h2><%=book.getTitle()%></h2>
+              <h2><%=searchManagement.getBook().getTitle()%></h2>
               
-              <h3><%=book.getAuthors().get(0).getName()%>
-              <% for(int i=1; i<book.getAuthors().size(); i++) { %>
-                , <%=book.getAuthors().get(i).getName()%>
+              <h3><%=searchManagement.getBook().getAuthors().get(0).getName()%>
+              <% for(int i=1; i<searchManagement.getBook().getAuthors().size(); i++) { %>
+                , <%=searchManagement.getBook().getAuthors().get(i).getName()%>
               <% } %>
               </h3>
 
-              <p><b>ISBN:</b> <%=book.getIsbn()%></p>
-              <p><b>Pagine:</b> <%=book.getPages()%></p>
-              <p><b>Editore:</b> <%=book.getPublisher() %></p>
-              <p><b>Data di pubblicazione:</b> <%=book.getPublicationDate()%></p>
-              <p><b>Lingua:</b> <%=book.getLanguage() %></p>
-              <p><b><a href="#valutazioni_altri_utenti">Voto</a></b>: <%=book.getVotePercent()%>% <small>(<%=book.getNVotes()%> voti)</small></p>
+              <p><b>ISBN:</b> <%=searchManagement.getBook().getIsbn()%></p>
+              <p><b>Pagine:</b> <%=searchManagement.getBook().getPages()%></p>
+              <p><b>Editore:</b> <%=searchManagement.getBook().getPublisher() %></p>
+              <p><b>Data di pubblicazione:</b> <%=searchManagement.getBook().getPublicationDate()%></p>
+              <p><b>Lingua:</b> <%=searchManagement.getBook().getLanguage() %></p>
+              <p><b><a href="#valutazioni_altri_utenti">Voto</a></b>: <%=searchManagement.getBook().getVotePercent()%>% <small>(<%=searchManagement.getBook().getNVotes()%> voti)</small></p>
           </div>
 
           <div class="col-sm-4" id="prezzo">
-              <h3><b><%=book.getPrice()%> &euro;</b></h3>
+              <h3><b><%=searchManagement.getBook().getPrice()%> &euro;</b></h3>
               Venduto e spedito da Libreria Sant'Ale
               <div style="margin-bottom: 15px;"></div>
               
@@ -128,7 +134,7 @@
           </button>
 
           <div class="collapse" id="descrizione">
-              <%=book.getDescription()%>
+              <%=searchManagement.getBook().getDescription()%>
           </div>
       </div>
 

@@ -46,7 +46,7 @@ public class SearchManagement extends AbstractManagement {
   
   /* Pagina: Search */
   // parametri
-	private String search = "";
+	private String search = ""; 
   private int ord = 0;
   private String isbn;
   private String[] authors;
@@ -112,6 +112,8 @@ public class SearchManagement extends AbstractManagement {
     
     try {
       book = BookService.getBookFromIsbn(database, isbn);
+      /* Se nessun libro viene trovato con questo isbn concludi il metodo */
+      if(book == null) return;
       
       List<Author> bAuthors = AuthorService.getBookAuthors(database, book.getIsbn());
       List<Genre> bGenres = GenreService.getBookGenres(database, book.getIsbn());
