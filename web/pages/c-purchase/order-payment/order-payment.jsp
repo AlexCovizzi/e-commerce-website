@@ -37,8 +37,6 @@
     <%@ include file="../../../shared/head-common.html" %>
 
     <!-- carica i tuoi file css qui -->
-    <link href="order-address-payment.css" rel="stylesheet" type="text/css">
-    
     
     <!-- carica i tuoi file js qui -->
     <script type="text/javascript" src="order-payment.js"></script>

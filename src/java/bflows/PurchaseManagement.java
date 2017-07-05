@@ -1,6 +1,14 @@
 package bflows;
 
+import blogics.Book;
+import blogics.BookService;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+import services.database.DBService;
+import services.database.Database;
+import services.database.exception.RecoverableDBException;
+import services.database.exception.UnrecoverableDBException;
 
 public class PurchaseManagement extends AbstractManagement implements Serializable {
 	
@@ -19,30 +27,53 @@ public class PurchaseManagement extends AbstractManagement implements Serializab
   private String codiceSicurezza;
   
   private String codiceCoupon;
+  private boolean valido;
+  
+  private List<Book> libri = new ArrayList();
+  private List<Integer> quantita = new ArrayList();
   
   
   
 	/* address.jsp , order-payment.jsp , order-summary.jsp */
 	
+  /* order-address.jsp / order-payment.jsp -> order-summary.jsp: view */
+  public void visualizzaRiepilogo() throws UnrecoverableDBException{
+    Database database = DBService.getDataBase();
+    
+    try {
+      /* Recupero le quantità dei libri nel carrello */
+      this.recuperaQuantità(database);
+      
+      /* Recupero i libri presenti nel carrello */
+      this.recuperaLibri(database);
+      
+      /* FINITO! */
+      database.commit();
+    } catch (RecoverableDBException ex) {
+      database.rollBack();
+      setErrorMessage(ex.getMsg());
+		} finally {
+      database.close();
+    }
+  }
+  
 	/* order-summary.jsp -> order-summary.jsp : confirm */
-	public void confirm() {
-		
-	}
-	
-	/* order-summary.jsp -> order-address.jsp : modify */
-	public void modifyAddress() {
-		
-	}
-	
-	/* order-summary.jsp -> order-payment.jsp : view */
-	public void modifyPayment() {
+	public void confermaOrdine() throws UnrecoverableDBException{
 		
 	}
 	
 	/* order-summary.jsp -> order-summary.jsp : verify */
-	public void verifyCoupon() {
+	public void verificaCoupon() throws UnrecoverableDBException{
 		
 	}
+  
+  
+  
+  /* Funzioni utili */
+  public void recuperaQuantità(Database database)
+      throws RecoverableDBException {
+    BookService.
+  }
   
   
   
@@ -98,6 +129,21 @@ public class PurchaseManagement extends AbstractManagement implements Serializab
   public String getCodiceCoupon() {
     return codiceCoupon;
   }
+
+  public List<Book> getLibri() {
+    return libri;
+  }
+
+  public List<Integer> getQuantita() {
+    return quantita;
+  }
+
+  public boolean isValido() {
+    return valido;
+  }
+  
+  
+  
   
   /* Setters */
   public void setIndirizzo(String indirizzo) {
@@ -150,6 +196,18 @@ public class PurchaseManagement extends AbstractManagement implements Serializab
 
   public void setCodiceCoupon(String codiceCoupon) {
     this.codiceCoupon = codiceCoupon;
+  }
+
+  public void setLibri(List<Book> libri) {
+    this.libri = libri;
+  }
+
+  public void setQuantita(List<Integer> quantita) {
+    this.quantita = quantita;
+  }
+
+  public void setValido(boolean valido) {
+    this.valido = valido;
   }
   
 }

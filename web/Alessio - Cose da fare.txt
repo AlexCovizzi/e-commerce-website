@@ -9,6 +9,9 @@
  - Gestione utenti ----- FATTOOOOOOOOOOO
  - Gestione admin ----- FATTOOOOOOOOOOO
  - Mettere un gestione base base di autori e generi??? --> Vediamo
- - Fare l'inserimento dell'indirizzo
- - Fare l'inserimento delle coordinate di pagamento
- - Fare la pagina di riepilogo ordine
+ - Fare l'inserimento dell'indirizzo ----- FATTOOOOOOOOOOO
+ - Fare l'inserimento delle coordinate di pagamento ----- FATTOOOOOOOOOOO
+ - Fare la pagina di riepilogo ordine ----- FATTOOOOOOOOOOO
+ - Finire i metodi del bean del purchase
+ - Visualizzare anche il prezzo totale nel riepilogo
+ - Come fare in modo di far calcolare per bene il coupon?
