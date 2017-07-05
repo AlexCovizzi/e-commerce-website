@@ -67,9 +67,15 @@ public class Session {
     }
   }
     
+  /* Se nessun viene trovato restituisce -1 */
   public static int getUserId(Cookie[] cookies) {
     String userIdString = getValue(cookies, "id", 0);
-    int userId = Integer.parseInt(userIdString);
+    int userId = -1;
+    try {
+      userId = Integer.parseInt(userIdString);
+    } catch(Exception e) {
+      Logger.warning("Session", "getUserId", "Nessun id trovato nei cookies");
+    }
     return userId;
   }
   

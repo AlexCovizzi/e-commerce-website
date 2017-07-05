@@ -25,8 +25,37 @@ public class ReviewService {
 					userId,
 					Conversion.getDatabaseString(isbn),
           thumbUp,
-          Conversion.getDatabaseString(comment))
+          "'"+comment+"'")
 			.done();
+    
+    db.modify(sql);
+  }
+  
+  public static void editReview(Database db, int userId, String isbn, boolean thumbUp, String comment)
+          throws RecoverableDBException {
+    SqlBuilder sqlBuilder = new SqlBuilder();
+    String sql;
+    
+    sql = sqlBuilder
+			.update("Vote")
+      .set("thumb_up = "+thumbUp, "comment = '"+comment+"'")
+      .where("user_id = "+userId)
+      .and("book_isbn = "+Conversion.getDatabaseString(isbn))
+      .done();
+    
+    db.modify(sql);
+  }
+  
+  public static void removeReview(Database db, int userId, String isbn)
+          throws RecoverableDBException {
+    SqlBuilder sqlBuilder = new SqlBuilder();
+    String sql;
+    
+    sql = sqlBuilder
+			.delete().from("Vote")
+      .where("user_id = "+userId)
+      .and("book_isbn = "+Conversion.getDatabaseString(isbn))
+      .done();
     
     db.modify(sql);
   }

@@ -46,7 +46,7 @@ public class SearchManagement extends AbstractManagement {
   
   /* Pagina: Search */
   // parametri
-	private String search = "";
+	private String search = ""; 
   private int ord = 0;
   private String isbn;
   private String[] authors;
@@ -112,6 +112,8 @@ public class SearchManagement extends AbstractManagement {
     
     try {
       book = BookService.getBookFromIsbn(database, isbn);
+      /* Se nessun libro viene trovato con questo isbn concludi il metodo */
+      if(book == null) return;
       
       List<Author> bAuthors = AuthorService.getBookAuthors(database, book.getIsbn());
       List<Genre> bGenres = GenreService.getBookGenres(database, book.getIsbn());
@@ -132,12 +134,42 @@ public class SearchManagement extends AbstractManagement {
     }
   }
   
-  /* search.jsp -> search.jsp : review */
+  /* book-page.jsp -> book-page.jsp : review */
   public void bookReview() throws UnrecoverableDBException {
     Database database = DBService.getDataBase();
     
     try {
       ReviewService.insertReview(database, Session.getUserId(cookies), isbn, thumbUp, comment);
+      database.commit();
+    } catch (RecoverableDBException ex) {
+			database.rollBack();
+			setErrorMessage(ex.getMsg());
+		} finally {
+      database.close();
+    }
+  }
+  
+  /* book-page.jsp -> book-page.jsp : edit_review */
+  public void bookEditReview() throws UnrecoverableDBException {
+    Database database = DBService.getDataBase();
+    
+    try {
+      ReviewService.editReview(database, Session.getUserId(cookies), isbn, thumbUp, comment);
+      database.commit();
+    } catch (RecoverableDBException ex) {
+			database.rollBack();
+			setErrorMessage(ex.getMsg());
+		} finally {
+      database.close();
+    }
+  }
+  
+  /* book-page.jsp -> book-page.jsp : remove_review */
+  public void bookRemoveReview() throws UnrecoverableDBException {
+    Database database = DBService.getDataBase();
+    
+    try {
+      ReviewService.removeReview(database, Session.getUserId(cookies), isbn);
       database.commit();
     } catch (RecoverableDBException ex) {
 			database.rollBack();

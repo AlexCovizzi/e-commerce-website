@@ -53,8 +53,16 @@
           return;
       }
       function submitPriceFilter(min, max) {
-        if(min > -1) document.getElementsByName("priceMin")[0].value = min;
-        if(max > -1) document.getElementsByName("priceMax")[0].value = max;
+        if(min > -1) {
+          document.getElementsByName("priceMin")[0].value = min;
+        } else {
+          document.getElementsByName("priceMin")[0].value = '';
+        }
+        if(max > -1) {
+          document.getElementsByName("priceMax")[0].value = max;
+        } else {
+          document.getElementsByName("priceMax")[0].value = '';
+        }
         submitFilter();
         return;
       }
@@ -188,12 +196,12 @@
           <% } } %>
 
           <ul class="pagination pagination-centered">
-            <% int nPages = searchManagement.getTotResults()/SearchManagement.RESULTS_PER_PAGE; %>
+            <% int nPages = (int)Math.ceil(searchManagement.getTotResults()/(double)SearchManagement.RESULTS_PER_PAGE); %>
             <% if (searchManagement.getPage() > 1) {%>
               <li><a onclick="submitPage(<%=searchManagement.getPage()-1%>)"><</a></li>
             <%}%>
             <%for(int i=0; i<nPages; i++) {%>
-              <li><a onclick="submitPage(<%=i+1%>)"><%=i+1%></a></li>
+              <li><a <% if(searchManagement.getPage()==i+1) {%>style=" background-color: #c7ddef;"<%}%> onclick="submitPage(<%=i+1%>)"><%=i+1%></a></li>
             <%}%>
             <%if(searchManagement.getPage() < nPages) {%>
               <li><a onclick="submitPage(<%=searchManagement.getPage()+1%>)">></a></li>
