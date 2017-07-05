@@ -28,19 +28,16 @@
     searchManagement.bookView();
   } else if(action.equals("review")) {
     searchManagement.bookReview();
+  } else if(action.equals("edit_review")) {
+    searchManagement.bookEditReview();
+  } else if(action.equals("remove_review")) {
+    searchManagement.bookRemoveReview();
   }
 %>
 
 <html>
   <head>
     <title>Dettagli libro</title>
-    
-    <!-- Torna alla pagina di ricerca se non è stato trovato nessun libro -->
-    <% if(searchManagement.getBook() == null) { %>
-      <script language="javascript">
-        location.replace('../search/search.jsp');
-      </script>
-    <% } %>
 
     <!-- comprende css e script del framework, header e footer -->
     <%@ include file="../../../shared/head-common.html" %>
@@ -51,6 +48,11 @@
     <!-- carica i tuoi file js qui -->
     <script type="text/javascript" src="book-page.js"></script>
 
+    <script>
+      function setReviewAction(a) {
+        document.getElementsByName("action")[0].value = a;
+      }
+    </script>
   </head>
     
   <body>
@@ -67,7 +69,15 @@
     <!-- content-area -->
     <div class="container content-area">
       
-      <% if(action.equals("view") && searchManagement.getBook() != null) { %>
+      <% if(action.equals("view")) { %>
+        
+      <!-- Torna alla pagina di ricerca se non è stato trovato nessun libro -->
+      <% if(searchManagement.getBook() == null) { %>
+        <script language="javascript">
+          location.replace('../search/search.jsp');
+        </script>
+      <% } else { %>
+      
       <div class="navbar-default">
           <h5><a href="#">Categoria</a> &raquo; Il Trono di Spade</h5>
       </div>
@@ -187,46 +197,74 @@
           </div>
       </div>
 
+      <!-- è possibile mettere una valutazione solo se non si è admin -->
+      <% if(!admin) { %>
       <div class="my-jumbotron" id="valutazione">
           <h3>La tua valutazione</h3>
           
           <form name="valutazione_libro" action='book-page.jsp' method="post">
-            <input type='hidden' name='action' value='review' />
+            <input type='hidden' name='action' value='view'>
             <input type='hidden' name='isbn' value='<%=searchManagement.getIsbn()%>' />
               <table>
                   <tr>
                       <th>
                           <div id="voto" class="btn-group-vertical" data-toggle="buttons">
                               <label title="Lo Consiglio" class="btn btn-primary">
-                                  <input type="radio" name="thumbUp" value='true' id="option1" autocomplete="off"
-                                         <%if(searchManagement.getUserBookReview() != null) { 
-                                           if(searchManagement.getUserBookReview().isThumbUp()) {%> checked <%}}%> >
+                                  <input type="radio" name="thumbUp" value='true' id="option1">
                                   <i class="glyphicon glyphicon-thumbs-up"></i>
                               </label>
                               <label title="Non lo Consiglio" class="btn btn-primary">
-                                  <input type="radio" name="thumbUp" value='false' id="option2" autocomplete="off"
-                                         <%if(searchManagement.getUserBookReview() != null) { 
-                                           if(!searchManagement.getUserBookReview().isThumbUp()) {%> checked <%}}%> >
+                                  <input type="radio" name="thumbUp" value='false' id="option2">
                                   <i class="glyphicon glyphicon-thumbs-down"></i>
                               </label>
+                            
+                              <% if(searchManagement.getUserBookReview() != null) { %>
+                              <% if(searchManagement.getUserBookReview().isThumbUp()) { %>
+                              <script>
+                                document.getElementById("option1").click();
+                              </script>
+                              <% } else {%>
+                              <script>
+                                document.getElementById("option2").click();
+                              </script>
+                              <% } %>
+                              <% } %>
                           </div>
                       </th>
                       <td>
                           <textarea name='comment' id="recensione" class="form-control"
                                   placeholder="Scrivi la tua recensione... (facoltativo)"
-                                  cols="100" rows="5" 
-                                  <%if(searchManagement.getUserBookReview() != null) { 
-                                    if(searchManagement.getUserBookReview().getComment() != null) {%>
-                                    value='<%=searchManagement.getComment()%>'
-                                  <%}}%> ></textarea>
+                                  cols="100" rows="5"></textarea>
+                        <% if(searchManagement.getUserBookReview() != null) { %>
+                          <% if(searchManagement.getUserBookReview().getComment() != null) { %>
+                          <script>
+                            document.getElementById("recensione").value = '<%=searchManagement.getUserBookReview().getComment()%>';
+                          </script>
+                          <% } %>
+                        <% } %>
                       </td>
                   </tr>
               </table>
             
               <% if(loggedIn) { %>
-                <button id="submit_voto" class="btn btn-primary" type="submit">
-                    <i class="glyphicon glyphicon-ok"></i> Invia Valutazione
-                </button>
+                <% if(searchManagement.getUserBookReview() == null) { %>
+                  <button id="submit_voto" class="btn btn-primary" type="submit"
+                          onclick='setReviewAction("review")'>
+                      <i class="glyphicon glyphicon-ok"></i>
+                      Invia valutazione
+                  </button>
+                <% } else { %>
+                  <button id="submit_voto" class="btn btn-primary" type="submit"
+                          onclick='setReviewAction("edit_review")'>
+                      <i class="glyphicon glyphicon-ok"></i>
+                    Modifica valutazione
+                  </button>
+                  <button class="btn btn-danger" type="submit"
+                          onclick='setReviewAction("remove_review")'>
+                      <i class="glyphicon glyphicon-remove"></i>
+                    Rimuovi valutazione
+                  </button>
+                <% } %>
               <% } else { %>
                 Devi essere registrato per valutare questo libro!
                 <a href="../../c-login/login/login.jsp">Accedi</a>
@@ -235,6 +273,8 @@
           
           </BR>
       </div>
+          
+      <% } %>
 
       <div class="my-jumbotron" id="valutazioni_altri_utenti">
           <h3>Gli altri utenti la pensano così...</h3>
@@ -249,11 +289,18 @@
             <jsp:include page="../../../shared/review/review.jsp" />
           <% } %>
       </div>
-      
+      <% } %>
       <% } else if(action.equals("review")) { %>
         La tua recensione è stata inserita, grazie del contributo! </br>
         <a href='book-page.jsp?isbn=<%=searchManagement.getIsbn()%>'>Ritorna al libro</a>
-      <% } %>
+      <% } else if(action.equals("edit_review")) { %>
+        La tua recensione è stata modificata! </br>
+        <a href='book-page.jsp?isbn=<%=searchManagement.getIsbn()%>'>Ritorna al libro</a>
+        <% } else if(action.equals("remove_review")) { %>
+        La tua recensione è stata cancellata! </br>
+        <a href='book-page.jsp?isbn=<%=searchManagement.getIsbn()%>'>Ritorna al libro</a>
+        <% } %>
+        
         
     </div>
 
