@@ -66,17 +66,13 @@ public class Session {
         util.Debug.println("Nome:" + cookies[i].getName() + " Valore:" +cookies[i].getValue());
     }
   }
-    
-  /* Se nessun viene trovato restituisce -1 */
+  
   public static int getUserId(Cookie[] cookies) {
-    String userIdString = getValue(cookies, "id", 0);
-    int userId = -1;
-    try {
-      userId = Integer.parseInt(userIdString);
-    } catch(Exception e) {
-      Logger.warning("Session", "getUserId", "Nessun id trovato nei cookies");
+    if(getValue(cookies, "id", 0) != null) {
+      return Integer.valueOf(getValue(cookies, "id", 0));
+    } else {
+      return -1;
     }
-    return userId;
   }
   
   public static boolean isUserLoggedIn(Cookie[] cookies) {

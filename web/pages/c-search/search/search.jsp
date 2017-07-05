@@ -16,6 +16,7 @@
 <%
   String message = null;
   Cookie[] cookies = request.getCookies();
+  searchManagement.setCookies(cookies);
   boolean loggedIn = Session.isUserLoggedIn(cookies);
   boolean admin = Session.isUserAdmin(cookies);
   
@@ -24,7 +25,12 @@
   
   message = searchManagement.getErrorMessage();
   
-  if(action.equals("view")) searchManagement.searchView();
+  searchManagement.searchView();
+  if(action.equals("add-to-cart")) {
+    searchManagement.addToCart();
+  } else if(action.equals("add-to-wishlist")) {
+    
+  }
 %>
 
 <html>
@@ -44,8 +50,11 @@
 
     <script>
       function submitFilter() {
-          document.getElementById("filter-form").submit();
-          return;
+        // Ogni volta che metto un filtro ritorno alla prima pagina
+        document.getElementsByName("page")[0].value = 1;
+        
+        document.getElementById("filter-form").submit();
+        return;
       }
       function submitOrd(ord) {
           document.getElementsByName("ord")[0].value = ord;
@@ -69,13 +78,19 @@
       function submitPage(n) {
         if(n <= 0) n = 1;
         document.getElementsByName("page")[0].value = n;
-        submitFilter();
+        document.getElementById("filter-form").submit();
         return;
+      }
+      function submitActionWithIsbn(action, isbn) {
+        document.getElementsByName("action")[0].value = action;
+        document.getElementsByName("isbn")[0].value = isbn;
+        document.getElementById("filter-form").submit();
       }
     </script>
   </head>
     
   <body>
+    
     <!-- header -->
     <div class="header">
       <%@ include file="../../../shared/header/header.jsp" %>
@@ -217,6 +232,12 @@
     <div class="footer">
       <%@ include file="../../../shared/footer/footer.jsp" %>
     </div>
+    
+    <% if(action.equals("add-to-cart")) { %>
+      <script language="javascript">
+        alert("Il libro è stato aggiunto al tuo carrello!");
+      </script>
+    <% }%>
 
   </body>
 </html>

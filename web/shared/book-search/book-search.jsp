@@ -7,6 +7,17 @@
   boolean admin = (Boolean) request.getAttribute("admin");
 %>
 
+<script>
+function getCurrentUrl() {
+    return window.location.href;
+}
+
+function setAction(form) {
+  document.getElementById(form).action = getCurrentUrl();
+}
+
+</script>
+
 <div class="book-container row">
   
   <div class="img-wrapper col-xs-3 col-sm-2" style="min-width: 60px; max-width: 130px;">
@@ -51,16 +62,22 @@
 
       <% if(!admin) { %>
         <div class="col-xs-6 col-sm-12">
-          <div class="">
-          <button title="Aggiungi al carrello" class="btn btn-default" style="margin-top: 1px; margin-bottom: 1px;">
-            <i class="glyphicon glyphicon-shopping-cart" style="font-size: 18px;"></i>
-            <span class="hidden-xs hidden-sm hidden-md">Aggiungi al carrello</span>
-          </button>
-          <button title="Aggiungi alla lista desideri" class="btn btn-default" style="margin-top: 1px; margin-bottom: 1px;">
-            <i class="glyphicon glyphicon-heart-empty" style="font-size: 18px;"></i>
-            <span class="hidden-xs hidden-sm hidden-md">Aggiungi ai desideri</span>
-          </button>
-          </div>
+          <form id="add-to-cart-form" method="post" onload="setAction('add-to-cart-form')">
+            <input type="hidden" name="action" value="add-to-cart">
+            <input type="hidden" name="isbn" value="<%=book.getIsbn()%>">
+            <button type="submit" title="Aggiungi al carrello" class="btn btn-default" style="margin-top: 1px; margin-bottom: 1px;">
+              <i class="glyphicon glyphicon-shopping-cart" style="font-size: 18px;"></i>
+              <span class="hidden-xs hidden-sm hidden-md">Aggiungi al carrello</span>
+            </button>
+          </form>
+          <form id="add-to-wishlist-form" method="post" onload="setAction('add-to-wishlist-form')">
+            <input type="hidden" name="action" value="add-to-wishlist">
+            <input type="hidden" name="isbn" value="<%=book.getIsbn()%>">
+            <button title="Aggiungi alla lista desideri" class="btn btn-default" style="margin-top: 1px; margin-bottom: 1px;">
+              <i class="glyphicon glyphicon-heart-empty" style="font-size: 18px;"></i>
+              <span class="hidden-xs hidden-sm hidden-md">Aggiungi ai desideri</span>
+            </button>
+          </form>
         </div>
       <% } else {%>
         <div class="col-xs-6 col-sm-12">

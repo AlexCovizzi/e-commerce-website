@@ -72,6 +72,7 @@ public class ReviewService {
             .where("V.book_isbn ="+Conversion.getDatabaseString(bookIsbn))
               .and("V.comment IS NOT NULL")
               .and("V.fl_active = 'S'")
+            .orderBy("V.timestamp_c DESC")
             .done();
               
 		

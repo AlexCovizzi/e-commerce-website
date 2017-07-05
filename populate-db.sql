@@ -2,13 +2,13 @@
 -- Aggiungo utenti a User
 -- -----------------------------------------------------
 INSERT INTO `user` (`id`, `name`, `surname`, `email`, `password`, `is_admin`, `is_blocked`, `fl_active`, `timestamp_c`)
-VALUES ('1', 'alex', 'covizzi', 'email1', 'password', '0', '0', 'S', CURRENT_TIMESTAMP);
+VALUES ('1', 'alex', 'covizzi', 'email@email.com', 'password', '0', '0', 'S', CURRENT_TIMESTAMP);
 
 INSERT INTO `user` (`id`, `name`, `surname`, `email`, `password`, `is_admin`, `is_blocked`, `fl_active`, `timestamp_c`)
 VALUES ('2', 'alessio', 'morselli', 'email2', 'password', '0', '0', 'S', CURRENT_TIMESTAMP);
 
 INSERT INTO `user` (`id`, `name`, `surname`, `email`, `password`, `is_admin`, `is_blocked`, `fl_active`, `timestamp_c`)
-VALUES ('3', 'utente3', 'cognome3', 'email3', 'password', '0', '0', 'S', CURRENT_TIMESTAMP);
+VALUES ('3', 'utente3', 'cognome3', 'email2@email.com', 'password', '0', '0', 'S', CURRENT_TIMESTAMP);
 
 INSERT INTO `user` (`id`, `name`, `surname`, `email`, `password`, `is_admin`, `is_blocked`, `fl_active`, `timestamp_c`)
 VALUES ('4', 'utente4', 'cognome4', 'email4', 'password', '0', '0', 'S', CURRENT_TIMESTAMP);
@@ -39,65 +39,6 @@ VALUES ('12', 'utente12', 'cognome12', 'email12', 'password', '0', '0', 'S', CUR
 
 
 -- -----------------------------------------------------
--- Aggiungo libri a Book
--- -----------------------------------------------------
-
-INSERT INTO `book` (`isbn`, `title`, `description`, `pages`, `price`, `publication_date`, `language`, `publisher_id`, `stock`, `timestamp`, `coverURI`, `fl_active`)
-VALUES ('0000000000000', 'titolo 0', 'descrizione 0', '21', '12.89', '12-09-2015', 'italiano', '1', '3', CURRENT_TIMESTAMP, 'uri', 'S');
-
-INSERT INTO `book` (`isbn`, `title`, `description`, `pages`, `price`, `publication_date`, `language`, `publisher_id`, `stock`, `timestamp`, `coverURI`, `fl_active`)
-VALUES ('0000000000001', 'titolo 1', 'descrizione 1', '34', '5.89', '12-09-2014', 'italiano', '2', '3', CURRENT_TIMESTAMP, 'uri', 'S');
-
-INSERT INTO `book` (`isbn`, `title`, `description`, `pages`, `price`, `publication_date`, `language`, `publisher_id`, `stock`, `timestamp`, `coverURI`, `fl_active`)
-VALUES ('0000000000002', 'titolo 2', 'descrizione 2', '67', '121.89', '12-09-2008', 'italiano', '3', '3', CURRENT_TIMESTAMP, 'uri', 'S');
-
-INSERT INTO `book` (`isbn`, `title`, `description`, `pages`, `price`, `publication_date`, `language`, `publisher_id`, `stock`, `timestamp`, `coverURI`, `fl_active`)
-VALUES ('0000000000003', 'titolo 3', 'descrizione 3', '86', '9.89', '12-09-2007', 'italiano', '4', '3', CURRENT_TIMESTAMP, 'uri', 'S');
-
-INSERT INTO `book` (`isbn`, `title`, `description`, `pages`, `price`, `publication_date`, `language`, `publisher_id`, `stock`, `timestamp`, `coverURI`, `fl_active`)
-VALUES ('0000000000004', 'titolo 4', 'descrizione 4', '45', '4.89', '12-09-2012', 'italiano', '1', '3', CURRENT_TIMESTAMP, 'uri', 'S');
-
-INSERT INTO `book` (`isbn`, `title`, `description`, `pages`, `price`, `publication_date`, `language`, `publisher_id`, `stock`, `timestamp`, `coverURI`, `fl_active`)
-VALUES ('0000000000005', 'titolo 5', 'descrizione 5', '32', '3.89', '12-09-2016', 'italiano', '4', '3', CURRENT_TIMESTAMP, 'uri', 'S');
-
-INSERT INTO `book` (`isbn`, `title`, `description`, `pages`, `price`, `publication_date`, `language`, `publisher_id`, `stock`, `timestamp`, `coverURI`, `fl_active`)
-VALUES ('0000000000006', 'titolo 6', 'descrizione 6', '25', '2.89', '12-09-2017', 'italiano', '2', '3', CURRENT_TIMESTAMP, 'uri', 'S');
-
-INSERT INTO `book` (`isbn`, `title`, `description`, `pages`, `price`, `publication_date`, `language`, `publisher_id`, `stock`, `timestamp`, `coverURI`, `fl_active`)
-VALUES ('0000000000007', 'titolo 7', 'descrizione 7', '2', '78.89', '12-09-2003', 'italiano', '3', '3', CURRENT_TIMESTAMP, 'uri', 'S');
-
-INSERT INTO `book` (`isbn`, `title`, `description`, `pages`, `price`, `publication_date`, `language`, `publisher_id`, `stock`, `timestamp`, `coverURI`, `fl_active`)
-VALUES ('0000000000008', 'titolo 8', 'descrizione 8', '78', '34.89', '12-09-2011', 'italiano', '1', '3', CURRENT_TIMESTAMP, 'uri', 'S');
-
-INSERT INTO `book` (`isbn`, `title`, `description`, `pages`, `price`, `publication_date`, `language`, `publisher_id`, `stock`, `timestamp`, `coverURI`, `fl_active`)
-VALUES ('0000000000009', 'titolo 9', 'descrizione 9', '90', '16.89', '12-09-2010', 'italiano', '4', '3', CURRENT_TIMESTAMP, 'uri', 'S');
-
-INSERT INTO `book` (`isbn`, `title`, `description`, `pages`, `price`, `publication_date`, `language`, `publisher_id`, `stock`, `timestamp`, `coverURI`, `fl_active`)
-VALUES ('0000000000010', 'titolo 10', 'descrizione 10', '121', '19.89', '12-09-1989', 'italiano', '3', '3', CURRENT_TIMESTAMP, 'uri', 'S');
-
-INSERT INTO `book` (`isbn`, `title`, `description`, `pages`, `price`, `publication_date`, `language`, `publisher_id`, `stock`, `timestamp`, `coverURI`, `fl_active`)
-VALUES ('0000000000011', 'titolo 11', 'descrizione 11', '231', '57.89', '12-09-2023', 'italiano', '2', '3', CURRENT_TIMESTAMP, 'uri', 'S');
-
-INSERT INTO `book` (`isbn`, `title`, `description`, `pages`, `price`, `publication_date`, `language`, `publisher_id`, `stock`, `timestamp`, `coverURI`, `fl_active`)
-VALUES ('0000000000012', 'titolo 12', 'descrizione 12', '36', '80.89', '12-09-1979', 'italiano', '4', '3', CURRENT_TIMESTAMP, 'uri', 'S');
-
-INSERT INTO `book` (`isbn`, `title`, `description`, `pages`, `price`, `publication_date`, `language`, `publisher_id`, `stock`, `timestamp`, `coverURI`, `fl_active`)
-VALUES ('0000000000013', 'titolo 13', 'descrizione 13', '72', '13.89', '12-09-1995', 'italiano', '2', '3', CURRENT_TIMESTAMP, 'uri', 'S');
-
-INSERT INTO `book` (`isbn`, `title`, `description`, `pages`, `price`, `publication_date`, `language`, `publisher_id`, `stock`, `timestamp`, `coverURI`, `fl_active`)
-VALUES ('0000000000014', 'titolo 14', 'descrizione 14', '189', '14.89', '12-09-2008', 'italiano', '1', '3', CURRENT_TIMESTAMP, 'uri', 'S');
-
-INSERT INTO `book` (`isbn`, `title`, `description`, `pages`, `price`, `publication_date`, `language`, `publisher_id`, `stock`, `timestamp`, `coverURI`, `fl_active`)
-VALUES ('0000000000015', 'titolo 15', 'descrizione 15', '1234', '12.89', '12-09-2015', 'italiano', '1', '3', CURRENT_TIMESTAMP, 'uri', 'S');
-
-INSERT INTO `book` (`isbn`, `title`, `description`, `pages`, `price`, `publication_date`, `language`, `publisher_id`, `stock`, `timestamp`, `coverURI`, `fl_active`)
-VALUES ('0000000000016', 'titolo 16', 'descrizione 16', '56', '13.89', '12-09-2016', 'italiano', '3', '3', CURRENT_TIMESTAMP, 'uri', 'S');
-
-INSERT INTO `book` (`isbn`, `title`, `description`, `pages`, `price`, `publication_date`, `language`, `publisher_id`, `stock`, `timestamp`, `coverURI`, `fl_active`)
-VALUES ('0000000000017', 'titolo 17', 'descrizione 17', '91', '7.89', '12-09-2001', 'italiano', '2', '3', CURRENT_TIMESTAMP, 'uri', 'S');
-
-
--- -----------------------------------------------------
 -- Aggiungo editori a Publisher
 -- -----------------------------------------------------
 
@@ -105,6 +46,66 @@ INSERT INTO `publisher` (`id`, `name`, `fl_active`) VALUES ('1', 'Mondadori', 'S
 INSERT INTO `publisher` (`id`, `name`, `fl_active`) VALUES ('2', 'DeAgostini', 'S');
 INSERT INTO `publisher` (`id`, `name`, `fl_active`) VALUES ('3', 'Adelphi', 'S');
 INSERT INTO `publisher` (`id`, `name`, `fl_active`) VALUES ('4', 'Ediesse', 'S');
+
+
+-- -----------------------------------------------------
+-- Aggiungo libri a Book
+-- -----------------------------------------------------
+
+INSERT INTO `book` (`isbn`, `title`, `description`, `pages`, `price`, `publication_date`, `language`, `publisher_id`, `stock`, `timestamp`, `coverURI`, `fl_active`)
+VALUES ('0000000000000', 'titolo 0', 'descrizione 0', '21', '12.89', '2015-12-09', 'italiano', 1, '3', CURRENT_TIMESTAMP, 'uri', 'S');
+
+INSERT INTO `book` (`isbn`, `title`, `description`, `pages`, `price`, `publication_date`, `language`, `publisher_id`, `stock`, `timestamp`, `coverURI`, `fl_active`)
+VALUES ('0000000000001', 'titolo 1', 'descrizione 1', '34', '5.89', '2016-12-09', 'italiano', 2, '3', CURRENT_TIMESTAMP, 'uri', 'S');
+
+INSERT INTO `book` (`isbn`, `title`, `description`, `pages`, `price`, `publication_date`, `language`, `publisher_id`, `stock`, `timestamp`, `coverURI`, `fl_active`)
+VALUES ('0000000000002', 'titolo 2', 'descrizione 2', '67', '121.89', '2005-12-09', 'italiano', 3, '3', CURRENT_TIMESTAMP, 'uri', 'S');
+
+INSERT INTO `book` (`isbn`, `title`, `description`, `pages`, `price`, `publication_date`, `language`, `publisher_id`, `stock`, `timestamp`, `coverURI`, `fl_active`)
+VALUES ('0000000000003', 'titolo 3', 'descrizione 3', '86', '9.89', '2012-12-09', 'italiano', 4, '3', CURRENT_TIMESTAMP, 'uri', 'S');
+
+INSERT INTO `book` (`isbn`, `title`, `description`, `pages`, `price`, `publication_date`, `language`, `publisher_id`, `stock`, `timestamp`, `coverURI`, `fl_active`)
+VALUES ('0000000000004', 'titolo 4', 'descrizione 4', '45', '4.89', '2017-12-09', 'italiano', 1, '3', CURRENT_TIMESTAMP, 'uri', 'S');
+
+INSERT INTO `book` (`isbn`, `title`, `description`, `pages`, `price`, `publication_date`, `language`, `publisher_id`, `stock`, `timestamp`, `coverURI`, `fl_active`)
+VALUES ('0000000000005', 'titolo 5', 'descrizione 5', '32', '3.89', '2009-12-09', 'italiano', 4, '3', CURRENT_TIMESTAMP, 'uri', 'S');
+
+INSERT INTO `book` (`isbn`, `title`, `description`, `pages`, `price`, `publication_date`, `language`, `publisher_id`, `stock`, `timestamp`, `coverURI`, `fl_active`)
+VALUES ('0000000000006', 'titolo 6', 'descrizione 6', '25', '2.89', '1996-12-09', 'italiano', 2, '3', CURRENT_TIMESTAMP, 'uri', 'S');
+
+INSERT INTO `book` (`isbn`, `title`, `description`, `pages`, `price`, `publication_date`, `language`, `publisher_id`, `stock`, `timestamp`, `coverURI`, `fl_active`)
+VALUES ('0000000000007', 'titolo 7', 'descrizione 7', '2', '78.89', '2013-12-09', 'italiano', 3, '3', CURRENT_TIMESTAMP, 'uri', 'S');
+
+INSERT INTO `book` (`isbn`, `title`, `description`, `pages`, `price`, `publication_date`, `language`, `publisher_id`, `stock`, `timestamp`, `coverURI`, `fl_active`)
+VALUES ('0000000000008', 'titolo 8', 'descrizione 8', '78', '34.89', '2011-12-09', 'italiano', 1, '3', CURRENT_TIMESTAMP, 'uri', 'S');
+
+INSERT INTO `book` (`isbn`, `title`, `description`, `pages`, `price`, `publication_date`, `language`, `publisher_id`, `stock`, `timestamp`, `coverURI`, `fl_active`)
+VALUES ('0000000000009', 'titolo 9', 'descrizione 9', '90', '16.89', '2014-12-09', 'italiano', 4, '3', CURRENT_TIMESTAMP, 'uri', 'S');
+
+INSERT INTO `book` (`isbn`, `title`, `description`, `pages`, `price`, `publication_date`, `language`, `publisher_id`, `stock`, `timestamp`, `coverURI`, `fl_active`)
+VALUES ('0000000000010', 'titolo 10', 'descrizione 10', '121', '19.89', '2005-12-09', 'italiano', 3, '3', CURRENT_TIMESTAMP, 'uri', 'S');
+
+INSERT INTO `book` (`isbn`, `title`, `description`, `pages`, `price`, `publication_date`, `language`, `publisher_id`, `stock`, `timestamp`, `coverURI`, `fl_active`)
+VALUES ('0000000000011', 'titolo 11', 'descrizione 11', '231', '57.89', '2008-12-09', 'italiano', 2, '3', CURRENT_TIMESTAMP, 'uri', 'S');
+
+INSERT INTO `book` (`isbn`, `title`, `description`, `pages`, `price`, `publication_date`, `language`, `publisher_id`, `stock`, `timestamp`, `coverURI`, `fl_active`)
+VALUES ('0000000000012', 'titolo 12', 'descrizione 12', '36', '80.89', '2009-12-09', 'italiano', 4, '3', CURRENT_TIMESTAMP, 'uri', 'S');
+
+INSERT INTO `book` (`isbn`, `title`, `description`, `pages`, `price`, `publication_date`, `language`, `publisher_id`, `stock`, `timestamp`, `coverURI`, `fl_active`)
+VALUES ('0000000000013', 'titolo 13', 'descrizione 13', '72', '13.89', '2012-12-09', 'italiano', 2, '3', CURRENT_TIMESTAMP, 'uri', 'S');
+
+INSERT INTO `book` (`isbn`, `title`, `description`, `pages`, `price`, `publication_date`, `language`, `publisher_id`, `stock`, `timestamp`, `coverURI`, `fl_active`)
+VALUES ('0000000000014', 'titolo 14', 'descrizione 14', '189', '14.89', '2009-12-09', 'italiano', 1, '3', CURRENT_TIMESTAMP, 'uri', 'S');
+
+INSERT INTO `book` (`isbn`, `title`, `description`, `pages`, `price`, `publication_date`, `language`, `publisher_id`, `stock`, `timestamp`, `coverURI`, `fl_active`)
+VALUES ('0000000000015', 'titolo 15', 'descrizione 15', '1234', '12.89', '2005-12-09', 'italiano', 1, '3', CURRENT_TIMESTAMP, 'uri', 'S');
+
+INSERT INTO `book` (`isbn`, `title`, `description`, `pages`, `price`, `publication_date`, `language`, `publisher_id`, `stock`, `timestamp`, `coverURI`, `fl_active`)
+VALUES ('0000000000016', 'titolo 16', 'descrizione 16', '56', '13.89', '2011-12-09', 'italiano', 3, '3', CURRENT_TIMESTAMP, 'uri', 'S');
+
+INSERT INTO `book` (`isbn`, `title`, `description`, `pages`, `price`, `publication_date`, `language`, `publisher_id`, `stock`, `timestamp`, `coverURI`, `fl_active`)
+VALUES ('0000000000017', 'titolo 17', 'descrizione 17', '91', '7.89', '2010-12-09', 'italiano', 2, '3', CURRENT_TIMESTAMP, 'uri', 'S');
+
 
 -- -----------------------------------------------------
 -- Aggiungo generi a Genre
