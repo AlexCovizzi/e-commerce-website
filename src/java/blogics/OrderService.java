@@ -101,10 +101,6 @@ public class OrderService {
         .where("id = " + id)
         .done();
     
-    System.out.println("---------------------------------------");
-    System.out.println(sql);
-    System.out.println("---------------------------------------");
-    
     database.modify(sql);
   }
   
@@ -147,7 +143,7 @@ public class OrderService {
           totalPrice,
           shippingCost,
           Conversion.getDatabaseString(state),
-          Conversion.getDatabaseString(couponCode),
+          couponCode,
           Conversion.getDatabaseString(receiver),
           Conversion.getDatabaseString(add1),
           Conversion.getDatabaseString(add2),

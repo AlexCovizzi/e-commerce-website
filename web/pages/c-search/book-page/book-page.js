@@ -21,3 +21,8 @@ function cambia_colore()
         $desiderato = true;
     }
 }
+
+function submitModificaLibroForm() {
+  document.modificaLibroForm.submit();
+  return;
+}

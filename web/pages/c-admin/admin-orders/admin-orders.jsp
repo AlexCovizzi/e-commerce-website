@@ -87,7 +87,7 @@
           <td><%= adminManagement.getOrders().get(j).getTotPrice() %></td>
           <td>
             <div class="input-group">
-              <select name="orderStateList<%= adminManagement.getOrders().get(j).getId() %>" class="form-control"
+              <select id="orderStateList<%= adminManagement.getOrders().get(j).getId() %>" name="orderStateList<%= adminManagement.getOrders().get(j).getId() %>" class="form-control"
                 <% if(adminManagement.getOrders().get(j).getState().equals("Consegnato") || adminManagement.getOrders().get(j).getState().equals("Cancellato")) { %>
                   disabled
                 <% } %>>

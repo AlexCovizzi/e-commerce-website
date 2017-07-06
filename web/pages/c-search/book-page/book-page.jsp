@@ -77,16 +77,18 @@
           location.replace('../search/search.jsp');
         </script>
       <% } else { %>
-      
-      <div class="navbar-default">
-          <h5><a href="#">Categoria</a> &raquo; Il Trono di Spade</h5>
-      </div>
 
       <div class="row" id="copertina-info">
 
-          <div class="img-wrapper col-sm-3 " id="div_copertina">
+          <div class="col-sm-4" id="div_copertina">
               <div id="copertina-book-page">
-                  <img class="copertina" src="../../assets/img/download.jpg"/>
+                  <img class="copertina"
+                      <% if(!searchManagement.getBook().getCover().equals("-")) { %>
+                      src="<%= searchManagement.getBook().getCover() %>"
+                      <% } else { %>
+                      src="http://thebooksblender.altervista.org/wp-content/uploads/2015/08/copertina-non-disponibile.jpg"
+                      <% } %>
+                      />
               </div>
           </div>
 
@@ -100,9 +102,19 @@
               </h3>
 
               <p><b>ISBN:</b> <%=searchManagement.getBook().getIsbn()%></p>
-              <p><b>Pagine:</b> <%=searchManagement.getBook().getPages()%></p>
+              <p><b>Pagine:</b>
+              <% if(searchManagement.getBook().getPages() > 0) { %>
+              <%=searchManagement.getBook().getPages()%>
+              <% } else { %>
+              dato non disponibile
+              <% } %></p>
               <p><b>Editore:</b> <%=searchManagement.getBook().getPublisher() %></p>
-              <p><b>Data di pubblicazione:</b> <%=searchManagement.getBook().getPublicationDate()%></p>
+              <p><b>Data di pubblicazione:</b>
+              <% if(searchManagement.getBook().getPublicationDate() != null) { %>
+              <%=searchManagement.getBook().getPublicationDate()%>
+              <% } else { %>
+              dato non disponibile
+              <% } %></p>
               <p><b>Lingua:</b> <%=searchManagement.getBook().getLanguage() %></p>
               <p><b><a href="#valutazioni_altri_utenti">Voto</a></b>: <%=searchManagement.getBook().getVotePercent()%>% <small>(<%=searchManagement.getBook().getNVotes()%> voti)</small></p>
           </div>
@@ -131,13 +143,23 @@
                     </button>
                 </div>
               <% } else { %>
-                <button title="Modifica" class="btn btn-primary" type="button">
+              <div style="margin-bottom: 15px;"></div>
+              <div class='container'>
+                <button title="Modifica" class="btn btn-primary" type="button" onclick="submitModificaLibroForm()">
                   <i class="glyphicon glyphicon-edit"></i> Modifica
                 </button>
                 <br/><div style="margin-bottom: 15px;"></div>
                 <button title="Rimuovi" class="btn btn-danger" type="button" >
                   <i class="glyphicon glyphicon-remove"></i> Rimuovi
                 </button>
+              </div>
+              
+              <form name="modificaLibroForm" action="../../c-admin/add-book/add-book.jsp">
+                <input type="hidden" name="action" value="view">
+                <input type="hidden" name="isbn" value="<%= searchManagement.getBook().getIsbn() %>">
+              </form>
+              
+              
               <% } %>
           </div>
       </div>
@@ -151,7 +173,12 @@
           </button>
 
           <div class="collapse" id="descrizione">
-              <%=searchManagement.getBook().getDescription()%>
+            <% if(!searchManagement.getBook().getDescription().equals("-")) { %>
+            <%=searchManagement.getBook().getDescription()%>
+            <% } else { %>
+            Descrizione non disponibile
+            <% } %>
+              
           </div>
       </div>
 

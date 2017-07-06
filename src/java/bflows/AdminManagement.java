@@ -29,7 +29,7 @@ public class AdminManagement extends AbstractManagement implements Serializable 
   private String titolo;
   private String descrizione;
   private String[] autore;
-  private String isbn = "null";
+  private String isbn;
   private int pagine = -1;
   private String editore;
   private String[] bookGeneri; /* Serve per salvare i generi selezionati del libro */
@@ -564,7 +564,7 @@ Database database = DBService.getDataBase();
   
   /* Funzioni utili */
   public boolean checkGenere(String bookGeneri) {
-    if(isbn.equals("null"))
+    if(isbn == null)
       return false;
     
     for(int j = 0; j < this.bookGeneri.length; j++)

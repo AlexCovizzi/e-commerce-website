@@ -2,7 +2,8 @@
 function submitCambiaStatoForm(codice) {
   var f = document.cambiaStatoForm;
   f.orderId.value = codice;
-  f.orderState.value = document.getElementsByName("orderStateList").value;
+  var selects = document.getElementById("orderStateList" + codice);
+  f.orderState.value = selects.options[selects.selectedIndex].text;
   f.submit();
   return;
 }

@@ -26,10 +26,10 @@
   String action = request.getParameter("action");
   if (action == null) action="view";
   
-  if(action.equals("view") && adminManagement.getIsbn().equals("null")) {
+  if(action.equals("view") && adminManagement.getIsbn() == null) {
     adminManagement.visualizzaFormAddBook();
   }
-  if(action.equals("view") && !adminManagement.getIsbn().equals("null")) {
+  if(action.equals("view") && adminManagement.getIsbn() != null) {
     adminManagement.recuperaInfo();
   }
   if(action.equals("add")) {
@@ -46,7 +46,7 @@
 <html>
   <head>
     <title>Informazioni 
-    <% if(adminManagement.getIsbn().equals("null")) { %> del libro
+    <% if(adminManagement.getIsbn() == null) { %> del libro
     <% } else { %> di <%= adminManagement.getTitolo() %> <% } %>
     </title>
 
@@ -85,7 +85,7 @@
           <div class="col-sm-10">
             <input type="text" class="form-control" name="copertina" id="copertina"
                 placeholder="Inserisci l'URL della copertina"
-                <% if(!adminManagement.getIsbn().equals("null") && !adminManagement.getCopertina().equals("-")) { %>
+                <% if(adminManagement.getIsbn() != null && !adminManagement.getCopertina().equals("-")) { %>
                 value="<%= adminManagement.getCopertina() %>"
                 <% } %>
                 >
@@ -98,7 +98,7 @@
           <div class="col-sm-10">
             <input type="text" class="form-control" name="titolo" id="titolo"
                   placeholder="Inserisci il titolo del libro"
-                  <% if(!adminManagement.getIsbn().equals("null")) { %>
+                  <% if(adminManagement.getIsbn() != null) { %>
                   value="<%= adminManagement.getTitolo() %>"
                   <% } %>
                   >
@@ -111,7 +111,7 @@
           <div class="col-sm-10">
             <textarea id="descrizione" name="descrizione" class="form-control"
                 placeholder="Scrivi una breve descrizione del libro"
-                cols="100" rows="5"><% if(!adminManagement.getIsbn().equals("null") && !adminManagement.getDescrizione().equals("-")) { %><%= adminManagement.getDescrizione() %><% } %></textarea>
+                cols="100" rows="5"><% if(adminManagement.getIsbn() != null && !adminManagement.getDescrizione().equals("-")) { %><%= adminManagement.getDescrizione() %><% } %></textarea>
           </div>
         </div>
         
@@ -122,13 +122,13 @@
             <div class="autoreCampo" id="autore0">
               <input type="text" class="form-control" name="autore" id="formAutore0"
                 placeholder="Inserisci l'autore del libro"
-                <% if(!adminManagement.getIsbn().equals("null")) { %>
+                <% if(adminManagement.getIsbn() != null) { %>
                     value="<%= adminManagement.getAutore(0) %>"
                     <% } %>
                 >
             </div>
           
-          <% if(!adminManagement.getIsbn().equals("null")) { %>
+          <% if(adminManagement.getIsbn() != null) { %>
           
           <script> setCounter(<%= adminManagement.getAutore().length %>) </script>
           
@@ -159,7 +159,7 @@
         <div class="form-group">
           <label class="control-label col-sm-2" for="ISBN">Codice ISBN</label>
           <div class="col-sm-10">
-            <% if(adminManagement.getIsbn().equals("null")) { %>
+            <% if(adminManagement.getIsbn() == null) { %>
             <input type="text" class="form-control" name="isbn" id="ISBN" 
               placeholder="Inserisci il codice ISBN" maxlength="13">
             <% } else { %>
@@ -175,7 +175,7 @@
           <div class="col-sm-10">
             <input type="text" class="form-control" name="pagine" id="pagine"
               placeholder="Inserisci il numero di pagine"
-              <% if(!adminManagement.getIsbn().equals("null") && adminManagement.getPagine() != -1) { %>
+              <% if(adminManagement.getIsbn() != null && adminManagement.getPagine() > 0) { %>
                   value="<%= adminManagement.getPagine() %>"
                   <% } %>
               >
@@ -188,7 +188,7 @@
           <div class="col-sm-10">
             <input type="text" class="form-control" name="editore" id="editore"
               placeholder="Inserisci l'editore"
-              <% if(!adminManagement.getIsbn().equals("null")) { %>
+              <% if(adminManagement.getIsbn() != null) { %>
                   value="<%= adminManagement.getEditore() %>"
                   <% } %>
               >
@@ -226,7 +226,7 @@
           <div class="col-sm-10">
             <input class="form-control" type="text" name="dataPubbl" minlength="10" maxlength="10"
               id="data-pubbl" placeholder="Inserisci la data di pubblicazione (aaaa-mm-gg)"
-              <% if(!adminManagement.getIsbn().equals("null") && !adminManagement.getDataPubbl().equals("-")) { %>
+              <% if(adminManagement.getIsbn() != null && adminManagement.getDataPubbl() != null) { %>
                   value="<%= adminManagement.getDataPubbl() %>"
                   <% } %>
               >
@@ -239,7 +239,7 @@
           <div class="col-sm-10">
             <input class="form-control" type="text" name="lingua" id="lingua"
               placeholder="Inserisci la lingua"
-              <% if(!adminManagement.getIsbn().equals("null")) { %>
+              <% if(adminManagement.getIsbn() != null) { %>
                   value="<%= adminManagement.getLingua() %>"
                   <% } %>
               >
@@ -254,7 +254,7 @@
               <div class="input-group-addon">&euro;</div>
               <input type="text" class="form-control" name="prezzo" id="prezzo"
                 placeholder="Inserisci il prezzo (es.: 19.99)"
-                <% if(!adminManagement.getIsbn().equals("null")) { %>
+                <% if(adminManagement.getIsbn() != null) { %>
                   value="<%= adminManagement.getPrezzo() %>"
                   <% } %>
                 >
@@ -268,7 +268,7 @@
           <div class="col-sm-10">
             <input type="text" class="form-control" name="stock" id="stock"
               placeholder="Inserisci il numero di libri presenti in magazzino"
-              <% if(!adminManagement.getIsbn().equals("null")) { %>
+              <% if(adminManagement.getIsbn() != null) { %>
                 value="<%= adminManagement.getStock() %>"
                 <% } %>
               >
@@ -279,7 +279,7 @@
                 
         <div class="form-group"> 
           <div class="col-sm-offset-2 col-sm-10">
-            <% if(!adminManagement.getIsbn().equals("null")) { %>
+            <% if(adminManagement.getIsbn() != null) { %>
             <input type="hidden" name="action" value="modify">
             <input type="button" class="btn btn-default" onclick="submitInfoLibro()" value="Salva modifiche">
             <% } else { %>
