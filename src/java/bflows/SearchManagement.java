@@ -53,11 +53,10 @@ public class SearchManagement extends AbstractManagement {
   // parametri per la ricerca
 	private String search = ""; // Parametro per la ricerca base(senza filtri)
   private int ord = 0; // Indica come ordinare i risultati della ricerca (vedi ORDER_OPTIONS)
-  private String isbn;
   private String[] authors;
   private String[] publishers;
   private String[] genres;
-  private int priceMin = -1, priceMax = -1;
+  private int priceMin = -1, priceMax = -1; // -1 equivale a campo input vuoto
   private int page = 1;
   // opzioni dei filtri
   private List<Pair<String, Integer>> genreFilters; // Generi con piu occorrenze nella ricerca base (senza filtri)
@@ -72,10 +71,13 @@ public class SearchManagement extends AbstractManagement {
   /**
    * Pagina: book-page.jsp
    */
+  // parametri
+  private String isbn;
+  // libro e sue recensioni
   private Book book;
   private List<Review> bookReviews; // Recensioni del libro (book)
   private Review userBookReview; // Recensione del libro (book) fatta dall'utente loggato
-  // inserimento recensione
+  // parametri inserimento recensione
   private boolean thumbUp;
   private String comment;
   
