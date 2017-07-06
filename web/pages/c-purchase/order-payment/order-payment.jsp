@@ -19,6 +19,8 @@
   cookies=request.getCookies();
   boolean loggedIn = (cookies != null);
   
+  purchaseManagement.setUserId(Session.getUserId(cookies));
+  
   String action = request.getParameter("action");
   if (action == null) action="view";
   
@@ -133,7 +135,6 @@
                 
         <div class="form-group"> 
           <div class="col-sm-offset-2 col-sm-10">
-            <input type="hidden" name="action" value="view">
             <input type="button" class="btn btn-default" onclick="submitPagamentoForm()" value="Procedi">
             <% if(purchaseManagement.getCodiceCarta() != null) { %>
             <input type="button" class="btn btn-link" onclick="annulla()" style="margin-left: 16px;" value="Annulla">

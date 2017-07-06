@@ -16,10 +16,12 @@
     * confirm
     */
   int i;
-
+  
   Cookie[] cookies=null;
   cookies=request.getCookies();
   boolean loggedIn = (cookies != null);
+  
+  purchaseManagement.setUserId(Session.getUserId(cookies));
   
   String action = request.getParameter("action");
   if (action == null) action="view";
@@ -80,37 +82,34 @@
           <% for(int j = 0; j < purchaseManagement.getLibri().size(); j++) { %>
           <div class="container">
             <div class="img-wrapper col-xs-3 col-sm-2" style="min-width: 60px; max-width: 130px;">
-              <img src="<%= purchaseManagement.getLibri().get(j).getCover() %>">
+              <img style="min-width: 60px; max-width: 130px;" src="<%= purchaseManagement.getLibri().getBook(j).getCover() %>">
             </div>
 
             <div class="col-xs-9 col-sm-10" style="padding-left: 4px;">
 
               <div class="col-xs-12 col-sm-8">
-                <h4><b> <%= purchaseManagement.getLibri().get(j).getTitle() %> </b></h4>
-                <h6><b>Autore: </b>
-                  <% for(int k = 0; k < purchaseManagement.getLibri().get(j).getAuthors().size(); k++) { %>
-                  <%= purchaseManagement.getLibri().get(j).getAuthors().get(k) %>
-                  <% } %>
-                </h6>
+                <h4><b> <%= purchaseManagement.getLibri().getBook(j).getTitle() %> </b></h4>
                 <h6><b>Editore: </b>
-                  <%= purchaseManagement.getLibri().get(j).getPublisher() %>
+                  <%= purchaseManagement.getLibri().getBook(j).getPublisher() %>
                 </h6>
-                <h6><b>Genere: </b>
-                  <% for(int k = 0; k < purchaseManagement.getLibri().get(j).getGenres().size(); k++) { %>
-                  <%= purchaseManagement.getLibri().get(j).getGenres().get(k) %>
-                  <% } %>
-                </h6>
-                <h6><b>ISBN: </b><%= purchaseManagement.getLibri().get(j).getIsbn() %></h6>
-                <h6><b>Prezzo: </b><%= purchaseManagement.getLibri().get(j).getPrice() %></h6>
-                <h6><b>Quantità: </b><%= purchaseManagement.getQuantita().get(j) %></h6>
+                <h6><b>ISBN: </b><%= purchaseManagement.getLibri().getBook(j).getIsbn() %></h6>
+                <h6><b>Prezzo: </b><%= purchaseManagement.getLibri().getBook(j).getPrice() %></h6>
+                <h6><b>Quantità: </b><%= purchaseManagement.getLibri().getQuantity(j) %></h6>
               </div>
             </div>
           </div>
           <% } %>
         </div>
+        <big><h4><b>Prezzo Totale</b>: <%= purchaseManagement.getPrezzoTotale() %></h4></big>
+        <% if(purchaseManagement.getCodiceCoupon() != null && (action.equals("verify") || action.equals("confirm"))) { %>
+          <% if(purchaseManagement.getCoupon().isValid()) { %>
+          (applicato uno sconto del <%= purchaseManagement.getCoupon().getDiscount() %>%)
+          <% } %>
+        <% } %>
       </div>
       <!-- Libri nell'ordine --- FINE -->
       
+      <% if(!action.equals("confirm") || action.equals("confirm") && purchaseManagement.getCodiceCoupon() != null && !purchaseManagement.getCoupon().isValid()) { %>
       <!-- Indirizzo -->
       <h4>L'indirizzo di consegna e il destinatario</h4>
       <div class="my-jumbotron">
@@ -149,8 +148,6 @@
       <div class="my-jumbotron">
         Qui puoi inserire il codice del coupon sconto di cui sei in possesso.<br/>
         Per verificare se il codice è giusto oppure il coupon è ancora valido clicca su "Verifica coupon".<br/>
-        <b>Attenzione</b>: se si desidera usufruire di un coupon sconto, prima di procedere all'acquisto,
-        si deve verificare il codice di questi per poter applicare correttamente lo sconto.
 
         <form class="form-horizontal" name="informazioniOrdineForm" method="post">
 
@@ -184,12 +181,25 @@
           <button class="btn btn-default" onclick="submitInformazioniOrdineForm('order-summary.jsp', 'verify')">
             Verifica coupon
           </button>
+          
+          <% if(purchaseManagement.getCodiceCoupon() != null && (action.equals("verify") || action.equals("confirm"))) { %>
+            <% if(purchaseManagement.getCoupon().isValid()) { %>
+            <br/>Il coupon è valido! Puoi procedere all'acquisto!
+            <% } else { %>
+            <br/>Il coupon non è valido. Prima di procedere all'acquisto dovrai inserire un coupon valido
+            o non usare nessun coupon.
+            <% } %>
+          <% } %>
         </form>
       </div>
       
       <button class="btn btn-default" onclick="submitInformazioniOrdineForm('order-summary.jsp', 'confirm')">
         Conferma ordine
       </button>
+      <% } else { %>
+      Il tuo ordine è stato registrato correttamente. Grazie per aver usufruito della Libreria Online Sant'Ale.<br/>
+      Ti auguriamo buon proseguimento!
+      <% } %>
     </div>
     
     <!-- footer -->

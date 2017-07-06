@@ -40,10 +40,10 @@ public class CouponService {
 			resultSet.next();
       risultato = resultSet.getInt("N");
 		} catch (SQLException ex) {
-			throw new RecoverableDBException(ex, "CouponService", "getCoupons", "Errore nel ResultSet");
+			throw new RecoverableDBException(ex, "CouponService", "countCoupons", "Errore nel ResultSet");
 		} finally {
 			try { resultSet.close(); }
-			catch (SQLException ex) { Logger.error("CouponService", "getCoupons", ex.getMessage());}
+			catch (SQLException ex) { Logger.error("CouponService", "countCoupons", ex.getMessage());}
 		}
 
 		return risultato;
@@ -125,5 +125,38 @@ public class CouponService {
         .done();
 
     database.modify(sql);
+  }
+  
+  public static Coupon isValidCoupon(Database database, String codice)
+      throws RecoverableDBException {
+    String sql = "";
+    SqlBuilder sqlBuilder = new SqlBuilder();
+    
+    sql = sqlBuilder
+				.select("*")
+				.from("Coupon")
+				.where("fl_active = 'S'")
+          .and("code = " + Conversion.getDatabaseString(codice))
+				.done();
+    
+    ResultSet resultSet = database.select(sql);
+    Coupon coupon;
+    
+    try {
+			if(resultSet.next())
+        /* Se c'è un coupon lo restituisco */
+        coupon = new Coupon(resultSet);
+      else
+        /* Se non c'è alcun coupon, restituisco un coupon che ha il codice inserito, *
+         * non è valido e ha 0% di sconto                                            */
+        coupon = new Coupon(codice, false, 0);
+		} catch (SQLException ex) {
+			throw new RecoverableDBException(ex, "CouponService", "isValidCoupon", "Errore nel ResultSet");
+		} finally {
+			try { resultSet.close(); }
+			catch (SQLException ex) { Logger.error("CouponService", "isValidCoupon", ex.getMessage());}
+		}
+
+		return coupon;
   }
 }

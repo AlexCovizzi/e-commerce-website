@@ -19,6 +19,8 @@
   cookies=request.getCookies();
   boolean loggedIn = (cookies != null);
   
+  purchaseManagement.setUserId(Session.getUserId(cookies));
+  
   String action = request.getParameter("action");
   if (action == null) action="view";
   

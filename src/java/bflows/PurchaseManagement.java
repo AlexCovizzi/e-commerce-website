@@ -2,6 +2,10 @@ package bflows;
 
 import blogics.Book;
 import blogics.BookService;
+import blogics.Coupon;
+import blogics.CouponService;
+import blogics.ShoppingCart;
+import blogics.ShoppingCartService;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -9,9 +13,12 @@ import services.database.DBService;
 import services.database.Database;
 import services.database.exception.RecoverableDBException;
 import services.database.exception.UnrecoverableDBException;
+import util.Pair;
 
 public class PurchaseManagement extends AbstractManagement implements Serializable {
 	
+  private int userId;
+  
   private String indirizzo;
   private String numeroCivico;
   private String citta;
@@ -27,10 +34,11 @@ public class PurchaseManagement extends AbstractManagement implements Serializab
   private String codiceSicurezza;
   
   private String codiceCoupon;
-  private boolean valido;
+  private Coupon coupon;
   
-  private List<Book> libri = new ArrayList();
-  private List<Integer> quantita = new ArrayList();
+  private float prezzoTotale = 0;
+  
+  private ShoppingCart libri;
   
   
   
@@ -41,9 +49,6 @@ public class PurchaseManagement extends AbstractManagement implements Serializab
     Database database = DBService.getDataBase();
     
     try {
-      /* Recupero le quantità dei libri nel carrello */
-      this.recuperaQuantità(database);
-      
       /* Recupero i libri presenti nel carrello */
       this.recuperaLibri(database);
       
@@ -59,25 +64,99 @@ public class PurchaseManagement extends AbstractManagement implements Serializab
   
 	/* order-summary.jsp -> order-summary.jsp : confirm */
 	public void confermaOrdine() throws UnrecoverableDBException{
-		
+		Database database = DBService.getDataBase();
+    
+    try {
+      /* Recupero i libri presenti nel carrello */
+      this.recuperaLibri(database);
+      
+      if(codiceCoupon != null) {
+        /* Verifico se il coupon è presente */
+        coupon = CouponService.isValidCoupon(database, codiceCoupon);
+
+        if(coupon.isValid()) {
+          float sconto = coupon.getDiscount();
+          prezzoTotale = (1 - sconto / 100) * prezzoTotale;
+
+          /* Arrotondo alla seconda cifra */
+          prezzoTotale = ((float)((int)(prezzoTotale*100)))/100;
+          
+          this.registraOrdine(database);
+        }
+      } else {
+        this.registraOrdine(database);
+      }
+      
+      /* FINITO! */
+      database.commit();
+    } catch (RecoverableDBException ex) {
+      database.rollBack();
+      setErrorMessage(ex.getMsg());
+		} finally {
+      database.close();
+    }
 	}
 	
 	/* order-summary.jsp -> order-summary.jsp : verify */
 	public void verificaCoupon() throws UnrecoverableDBException{
-		
+		Database database = DBService.getDataBase();
+    
+    try {
+      /* Recupero i libri presenti nel carrello */
+      this.recuperaLibri(database);
+      
+      if(codiceCoupon != null) {
+        /* Verifico se il coupon è presente */
+        coupon = CouponService.isValidCoupon(database, codiceCoupon);
+
+        if(coupon.isValid()) {
+          float sconto = coupon.getDiscount();
+          prezzoTotale = (1 - sconto / 100) * prezzoTotale;
+
+          /* Arrotondo alla seconda cifra */
+          prezzoTotale = ((float)((int)(prezzoTotale*100)))/100;
+        }
+      }
+      
+      /* FINITO! */
+      database.commit();
+    } catch (RecoverableDBException ex) {
+      database.rollBack();
+      setErrorMessage(ex.getMsg());
+		} finally {
+      database.close();
+    }
 	}
   
   
   
   /* Funzioni utili */
-  public void recuperaQuantità(Database database)
+  public void recuperaLibri(Database database)
       throws RecoverableDBException {
-    BookService.
+    List<Pair<String, Integer>> risultato = ShoppingCartService.getBooks(database, userId);
+    
+    libri = new ShoppingCart();
+    
+    for(int i = 0; i < risultato.size(); i++) {
+      Book libro = BookService.getBookFromIsbn(database, risultato.get(i).getFirst());
+      libri.addBook(libro, risultato.get(i).getSecond());
+      
+      prezzoTotale += libro.getPrice() * risultato.get(i).getSecond();
+    }
+  }
+  
+  public void registraOrdine(Database database)
+      throws RecoverableDBException {
+    OrderService.insertOrder(database, userId, prezzoTotale, "In preparazione", codiceCoupon, destinatario, indirizzo, numeroCivico, citta, provincia, stato, cap);
   }
   
   
   
   /* Getters */
+  public int getUserId() {
+    return userId;
+  }
+
   public String getIndirizzo() {
     return indirizzo;
   }
@@ -130,22 +209,26 @@ public class PurchaseManagement extends AbstractManagement implements Serializab
     return codiceCoupon;
   }
 
-  public List<Book> getLibri() {
+  public ShoppingCart getLibri() {
     return libri;
   }
 
-  public List<Integer> getQuantita() {
-    return quantita;
+  public Coupon getCoupon() {
+    return coupon;
   }
 
-  public boolean isValido() {
-    return valido;
+  public float getPrezzoTotale() {
+    return prezzoTotale;
   }
   
   
   
   
   /* Setters */
+  public void setUserId(int userId) {
+    this.userId = userId;
+  }
+
   public void setIndirizzo(String indirizzo) {
     this.indirizzo = indirizzo;
   }
@@ -198,16 +281,16 @@ public class PurchaseManagement extends AbstractManagement implements Serializab
     this.codiceCoupon = codiceCoupon;
   }
 
-  public void setLibri(List<Book> libri) {
+  public void setLibri(ShoppingCart libri) {
     this.libri = libri;
   }
 
-  public void setQuantita(List<Integer> quantita) {
-    this.quantita = quantita;
+  public void setCoupon(Coupon coupon) {
+    this.coupon = coupon;
   }
 
-  public void setValido(boolean valido) {
-    this.valido = valido;
+  public void setPrezzoTotale(float prezzoTotale) {
+    this.prezzoTotale = prezzoTotale;
   }
   
 }
