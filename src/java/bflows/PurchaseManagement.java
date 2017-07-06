@@ -4,6 +4,7 @@ import blogics.Book;
 import blogics.BookService;
 import blogics.Coupon;
 import blogics.CouponService;
+import blogics.OrderService;
 import blogics.ShoppingCart;
 import blogics.ShoppingCartService;
 import java.io.Serializable;
@@ -26,6 +27,7 @@ public class PurchaseManagement extends AbstractManagement implements Serializab
   private String stato;
   private String cap;
   private String destinatario;
+  private float costoSpedizione = 3;
   
   private String codiceCarta;
   private String titolareCarta;
@@ -40,6 +42,7 @@ public class PurchaseManagement extends AbstractManagement implements Serializab
   
   private ShoppingCart libri;
   
+  private boolean ordineValido = true;
   
   
 	/* address.jsp , order-payment.jsp , order-summary.jsp */
@@ -51,6 +54,9 @@ public class PurchaseManagement extends AbstractManagement implements Serializab
     try {
       /* Recupero i libri presenti nel carrello */
       this.recuperaLibri(database);
+      
+      if(prezzoTotale >= 20)
+        costoSpedizione = 0;
       
       /* FINITO! */
       database.commit();
@@ -70,23 +76,33 @@ public class PurchaseManagement extends AbstractManagement implements Serializab
       /* Recupero i libri presenti nel carrello */
       this.recuperaLibri(database);
       
+      if(prezzoTotale >= 20)
+        costoSpedizione = 0;
+      
       if(codiceCoupon != null) {
         /* Verifico se il coupon è presente */
         coupon = CouponService.isValidCoupon(database, codiceCoupon);
 
         if(coupon.isValid()) {
           float sconto = coupon.getDiscount();
+          
           prezzoTotale = (1 - sconto / 100) * prezzoTotale;
 
           /* Arrotondo alla seconda cifra */
           prezzoTotale = ((float)((int)(prezzoTotale*100)))/100;
           
-          this.registraOrdine(database);
+          ordineValido = this.registraOrdine(database, costoSpedizione);
         }
       } else {
-        this.registraOrdine(database);
+        ordineValido = this.registraOrdine(database, costoSpedizione);
       }
       
+      if(!ordineValido) {
+        database.rollBack();
+        database.close();
+        return;
+      }
+        
       /* FINITO! */
       database.commit();
     } catch (RecoverableDBException ex) {
@@ -104,6 +120,9 @@ public class PurchaseManagement extends AbstractManagement implements Serializab
     try {
       /* Recupero i libri presenti nel carrello */
       this.recuperaLibri(database);
+      
+      if(prezzoTotale >= 20)
+        costoSpedizione = 0;
       
       if(codiceCoupon != null) {
         /* Verifico se il coupon è presente */
@@ -145,9 +164,24 @@ public class PurchaseManagement extends AbstractManagement implements Serializab
     }
   }
   
-  public void registraOrdine(Database database)
+  public boolean registraOrdine(Database database, float costoSpedizione)
       throws RecoverableDBException {
-    OrderService.insertOrder(database, userId, prezzoTotale, "In preparazione", codiceCoupon, destinatario, indirizzo, numeroCivico, citta, provincia, stato, cap);
+    int idOrdine = OrderService.insertOrder(database, userId, prezzoTotale, costoSpedizione, "In preparazione", codiceCoupon, destinatario, indirizzo, numeroCivico, citta, provincia, stato, cap);
+    
+    for(int i = 0; i < libri.size(); i++) {
+      OrderService.addBookToOrder(database, idOrdine, libri.getBook(i).getIsbn(), libri.getQuantity(i));
+      boolean valido = BookService.substractToStock(database, libri.getBook(i).getIsbn(), libri.getQuantity(i));
+      if(!valido)
+        return false;
+      
+      ShoppingCartService.removeFromCart(database, userId, libri.getBook(i).getIsbn());
+    }
+    
+    /* Se uso un coupon, lo disabilito */
+    if(codiceCoupon != null)
+      CouponService.use(database, codiceCoupon);
+    
+    return true;
   }
   
   
@@ -220,7 +254,14 @@ public class PurchaseManagement extends AbstractManagement implements Serializab
   public float getPrezzoTotale() {
     return prezzoTotale;
   }
-  
+
+  public boolean isOrdineValido() {
+    return ordineValido;
+  }
+
+  public float getCostoSpedizione() {
+    return costoSpedizione;
+  }
   
   
   
@@ -291,6 +332,14 @@ public class PurchaseManagement extends AbstractManagement implements Serializab
 
   public void setPrezzoTotale(float prezzoTotale) {
     this.prezzoTotale = prezzoTotale;
+  }
+
+  public void setOrdineValido(boolean ordineValido) {
+    this.ordineValido = ordineValido;
+  }
+
+  public void setCostoSpedizione(float costoSpedizione) {
+    this.costoSpedizione = costoSpedizione;
   }
   
 }

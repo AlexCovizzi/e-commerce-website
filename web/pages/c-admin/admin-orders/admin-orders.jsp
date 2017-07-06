@@ -87,7 +87,7 @@
           <td><%= adminManagement.getOrders().get(j).getTotPrice() %></td>
           <td>
             <div class="input-group">
-              <select name="orderStateList" class="form-control"
+              <select name="orderStateList<%= adminManagement.getOrders().get(j).getId() %>" class="form-control"
                 <% if(adminManagement.getOrders().get(j).getState().equals("Consegnato") || adminManagement.getOrders().get(j).getState().equals("Cancellato")) { %>
                   disabled
                 <% } %>>
@@ -143,7 +143,7 @@
         <% } %>
       </table>
       
-      <form name="cambiaStatoForm" action="coupons.jsp" method="post">
+      <form name="cambiaStatoForm" action="admin-orders.jsp" method="post">
         <input type="hidden" name="action" value="change">
         <input type="hidden" name="orderId">
         <input type="hidden" name="orderState">

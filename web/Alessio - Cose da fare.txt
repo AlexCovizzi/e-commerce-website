@@ -12,6 +12,6 @@
  - Fare l'inserimento dell'indirizzo ----- FATTOOOOOOOOOOO
  - Fare l'inserimento delle coordinate di pagamento ----- FATTOOOOOOOOOOO
  - Fare la pagina di riepilogo ordine ----- FATTOOOOOOOOOOO
- - Finire i metodi del bean del purchase
- - Visualizzare anche il prezzo totale nel riepilogo
- - Come fare in modo di far calcolare per bene il coupon?
+ - Finire i metodi del bean del purchase ----- FATTOOOOOOOOOOO
+ - Visualizzare anche il prezzo totale nel riepilogo ----- FATTOOOOOOOOOOO
+ - Come fare in modo di far calcolare per bene il coupon? ----- FATTOOOOOOOOOOO

@@ -101,6 +101,87 @@ public class OrderService {
         .where("id = " + id)
         .done();
     
+    System.out.println("---------------------------------------");
+    System.out.println(sql);
+    System.out.println("---------------------------------------");
+    
+    database.modify(sql);
+  }
+  
+  public static int insertOrder(Database database, int userId, float totalPrice, float shippingCost,
+      String state, String couponCode, String receiver, String add1, String add2, String city, 
+      String province, String country, String cap)
+      throws RecoverableDBException {
+    String sql = "";
+    SqlBuilder sqlBuilder = new SqlBuilder();
+    ResultSet resultSet;
+    
+    /* Calcolo l'ID dell'ordine */
+    sql = sqlBuilder
+			.select("MAX(id)").as("N")
+      .from("orders")
+			.done();
+    
+		int id = 1;
+		
+		try {
+			resultSet = database.select(sql);
+			
+			if (resultSet.next())
+				id = resultSet.getInt("N") + 1;
+			
+			resultSet.close();
+		} catch (SQLException ex) {
+			throw new RecoverableDBException("OrderService: insertOrder(): Impossibile calcolare id ordine.");
+		}
+    
+    /* Inserisco l'ordine nel database */
+    sql = sqlBuilder
+			.insertInto("orders",
+          "id", "user_id", "created", "tot_price", "shipping_cost", "state", "coupon_code",
+          "receiver_name", "add1", "add2", "city", "province", "country", "cap", "timestamp", "fl_active")
+			.values(
+					id,
+          userId,
+          "DEFAULT",
+          totalPrice,
+          shippingCost,
+          Conversion.getDatabaseString(state),
+          Conversion.getDatabaseString(couponCode),
+          Conversion.getDatabaseString(receiver),
+          Conversion.getDatabaseString(add1),
+          Conversion.getDatabaseString(add2),
+          Conversion.getDatabaseString(city),
+          Conversion.getDatabaseString(province),
+          Conversion.getDatabaseString(country),
+          Conversion.getDatabaseString(cap),
+          "DEFAULT",
+          Conversion.getDatabaseString("S")
+          )
+			.done();
+    
+    database.modify(sql);
+    
+    return id;
+  }
+  
+  public static void addBookToOrder(Database database, int orderId, String bookIsbn, int quantity)
+      throws RecoverableDBException {
+    String sql = "";
+    SqlBuilder sqlBuilder = new SqlBuilder();
+    ResultSet resultSet;
+    
+    /* Inserisco il legame tra libro e ordine */
+    sql = sqlBuilder
+			.insertInto("order_has_book",
+          "book_isbn", "order_id", "quantity")
+			.values(
+          Conversion.getDatabaseString(bookIsbn),
+          orderId,
+          quantity
+          )
+			.done();
+    
     database.modify(sql);
   }
 }

@@ -126,7 +126,7 @@ public class SqlBuilder {
 		String formatted = "";
         for(int i=0; i<paramArray.length; i++) {
             if(i == paramArray.length-1) formatted += paramArray[i].toString() + " ";
-            else formatted += paramArray[i].toString() + ", ";
+            else formatted += paramArray[i] + ", ";
         }
 		return formatted;
 	}

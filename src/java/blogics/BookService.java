@@ -314,4 +314,47 @@ public class BookService {
     
     return sqlBuilder;
   }
+  
+  public static boolean substractToStock(Database database, String isbn, int quantitaComprata)
+      throws RecoverableDBException {
+    
+    String sql = "";
+    SqlBuilder sqlBuilder = new SqlBuilder();
+    ResultSet resultSet;
+    
+    /* Controllo che la quantità sia minore dello stock */
+    sql = sqlBuilder
+        .select("stock")
+        .from("book")
+        .where("fl_active='S'")
+          .and("ISBN=" + Conversion.getDatabaseString(isbn))
+        .done();
+    
+    resultSet = database.select(sql);
+    try {
+			if (resultSet.next()) {
+        int stock = resultSet.getInt("stock");
+        
+        if(quantitaComprata > stock)
+          return false;
+			}
+		} catch (SQLException ex) {
+			throw new RecoverableDBException(ex, "BookService", "substractToStock", "Errore nel ResultSet");
+		} finally {
+			try { resultSet.close(); }
+			catch (SQLException ex) { Logger.error("BookService", "substractToStock", ex.getMessage());}
+		}
+    
+    /* Aggiornamento */	
+    sql = sqlBuilder
+			.update("book")
+      .set("stock = stock - " + quantitaComprata)
+			.where("isbn = " + Conversion.getDatabaseString(isbn))
+        .and("fl_active = 'S'")
+			.done();
+    
+    database.modify(sql);
+    
+    return true;
+  }
 }

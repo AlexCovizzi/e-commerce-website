@@ -70,6 +70,14 @@
       
       <h3>Riepilogo</h3>
       
+      <% if(!purchaseManagement.isOrdineValido()) { %>
+      <div class="alert alert-danger" role="alert">
+        ATTENZIONE!<br/>
+        Controlla le quantità ordinate! Almeno una di queste Supera le notre disponibilità in magazzino!<br/>
+        Cambiale in modo corretto e torna ad inserire l'ordine.
+      </div>
+      <% } %>
+      
       <!-- Libri nell'ordine -->
       <h4>I libri che vuoi acquistare</h4>
       <div class="my-jumbotron">
@@ -100,16 +108,19 @@
           </div>
           <% } %>
         </div>
-        <big><h4><b>Prezzo Totale</b>: <%= purchaseManagement.getPrezzoTotale() %></h4></big>
+          <big><h4><b>Prezzo Totale</b>: <%= purchaseManagement.getPrezzoTotale() %> &euro;</h4></big>
         <% if(purchaseManagement.getCodiceCoupon() != null && (action.equals("verify") || action.equals("confirm"))) { %>
           <% if(purchaseManagement.getCoupon().isValid()) { %>
           (applicato uno sconto del <%= purchaseManagement.getCoupon().getDiscount() %>%)
           <% } %>
         <% } %>
+        <h4>Costo di spedizione: <%= purchaseManagement.getCostoSpedizione() %> &euro;</h4>
       </div>
       <!-- Libri nell'ordine --- FINE -->
       
-      <% if(!action.equals("confirm") || action.equals("confirm") && purchaseManagement.getCodiceCoupon() != null && !purchaseManagement.getCoupon().isValid()) { %>
+      <% if(!action.equals("confirm")
+          || action.equals("confirm") && purchaseManagement.getCodiceCoupon() != null && !purchaseManagement.getCoupon().isValid()
+          || action.equals("confirm") && !purchaseManagement.isOrdineValido()) { %>
       <!-- Indirizzo -->
       <h4>L'indirizzo di consegna e il destinatario</h4>
       <div class="my-jumbotron">
@@ -196,6 +207,7 @@
       <button class="btn btn-default" onclick="submitInformazioniOrdineForm('order-summary.jsp', 'confirm')">
         Conferma ordine
       </button>
+      
       <% } else { %>
       Il tuo ordine è stato registrato correttamente. Grazie per aver usufruito della Libreria Online Sant'Ale.<br/>
       Ti auguriamo buon proseguimento!
