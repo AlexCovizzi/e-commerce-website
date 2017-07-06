@@ -125,7 +125,7 @@ public class SqlBuilder {
 	private String formatParamArray(Object...paramArray) {
 		String formatted = "";
         for(int i=0; i<paramArray.length; i++) {
-            if(i == paramArray.length-1) formatted += paramArray[i].toString() + " ";
+            if(i == paramArray.length-1) formatted += paramArray[i] + " ";
             else formatted += paramArray[i] + ", ";
         }
 		return formatted;

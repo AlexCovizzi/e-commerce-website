@@ -62,15 +62,16 @@ function setAction(form) {
 
       <% if(!admin) { %>
         <div class="col-xs-6 col-sm-12">
-          <form id="add-to-cart-form" method="post" onload="setAction('add-to-cart-form')">
+          <form id="add-to-cart-form" method="post" style="margin-bottom: 4px;" >
             <input type="hidden" name="action" value="add-to-cart">
             <input type="hidden" name="isbn" value="<%=book.getIsbn()%>">
-            <button type="submit" title="Aggiungi al carrello" class="btn btn-default" style="margin-top: 1px; margin-bottom: 1px;">
+            <button type="submit" title="Aggiungi al carrello" class="btn btn-default" style="margin-top: 1px; margin-bottom: 1px;"
+                    <% if(book.getStock() < 1) { %>disabled<% } %> >
               <i class="glyphicon glyphicon-shopping-cart" style="font-size: 18px;"></i>
               <span class="hidden-xs hidden-sm hidden-md">Aggiungi al carrello</span>
             </button>
           </form>
-          <form id="add-to-wishlist-form" method="post" onload="setAction('add-to-wishlist-form')">
+          <form id="add-to-wishlist-form" method="post" style="margin-bottom: 4px;" >
             <input type="hidden" name="action" value="add-to-wishlist">
             <input type="hidden" name="isbn" value="<%=book.getIsbn()%>">
             <button title="Aggiungi alla lista desideri" class="btn btn-default" style="margin-top: 1px; margin-bottom: 1px;">

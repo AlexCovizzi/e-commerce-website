@@ -112,9 +112,16 @@
               Venduto e spedito da Libreria Sant'Ale
               <div style="margin-bottom: 15px;"></div>
               
+              <% if(searchManagement.getBook().getStock() > 0) { %>
+                Prodotto disponibile
+              <% } else { %>
+                Prodotto non disponibile al momento
+              <% } %>
+              
               <% if(!admin) { %>
                 <div id="carrello-desideri">
-                    <button title="Aggiungi al Carrello" class="btn btn-primary" type="button">
+                    <button title="Aggiungi al Carrello" class="btn btn-primary" type="button"
+                            <% if(searchManagement.getBook().getStock() < 1) { %>disabled<% } %> >
                         <i class="glyphicon glyphicon-shopping-cart"></i> Aggiungi al Carrello
                     </button>
                     <br/><div style="margin-bottom: 15px;"></div>
