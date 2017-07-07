@@ -22,7 +22,14 @@ function setAction(form) {
   
   <div class="img-wrapper col-xs-3 col-sm-2" style="min-width: 60px; max-width: 130px;">
     <a href="../book-page/book-page.jsp?isbn=<%=book.getIsbn()%>">
-      <!--<img src="<%=book.getCover()%>" class="img-thumbnail">-->
+      <img
+        <% if(!book.getCover().equals("-")) { %>
+        src="<%=book.getCover()%>"
+        <% } else { %>
+        src="http://thebooksblender.altervista.org/wp-content/uploads/2015/08/copertina-non-disponibile.jpg"
+        <% } %>
+        
+        class="img-thumbnail">
     </a>
   </div>
   
@@ -85,15 +92,22 @@ function setAction(form) {
       <% } else {%>
         <div class="col-xs-6 col-sm-12">
           <div class="">
-          <button title="Modifica" class="btn btn-default" style="margin-top: 1px; margin-bottom: 1px;">
+          <button title="Modifica" class="btn btn-default" style="margin-top: 1px; margin-bottom: 1px;"
+                  onclick="submitAdminLibroForm('<%= book.getIsbn() %>', 'view')">
             <i class="glyphicon glyphicon-edit" style="font-size: 18px;"></i>
             <span class="hidden-xs hidden-sm hidden-md">Modifica</span>
           </button>
-          <button title="Aggiungi alla lista desideri" class="btn btn-danger" style="margin-top: 1px; margin-bottom: 1px;">
+          <button title="Aggiungi alla lista desideri" class="btn btn-danger" 
+                  style="margin-top: 1px; margin-bottom: 1px;" onclick="submitAdminLibroForm('<%= book.getIsbn() %>', 'remove')">
             <i class="glyphicon glyphicon-remove" style="font-size: 18px;"></i>
             <span class="hidden-xs hidden-sm hidden-md">Rimuovi</span>
           </button>
           </div>
+          
+          <form name="adminLibroForm<%= book.getIsbn() %>" action="../../c-admin/add-book/add-book.jsp">
+            <input type="hidden" name="action">
+            <input type="hidden" name="isbn" value="<%= book.getIsbn() %>">
+          </form>
         </div>
       <% } %>
       

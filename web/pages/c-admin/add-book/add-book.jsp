@@ -10,10 +10,11 @@
 <jsp:useBean id="adminManagement" scope="page" class="bflows.AdminManagement" />
 <jsp:setProperty name="adminManagement" property="*" />
 
-<% /* 3 azioni:
+<% /* 4 azioni:
     * view (2 versioni: con o senza ISBN)
     * add
     * modify
+    * remove
     */
   int i;
 
@@ -37,6 +38,9 @@
   }
   if(action.equals("modify")) {
     adminManagement.modifyBook();
+  }
+  if(action.equals("remove")) {
+    adminManagement.removeBook();
   }
   
   String message=null;
@@ -75,6 +79,18 @@
     <!-- content-area -->
     <div class="container content-area">
       
+      <% if(action.equals("remove")) { %>
+      Il libro è stato rimosso con successo!
+      
+      <button type="btn btn-link" class="btn btn-link" onclick="annulla()">
+        Torna alla homepage
+      </button>
+      
+      <form name="annullaForm" action="../../c-search/homepage/homepage.jsp">
+        <input type="hidden" name="action" value="view">
+      </form>
+      
+      <% } else { %>
       <h4 class="form-title">Informazioni del libro</h4>
       
       <form class="form-horizontal" name="infoLibroForm" action="add-book.jsp" method="post">
@@ -295,6 +311,7 @@
       <form name="annullaForm" action="../admin-account/admin.jsp">
         <input type="hidden" name="action" value="view">
       </form>
+      <% } %>
     </div>
 
     <!-- footer -->

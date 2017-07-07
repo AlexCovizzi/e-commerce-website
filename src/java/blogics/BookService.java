@@ -357,4 +357,21 @@ public class BookService {
     
     return true;
   }
+  
+  public static void removeBook(Database database, String isbn)
+      throws RecoverableDBException {
+    
+    String sql = "";
+    SqlBuilder sqlBuilder = new SqlBuilder();
+    
+    /* Check di unicità non necessario: l'isbn è fisso */
+    /* Aggiornamento */	
+    sql = sqlBuilder
+			.update("book")
+      .set("fl_active = 'N'")
+			.where("isbn = " + Conversion.getDatabaseString(isbn))
+			.done();
+    
+    database.modify(sql);
+  }
 }

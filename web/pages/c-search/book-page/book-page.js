@@ -22,7 +22,9 @@ function cambia_colore()
     }
 }
 
-function submitModificaLibroForm() {
-  document.modificaLibroForm.submit();
+function submitAdminLibroForm(action) {
+  var f = document.adminLibroForm;
+  f.action.value = action;
+  f.submit();
   return;
 }

@@ -560,6 +560,31 @@ Database database = DBService.getDataBase();
     this.controlliCampiOpzionali();
 	}
   
+  /* FATTO */
+	/* search.jsp / book-page.jsp -> add-book.jsp : remove */
+	public void removeBook() throws UnrecoverableDBException {
+		
+		Database database = DBService.getDataBase();
+    
+    try {
+      /* Rimuovo il libro */      
+      BookService.removeBook(database, isbn);
+      
+      /* FINITO! */
+      database.commit();
+      
+    } catch (RecoverableDBException ex) {
+      database.rollBack();
+      setErrorMessage(ex.getMsg());
+		} finally {
+      database.close();
+    }
+    
+    this.controlliCampiOpzionali();
+	}
+  
+  
+  
   
   
   /* Funzioni utili */

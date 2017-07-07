@@ -18,4 +18,9 @@ $(window).resize(function() {
   }
 });
 
-
+function submitAdminLibroForm(isbn, action) {
+  var f = document.getElementsByName("adminLibroForm" + isbn)[0];
+  f.action.value = action;
+  f.submit();
+  return;
+}

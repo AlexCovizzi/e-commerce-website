@@ -165,17 +165,17 @@
           
             <div style="margin-bottom: 15px;"></div>
             <div class='container'>
-              <button title="Modifica" class="btn btn-primary" type="button" onclick="submitModificaLibroForm()">
+              <button title="Modifica" class="btn btn-primary" type="button" onclick="submitAdminLibroForm('view')">
                 <i class="glyphicon glyphicon-edit"></i> Modifica
               </button>
               <br/><div style="margin-bottom: 15px;"></div>
-              <button title="Rimuovi" class="btn btn-danger" type="button" >
+              <button title="Rimuovi" class="btn btn-danger" type="button" onclick="submitAdminLibroForm('remove')">
                 <i class="glyphicon glyphicon-remove"></i> Rimuovi
               </button>
             </div>
 
-            <form name="modificaLibroForm" action="../../c-admin/add-book/add-book.jsp">
-              <input type="hidden" name="action" value="view">
+            <form name="adminLibroForm" action="../../c-admin/add-book/add-book.jsp">
+              <input type="hidden" name="action">
               <input type="hidden" name="isbn" value="<%= searchManagement.getBook().getIsbn() %>">
             </form>
 
