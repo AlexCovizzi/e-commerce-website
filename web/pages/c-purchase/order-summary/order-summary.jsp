@@ -90,7 +90,13 @@
           <% for(int j = 0; j < purchaseManagement.getLibri().size(); j++) { %>
           <div class="container">
             <div class="img-wrapper col-xs-3 col-sm-2" style="min-width: 60px; max-width: 130px;">
-              <img style="min-width: 60px; max-width: 130px;" src="<%= purchaseManagement.getLibri().getBook(j).getCover() %>">
+              <img style="min-width: 60px; max-width: 130px;"
+                  <% if(!purchaseManagement.getLibri().getBook(j).getCover().equals("-")) { %>
+                  src="<%= purchaseManagement.getLibri().getBook(j).getCover() %>"
+                  <% } else { %>
+                  src="http://thebooksblender.altervista.org/wp-content/uploads/2015/08/copertina-non-disponibile.jpg"
+                  <% } %>
+                  >
             </div>
 
             <div class="col-xs-9 col-sm-10" style="padding-left: 4px;">

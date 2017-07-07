@@ -98,7 +98,13 @@
           <div class="col-sm-3">
             <h4>Totale provvisorio (libri: <%=accountManagement.getShoppingCart().getN()%>)</h4>
             <h4 style="color: #46b8da;"><b>&euro; <%=accountManagement.getShoppingCart().getTotalAsString()%></b></h4>
-            <button class="btn btn-default block">Procedi all'acquisto</button>
+            <button class="btn btn-default block" onclick="submitCreaOrdineForm()">
+              Procedi all'acquisto
+            </button>
+            
+            <form name="creaOrdineForm" action="../../c-purchase/order-address/order-address.jsp">
+              <input type="hidden" name="action" value="view">
+            </form>
           </div>
         <% } %>
 
