@@ -69,13 +69,13 @@
         <a href="../../c-search/book-page/book-page.jsp?isbn=<%=accountManagement.getIsbn()%>">
            <%=accountManagement.getTitle()%>
         </a> aggiunto al carrello!
-        </h4>
+        </h4></br>
       <% } else if(action.equals("remove")) { %>
         <h4>
         <a href="../../c-search/book-page/book-page.jsp?isbn=<%=accountManagement.getIsbn()%>">
            <%=accountManagement.getTitle()%>
         </a> rimosso dal carrello
-        </h4>
+        </h4></br>
       <% } %>
       
       <h4>Il mio carrello</h4>
@@ -84,24 +84,23 @@
 
       <div class="row">
 
-        <div class="col-sm-9">
-
-          <% if(accountManagement.getShoppingCart().isEmpty()) { %>
-            Non hai nessun libro nel carrello!
-          <% } else {
-            for(int i=0; i<accountManagement.getShoppingCart().size(); i++) { %>
+        <% if(accountManagement.getShoppingCart().isEmpty()) { %>
+          <div class="col-sm-9">Non hai nessun libro nel carrello!</div>
+        <% } else { %>
+          <div class="col-sm-9">
+            <% for(int i=0; i<accountManagement.getShoppingCart().size(); i++) { %>
               <% request.setAttribute("book", accountManagement.getShoppingCart().getBook(i)); %>
               <% request.setAttribute("quantity", accountManagement.getShoppingCart().getQuantity(i)); %>
               <jsp:include page="../../../shared/cart-book/cart-book.jsp" />
             <% } %>
-          <% } %>
-        </div>
+          </div>
 
-        <div class="col-sm-3">
-          <h4>Totale provvisorio (libri: <%=accountManagement.getShoppingCart().getN()%>)</h4>
-          <h4 style="color: #46b8da;"><b>&euro; <%=accountManagement.getShoppingCart().getTotalAsString()%></b></h4>
-          <button class="btn btn-default block">Procedi all'acquisto</button>
-        </div>
+          <div class="col-sm-3">
+            <h4>Totale provvisorio (libri: <%=accountManagement.getShoppingCart().getN()%>)</h4>
+            <h4 style="color: #46b8da;"><b>&euro; <%=accountManagement.getShoppingCart().getTotalAsString()%></b></h4>
+            <button class="btn btn-default block">Procedi all'acquisto</button>
+          </div>
+        <% } %>
 
       </div>
         

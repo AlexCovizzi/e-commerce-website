@@ -72,9 +72,10 @@ function setAction(form) {
               <span class="hidden-xs hidden-sm hidden-md">Aggiungi al carrello</span>
             </button>
           </form>
-          <form id="add-to-wishlist-form" method="post" style="margin-bottom: 4px;" >
-            <input type="hidden" name="action" value="add-to-wishlist">
+          <form id="add-to-wishlist-form" action="../../c-account/wishlist/wishlist.jsp" method="post" style="margin-bottom: 4px;" >
+            <input type="hidden" name="action" value="add">
             <input type="hidden" name="isbn" value="<%=book.getIsbn()%>">
+            <input type="hidden" name="title" value="<%=book.getTitle()%>">
             <button title="Aggiungi alla lista desideri" class="btn btn-default" style="margin-top: 1px; margin-bottom: 1px;">
               <i class="glyphicon glyphicon-heart-empty" style="font-size: 18px;"></i>
               <span class="hidden-xs hidden-sm hidden-md">Aggiungi ai desideri</span>

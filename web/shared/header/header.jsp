@@ -31,13 +31,13 @@
             </a>
           </li>
           <li title="Carrello">
-            <a href="#"><i class="glyphicon glyphicon-shopping-cart"></i>
+            <a href="../../c-account/cart/cart.jsp"><i class="glyphicon glyphicon-shopping-cart"></i>
             <span class="visible-xs-inline" style="padding-left:16px;">Carrello</span>
-            <span class="badge">4</span>
+            <!--<span class="badge">4</span>-->
             </a>
           </li>
           <li title="Lista desideri">
-            <a href="#"><i class="glyphicon glyphicon-heart"></i>
+            <a href="../../c-account/wishlist/wishlist.jsp"><i class="glyphicon glyphicon-heart"></i>
             <span class="visible-xs-inline" style="padding-left:16px;">Lista desideri</span>
             </a>
           </li>

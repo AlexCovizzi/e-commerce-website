@@ -8,6 +8,7 @@ import blogics.Genre;
 import blogics.GenreService;
 import blogics.ShoppingCart;
 import blogics.ShoppingCartService;
+import blogics.WishlistService;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,24 +26,20 @@ public class AccountManagement extends AbstractManagement implements Serializabl
   
   private int orderId;
   
-  /**
-   * Pagina: cart.jsp
-   */
-  /* action: view */
-  private ShoppingCart cart = new ShoppingCart();
-  private float total = 0;
-  
-  /* action: add/remove/modify */
   // Parametri
   private String isbn; // Specifica il libro da inserire/rimuovere/modificare
-  private String title; // Specifica il titolo del libro da inserire/rimuovere modificare
+  private String title; // Specifica il titolo del libro da inserire/rimuovere/modificare
   private int quantity;
+  
+  private ShoppingCart cart = new ShoppingCart();
+  private List<Book> wishlist = new ArrayList<>();
   
   
   /**
    * Pagina: cart.jsp
    * Recupera la lista dei libri nel carrello con la loro quantità
    * e li mette in <b>ShoppingCart</b>
+   * @throws services.database.exception.UnrecoverableDBException
    */
   public void cartView() throws UnrecoverableDBException {
     Database database = DBService.getDataBase();
@@ -57,10 +54,7 @@ public class AccountManagement extends AbstractManagement implements Serializabl
         Book book = BookService.getBookFromIsbn(database, pair.getFirst());
         
         List<Author> bAuthors = AuthorService.getBookAuthors(database, book.getIsbn());
-        List<Genre> bGenres = GenreService.getBookGenres(database, book.getIsbn());
-
         book.setAuthors(bAuthors);
-        book.setGenres(bGenres);
         
         cart.addBook(book, pair.getSecond());
       }
@@ -117,6 +111,7 @@ public class AccountManagement extends AbstractManagement implements Serializabl
   /**
    * Pagina: cart.jsp
    * Modifica la quantità din un libro nel carrello
+   * @throws services.database.exception.UnrecoverableDBException
    */
 	public void modifyQuantity() throws UnrecoverableDBException {
 		Database database = DBService.getDataBase();
@@ -132,11 +127,77 @@ public class AccountManagement extends AbstractManagement implements Serializabl
     }
 	}
   
-	/* wishlist.jsp -> wishlist.jsp : remove */
-	public void removeFromWishlist() {
-		
+  /**
+   * Pagina: wishlist.jsp
+   * Recupera i libri nella wishlist dell'utente
+   * @throws services.database.exception.UnrecoverableDBException
+   */
+  public void wishlistView() throws UnrecoverableDBException {
+    Database database = DBService.getDataBase();
+    
+    try {
+      // Recupero la lista dei libri nel carrello e la loro quantità
+      List<String> booksIsbn;
+      booksIsbn = WishlistService.getBooks(database, Session.getUserId(cookies));
+      
+      // Recupero le info di ogni libro nella lista
+      for(String bookIsbn : booksIsbn) {
+        Book book = BookService.getBookFromIsbn(database, bookIsbn);
+        
+        List<Author> bAuthors = AuthorService.getBookAuthors(database, book.getIsbn());
+        book.setAuthors(bAuthors);
+        
+        wishlist.add(book);
+      }
+      
+      database.commit();
+    } catch (RecoverableDBException ex) {
+			database.rollBack();
+			setErrorMessage(ex.getMsg());
+		} finally {
+      database.close();
+    }
+  }
+  
+	/* search.jsp/book-page.jsp -> wishlist.jsp : add */
+  /**
+   * Pagina: wishlist.jsp
+   * Aggiunge il libro specificato dall'isbn alla lista desideri
+   * @throws services.database.exception.UnrecoverableDBException
+   */
+	public void addToWishlist() throws UnrecoverableDBException {
+		Database database = DBService.getDataBase();
+    
+    try {
+      WishlistService.addToWishlist(database, Session.getUserId(cookies), isbn);
+      database.commit();
+    } catch (RecoverableDBException ex) {
+			database.rollBack();
+			setErrorMessage(ex.getMsg());
+		} finally {
+      database.close();
+    }
 	}
-	
+  
+	/* wishlist.jsp -> wishlist.jsp : remove */
+  /**
+   * Pagina: wishlist.jsp
+   * Rimuove dalla lista desideri il libro specificato
+   * @throws UnrecoverableDBException 
+   */
+	public void removeFromWishlist() throws UnrecoverableDBException {
+		Database database = DBService.getDataBase();
+    
+    try {
+      WishlistService.removeFromWishlist(database, Session.getUserId(cookies), isbn);
+      database.commit();
+    } catch (RecoverableDBException ex) {
+			database.rollBack();
+			setErrorMessage(ex.getMsg());
+		} finally {
+      database.close();
+    }
+	}
 	
 	/* order-details.jsp/orders.jsp : cancel */
 	public void cancelOrder() {
@@ -176,6 +237,10 @@ public class AccountManagement extends AbstractManagement implements Serializabl
   
   public ShoppingCart getShoppingCart() {
     return cart;
+  }
+  
+  public List<Book> getWishlist() {
+    return wishlist;
   }
   
   public String getIsbn() {
