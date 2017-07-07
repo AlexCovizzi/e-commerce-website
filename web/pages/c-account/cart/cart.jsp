@@ -22,17 +22,15 @@
   
   message = accountManagement.getErrorMessage();
   
-  if(action.equals("view")) {
-    accountManagement.cartView();
-  } else if(action.equals("add")) {
+  if(action.equals("add")) {
     accountManagement.addToCart();
   } else if(action.equals("remove")) {
     accountManagement.removeFromCart();
-    accountManagement.cartView();
   } else if(action.equals("modify")) {
     accountManagement.modifyQuantity();
-    accountManagement.cartView();
   }
+  accountManagement.cartView();
+  
 %>
 
 <html>
@@ -67,41 +65,45 @@
     <div class="container content-area">
       
       <% if(action.equals("add")) { %>
-        
-      <% } else { %>
-      
-        <h4>Il mio carrello</h4>
-
-        <div class="divider-horizontal"></div>
-
-        <div class="row">
-
-          <div class="col-sm-9">
-            
-            <% if(action.equals("remove")) { %>
-              Libro rimosso dal carrello!
-            <% } %>
-            
-            <% if(accountManagement.getShoppingCart().isEmpty()) { %>
-              Non hai nessun libro nel carrello!
-            <% } else {
-              for(int i=0; i<accountManagement.getShoppingCart().size(); i++) { %>
-                <% request.setAttribute("book", accountManagement.getShoppingCart().getBook(i)); %>
-                <% request.setAttribute("quantity", accountManagement.getShoppingCart().getQuantity(i)); %>
-                <jsp:include page="../../../shared/cart-book/cart-book.jsp" />
-              <% } %>
-            <% } %>
-          </div>
-
-          <div class="col-sm-3">
-            <h4>Totale provvisorio (libri: <%=accountManagement.getShoppingCart().getN()%>)</h4>
-            <h4 style="color: #46b8da;"><b>&euro; <%=accountManagement.getShoppingCart().getTotalAsString()%></b></h4>
-            <button class="btn btn-default block">Procedi all'acquisto</button>
-          </div>
-
-        </div>
-            
+        <h4>
+        <a href="../../c-search/book-page/book-page.jsp?isbn=<%=accountManagement.getIsbn()%>">
+           <%=accountManagement.getTitle()%>
+        </a> aggiunto al carrello!
+        </h4>
+      <% } else if(action.equals("remove")) { %>
+        <h4>
+        <a href="../../c-search/book-page/book-page.jsp?isbn=<%=accountManagement.getIsbn()%>">
+           <%=accountManagement.getTitle()%>
+        </a> rimosso dal carrello
+        </h4>
       <% } %>
+      
+      <h4>Il mio carrello</h4>
+
+      <div class="divider-horizontal"></div>
+
+      <div class="row">
+
+        <div class="col-sm-9">
+
+          <% if(accountManagement.getShoppingCart().isEmpty()) { %>
+            Non hai nessun libro nel carrello!
+          <% } else {
+            for(int i=0; i<accountManagement.getShoppingCart().size(); i++) { %>
+              <% request.setAttribute("book", accountManagement.getShoppingCart().getBook(i)); %>
+              <% request.setAttribute("quantity", accountManagement.getShoppingCart().getQuantity(i)); %>
+              <jsp:include page="../../../shared/cart-book/cart-book.jsp" />
+            <% } %>
+          <% } %>
+        </div>
+
+        <div class="col-sm-3">
+          <h4>Totale provvisorio (libri: <%=accountManagement.getShoppingCart().getN()%>)</h4>
+          <h4 style="color: #46b8da;"><b>&euro; <%=accountManagement.getShoppingCart().getTotalAsString()%></b></h4>
+          <button class="btn btn-default block">Procedi all'acquisto</button>
+        </div>
+
+      </div>
         
     </div>
 

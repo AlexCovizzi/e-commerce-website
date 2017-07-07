@@ -62,9 +62,10 @@ function setAction(form) {
 
       <% if(!admin) { %>
         <div class="col-xs-6 col-sm-12">
-          <form id="add-to-cart-form" method="post" style="margin-bottom: 4px;" >
-            <input type="hidden" name="action" value="add-to-cart">
+          <form id="add-to-cart-form" action="../../c-account/cart/cart.jsp" method="post" style="margin-bottom: 4px;" >
+            <input type="hidden" name="action" value="add">
             <input type="hidden" name="isbn" value="<%=book.getIsbn()%>">
+            <input type="hidden" name="title" value="<%=book.getTitle()%>">
             <button type="submit" title="Aggiungi al carrello" class="btn btn-default" style="margin-top: 1px; margin-bottom: 1px;"
                     <% if(book.getStock() < 1) { %>disabled<% } %> >
               <i class="glyphicon glyphicon-shopping-cart" style="font-size: 18px;"></i>

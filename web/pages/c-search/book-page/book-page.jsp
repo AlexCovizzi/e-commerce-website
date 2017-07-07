@@ -71,7 +71,7 @@
       
       <% if(action.equals("view")) { %>
         
-      <!-- Torna alla pagina di ricerca se non è stato trovato nessun libro -->
+      <!-- Torna alla pagina di ricerca se non è stato trovato nessun libro con l'isbn specificato -->
       <% if(searchManagement.getBook() == null) { %>
         <script language="javascript">
           location.replace('../search/search.jsp');
@@ -80,88 +80,107 @@
 
       <div class="row" id="copertina-info">
 
-          <div class="col-sm-4" id="div_copertina">
-              <div id="copertina-book-page">
-                  <img class="copertina"
-                      <% if(!searchManagement.getBook().getCover().equals("-")) { %>
-                      src="<%= searchManagement.getBook().getCover() %>"
-                      <% } else { %>
-                      src="http://thebooksblender.altervista.org/wp-content/uploads/2015/08/copertina-non-disponibile.jpg"
-                      <% } %>
-                      />
-              </div>
-          </div>
-
-          <div class="col-sm-4" id="informazioni">
-              <h2><%=searchManagement.getBook().getTitle()%></h2>
-              
-              <h3><%=searchManagement.getBook().getAuthors().get(0).getName()%>
-              <% for(int i=1; i<searchManagement.getBook().getAuthors().size(); i++) { %>
-                , <%=searchManagement.getBook().getAuthors().get(i).getName()%>
+        <div class="col-sm-4" id="div_copertina">
+          <div id="copertina-book-page">
+            <img class="copertina"
+              <% if(!searchManagement.getBook().getCover().equals("-")) { %>
+              src="<%= searchManagement.getBook().getCover() %>"
+              <% } else { %>
+              src="http://thebooksblender.altervista.org/wp-content/uploads/2015/08/copertina-non-disponibile.jpg"
               <% } %>
-              </h3>
+            />
+          </div>
+        </div>
 
-              <p><b>ISBN:</b> <%=searchManagement.getBook().getIsbn()%></p>
-              <p><b>Pagine:</b>
-              <% if(searchManagement.getBook().getPages() > 0) { %>
+        <div class="col-sm-4" id="informazioni">
+          <h2><%=searchManagement.getBook().getTitle()%></h2>
+
+          <h3><%=searchManagement.getBook().getAuthors().get(0).getName()%>
+            <% for(int i=1; i<searchManagement.getBook().getAuthors().size(); i++) { %>
+              , <%=searchManagement.getBook().getAuthors().get(i).getName()%>
+            <% } %>
+          </h3>
+
+          <p><b>ISBN:</b> <%=searchManagement.getBook().getIsbn()%></p>
+          
+          <p><b>Pagine:</b>
+            <% if(searchManagement.getBook().getPages() > 0) { %>
               <%=searchManagement.getBook().getPages()%>
-              <% } else { %>
+            <% } else { %>
               dato non disponibile
-              <% } %></p>
-              <p><b>Editore:</b> <%=searchManagement.getBook().getPublisher() %></p>
-              <p><b>Data di pubblicazione:</b>
-              <% if(searchManagement.getBook().getPublicationDate() != null) { %>
+            <% } %>
+          </p>
+          
+          <p><b>Editore:</b> <%=searchManagement.getBook().getPublisher() %></p>
+          
+          <p><b>Data di pubblicazione:</b>
+            <% if(searchManagement.getBook().getPublicationDate() != null) { %>
               <%=searchManagement.getBook().getPublicationDate()%>
-              <% } else { %>
+            <% } else { %>
               dato non disponibile
-              <% } %></p>
-              <p><b>Lingua:</b> <%=searchManagement.getBook().getLanguage() %></p>
-              <p><b><a href="#valutazioni_altri_utenti">Voto</a></b>: <%=searchManagement.getBook().getVotePercent()%>% <small>(<%=searchManagement.getBook().getNVotes()%> voti)</small></p>
-          </div>
+            <% } %>
+          </p>
+          
+          <p><b>Lingua:</b> <%=searchManagement.getBook().getLanguage() %></p>
+          <p><b><a href="#valutazioni_altri_utenti">Voto</a></b>: <%=searchManagement.getBook().getVotePercent()%>% <small>(<%=searchManagement.getBook().getNVotes()%> voti)</small></p>
+        </div>
 
-          <div class="col-sm-4" id="prezzo">
-              <h3><b><%=searchManagement.getBook().getPrice()%> &euro;</b></h3>
-              Venduto e spedito da Libreria Sant'Ale
-              <div style="margin-bottom: 15px;"></div>
+        <div class="col-sm-4" id="prezzo">
+          <h3><b><%=searchManagement.getBook().getPrice()%> &euro;</b></h3>
+          Venduto e spedito da Libreria Sant'Ale
+          <div style="margin-bottom: 15px;"></div>
+
+          <% if(searchManagement.getBook().getStock() > 0) { %>
+            Prodotto disponibile
+          <% } else { %>
+            Prodotto non disponibile al momento
+          <% } %>
+
+          <% if(!admin) { %>
+            <div id="carrello-desideri">
               
-              <% if(searchManagement.getBook().getStock() > 0) { %>
-                Prodotto disponibile
-              <% } else { %>
-                Prodotto non disponibile al momento
-              <% } %>
-              
-              <% if(!admin) { %>
-                <div id="carrello-desideri">
-                    <button title="Aggiungi al Carrello" class="btn btn-primary" type="button"
-                            <% if(searchManagement.getBook().getStock() < 1) { %>disabled<% } %> >
-                        <i class="glyphicon glyphicon-shopping-cart"></i> Aggiungi al Carrello
-                    </button>
-                    <br/><div style="margin-bottom: 15px;"></div>
-                    <button title="Aggiungi ai Desideri" id="desiderato"
-                            class="btn btn-primary" type="button" onclick="cambia_colore()" >
-                        <i class="glyphicon glyphicon-heart"></i> Aggiungi ai Desideri
-                    </button>
-                </div>
-              <% } else { %>
-              <div style="margin-bottom: 15px;"></div>
-              <div class='container'>
-                <button title="Modifica" class="btn btn-primary" type="button" onclick="submitModificaLibroForm()">
-                  <i class="glyphicon glyphicon-edit"></i> Modifica
+              <form id="add-to-cart-form" action="../../c-account/cart/cart.jsp" method="post">
+                <input type="hidden" name="action" value="add">
+                <input type="hidden" name="isbn" value="<%=searchManagement.getBook().getIsbn()%>">
+                <input type="hidden" name="title" value="<%=searchManagement.getBook().getTitle()%>">
+                <button type="submit" title="Aggiungi al carrello" class="btn btn-default"
+                        <% if(searchManagement.getBook().getStock() < 1) { %>disabled<% } %> >
+                  <i class="glyphicon glyphicon-shopping-cart"></i>
+                  Aggiungi al carrello
                 </button>
-                <br/><div style="margin-bottom: 15px;"></div>
-                <button title="Rimuovi" class="btn btn-danger" type="button" >
-                  <i class="glyphicon glyphicon-remove"></i> Rimuovi
-                </button>
-              </div>
-              
-              <form name="modificaLibroForm" action="../../c-admin/add-book/add-book.jsp">
-                <input type="hidden" name="action" value="view">
-                <input type="hidden" name="isbn" value="<%= searchManagement.getBook().getIsbn() %>">
               </form>
               
-              
-              <% } %>
-          </div>
+              <form id="add-to-wishlist-form" action="../../c-account/wishlist/wishlist.jsp" method="post">
+                <input type="hidden" name="action" value="add">
+                <input type="hidden" name="isbn" value="<%=searchManagement.getBook().getIsbn()%>">
+                <input type="hidden" name="title" value="<%=searchManagement.getBook().getTitle()%>">
+                <button type="submit" title="Aggiungi ai desideri" class="btn btn-default" >
+                  <i class="glyphicon glyphicon-heart"></i>
+                  Aggiungi ai desideri
+                </button>
+              </form>
+                
+            </div>
+          <% } else { %>
+          
+            <div style="margin-bottom: 15px;"></div>
+            <div class='container'>
+              <button title="Modifica" class="btn btn-primary" type="button" onclick="submitModificaLibroForm()">
+                <i class="glyphicon glyphicon-edit"></i> Modifica
+              </button>
+              <br/><div style="margin-bottom: 15px;"></div>
+              <button title="Rimuovi" class="btn btn-danger" type="button" >
+                <i class="glyphicon glyphicon-remove"></i> Rimuovi
+              </button>
+            </div>
+
+            <form name="modificaLibroForm" action="../../c-admin/add-book/add-book.jsp">
+              <input type="hidden" name="action" value="view">
+              <input type="hidden" name="isbn" value="<%= searchManagement.getBook().getIsbn() %>">
+            </form>
+
+          <% } %>
+        </div>
       </div>
 
       <div class="horiz-divider"></div>

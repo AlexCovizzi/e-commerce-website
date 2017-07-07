@@ -35,6 +35,7 @@
     <form method="post">
       <input type="hidden" name="action" value="remove" style="display: none;">
       <input type="hidden" name="isbn" value="<%=book.getIsbn()%>" style="display: none;">
+      <input type="hidden" name="title" value="<%=book.getTitle()%>" style="display: none;">
       <button class="btn btn-danger btn-sm" type="submit" style="width: 80px;">Rimuovi</button>
     </form>
     
@@ -47,6 +48,7 @@
     <form method="post">
       <input type="hidden" name="action" value="modify" style="display: none;">
       <input type="hidden" name="isbn" value="<%=book.getIsbn()%>" style="display: none;">
+      <input type="hidden" name="title" value="<%=book.getTitle()%>" style="display: none;">
       <input name="quantity" value="<%=quantity%>" required class="form-control input-sm" style="width: 80px;" type="number" min="1" max="999">
       <button class="btn btn-default btn-sm" type="submit" style="width: 80px;">Aggiorna</button>
     </form>

@@ -34,8 +34,8 @@ public class AccountManagement extends AbstractManagement implements Serializabl
   
   /* action: add/remove/modify */
   // Parametri
-  private String isbn; // Specifica il libro da inserire nel carrello
-  private String lastPage; // URL della pagina che ha chiamato l'action add
+  private String isbn; // Specifica il libro da inserire/rimuovere/modificare
+  private String title; // Specifica il titolo del libro da inserire/rimuovere modificare
   private int quantity;
   
   
@@ -156,9 +156,10 @@ public class AccountManagement extends AbstractManagement implements Serializabl
     this.isbn = isbn;
   }
   
-  public void setLastPage(String lastPage) {
-    this.lastPage = lastPage;
+  public void setTitle(String title) {
+    this.title = title;
   }
+  
   
   public void setQuantity(int quantity) {
     this.quantity = quantity;
@@ -181,8 +182,8 @@ public class AccountManagement extends AbstractManagement implements Serializabl
     return isbn;
   }
   
-  public String getLastPage() {
-    return lastPage;
+  public String getTitle() {
+    return title;
   }
   
   public int getQuantity() {
