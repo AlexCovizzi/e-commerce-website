@@ -79,6 +79,34 @@ public class CouponService {
 		return coupons;
   }
   
+  
+  
+  public static Coupon getCoupon(Database db, String code) throws RecoverableDBException {
+    SqlBuilder sqlBuilder = new SqlBuilder();
+    Coupon coupon = null;
+    
+    String sql = sqlBuilder
+				.select("*")
+				.from("Coupon")
+        .where("code = "+Conversion.getDatabaseString(code))
+				.done();
+    
+    ResultSet resultSet = db.select(sql);
+    
+    try {
+      if(resultSet.next()) {
+        coupon = new Coupon(resultSet);
+      }
+		} catch (SQLException ex) {
+			throw new RecoverableDBException(ex, "CouponService", "getCoupon", "Errore nel ResultSet");
+		} finally {
+			try { resultSet.close(); }
+			catch (SQLException ex) { Logger.error("CouponService", "getCoupon", ex.getMessage());}
+		}
+    
+    return coupon;
+  }
+  
   public static void addCoupon(Database database, String codice, int sconto)
       throws RecoverableDBException {
     String sql = "";

@@ -4,8 +4,12 @@ import blogics.Author;
 import blogics.AuthorService;
 import blogics.Book;
 import blogics.BookService;
+import blogics.Coupon;
+import blogics.CouponService;
 import blogics.Genre;
 import blogics.GenreService;
+import blogics.Order;
+import blogics.OrderService;
 import blogics.ShoppingCart;
 import blogics.ShoppingCartService;
 import blogics.WishlistService;
@@ -33,6 +37,7 @@ public class AccountManagement extends AbstractManagement implements Serializabl
   
   private ShoppingCart cart = new ShoppingCart();
   private List<Book> wishlist = new ArrayList<>();
+  private List<Order> orders = new ArrayList<>();
   
   
   /**
@@ -198,6 +203,32 @@ public class AccountManagement extends AbstractManagement implements Serializabl
       database.close();
     }
 	}
+  
+  /**
+   * Pagina: orders.jsp
+   * Recupera gli ordini effettuati dell'utente (in corso e passati)
+   * @throws services.database.exception.UnrecoverableDBException
+   */
+  public void ordersView() throws UnrecoverableDBException {
+    Database database = DBService.getDataBase();
+    
+    try {
+      orders = OrderService.getCurrentOrders(database, Session.getUserId(cookies));
+      for(Order order : orders) {
+        if(order.getCouponCode() != null) {
+          Coupon coupon = CouponService.getCoupon(database, order.getCouponCode());
+          order.setDiscount(coupon.getDiscount());
+        }
+      }
+      
+      database.commit();
+    } catch (RecoverableDBException ex) {
+			database.rollBack();
+			setErrorMessage(ex.getMsg());
+		} finally {
+      database.close();
+    }
+  }
 	
 	/* order-details.jsp/orders.jsp : cancel */
 	public void cancelOrder() {
@@ -241,6 +272,10 @@ public class AccountManagement extends AbstractManagement implements Serializabl
   
   public List<Book> getWishlist() {
     return wishlist;
+  }
+  
+  public List<Order> getOrders() {
+    return orders;
   }
   
   public String getIsbn() {

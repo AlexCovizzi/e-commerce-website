@@ -24,6 +24,7 @@ public class Order {
   private float shippingCost;
   private String state;
   private String couponCode;
+  private int discount;
   private String receiver;
   private String add1;
   private String add2;
@@ -109,6 +110,10 @@ public class Order {
     return couponCode;
   }
   
+  public int getDiscount() {
+    return discount;
+  }
+  
   public String getReceiver() {
     return receiver;
   }
@@ -135,6 +140,10 @@ public class Order {
   
   public String getCap() {
     return cap;
+  }
+  
+  public float getFullTotal() {
+    return (totPrice+shippingCost)*(float)(discount/100);
   }
   
   /* Setters */
@@ -172,6 +181,10 @@ public class Order {
   
   public void setCouponCode(String couponCode) {
     this.couponCode = couponCode;
+  }
+  
+  public void setDiscount(int discount) {
+    this.discount = discount;
   }
   
   public void setReceiver(String receiver) {

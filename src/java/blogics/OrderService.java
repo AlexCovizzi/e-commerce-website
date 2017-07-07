@@ -60,18 +60,16 @@ public class OrderService {
     SqlBuilder sqlBuilder = new SqlBuilder();
     List<Order> orders = new ArrayList<>();
     
-    sqlBuilder = sqlBuilder
+    sqlBuilder
 				.select("*")
 				.from("OrderView");
     
     if(orderUser >= 0)
-      sqlBuilder = sqlBuilder.where("user_id = " + orderUser);
+      sqlBuilder.where("user_id = " + orderUser);
     
     sql = sqlBuilder
         .limit(limit).offset(offset)
         .done();
-   
-    System.out.println(sql);
     
     ResultSet resultSet = database.select(sql);
     
@@ -85,6 +83,46 @@ public class OrderService {
 		} finally {
 			try { resultSet.close(); }
 			catch (SQLException ex) { Logger.error("OrderService", "getOrders", ex.getMessage());}
+		}
+
+		return orders;
+  }
+  
+  /**
+   * Restituisce gli ordini non ancora consegnati dell'utente specificato
+   * ordinati per data
+   * @throws RecoverableDBException 
+   */
+  public static List<Order> getCurrentOrders(Database database, int orderUser)
+      throws RecoverableDBException {
+    String sql = "";
+    SqlBuilder sqlBuilder = new SqlBuilder();
+    List<Order> orders = new ArrayList<>();
+    
+    sqlBuilder
+				.select("*")
+				.from("OrderView");
+    
+    if(orderUser >= 0)
+      sqlBuilder
+              .where("user_id = " + orderUser)
+              .and("(state = 'In preparazione' OR state='In spedizione' OR state='In magazzino' OR state='In consegna')")
+              .orderBy("created DESC");
+    
+    sql = sqlBuilder.done();
+    
+    ResultSet resultSet = database.select(sql);
+    
+    try {
+			while(resultSet.next()) {
+				Order order = new Order(resultSet);
+				orders.add(order);
+			}
+		} catch (SQLException ex) {
+			throw new RecoverableDBException(ex, "OrderService", "getCurrentOrders", "Errore nel ResultSet");
+		} finally {
+			try { resultSet.close(); }
+			catch (SQLException ex) { Logger.error("OrderService", "getCurrentOrders", ex.getMessage());}
 		}
 
 		return orders;

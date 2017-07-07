@@ -1,5 +1,7 @@
+
 .order-container {
-  margin-top: 8px;
+  margin: 0px;
   padding: 8px;
   border: 1px #c0c0c0 solid;
+  border-radius: 8px;
 }
