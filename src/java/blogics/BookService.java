@@ -69,13 +69,15 @@ public class BookService {
 					Conversion.getDatabaseString(description),
           pages,
 					price,
-					publication_date,
+					Conversion.getDatabaseString(publication_date),
 					stock,
 					Conversion.getDatabaseString(isbn),
 					Conversion.getDatabaseString(language),
 					publisher,
 					"DEFAULT")
 			.done();
+    
+    System.out.println(sql);
     
     db.modify(sql);
   }
@@ -97,7 +99,7 @@ public class BookService {
           "description = " + Conversion.getDatabaseString(description), 
 					"pages = " + pages,
           "price = " + price,
-          "publication_date = " + publication_date,
+          "publication_date = " + Conversion.getDatabaseString(publication_date),
           "stock = " + stock,
           "language = " + Conversion.getDatabaseString(language),
           "publisher_id = " + publisher)

@@ -406,12 +406,16 @@ Database database = DBService.getDataBase();
       /* Controllo l'editore */
       int idEditore = this.controlloEditore(database, editore);
       
+      String dataDiPubblicazione = dataPubbl;
+      if(dataDiPubblicazione == null)
+        dataDiPubblicazione = "DEFAULT";
+      
       /* Inserisco il libro */
       System.out.println("");
       System.out.println("----- addBook -----");
       System.out.println(dataPubbl);
       System.out.println("Inserimento del libro...");
-      BookService.insertNewBook(database, copertina, titolo, descrizione, pagine, prezzo, /*Date.valueOf(*/dataPubbl/*)*/, stock, isbn, lingua, idEditore);
+      BookService.insertNewBook(database, copertina, titolo, descrizione, pagine, prezzo, dataDiPubblicazione, stock, isbn, lingua, idEditore);
       System.out.println("Libro inserito!");
       
       
@@ -474,8 +478,12 @@ Database database = DBService.getDataBase();
       /* Controllo l'editore */
       int idEditore = this.controlloEditore(database, editore);
       
+      String dataDiPubblicazione = dataPubbl;
+      if(dataDiPubblicazione == null)
+        dataDiPubblicazione = "DEFAULT";
+      
       /* Aggiorno le info del libro */      
-      BookService.updateBook(database, copertina, titolo, descrizione, pagine, prezzo, dataPubbl, stock, isbn, lingua, idEditore);
+      BookService.updateBook(database, copertina, titolo, descrizione, pagine, prezzo, dataDiPubblicazione, stock, isbn, lingua, idEditore);
       
       /* Controllo gli autori */
       int[] idAutori = this.controlloAutori(database, autore);
