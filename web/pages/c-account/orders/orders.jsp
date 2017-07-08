@@ -24,10 +24,11 @@
   
   message = accountManagement.getErrorMessage();
   
-  if (action.equals("cancel")) {
+  if(action.equals("view")) {
+    accountManagement.ordersView();
+  } else if (action.equals("cancel")) {
     accountManagement.cancelOrder();
   }
-  accountManagement.ordersView();
   
 %>
 
@@ -96,7 +97,6 @@
               <% request.setAttribute("order", order); %>
               <% request.setAttribute("admin", false); %>
               <jsp:include page="../../../shared/order/order.jsp" />
-              <div class="divider-horizontal"></div>
             <% } %>
           </div>
         <% } %>

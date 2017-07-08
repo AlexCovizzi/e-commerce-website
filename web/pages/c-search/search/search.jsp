@@ -25,11 +25,8 @@
   
   message = searchManagement.getErrorMessage();
   
-  searchManagement.searchView();
-  if(action.equals("add-to-cart")) {
-    searchManagement.addToCart();
-  } else if(action.equals("add-to-wishlist")) {
-    
+  if(action.equals("view")) {
+    searchManagement.searchView();
   }
 %>
 

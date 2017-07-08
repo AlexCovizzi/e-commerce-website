@@ -27,18 +27,18 @@
       </small>
     </h4>
     
-    <form id='add-to-cart-form' action='../cart/cart.jsp' method="post">
+    <form id='add-to-cart-form-<%=book.getIsbn()%>' action='../cart/cart.jsp' method="post">
       <input type="hidden" name="action" value="add" style="display: none;">
       <input type="hidden" name="isbn" value="<%=book.getIsbn()%>" style="display: none;">
       <input type="hidden" name="title" value="<%=book.getTitle()%>" style="display: none;">
-      <a href="javascript:;" onclick="javascript:document.getElementById('add-to-cart-form').submit()">Aggiungi al carrello</a>
+      <a href="javascript:;" onclick="javascript:document.getElementById('add-to-cart-form-<%=book.getIsbn()%>').submit()">Aggiungi al carrello</a>
     </form>
     
-    <form id='remove-from-wishlist-form' method="post">
+    <form id='remove-from-wishlist-form-<%=book.getIsbn()%>' method="post">
       <input type="hidden" name="action" value="remove" style="display: none;">
       <input type="hidden" name="isbn" value="<%=book.getIsbn()%>" style="display: none;">
       <input type="hidden" name="title" value="<%=book.getTitle()%>" style="display: none;">
-      <a href="javascript:;" onclick="javascript:document.getElementById('remove-from-wishlist-form').submit()">Rimuovi</a>
+      <a href="javascript:;" onclick="javascript:document.getElementById('remove-from-wishlist-form-<%=book.getIsbn()%>').submit()">Rimuovi</a>
     </form>
     
   </div>

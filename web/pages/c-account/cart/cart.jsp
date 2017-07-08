@@ -22,15 +22,15 @@
   if (action == null) action = "view";
   
   message = accountManagement.getErrorMessage();
-  
-  if(action.equals("add")) {
+  if(action.equals("view")) {
+  accountManagement.cartView();
+  } else if(action.equals("add")) {
     accountManagement.addToCart();
   } else if(action.equals("remove")) {
     accountManagement.removeFromCart();
   } else if(action.equals("modify")) {
     accountManagement.modifyQuantity();
   }
-  accountManagement.cartView();
   
 %>
 

@@ -51,20 +51,7 @@ public class AccountManagement extends AbstractManagement implements Serializabl
     Database database = DBService.getDataBase();
     
     try {
-      // Recupero la lista dei libri nel carrello e la loro quantità
-      List<Pair<String, Integer>> booksIsbn;
-      booksIsbn = ShoppingCartService.getBooks(database, Session.getUserId(cookies));
-      
-      // Recupero le info di ogni libro nella lista
-      for(Pair<String, Integer> pair : booksIsbn) {
-        Book book = BookService.getBookFromIsbn(database, pair.getFirst());
-        
-        List<Author> bAuthors = AuthorService.getBookAuthors(database, book.getIsbn());
-        book.setAuthors(bAuthors);
-        
-        cart.addBook(book, pair.getSecond());
-      }
-      
+      cartViewReusable(database);
       database.commit();
     } catch (RecoverableDBException ex) {
 			database.rollBack();
@@ -84,6 +71,7 @@ public class AccountManagement extends AbstractManagement implements Serializabl
     
     try {
       ShoppingCartService.addToCart(database, Session.getUserId(cookies), isbn);
+      cartViewReusable(database);
       database.commit();
     } catch (RecoverableDBException ex) {
 			database.rollBack();
@@ -104,6 +92,7 @@ public class AccountManagement extends AbstractManagement implements Serializabl
     
     try {
       ShoppingCartService.removeFromCart(database, Session.getUserId(cookies), isbn);
+      cartViewReusable(database);
       database.commit();
     } catch (RecoverableDBException ex) {
 			database.rollBack();
@@ -124,6 +113,7 @@ public class AccountManagement extends AbstractManagement implements Serializabl
     
     try {
       ShoppingCartService.modifyBookQuantity(database, Session.getUserId(cookies), isbn, quantity);
+      cartViewReusable(database);
       database.commit();
     } catch (RecoverableDBException ex) {
 			database.rollBack();
@@ -142,20 +132,7 @@ public class AccountManagement extends AbstractManagement implements Serializabl
     Database database = DBService.getDataBase();
     
     try {
-      // Recupero la lista dei libri nel carrello e la loro quantità
-      List<String> booksIsbn;
-      booksIsbn = WishlistService.getBooks(database, Session.getUserId(cookies));
-      
-      // Recupero le info di ogni libro nella lista
-      for(String bookIsbn : booksIsbn) {
-        Book book = BookService.getBookFromIsbn(database, bookIsbn);
-        
-        List<Author> bAuthors = AuthorService.getBookAuthors(database, book.getIsbn());
-        book.setAuthors(bAuthors);
-        
-        wishlist.add(book);
-      }
-      
+      wishlistViewReusable(database);
       database.commit();
     } catch (RecoverableDBException ex) {
 			database.rollBack();
@@ -176,6 +153,7 @@ public class AccountManagement extends AbstractManagement implements Serializabl
     
     try {
       WishlistService.addToWishlist(database, Session.getUserId(cookies), isbn);
+      wishlistViewReusable(database);
       database.commit();
     } catch (RecoverableDBException ex) {
 			database.rollBack();
@@ -196,6 +174,7 @@ public class AccountManagement extends AbstractManagement implements Serializabl
     
     try {
       WishlistService.removeFromWishlist(database, Session.getUserId(cookies), isbn);
+      wishlistViewReusable(database);
       database.commit();
     } catch (RecoverableDBException ex) {
 			database.rollBack();
@@ -214,36 +193,7 @@ public class AccountManagement extends AbstractManagement implements Serializabl
     Database database = DBService.getDataBase();
     
     try {
-      String[] states;
-      if(show.equals("current")) {
-        states = new String[] {"In preparazione", "In spedizione", "In magazzino", "In consegna"};
-      } else if(show.equals("all")) {
-        states = new String[] {"In preparazione", "In spedizione", "In magazzino", "In consegna", "Consegnato", "Cancellato"};
-      } else {
-        states = new String[] {show};
-      }
-      orders = OrderService.getOrders(database, Session.getUserId(cookies), states);
-      for(Order order : orders) {
-        if(order.getCouponCode() != null) {
-          Coupon coupon = CouponService.getCoupon(database, order.getCouponCode());
-          order.setDiscount(coupon.getDiscount());
-        }
-        
-        // Recupero la lista dei libri nell'ordine e la loro quantità
-        List<Pair<String, Integer>> booksIsbn;
-        booksIsbn = OrderService.getOrderBooks(database, order.getId());
-
-        // Recupero le info di ogni libro nella lista
-        for(Pair<String, Integer> pair : booksIsbn) {
-          Book book = BookService.getBookFromIsbn(database, pair.getFirst());
-
-          List<Author> bAuthors = AuthorService.getBookAuthors(database, book.getIsbn());
-          book.setAuthors(bAuthors);
-
-          order.addBook(book, pair.getSecond());
-        }
-      }
-      
+      ordersViewReusable(database);
       database.commit();
     } catch (RecoverableDBException ex) {
 			database.rollBack();
@@ -261,27 +211,101 @@ public class AccountManagement extends AbstractManagement implements Serializabl
    * @return Se l'operazione ha successo
    * @throws services.database.exception.UnrecoverableDBException
    */
-	public boolean cancelOrder() throws UnrecoverableDBException {
+	public void cancelOrder() throws UnrecoverableDBException {
 		Database database = DBService.getDataBase();
     
     try {
-      Order order = OrderService.getOrder(database, orderId);
-      if(order == null) return false;
-      if(order.getState().equals("In preparazione")) {
-        OrderService.changeState(database, orderId, "Cancellato");
-        database.commit();
-      } else {
-        return false;
-      }
+      OrderService.changeState(database, orderId, "Cancellato");
+      ordersViewReusable(database);
+      database.commit();
     } catch (RecoverableDBException ex) {
 			database.rollBack();
 			setErrorMessage(ex.getMsg());
 		} finally {
       database.close();
     }
-    
-    return true;
 	}
+  
+  
+  /**
+   * Recupera la lista dei libri nel carrello con la loro quantità
+   * e li mette in <b>ShoppingCart</b>
+   * è il metodo base per visualizzare il carrello dell'utente
+   * 
+   * @param database
+   * @throws RecoverableDBException 
+   */
+  private void cartViewReusable(Database database) throws RecoverableDBException {
+    // Recupero la lista dei libri nel carrello e la loro quantità
+    List<Pair<String, Integer>> booksIsbn;
+    booksIsbn = ShoppingCartService.getBooks(database, Session.getUserId(cookies));
+
+    // Recupero le info di ogni libro nella lista
+    for(Pair<String, Integer> pair : booksIsbn) {
+      Book book = BookService.getBookFromIsbn(database, pair.getFirst());
+
+      List<Author> bAuthors = AuthorService.getBookAuthors(database, book.getIsbn());
+      book.setAuthors(bAuthors);
+
+      cart.addBook(book, pair.getSecond());
+    }
+  }
+  
+  /**
+   * Recupera i libri nella wishlist dell'utente
+   * @throws services.database.exception.UnrecoverableDBException
+   */
+  private void wishlistViewReusable(Database database) throws RecoverableDBException {
+    // Recupero la lista dei libri nel carrello e la loro quantità
+    List<String> booksIsbn;
+    booksIsbn = WishlistService.getBooks(database, Session.getUserId(cookies));
+
+    // Recupero le info di ogni libro nella lista
+    for(String bookIsbn : booksIsbn) {
+      Book book = BookService.getBookFromIsbn(database, bookIsbn);
+
+      List<Author> bAuthors = AuthorService.getBookAuthors(database, book.getIsbn());
+      book.setAuthors(bAuthors);
+
+      wishlist.add(book);
+    }
+  }
+  
+  /**
+   * Recupera gli ordini effettuati dell'utente (in corso e passati)
+   * @throws services.database.exception.UnrecoverableDBException
+   */
+  private void ordersViewReusable(Database database) throws RecoverableDBException {
+    String[] states;
+    if(show.equals("current")) {
+      states = new String[] {"In preparazione", "In spedizione", "In magazzino", "In consegna"};
+    } else if(show.equals("all")) {
+      states = new String[] {"In preparazione", "In spedizione", "In magazzino", "In consegna", "Consegnato", "Cancellato"};
+    } else {
+      states = new String[] {show};
+    }
+    orders = OrderService.getOrders(database, Session.getUserId(cookies), states);
+    for(Order order : orders) {
+      if(order.getCouponCode() != null) {
+        Coupon coupon = CouponService.getCoupon(database, order.getCouponCode());
+        order.setDiscount(coupon.getDiscount());
+      }
+
+      // Recupero la lista dei libri nell'ordine e la loro quantità
+      List<Pair<String, Integer>> booksIsbn;
+      booksIsbn = OrderService.getOrderBooks(database, order.getId());
+
+      // Recupero le info di ogni libro nella lista
+      for(Pair<String, Integer> pair : booksIsbn) {
+        Book book = BookService.getBookFromIsbn(database, pair.getFirst());
+
+        List<Author> bAuthors = AuthorService.getBookAuthors(database, book.getIsbn());
+        book.setAuthors(bAuthors);
+
+        order.addBook(book, pair.getSecond());
+      }
+    }
+  }
   
   /* Setters */
   public void setCookies(Cookie[] cookies) {

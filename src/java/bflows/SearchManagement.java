@@ -220,30 +220,6 @@ public class SearchManagement extends AbstractManagement {
     }
   }
 	
-	/* search.jsp/book-page.jsp : add-to-cart */
-  /**
-   * Aggiunge il libro specificato dal parametro isbn nel carrello
-   * @throws services.database.exception.UnrecoverableDBException
-   */
-	public void addToCart() throws UnrecoverableDBException {
-		Database database = DBService.getDataBase();
-    
-    try {
-      ShoppingCartService.addToCart(database, Session.getUserId(cookies), isbn);
-      database.commit();
-    } catch (RecoverableDBException ex) {
-			database.rollBack();
-			setErrorMessage(ex.getMsg());
-		} finally {
-      database.close();
-    }
-	}
-	
-	/* search.jsp/book-page.jsp : add-to-wishlist */
-	public void addToWishlist() {
-		
-	}
-	
 	/* b-page.jsp : vote */
 	public void vote() {
 		

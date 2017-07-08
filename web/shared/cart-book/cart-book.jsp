@@ -33,11 +33,11 @@
       <h5 style="color: red">Prodotto non disponibile</h5>
     <% } %>
     
-    <form id='remove-from-cart-form' method="post">
+    <form id='remove-from-cart-form-<%=book.getIsbn()%>' method="post">
       <input type="hidden" name="action" value="remove" style="display: none;">
       <input type="hidden" name="isbn" value="<%=book.getIsbn()%>" style="display: none;">
       <input type="hidden" name="title" value="<%=book.getTitle()%>" style="display: none;">
-      <a href="javascript:;" onclick="javascript:document.getElementById('remove-from-cart-form').submit()">Rimuovi</a>
+      <a href="javascript:;" onclick="javascript:document.getElementById('remove-from-cart-form-<%=book.getIsbn()%>').submit()">Rimuovi</a>
     </form>
     
   </div>

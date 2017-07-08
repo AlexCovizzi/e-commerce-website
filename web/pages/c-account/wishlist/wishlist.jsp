@@ -23,12 +23,13 @@
   
   message = accountManagement.getErrorMessage();
   
-  if(action.equals("add")) {
+  if(action.equals("view")) {
+    accountManagement.wishlistView();
+  } else if(action.equals("add")) {
     accountManagement.addToWishlist();
   } else if(action.equals("remove")) {
     accountManagement.removeFromWishlist();
   }
-  accountManagement.wishlistView();
   
 %>
 
