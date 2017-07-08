@@ -16,6 +16,10 @@
  - Visualizzare anche il prezzo totale nel riepilogo ----- FATTOOOOOOOOOOO
  - Come fare in modo di far calcolare per bene il coupon? ----- FATTOOOOOOOOOOO
 
+DOCUMENTAZIONE
+Finire di rivedere i casi d'uso (aggiungere il flusso di Gestione amministratori e togliere quello degli indirizzi)
+e le specifiche (sono arrivato alla Gestione utenti)
+
 PAGINE IN CUI VI SONO DUE TRANSAZIONI
 single-order - Sistemata
 orders
