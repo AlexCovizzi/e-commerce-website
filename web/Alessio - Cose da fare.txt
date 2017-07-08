@@ -15,3 +15,10 @@
  - Finire i metodi del bean del purchase ----- FATTOOOOOOOOOOO
  - Visualizzare anche il prezzo totale nel riepilogo ----- FATTOOOOOOOOOOO
  - Come fare in modo di far calcolare per bene il coupon? ----- FATTOOOOOOOOOOO
+
+PAGINE IN CUI VI SONO DUE TRANSAZIONI
+single-order - Sistemata
+orders
+cart
+wishlist
+search

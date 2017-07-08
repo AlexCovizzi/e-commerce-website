@@ -101,7 +101,11 @@
       
         <div class="img-wrapper col-xs-3 col-sm-2" style="min-width: 60px; max-width: 100px;">
           <a href="../book-page/book-page.jsp?isbn=<%=order.getBook(i).getIsbn()%>">
+            <% if(order.getBook(i).getCover().equals("-")) { %>
             <img src="http://thebooksblender.altervista.org/wp-content/uploads/2015/08/copertina-non-disponibile.jpg" class="img-thumbnail">
+            <% } else { %>
+            <img src="<%= order.getBook(i).getCover() %>" class="img-thumbnail">
+            <% } %>
           </a>
         </div>
 
@@ -153,7 +157,7 @@
     Costo spedizione: <span class="pull-right">&euro; <%=Conversion.getPriceAsString(order.getShippingCost())%></span></br>
     Sconto coupon: <span class="pull-right">
       <% if(order.getCouponCode() != null) { %>
-        -<%=order.getDiscount()%>%
+        -<%= order.getDiscount() %>%
       <% } else { %>
         -
       <% } %>

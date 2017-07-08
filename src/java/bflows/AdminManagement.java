@@ -238,38 +238,6 @@ public class AdminManagement extends AbstractManagement implements Serializable 
     }
   }
   
-  /* admin-orders.jsp -> single-order.jsp : view */
-  public void visualizzaOrdineSingolo() throws UnrecoverableDBException {
-    Database database = DBService.getDataBase();
-    
-    try {
-      order = OrderService.getOrder(database, orderId);
-      if(order != null) {
-        // Recupero la lista dei libri nell'ordine e la loro quantità
-        List<Pair<String, Integer>> booksIsbn;
-        booksIsbn = OrderService.getOrderBooks(database, order.getId());
-
-        // Recupero le info di ogni libro nella lista
-        for(Pair<String, Integer> pair : booksIsbn) {
-          Book book = BookService.getBookFromIsbn(database, pair.getFirst());
-
-          List<Author> bAuthors = AuthorService.getBookAuthors(database, book.getIsbn());
-          book.setAuthors(bAuthors);
-
-          order.addBook(book, pair.getSecond());
-        }
-      }
-      
-      /* FINITO! */
-      database.commit();
-    } catch (RecoverableDBException ex) {
-      database.rollBack();
-      setErrorMessage(ex.getMsg());
-		} finally {
-      database.close();
-    }
-  }
-  
   /* FATTO */
 	/* admin-orders.jsp -> admin-orders.jsp : change */
 	public void cambiaStatoOrdine() throws UnrecoverableDBException {
@@ -292,6 +260,51 @@ public class AdminManagement extends AbstractManagement implements Serializable 
     }
 	}
 	
+  
+  
+  /* FATTO */
+  /* admin-orders.jsp -> single-order.jsp : view */
+  public void visualizzaOrdineSingolo() throws UnrecoverableDBException {
+    Database database = DBService.getDataBase();
+    
+    try {
+      this.recuperaOrdineSingolo(database);
+      
+      /* FINITO! */
+      database.commit();
+    } catch (RecoverableDBException ex) {
+      database.rollBack();
+      setErrorMessage(ex.getMsg());
+		} finally {
+      database.close();
+    }
+  }
+  
+  /* FATTO */
+  /* single-order.jsp -> single-order.jsp : change */
+  public void cambiaStatoOrdineSingolo() throws UnrecoverableDBException {
+		Database database = DBService.getDataBase();
+    
+    try {
+      /* Cambio lo stato dell'ordine passato */
+      System.out.println("Cambio lo stato dell'ordine...");
+      OrderService.changeState(database, orderId, orderState);
+      
+      /* Recupero gli ordini dal DB */
+      System.out.println("Recupero l'ordine...");
+      this.recuperaOrdineSingolo(database);
+      
+      System.out.println("Finito!");
+      /* FINITO! */
+      database.commit();
+    } catch (RecoverableDBException ex) {
+      database.rollBack();
+      setErrorMessage(ex.getMsg());
+		} finally {
+      database.close();
+    }
+	}
+  
   
   
   /* FATTO */
@@ -733,6 +746,30 @@ Database database = DBService.getDataBase();
     }
   }
   
+  public void recuperaOrdineSingolo(Database database) throws RecoverableDBException {
+    order = OrderService.getOrder(database, orderId);
+    
+    if(order != null) {
+      // Recupero la lista dei libri nell'ordine e la loro quantità
+      List<Pair<String, Integer>> booksIsbn;
+      booksIsbn = OrderService.getOrderBooks(database, order.getId());
+
+      if(order.getCouponCode() != null) {
+        Coupon coupon = CouponService.getCoupon(database, order.getCouponCode());
+        order.setDiscount(coupon.getDiscount());
+      }
+
+      // Recupero le info di ogni libro nella lista
+      for(Pair<String, Integer> pair : booksIsbn) {
+        Book book = BookService.getBookFromIsbn(database, pair.getFirst());
+
+        List<Author> bAuthors = AuthorService.getBookAuthors(database, book.getIsbn());
+        book.setAuthors(bAuthors);
+
+        order.addBook(book, pair.getSecond());
+      }
+    }
+  }
   
   
   /* Getters */

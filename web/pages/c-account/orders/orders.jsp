@@ -96,6 +96,7 @@
               <% request.setAttribute("order", order); %>
               <% request.setAttribute("admin", false); %>
               <jsp:include page="../../../shared/order/order.jsp" />
+              <div class="divider-horizontal"></div>
             <% } %>
           </div>
         <% } %>

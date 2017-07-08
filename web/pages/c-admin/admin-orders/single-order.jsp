@@ -21,16 +21,19 @@
   
   message = adminManagement.getErrorMessage();
   
-  if (action.equals("change")) {
-    adminManagement.cambiaStatoOrdine();
+  if(action.equals("view")) {
+    adminManagement.visualizzaOrdineSingolo();
   }
-  adminManagement.visualizzaOrdineSingolo();
+  if (action.equals("change")) {
+    adminManagement.cambiaStatoOrdineSingolo();
+  }
+  
   
 %>
 
 <html>
   <head>
-    <title>Ordine singolo</title>
+    <title>Ordine numero <%= adminManagement.getOrderId() %></title>
 
     <!-- comprende css e script del framework, header e footer -->
     <%@ include file="../../../shared/head-common.html" %>
