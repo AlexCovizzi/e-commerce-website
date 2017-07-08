@@ -6,6 +6,7 @@
 <%@page import="blogics.Book"%>
 <%
   Order order = (Order) request.getAttribute("order");
+  boolean admin = (Boolean) request.getAttribute("admin");
 %>
 
 <div class='row order-container'>
@@ -20,19 +21,77 @@
         <h5 class="subsection-title">Stato ordine</h5>
         <%=order.getState()%>
       </div>
-      <% if(order.getState().equals("In preparazione")) { %>
-        <div id="order-state" class="col-xs-4">
-          </br>
-          <form method="post">
-            <input type="hidden" name="action" value="cancel" style="display: none;">
-            <input type="hidden" name="orderId" value="<%=order.getId()%>" style="display: none;">
-            <button type="submit" title="Annulla ordine" class="btn btn-danger" style="margin-top: 1px; margin-bottom: 1px;">
-              <i class="glyphicon glyphicon-remove"></i>
-              <span class="hidden-xs hidden-sm hidden-md">Annulla ordine</span>
-            </button>
-          </form>
+      
+      <% if(admin) { %>
+        <form name="cambiaStatoForm" action="single-order.jsp?orderId=<%=order.getId()%>" method="post">
+          <input type="hidden" name="action" value="change">
+          <input type="hidden" name="orderState">
+        </form>
+        
+        <div class="col-xs-4 input-group">
+          <select id="orderStateList<%= order.getId() %>" name="orderStateList<%= order.getId() %>" class="form-control"
+            <% if(order.getState().equals("Consegnato") || order.getState().equals("Cancellato")) { %>
+              disabled
+            <% } %>>
+            <option
+              <% if(order.getState().equals("In preparazione")) { %>
+                selected="selected"
+              <% } %>
+              >In preparazione</option>
+            <option
+              <% if(order.getState().equals("In spedizione")) { %>
+                selected="selected"
+              <% } %>
+              >In spedizione</option>
+            <option
+              <% if(order.getState().equals("In magazzino")) { %>
+                selected="selected"
+              <% } %>
+              >In magazzino</option>
+            <option
+              <% if(order.getState().equals("In consegna")) { %>
+                selected="selected"
+              <% } %>
+              >In consegna</option>
+            <option
+              <% if(order.getState().equals("Consegnato")) { %>
+                selected="selected"
+              <% } %>
+              >Consegnato</option>
+            <option
+              <% if(order.getState().equals("Cancellato")) { %>
+                selected="selected"
+              <% } %>
+              >Cancellato</option>
+          </select>
+
+              <button class="btn btn-default"
+                onclick="submitCambiaStatoForm(<%= order.getId() %>)"
+                <% if(order.getState().equals("Consegnato") || order.getState().equals("Cancellato")) { %>
+                  disabled
+                <% } %>
+              >Cambia stato</button>
         </div>
+      
+      <% } else { %>
+      
+        <% if(order.getState().equals("In preparazione")) { %>
+          <div id="order-state" class="col-xs-4">
+            </br>
+
+            <form method="post">
+              <input type="hidden" name="action" value="cancel" style="display: none;">
+              <input type="hidden" name="orderId" value="<%=order.getId()%>" style="display: none;">
+              <button type="submit" title="Annulla ordine" class="btn btn-danger" style="margin-top: 1px; margin-bottom: 1px;">
+                <i class="glyphicon glyphicon-remove"></i>
+                <span class="hidden-xs hidden-sm hidden-md">Annulla ordine</span>
+              </button>
+            </form>
+              
+          </div>
+        <% } %>
       <% } %>
+      
     </div>
     
     <div class="divider-horizontal"></div>
@@ -62,14 +121,16 @@
           </br>
 
           &euro; <%=Conversion.getPriceAsString(order.getBook(i).getPrice())%></br></br>
-
-          <form action="../cart/cart.jsp" method="post">
-            <input type="hidden" name="action" value="add">
-            <input type="hidden" name="isbn" value="<%=order.getBook(i).getIsbn()%>">
-            <button class="btn btn-default" type="submit">
-              Acquista di nuovo
-            </button>
-          </form>
+           
+          <% if(!admin) { %>
+            <form action="../cart/cart.jsp" method="post">
+              <input type="hidden" name="action" value="add">
+              <input type="hidden" name="isbn" value="<%=order.getBook(i).getIsbn()%>">
+              <button class="btn btn-default" type="submit">
+                Acquista di nuovo
+              </button>
+            </form>
+          <% } %>
         </div>
       
       

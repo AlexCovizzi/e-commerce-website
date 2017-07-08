@@ -78,7 +78,7 @@
         <% for(int j = 0; j < adminManagement.getOrders().size(); j++) { %>
         <tr>
           <td>
-            <a href="javascript: submitVediOrdineForm(<%= adminManagement.getOrders().get(j).getId() %>)">
+            <a href="single-order.jsp?orderId=<%= adminManagement.getOrders().get(j).getId() %>">
               <%= adminManagement.getOrders().get(j).getId() %>
             </a>
           </td>

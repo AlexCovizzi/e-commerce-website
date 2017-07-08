@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 import services.database.*;
 import services.database.exception.*;
+import util.Pair;
 
 public class AdminManagement extends AbstractManagement implements Serializable {
 	
@@ -47,6 +48,7 @@ public class AdminManagement extends AbstractManagement implements Serializable 
   
   /* Servono per gli ordini */
   private List<Order> orders;
+  private Order order;
   private int orderId;
   private int orderUser = -1;
   private String orderState;
@@ -225,6 +227,38 @@ public class AdminManagement extends AbstractManagement implements Serializable 
     try {
       /* Recupero gli ordini dal DB */
       this.recuperaOrders(database);
+      
+      /* FINITO! */
+      database.commit();
+    } catch (RecoverableDBException ex) {
+      database.rollBack();
+      setErrorMessage(ex.getMsg());
+		} finally {
+      database.close();
+    }
+  }
+  
+  /* admin-orders.jsp -> single-order.jsp : view */
+  public void visualizzaOrdineSingolo() throws UnrecoverableDBException {
+    Database database = DBService.getDataBase();
+    
+    try {
+      order = OrderService.getOrder(database, orderId);
+      if(order != null) {
+        // Recupero la lista dei libri nell'ordine e la loro quantità
+        List<Pair<String, Integer>> booksIsbn;
+        booksIsbn = OrderService.getOrderBooks(database, order.getId());
+
+        // Recupero le info di ogni libro nella lista
+        for(Pair<String, Integer> pair : booksIsbn) {
+          Book book = BookService.getBookFromIsbn(database, pair.getFirst());
+
+          List<Author> bAuthors = AuthorService.getBookAuthors(database, book.getIsbn());
+          book.setAuthors(bAuthors);
+
+          order.addBook(book, pair.getSecond());
+        }
+      }
       
       /* FINITO! */
       database.commit();
@@ -784,6 +818,10 @@ Database database = DBService.getDataBase();
   
   public List<Order> getOrders() {
     return orders;
+  }
+  
+  public Order getOrder() {
+    return order;
   }
   
   public int getOrderId() {

@@ -94,6 +94,7 @@
           <div class="col-sm-12">
             <% for(Order order : accountManagement.getOrders()) { %>
               <% request.setAttribute("order", order); %>
+              <% request.setAttribute("admin", false); %>
               <jsp:include page="../../../shared/order/order.jsp" />
             <% } %>
           </div>
