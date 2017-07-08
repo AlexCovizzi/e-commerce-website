@@ -18,6 +18,24 @@ import java.util.*;
 
 public class Conversion {
   
+  /**
+   * Trasforma un float in una stringa con due soli decimali dopo la virgola
+   * @param price Il prezzo da convertire in stringa
+   * @return Il prezzo convertito in stringa
+   */
+  public static String getPriceAsString(float price) {
+    String s = ""+price;
+    String[] tokens = s.split("\\.");
+    String firstPart = tokens[0];
+    String secondPart = ""+tokens[1].charAt(0);
+    if(tokens[1].length() < 2) {
+      secondPart+="0";
+    } else {
+      secondPart += ""+tokens[1].charAt(1);
+    }
+    return firstPart+","+secondPart;
+  }
+  
   /** From ' to '' for Oracle queries
    * @param inputString The String to convert
    * @return The converted String

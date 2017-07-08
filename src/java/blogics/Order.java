@@ -8,12 +8,17 @@ package blogics;
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import util.Pair;
 
 /**
  *
  * @author alemo
  */
 public class Order {
+  
+  private List<Pair<Book, Integer>> books = new ArrayList<>();
   
   private int id;
   private int userId;
@@ -64,6 +69,7 @@ public class Order {
     try {shippingCost = resultSet.getFloat("SHIPPING_COST");} catch (SQLException sqle) {}
     try {state = resultSet.getString("STATE");} catch (SQLException sqle) {}
     try {couponCode = resultSet.getString("COUPON_CODE");} catch (SQLException sqle) {}
+    try {discount = resultSet.getInt("COUPON_DISCOUNT");} catch (SQLException sqle) {}
     try {receiver = resultSet.getString("RECEIVER_NAME");} catch (SQLException sqle) {}
     try {add1 = resultSet.getString("ADD1");} catch (SQLException sqle) {}
     try {add2 = resultSet.getString("ADD2");} catch (SQLException sqle) {}
@@ -74,6 +80,18 @@ public class Order {
   }
   
   /* Getters */
+  public Book getBook(int i) {
+    return books.get(i).getFirst();
+  }
+  
+  public int getQuantity(int i) {
+    return books.get(i).getSecond();
+  }
+  
+  public int size() {
+    return books.size();
+  }
+  
   public int getId() {
     return id;
   }
@@ -143,10 +161,18 @@ public class Order {
   }
   
   public float getFullTotal() {
-    return (totPrice+shippingCost)*(float)(discount/100);
+    return (totPrice+shippingCost)-(totPrice+shippingCost)*(float)(discount/100);
   }
   
   /* Setters */
+  public void addBooks(List<Pair<Book, Integer>> books) {
+    this.books = books;
+  }
+  
+  public void addBook(Book book, int quantity) {
+    books.add(new Pair(book, quantity));
+  }
+  
   public void setId(int id) {
     this.id = id;
   }

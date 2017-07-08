@@ -24,9 +24,10 @@
   
   message = accountManagement.getErrorMessage();
   
-  if(action.equals("view")) {
-    accountManagement.ordersView();
+  if (action.equals("cancel")) {
+    accountManagement.cancelOrder();
   }
+  accountManagement.ordersView();
   
 %>
 
@@ -60,15 +61,37 @@
 
     <!-- content-area -->
     <div class="container content-area">
-      <h4>I miei ordini</h4>
+      
+      <% if(action.equals("cancel")) { %>
+        L'ordine è stato cancellato!
+      <% } %>
+      
+      <div class="col-xs-10">
+        <h4>I miei ordini</h4>
+      </div>
+      <div class="col-xs-2">
+        <form method="get">
+          <% if(accountManagement.getShow().equals("all")) { %>
+            <input type="hidden" name="show" value="current">
+            <button class="btn btn-block" type="submit">
+              Mostra in corso
+            </button>
+          <% } else { %>
+            <input type="hidden" name="show" value="all">
+            <button class="btn btn-block" type="submit">
+              Mostra tutti
+            </button>
+          <% } %>
+        </form>
+      </div>
 
-      <div class="divider-horizontal"></div>
+      <div class="col-xs-12 divider-horizontal"></div>
 
       <div style="margin-top: 16px;">
         <% if(accountManagement.getOrders().isEmpty()) { %>
-          <div class="col-sm-9">Non hai ancora effettuato nessun ordine</div>
+          <div class="col-sm-12">Non hai ancora effettuato nessun ordine</div>
         <% } else { %>
-          <div class="col-sm-9">
+          <div class="col-sm-12">
             <% for(Order order : accountManagement.getOrders()) { %>
               <% request.setAttribute("order", order); %>
               <jsp:include page="../../../shared/order/order.jsp" />

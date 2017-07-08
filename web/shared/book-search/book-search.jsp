@@ -1,3 +1,4 @@
+<%@page import="util.Conversion"%>
 <%@page import="services.session.Session"%>
 <%@page import="blogics.Author"%>
 <%@page import="blogics.Genre"%>
@@ -58,7 +59,7 @@ function setAction(form) {
     <div class="col-xs-12 col-sm-4">
 
       <div class="col-xs-6 col-sm-12">
-        <h4 style="color: #46b8da;"><b>&euro;<%=book.getPrice()%></b></h4>
+        <h4 style="color: #46b8da;"><b>&euro;<%=Conversion.getPriceAsString(book.getPrice())%></b></h4>
 
         <% if(book.getStock() > 0) { %>
           <h6 class="disponibilita-immediata">Disponibile</h6>

@@ -61,23 +61,6 @@ public class ShoppingCart {
     return total;
   }
   
-  /**
-   * !! Attenzione: se devi mettere un prezzo in una pagina html usa questo!
-   * @return 
-   */
-  public String getTotalAsString() {
-    String s = ""+total;
-    String[] tokens = s.split("\\.");
-    String firstPart = tokens[0];
-    String secondPart = ""+tokens[1].charAt(0);
-    if(tokens[1].length() < 2) {
-      secondPart+="0";
-    } else {
-      secondPart += ""+tokens[1].charAt(1);
-    }
-    return firstPart+"."+secondPart;
-  }
-  
   public int getN() {
     return n;
   }

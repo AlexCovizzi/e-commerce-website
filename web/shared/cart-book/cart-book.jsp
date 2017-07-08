@@ -1,3 +1,4 @@
+<%@page import="util.Conversion"%>
 <%@page import="services.session.Session"%>
 <%@page import="blogics.Author"%>
 <%@page import="blogics.Genre"%>
@@ -43,7 +44,7 @@
   
   <!-- prezzo singolo libro -->
   <div class="col-xs-3 col-sm-2">
-    <h4 style="color: #46b8da;"><b>&euro; <%=book.getPrice()%></b></h4>
+    <h4 style="color: #46b8da;"><b>&euro; <%=Conversion.getPriceAsString(book.getPrice())%></b></h4>
     
     <form method="post">
       <input type="hidden" name="action" value="modify" style="display: none;">

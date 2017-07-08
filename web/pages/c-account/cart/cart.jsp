@@ -1,3 +1,4 @@
+<%@page import="util.Conversion"%>
 <%@page import="bflows.AccountManagement"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page info="Shopping cart Page" %>
@@ -97,7 +98,7 @@
 
           <div class="col-sm-3">
             <h4>Totale provvisorio (libri: <%=accountManagement.getShoppingCart().getN()%>)</h4>
-            <h4 style="color: #46b8da;"><b>&euro; <%=accountManagement.getShoppingCart().getTotalAsString()%></b></h4>
+            <h4 style="color: #46b8da;"><b>&euro; <%=Conversion.getPriceAsString(accountManagement.getShoppingCart().getTotal())%></b></h4>
             <button class="btn btn-default block" onclick="submitCreaOrdineForm()">
               Procedi all'acquisto
             </button>

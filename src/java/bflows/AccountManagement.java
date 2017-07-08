@@ -34,6 +34,7 @@ public class AccountManagement extends AbstractManagement implements Serializabl
   private String isbn; // Specifica il libro da inserire/rimuovere/modificare
   private String title; // Specifica il titolo del libro da inserire/rimuovere/modificare
   private int quantity;
+  private String show = "current";
   
   private ShoppingCart cart = new ShoppingCart();
   private List<Book> wishlist = new ArrayList<>();
@@ -213,11 +214,33 @@ public class AccountManagement extends AbstractManagement implements Serializabl
     Database database = DBService.getDataBase();
     
     try {
-      orders = OrderService.getCurrentOrders(database, Session.getUserId(cookies));
+      String[] states;
+      if(show.equals("current")) {
+        states = new String[] {"In preparazione", "In spedizione", "In magazzino", "In consegna"};
+      } else if(show.equals("all")) {
+        states = new String[] {"In preparazione", "In spedizione", "In magazzino", "In consegna", "Consegnato", "Cancellato"};
+      } else {
+        states = new String[] {show};
+      }
+      orders = OrderService.getOrders(database, Session.getUserId(cookies), states);
       for(Order order : orders) {
         if(order.getCouponCode() != null) {
           Coupon coupon = CouponService.getCoupon(database, order.getCouponCode());
           order.setDiscount(coupon.getDiscount());
+        }
+        
+        // Recupero la lista dei libri nell'ordine e la loro quantità
+        List<Pair<String, Integer>> booksIsbn;
+        booksIsbn = OrderService.getOrderBooks(database, order.getId());
+
+        // Recupero le info di ogni libro nella lista
+        for(Pair<String, Integer> pair : booksIsbn) {
+          Book book = BookService.getBookFromIsbn(database, pair.getFirst());
+
+          List<Author> bAuthors = AuthorService.getBookAuthors(database, book.getIsbn());
+          book.setAuthors(bAuthors);
+
+          order.addBook(book, pair.getSecond());
         }
       }
       
@@ -231,8 +254,33 @@ public class AccountManagement extends AbstractManagement implements Serializabl
   }
 	
 	/* order-details.jsp/orders.jsp : cancel */
-	public void cancelOrder() {
-		
+  /**
+   * Cancella l'ordine specificato (l'ordine viene messo in stato "cancellato"
+   * Attenzione: un ordine puo essere cancellato solo se è in stato "In preparazione"
+   * 
+   * @return Se l'operazione ha successo
+   * @throws services.database.exception.UnrecoverableDBException
+   */
+	public boolean cancelOrder() throws UnrecoverableDBException {
+		Database database = DBService.getDataBase();
+    
+    try {
+      Order order = OrderService.getOrder(database, orderId);
+      if(order == null) return false;
+      if(order.getState().equals("In preparazione")) {
+        OrderService.changeState(database, orderId, "Cancellato");
+        database.commit();
+      } else {
+        return false;
+      }
+    } catch (RecoverableDBException ex) {
+			database.rollBack();
+			setErrorMessage(ex.getMsg());
+		} finally {
+      database.close();
+    }
+    
+    return true;
 	}
   
   /* Setters */
@@ -240,7 +288,7 @@ public class AccountManagement extends AbstractManagement implements Serializabl
     this.cookies = cookies;
   }
   
-  public void setOrderCode(int orderId) {
+  public void setOrderId(int orderId) {
     this.orderId = orderId;
   }
   
@@ -255,6 +303,10 @@ public class AccountManagement extends AbstractManagement implements Serializabl
   
   public void setQuantity(int quantity) {
     this.quantity = quantity;
+  }
+  
+  public void setShow(String show) {
+    this.show = show;
   }
   
   /* Getters */
@@ -288,5 +340,9 @@ public class AccountManagement extends AbstractManagement implements Serializabl
   
   public int getQuantity() {
     return quantity;
+  }
+  
+  public String getShow() {
+    return show;
   }
 }

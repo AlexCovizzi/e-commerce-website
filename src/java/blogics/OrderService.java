@@ -13,6 +13,7 @@ import services.database.Database;
 import services.database.exception.RecoverableDBException;
 import util.Conversion;
 import util.Logger;
+import util.Pair;
 import util.SqlBuilder;
 
 /**
@@ -93,7 +94,7 @@ public class OrderService {
    * ordinati per data
    * @throws RecoverableDBException 
    */
-  public static List<Order> getCurrentOrders(Database database, int orderUser)
+  public static List<Order> getOrders(Database database, int orderUser, String...states)
       throws RecoverableDBException {
     String sql = "";
     SqlBuilder sqlBuilder = new SqlBuilder();
@@ -104,9 +105,16 @@ public class OrderService {
 				.from("OrderView");
     
     if(orderUser >= 0)
-      sqlBuilder
-              .where("user_id = " + orderUser)
-              .and("(state = 'In preparazione' OR state='In spedizione' OR state='In magazzino' OR state='In consegna')")
+      sqlBuilder.where("user_id = " + orderUser);
+    
+    String stateCondition = "(";
+    for(int i=0; i<states.length; i++) {
+      if(i > 0) stateCondition += " OR ";
+      stateCondition += "state = '"+states[i]+"'";
+    }
+    stateCondition += ")";
+    
+    sqlBuilder.and(stateCondition)
               .orderBy("created DESC");
     
     sql = sqlBuilder.done();
@@ -126,6 +134,70 @@ public class OrderService {
 		}
 
 		return orders;
+  }
+  
+  /**
+   * Restituisce l'ordine specificato da orderId
+   * @throws RecoverableDBException 
+   */
+  public static Order getOrder(Database database, int orderId)
+      throws RecoverableDBException {
+    SqlBuilder sqlBuilder = new SqlBuilder();
+    Order order = null;
+    
+    String sql = sqlBuilder
+            .select("*")
+            .from("OrderView")
+            .where("id = "+orderId)
+            .done();
+    
+    ResultSet resultSet = database.select(sql);
+    
+    try {
+			if(resultSet.next()) {
+				order = new Order(resultSet);
+			}
+		} catch (SQLException ex) {
+			throw new RecoverableDBException(ex, "OrderService", "getOrder", "Errore nel ResultSet");
+		} finally {
+			try { resultSet.close(); }
+			catch (SQLException ex) { Logger.error("OrderService", "getOrders", ex.getMessage());}
+		}
+
+		return order;
+  }
+  
+  /**
+   * Restituisce l'ISBN dei libri e le loro quantità nell'ordine specificato da orderId
+   * @throws RecoverableDBException 
+   */
+  public static List<Pair<String, Integer>> getOrderBooks(Database database, int orderId)
+      throws RecoverableDBException {
+    List<Pair<String, Integer>> books = new ArrayList<>();
+    SqlBuilder sqlBuilder = new SqlBuilder();
+    
+    String sql = sqlBuilder
+            .select("*")
+            .from("Order_has_Book")
+            .where("order_id = "+orderId)
+            .done();
+    
+    ResultSet resultSet = database.select(sql);
+    
+    try {
+			while(resultSet.next()) {
+        String isbn = resultSet.getString("book_isbn");
+        int quantity = resultSet.getInt("quantity");
+        books.add(new Pair(isbn, quantity));
+			}
+		} catch (SQLException ex) {
+			throw new RecoverableDBException(ex, "OrderService", "getOrderBooks", "Errore nel ResultSet");
+		} finally {
+			try { resultSet.close(); }
+			catch (SQLException ex) { Logger.error("OrderService", "getOrdersBooks", ex.getMessage());}
+		}
+
+		return books;
   }
   
   public static void changeState(Database database, int id, String state)
