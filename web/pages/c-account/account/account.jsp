@@ -64,21 +64,22 @@
 
       <div class="divider-horizontal"></div>
 
-      <h4 class="account-page-link"><a  href="../orders/orders.jsp">I miei Ordini</a><br>
-        <small>Spediti: 2 su 4</small>
+      <h4 class="account-page-link"><a href="../orders/orders.jsp">I miei Ordini</a><br>
+        <!--<small>Spediti: 2 su 4</small>-->
       </h4>
       
-      <h4 class="account-page-link"><a href="#">Il mio Carrello</a></br>
-        <small>Libri: 3, Totale: 45&euro;</small>
+      <h4 class="account-page-link"><a href="../cart/cart.jsp">Il mio Carrello</a></br>
+        <!--<small>Libri: 3, Totale: 45&euro;</small>-->
       </h4>
       
-      <h4 class="account-page-link"><a href="#">La mia Lista Desideri</a></h4>
+      <h4 class="account-page-link"><a href="../wishlist/wishlist.jsp">La mia Lista Desideri</a></h4>
       
+      <!--
       <h4 class="account-page-link"><a href="../address/address.jsp">Il mio Indirizzo</a></br>
         <small>Indirizzo dell'utente</small>
       </h4>
-      
       <h4 class="account-page-link"><a href="#">Cambia Password</a></h4>
+      -->
       
       <h4 class="account-page-link">
         <a href="javascript:;" onclick="javascript:document.getElementById('logout').submit()">Logout</a>

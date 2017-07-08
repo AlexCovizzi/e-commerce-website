@@ -7,11 +7,11 @@
     
     <div id="account-navbar-menu">
       <ul class='nav navbar-nav'>
-        <li><a href="../../pages/orders/orders.jsp">I miei Ordini</a></li>
-        <li><a href="#">Il mio Carrello</a></li>
-        <li><a href="#">La mia Lista Desideri</a></li>
-        <li><a href="../../pages/address/address.jsp">Il mio Indirizzo</a></li>
-        <li><a href="#">Cambia Password</a></li>
+        <li><a href="../../c-account/orders/orders.jsp">I miei Ordini</a></li>
+        <li><a href="../../c-account/cart/cart.jsp">Il mio Carrello</a></li>
+        <li><a href="../../c-account/wishlist/wishlist.jsp">La mia Lista Desideri</a></li>
+        <!--<li><a href="../../pages/address/address.jsp">Il mio Indirizzo</a></li>-->
+        <!--<li><a href="#">Cambia Password</a></li>-->
         <li><a href="javascript:;" onclick="javascript:document.getElementById('logout').submit()">Logout</a></li>
       </ul>
       
