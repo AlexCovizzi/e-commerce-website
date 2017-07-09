@@ -1,3 +1,4 @@
+<%@page import="util.Logger"%>
 <%@page import="blogics.Review"%>
 <%@page import="blogics.Book"%>
 <%@page import="bflows.SearchManagement"%>
@@ -50,7 +51,7 @@
 
     <script>
       function setReviewAction(a) {
-        document.getElementsByName("action")[0].value = a;
+        document.getElementById("input-action").value = a;
       }
     </script>
   </head>
@@ -255,8 +256,8 @@
       <div class="my-jumbotron" id="valutazione">
           <h3>La tua valutazione</h3>
           
-          <form name="valutazione_libro" action='book-page.jsp' method="post">
-            <input type='hidden' name='action' value='view'>
+          <form name="valutazione_libro" method="post">
+            <input id="input-action" type='hidden' name='action' value='view'>
             <input type='hidden' name='isbn' value='<%=searchManagement.getIsbn()%>' />
               <table>
                   <tr>
