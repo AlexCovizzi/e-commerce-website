@@ -24,6 +24,35 @@ public class PublisherService {
   
   public PublisherService() { }
   
+  /**
+   * Restituisce la lista di tutti gli editori
+   * @param database
+   * @return 
+   */
+  public static List<Publisher> getAll(Database database) throws RecoverableDBException {
+    List<Publisher> publishers = new ArrayList<>();
+    SqlBuilder sqlBuilder = new SqlBuilder();
+
+    String sql = sqlBuilder
+        .select("*")
+        .from("Publisher")
+        .where("fl_active='S'")
+        .done();
+    
+    ResultSet resultSet = database.select(sql);
+    
+    try {
+      while(resultSet.next()) {
+        Publisher publisher = new Publisher(resultSet);
+        publishers.add(publisher);
+      }
+    } catch (SQLException e) {
+      throw new RecoverableDBException(e, "PublisherService", "getAll", "Errore sul ResultSet.");
+    }
+    
+    return publishers;
+  }
+  
   public static int insertNewPublisher(Database database, String nome)
       throws RecoverableDBException {
     

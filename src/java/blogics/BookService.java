@@ -299,30 +299,39 @@ public class BookService {
 			.where("title LIKE '%"+search+"%' OR isbn = '"+search+"'");
 		
     if(authors != null) {
-      String authorsCondition = "";
-      authorsCondition += " a_name = "+Conversion.getDatabaseString(authors[0]);
-      for(int i=1; i<authors.length; i++) {
-        authorsCondition += " OR a_name = "+Conversion.getDatabaseString(authors[i]);
+      if(authors.length==1 && authors[0].equals("")) {
+      } else {
+        String authorsCondition = "";
+        authorsCondition += " a_name = "+Conversion.getDatabaseString(authors[0]);
+        for(int i=1; i<authors.length; i++) {
+          authorsCondition += " OR a_name = "+Conversion.getDatabaseString(authors[i]);
+        }
+        sqlBuilder.and(authorsCondition);
       }
-      sqlBuilder.and(authorsCondition);
     }
 		
     if(publishers != null) {
-      String publishersCondition = "";
-      publishersCondition += " publisher_name = "+Conversion.getDatabaseString(publishers[0]);
-      for(int i=1; i<publishers.length; i++) {
-        publishersCondition += " OR publisher_name = "+Conversion.getDatabaseString(publishers[i]);
+      if(publishers.length==1 && publishers[0].equals("")) {
+      } else {
+        String publishersCondition = "";
+        publishersCondition += " publisher_name = "+Conversion.getDatabaseString(publishers[0]);
+        for(int i=1; i<publishers.length; i++) {
+          publishersCondition += " OR publisher_name = "+Conversion.getDatabaseString(publishers[i]);
+        }
+        sqlBuilder.and(publishersCondition);
       }
-      sqlBuilder.and(publishersCondition);
     }
 		
     if(genres != null) {
-      String genresCondition = "";
-      genresCondition += " g_name = "+Conversion.getDatabaseString(genres[0]);
-      for(int i=1; i<genres.length; i++) {
-        genresCondition += " OR g_name = "+Conversion.getDatabaseString(genres[i]);
+      if(genres.length==1 && genres[0].equals("")) {
+      } else {
+        String genresCondition = "";
+        genresCondition += " g_name = "+Conversion.getDatabaseString(genres[0]);
+        for(int i=1; i<genres.length; i++) {
+          genresCondition += " OR g_name = "+Conversion.getDatabaseString(genres[i]);
+        }
+        sqlBuilder.and(genresCondition);
       }
-      sqlBuilder.and(genresCondition);
     }
     
     if(priceMin == -1) priceMin = 0;

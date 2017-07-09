@@ -12,6 +12,7 @@ import blogics.BookHistoryService;
 import blogics.BookService;
 import blogics.Genre;
 import blogics.GenreService;
+import blogics.Publisher;
 import blogics.PublisherService;
 import blogics.Review;
 import blogics.ReviewService;
@@ -81,6 +82,13 @@ public class SearchManagement extends AbstractManagement {
   private boolean thumbUp;
   private String comment;
   
+  /**
+   * Pagina: advanced-search.jsp
+   */
+  private List<Author> allAuthors;
+  private List<Publisher> allPublishers;
+  private List<Genre> allGenres;
+  
 	
 	/* search.jsp -> search.jsp : view */
   /**
@@ -117,6 +125,27 @@ public class SearchManagement extends AbstractManagement {
       publisherFilters = PublisherService.getSearchPublishers(database, search);
       priceFilters = BookService.getFilterPrices(database, search, PRICE_RANGE_VALUES);
 
+      database.commit();
+    } catch (RecoverableDBException ex) {
+			database.rollBack();
+			setErrorMessage(ex.getMsg());
+		} finally {
+      database.close();
+    }
+	}
+  
+  /**
+   * Recupera la lista di tutti gli autori, di tutti gli editori, di tutti i generi
+   * 
+   * @throws UnrecoverableDBException 
+   */
+	public void advancedSearchView() throws UnrecoverableDBException {
+		Database database = DBService.getDataBase();
+    
+    try {
+      allAuthors = AuthorService.getAll(database);
+      allPublishers = PublisherService.getAll(database);
+      allGenres = GenreService.getAll(database);
       database.commit();
     } catch (RecoverableDBException ex) {
 			database.rollBack();
@@ -388,6 +417,18 @@ public class SearchManagement extends AbstractManagement {
       if(p.equals(publisher)) return true;
     }
     return false;
+  }
+  
+  public List<Author> getAllAuthors() {
+    return allAuthors;
+  }
+  
+  public List<Publisher> getAllPublishers() {
+    return allPublishers;
+  }
+  
+  public List<Genre> getAllGenres() {
+    return allGenres;
   }
   
   public boolean hasPrice(int i) { return true;}

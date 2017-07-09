@@ -24,6 +24,35 @@ import util.SqlBuilder;
 public class GenreService {
   public GenreService() { }
   
+  /**
+   * Restituisce la lista di tutti i generi
+   * @param database
+   * @return 
+   */
+  public static List<Genre> getAll(Database database) throws RecoverableDBException {
+    List<Genre> genres = new ArrayList<>();
+    SqlBuilder sqlBuilder = new SqlBuilder();
+
+    String sql = sqlBuilder
+        .select("*")
+        .from("Genre")
+        .where("fl_active='S'")
+        .done();
+    
+    ResultSet resultSet = database.select(sql);
+    
+    try {
+      while(resultSet.next()) {
+        Genre genre = new Genre(resultSet);
+        genres.add(genre);
+      }
+    } catch (SQLException e) {
+      throw new RecoverableDBException(e, "GenreService", "getAll", "Errore sul ResultSet.");
+    }
+    
+    return genres;
+  }
+  
   public static int[] getIds(Database database, String[] generi)
       throws RecoverableDBException {
     String sql = "";

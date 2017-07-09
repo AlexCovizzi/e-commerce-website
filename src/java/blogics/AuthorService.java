@@ -25,6 +25,35 @@ public class AuthorService {
   
   public AuthorService() { }
   
+  /**
+   * Restituisce la lista di tutti gli autori
+   * @param database
+   * @return 
+   */
+  public static List<Author> getAll(Database database) throws RecoverableDBException {
+    List<Author> authors = new ArrayList<>();
+    SqlBuilder sqlBuilder = new SqlBuilder();
+
+    String sql = sqlBuilder
+        .select("*")
+        .from("Author")
+        .where("fl_active='S'")
+        .done();
+    
+    ResultSet resultSet = database.select(sql);
+    
+    try {
+      while(resultSet.next()) {
+        Author author = new Author(resultSet);
+        authors.add(author);
+      }
+    } catch (SQLException e) {
+      throw new RecoverableDBException(e, "AuthorService", "getAll", "Errore sul ResultSet.");
+    }
+    
+    return authors;
+  }
+  
   public static int searchFromName(Database database, String nome)
     throws RecoverableDBException {
     
