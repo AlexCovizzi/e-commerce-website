@@ -15,7 +15,7 @@ import util.SqlBuilder;
 public class ShoppingCartService {
   
   /* Aggiunge il libro nel carrello dell'utente in quantità singola */
-  /* Resituisce true se l'operzione ha successo, false se fallisce (es. c'è gia quel libro nel carrello */
+  /* Resituisce true se l'operzione ha successo, false se fallisce (es. c'è gia quel libro nel carrello) */
   public static boolean addToCart(Database db, int userId, String bookIsbn) throws RecoverableDBException {
     
     if(isBookInCart(db, userId, bookIsbn)) return false;
@@ -32,7 +32,7 @@ public class ShoppingCartService {
   }
   
   /* Modifica la quantita del libro nel carrello */
-  public static boolean modifyBookQuantity(Database db, int userId, String bookIsbn, int quantity) throws RecoverableDBException {
+  public static void modifyBookQuantity(Database db, int userId, String bookIsbn, int quantity) throws RecoverableDBException {
     SqlBuilder sqlBuilder = new SqlBuilder();
     String sql = sqlBuilder
           .update("ShoppingCart_book")
@@ -42,8 +42,6 @@ public class ShoppingCartService {
           .done();
     
     db.modify(sql);
-    
-    return true;
   }
   
   /* Rimuove il libro dal carrello */
@@ -58,10 +56,9 @@ public class ShoppingCartService {
     db.modify(sql);
   }
   
-  /* Recupera la lista delle coppie isbn-quantità dei libri nel carrello */
+  /* Recupera la lista delle coppie isbn-quantità dei libri nel carrello dell'utente */
   public static List<Pair<String, Integer>> getBooks(Database db, int userId) throws RecoverableDBException {
     List<Pair<String, Integer>> books = new ArrayList<>();
-    
     SqlBuilder sqlBuilder = new SqlBuilder();
 		
 		String sql = sqlBuilder
@@ -90,6 +87,14 @@ public class ShoppingCartService {
     return books;
   }
   
+  /**
+   * Mi dice se il libro specificato è già o no nel carrello dell'utente
+   * @param db
+   * @param userId
+   * @param bookIsbn
+   * @return
+   * @throws RecoverableDBException 
+   */
   private static boolean isBookInCart(Database db, int userId, String bookIsbn) throws RecoverableDBException {
     boolean exist = false;
     

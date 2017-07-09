@@ -79,8 +79,15 @@ public class CouponService {
 		return coupons;
   }
   
-  
-  
+  /**
+   * Restituisce il coupon con il codice specificato
+   * Se nessun coupon viene trovato restituisce null
+   * @param db
+   * @param code
+   * @return
+   * @throws RecoverableDBException
+   * 
+   */
   public static Coupon getCoupon(Database db, String code) throws RecoverableDBException {
     SqlBuilder sqlBuilder = new SqlBuilder();
     Coupon coupon = null;
@@ -148,7 +155,7 @@ public class CouponService {
     /* Inserisco il coupon */
     sql = sqlBuilder
         .update("coupon")
-        .set("fl_active = \'N\'")
+        .set("fl_active = 'N'")
         .where("code = " + Conversion.getDatabaseString(codice))
         .done();
 

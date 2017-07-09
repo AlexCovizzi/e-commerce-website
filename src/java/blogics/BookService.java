@@ -138,6 +138,12 @@ public class BookService {
     return book;
   }
   
+  /**
+   * Restituisce tutti i libri che soddisfano la ricerca (base + filtri)
+   * inoltre permette di specificare come ordinare i risultati, e quanti mostrarne
+   * 
+   * @throws RecoverableDBException 
+   */
 	public static List<Book> getBookList(Database db, String search, String[] authors,
 			String[] publishers, String[] genres, int priceMin, int priceMax,
 			String ord, int page, int booksPerPage) throws RecoverableDBException {
@@ -170,6 +176,12 @@ public class BookService {
 		return bookList;
 	}
   
+  /**
+   * Restituisce il numero totale dei risultati della ricerca (base + filtri)
+   * Serve per la divisione in pagine
+   * 
+   * @throws RecoverableDBException 
+   */
   public static int getTotalResults(Database db, String search, String[] authors, String[] publishers, String[] genres, int priceMin, int priceMax) throws RecoverableDBException {
     SqlBuilder sqlBuilder = new SqlBuilder();
 		ResultSet resultSet;
@@ -198,7 +210,7 @@ public class BookService {
     return totResults;
   }
   
-  /* Restituisce il numero di occorrenze in base al range di prezzo */
+  /* Restituisce il numero di risultati della ricerca in base al range di prezzo */
   public static int[] getFilterPrices(Database db, String search, int[][] priceRangeOptions) throws RecoverableDBException {
     SqlBuilder sqlBuilder = new SqlBuilder();
 		ResultSet resultSet;
@@ -271,7 +283,11 @@ public class BookService {
     return votes;
   }
   
-  /* Query di ricerca completa (ricerca base + filtri) */
+  /**
+   * Query di ricerca completa (ricerca base + filtri)
+   * 
+   * @return 
+   */
   private static SqlBuilder getBookSearchQuery(String search, String[] authors, String[] publishers, String[] genres, int priceMin, int priceMax) {
     SqlBuilder sqlBuilder = new SqlBuilder();
     

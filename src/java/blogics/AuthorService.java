@@ -146,6 +146,13 @@ public class AuthorService {
     return nome;
   }
   
+  /**
+   * Restituisce tutti gli autori del libro specificato
+   * @param db
+   * @param isbn
+   * @return
+   * @throws RecoverableDBException 
+   */
 	public static List<Author> getBookAuthors(Database db, String isbn) throws RecoverableDBException {
 		SqlBuilder sqlBuilder = new SqlBuilder();
 		List<Author> authors = new ArrayList<>();
@@ -153,7 +160,7 @@ public class AuthorService {
 		String sql = sqlBuilder
 				.select("id", "name")
 				.from("Author")
-				.join("Book_has_Author").on("book_isbn = "+isbn)
+				.join("Book_has_Author").on("book_isbn = "+Conversion.getDatabaseString(isbn))
 				.where("id = author_id").and("fl_active = 'S'")
 				.done();
 		

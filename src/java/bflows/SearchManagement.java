@@ -108,7 +108,10 @@ public class SearchManagement extends AbstractManagement {
       /* Recupero il numero totale dei risultati della ricerca */
       totResults = BookService.getTotalResults(database, search, authors, publishers, genres, priceMin, priceMax);
       
-      /* mi servono per "compilare" il menu a sx nella pagina search.jsp */
+      /* 
+        recupero info varie sulla ricerca
+        mi servono per "compilare" il menu a sx nella pagina search.jsp 
+      */
       genreFilters = GenreService.getSearchGenres(database, search);
       authorFilters = AuthorService.getSearchAuthors(database, search);
       publisherFilters = PublisherService.getSearchPublishers(database, search);
@@ -136,22 +139,22 @@ public class SearchManagement extends AbstractManagement {
     
     try {
       book = BookService.getBookFromIsbn(database, isbn);
-      /* Se nessun libro viene trovato con questo isbn concludi il metodo */
-      if(book == null) return;
       
-      /* Recupero dal db tutte le informazioni e le recensioni del libro */
-      List<Author> bAuthors = AuthorService.getBookAuthors(database, book.getIsbn());
-      List<Genre> bGenres = GenreService.getBookGenres(database, book.getIsbn());
+      if(book != null) {
+        /* Recupero dal db tutte le informazioni e le recensioni del libro */
+        List<Author> bAuthors = AuthorService.getBookAuthors(database, book.getIsbn());
+        List<Genre> bGenres = GenreService.getBookGenres(database, book.getIsbn());
 
-      book.setAuthors(bAuthors);
-      book.setGenres(bGenres);
-      
-      bookReviews = ReviewService.getBookReviews(database, book.getIsbn());
-      userBookReview = ReviewService.getUserBookReview(database, Session.getUserId(cookies), book.getIsbn());
+        book.setAuthors(bAuthors);
+        book.setGenres(bGenres);
 
-      /* Aggiungo il libro alla history dell'utente se è loggato */
-      if(Session.isUserLoggedIn(cookies)) {
-        BookHistoryService.addToHistory(database, Session.getUserId(cookies), isbn);
+        bookReviews = ReviewService.getBookReviews(database, book.getIsbn());
+        userBookReview = ReviewService.getUserBookReview(database, Session.getUserId(cookies), book.getIsbn());
+
+        /* Aggiungo il libro alla history dell'utente se è loggato */
+        if(Session.isUserLoggedIn(cookies)) {
+          BookHistoryService.addToHistory(database, Session.getUserId(cookies), isbn);
+        }
       }
       
       database.commit();
@@ -219,15 +222,6 @@ public class SearchManagement extends AbstractManagement {
       database.close();
     }
   }
-	
-	/* b-page.jsp : vote */
-	public void vote() {
-		
-	}
-	
-	public void addToHistory() {
-		
-	}
   
   public List<Book> getBooks() {
     return books;

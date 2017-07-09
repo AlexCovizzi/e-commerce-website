@@ -124,6 +124,13 @@ public class GenreService {
     return nome;
   }
   
+  /**
+   * Restituisce tutti i generi del libro specificato
+   * @param db
+   * @param isbn
+   * @return
+   * @throws RecoverableDBException 
+   */
 	public static List<Genre> getBookGenres(Database db, String isbn) throws RecoverableDBException {
 		SqlBuilder sqlBuilder = new SqlBuilder();
 		List<Genre> genres = new ArrayList<>();

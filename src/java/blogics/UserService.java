@@ -13,10 +13,10 @@ import util.SqlBuilder;
 
 public class UserService {
     
-    public static User getUser(Database db, String email, String password)
+  public static User getUser(Database db, String email, String password)
 	throws RecoverableDBException {
 		
-        SqlBuilder sqlBuilder = new SqlBuilder();
+    SqlBuilder sqlBuilder = new SqlBuilder();
 		String sql;
 		ResultSet resultSet;
 		User user = null;
@@ -25,7 +25,8 @@ public class UserService {
 				.select("*")
 				.from("User")
 				.where("email = "+Conversion.getDatabaseString(email))
-				.and("password = "+Conversion.getDatabaseString(password))
+          .and("password = "+Conversion.getDatabaseString(password))
+          .and("fl_active = 'S'")
 				.done();
 		Logger.debug("UserService", "getUser", sql);
 		
@@ -43,9 +44,9 @@ public class UserService {
 		}
 		
 		return user;
-    }
+  }
     
-    public static void insertUser(Database db, String email, String name, String surname, String password, boolean admin)
+  public static void insertUser(Database db, String email, String name, String surname, String password, boolean admin)
 	throws RecoverableDBException {
 		
 		SqlBuilder sqlBuilder = new SqlBuilder();
@@ -106,36 +107,36 @@ public class UserService {
 					admin)
 				.done();
 		
-        db.modify(sql);
-    }
+    db.modify(sql);
+  }
     
-    public static void modifyUserEmail(Database db, int userId, String email) {
-		
-    }
+  public static void modifyUserEmail(Database db, int userId, String email) {
+
+  }
     
-    public static void modifyUserPassword(Database db, int userId, String password) {
-        
-    }
+  public static void modifyUserPassword(Database db, int userId, String password) {
+
+  }
     
-    public static void removeUser(Database database, int userId)
-        throws RecoverableDBException {
-      String sql = "";
-      SqlBuilder sqlBuilder = new SqlBuilder();
+  public static void removeUser(Database database, int userId)
+      throws RecoverableDBException {
+    String sql = "";
+    SqlBuilder sqlBuilder = new SqlBuilder();
 
-      /* Aggiornamento */	
-      sql = sqlBuilder
-        .update("user")
-        .set("fl_active = 'N'")
-        .where("id = " + userId)
-        .done();
+    /* Aggiornamento */	
+    sql = sqlBuilder
+      .update("user")
+      .set("fl_active = 'N'")
+      .where("id = " + userId)
+      .done();
 
-      System.out.println(sql);
+    System.out.println(sql);
 
-      database.modify(sql);
-    }
+    database.modify(sql);
+  }
 	
   public static int countUsers(Database database)
-      throws RecoverableDBException {
+  throws RecoverableDBException {
     String sql = "";
     SqlBuilder sqlBuilder = new SqlBuilder();
     int risultato;

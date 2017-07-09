@@ -90,8 +90,8 @@ public class OrderService {
   }
   
   /**
-   * Restituisce gli ordini non ancora consegnati dell'utente specificato
-   * ordinati per data
+   * Restituisce gli ordini negli stati specificati ordinati per data
+   * 
    * @throws RecoverableDBException 
    */
   public static List<Order> getOrders(Database database, int orderUser, String...states)
@@ -102,15 +102,13 @@ public class OrderService {
     
     sqlBuilder
 				.select("*")
-				.from("OrderView");
-    
-    if(orderUser >= 0)
-      sqlBuilder.where("user_id = " + orderUser);
+				.from("OrderView")
+        .where("user_id = " + orderUser);
     
     String stateCondition = "(";
     for(int i=0; i<states.length; i++) {
       if(i > 0) stateCondition += " OR ";
-      stateCondition += "state = '"+states[i]+"'";
+      stateCondition += "state = "+Conversion.getDatabaseString(states[i]);
     }
     stateCondition += ")";
     
@@ -127,10 +125,10 @@ public class OrderService {
 				orders.add(order);
 			}
 		} catch (SQLException ex) {
-			throw new RecoverableDBException(ex, "OrderService", "getCurrentOrders", "Errore nel ResultSet");
+			throw new RecoverableDBException(ex, "OrderService", "getOrders", "Errore nel ResultSet");
 		} finally {
 			try { resultSet.close(); }
-			catch (SQLException ex) { Logger.error("OrderService", "getCurrentOrders", ex.getMessage());}
+			catch (SQLException ex) { Logger.error("OrderService", "getOrders", ex.getMessage());}
 		}
 
 		return orders;
@@ -161,7 +159,7 @@ public class OrderService {
 			throw new RecoverableDBException(ex, "OrderService", "getOrder", "Errore nel ResultSet");
 		} finally {
 			try { resultSet.close(); }
-			catch (SQLException ex) { Logger.error("OrderService", "getOrders", ex.getMessage());}
+			catch (SQLException ex) { Logger.error("OrderService", "getOrder", ex.getMessage());}
 		}
 
 		return order;

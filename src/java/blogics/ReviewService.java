@@ -40,7 +40,7 @@ public class ReviewService {
 			.update("Vote")
       .set("thumb_up = "+thumbUp, "comment = '"+comment+"'")
       .where("user_id = "+userId)
-      .and("book_isbn = "+Conversion.getDatabaseString(isbn))
+        .and("book_isbn = "+Conversion.getDatabaseString(isbn))
       .done();
     
     db.modify(sql);
@@ -54,15 +54,21 @@ public class ReviewService {
     sql = sqlBuilder
 			.delete().from("Vote")
       .where("user_id = "+userId)
-      .and("book_isbn = "+Conversion.getDatabaseString(isbn))
+        .and("book_isbn = "+Conversion.getDatabaseString(isbn))
       .done();
     
     db.modify(sql);
   }
   
+  /**
+   * Restituisce tutte le recensioni di un libro che hanno un commento non vuoto
+   * @param db
+   * @param bookIsbn
+   * @return
+   * @throws RecoverableDBException 
+   */
   public static List<Review> getBookReviews(Database db, String bookIsbn) throws RecoverableDBException {
     List<Review> reviews = new ArrayList<>();
-    
     SqlBuilder sqlBuilder = new SqlBuilder();
 		
 		String sql = sqlBuilder
@@ -93,6 +99,15 @@ public class ReviewService {
 		return reviews;
   }
   
+  /**
+   * Restituisce la recensione dell'utente per il libro specificato
+   * 
+   * @param db
+   * @param userId
+   * @param bookIsbn
+   * @return La review dell'utente (può essere null)
+   * @throws RecoverableDBException 
+   */
   public static Review getUserBookReview(Database db, int userId, String bookIsbn) throws RecoverableDBException {
     Review review = null;
     SqlBuilder sqlBuilder = new SqlBuilder();

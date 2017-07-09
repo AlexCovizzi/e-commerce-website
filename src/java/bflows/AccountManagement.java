@@ -28,13 +28,12 @@ public class AccountManagement extends AbstractManagement implements Serializabl
 	
   private Cookie[] cookies;
   
-  private int orderId;
-  
   // Parametri
+  private int orderId;
   private String isbn; // Specifica il libro da inserire/rimuovere/modificare
   private String title; // Specifica il titolo del libro da inserire/rimuovere/modificare
   private int quantity;
-  private String show = "current";
+  private String show = "current"; //Pagina: orders.jsp; SPecifica quali ordini mostrare
   
   private ShoppingCart cart = new ShoppingCart();
   private List<Book> wishlist = new ArrayList<>();
@@ -51,7 +50,7 @@ public class AccountManagement extends AbstractManagement implements Serializabl
     Database database = DBService.getDataBase();
     
     try {
-      cartViewReusable(database);
+      cart(database);
       database.commit();
     } catch (RecoverableDBException ex) {
 			database.rollBack();
@@ -63,7 +62,7 @@ public class AccountManagement extends AbstractManagement implements Serializabl
   
 	/* wishlist.jsp/search.jsp/book-page.jsp -> cart.jsp : add */
   /**
-   * Aggiunge il libro specificato dal parametro isbn nel carrello
+   * Aggiunge il libro specificato dal parametro isbn al carrello
    * @throws services.database.exception.UnrecoverableDBException
    */
 	public void addToCart() throws UnrecoverableDBException {
@@ -71,7 +70,7 @@ public class AccountManagement extends AbstractManagement implements Serializabl
     
     try {
       ShoppingCartService.addToCart(database, Session.getUserId(cookies), isbn);
-      cartViewReusable(database);
+      cart(database);
       database.commit();
     } catch (RecoverableDBException ex) {
 			database.rollBack();
@@ -92,7 +91,7 @@ public class AccountManagement extends AbstractManagement implements Serializabl
     
     try {
       ShoppingCartService.removeFromCart(database, Session.getUserId(cookies), isbn);
-      cartViewReusable(database);
+      cart(database);
       database.commit();
     } catch (RecoverableDBException ex) {
 			database.rollBack();
@@ -113,7 +112,7 @@ public class AccountManagement extends AbstractManagement implements Serializabl
     
     try {
       ShoppingCartService.modifyBookQuantity(database, Session.getUserId(cookies), isbn, quantity);
-      cartViewReusable(database);
+      cart(database);
       database.commit();
     } catch (RecoverableDBException ex) {
 			database.rollBack();
@@ -132,7 +131,7 @@ public class AccountManagement extends AbstractManagement implements Serializabl
     Database database = DBService.getDataBase();
     
     try {
-      wishlistViewReusable(database);
+      wishlist(database);
       database.commit();
     } catch (RecoverableDBException ex) {
 			database.rollBack();
@@ -153,7 +152,7 @@ public class AccountManagement extends AbstractManagement implements Serializabl
     
     try {
       WishlistService.addToWishlist(database, Session.getUserId(cookies), isbn);
-      wishlistViewReusable(database);
+      wishlist(database);
       database.commit();
     } catch (RecoverableDBException ex) {
 			database.rollBack();
@@ -174,7 +173,7 @@ public class AccountManagement extends AbstractManagement implements Serializabl
     
     try {
       WishlistService.removeFromWishlist(database, Session.getUserId(cookies), isbn);
-      wishlistViewReusable(database);
+      wishlist(database);
       database.commit();
     } catch (RecoverableDBException ex) {
 			database.rollBack();
@@ -193,7 +192,7 @@ public class AccountManagement extends AbstractManagement implements Serializabl
     Database database = DBService.getDataBase();
     
     try {
-      ordersViewReusable(database);
+      orders(database);
       database.commit();
     } catch (RecoverableDBException ex) {
 			database.rollBack();
@@ -215,8 +214,12 @@ public class AccountManagement extends AbstractManagement implements Serializabl
 		Database database = DBService.getDataBase();
     
     try {
-      OrderService.changeState(database, orderId, "Cancellato");
-      ordersViewReusable(database);
+      // Verifico che l'ordine sia in stato "In preparazione"
+      Order order = OrderService.getOrder(database, orderId);
+      if(order.getState().equals("In preparazione")) {
+        OrderService.changeState(database, orderId, "Cancellato");
+      }
+      orders(database);
       database.commit();
     } catch (RecoverableDBException ex) {
 			database.rollBack();
@@ -235,7 +238,7 @@ public class AccountManagement extends AbstractManagement implements Serializabl
    * @param database
    * @throws RecoverableDBException 
    */
-  private void cartViewReusable(Database database) throws RecoverableDBException {
+  private void cart(Database database) throws RecoverableDBException {
     // Recupero la lista dei libri nel carrello e la loro quantità
     List<Pair<String, Integer>> booksIsbn;
     booksIsbn = ShoppingCartService.getBooks(database, Session.getUserId(cookies));
@@ -255,7 +258,7 @@ public class AccountManagement extends AbstractManagement implements Serializabl
    * Recupera i libri nella wishlist dell'utente
    * @throws services.database.exception.UnrecoverableDBException
    */
-  private void wishlistViewReusable(Database database) throws RecoverableDBException {
+  private void wishlist(Database database) throws RecoverableDBException {
     // Recupero la lista dei libri nel carrello e la loro quantità
     List<String> booksIsbn;
     booksIsbn = WishlistService.getBooks(database, Session.getUserId(cookies));
@@ -275,7 +278,7 @@ public class AccountManagement extends AbstractManagement implements Serializabl
    * Recupera gli ordini effettuati dell'utente (in corso e passati)
    * @throws services.database.exception.UnrecoverableDBException
    */
-  private void ordersViewReusable(Database database) throws RecoverableDBException {
+  private void orders(Database database) throws RecoverableDBException {
     String[] states;
     if(show.equals("current")) {
       states = new String[] {"In preparazione", "In spedizione", "In magazzino", "In consegna"};

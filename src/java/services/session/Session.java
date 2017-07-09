@@ -67,6 +67,12 @@ public class Session {
     }
   }
   
+  /**
+   * Restituisce l'id dell'utente loggato.
+   * Se nessun utente è loggato restituisce -1
+   * @param cookies
+   * @return 
+   */
   public static int getUserId(Cookie[] cookies) {
     if(getValue(cookies, "id", 0) != null) {
       return Integer.valueOf(getValue(cookies, "id", 0));

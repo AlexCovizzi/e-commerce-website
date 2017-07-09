@@ -73,6 +73,14 @@ public class WishlistService {
     return books;
   }
   
+  /**
+   * Mi dice se il libro specificato è già o no nella wishlist dell'utente
+   * @param db
+   * @param userId
+   * @param bookIsbn
+   * @return
+   * @throws RecoverableDBException 
+   */
   private static boolean isBookInWishlist(Database db, int userId, String bookIsbn) throws RecoverableDBException {
     boolean exist = false;
     

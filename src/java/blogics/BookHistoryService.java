@@ -37,8 +37,9 @@ public class BookHistoryService {
     db.modify(sql);
   }
   
-  /* Recupero la lista dei libri nella History di un utente ordinati per visualizzazione */
+  /* Recupero la lista dei libri nella History di un utente ordinati per data di visualizzazione */
   public static List<String> getUserBookHistory(Database db, int userId) throws RecoverableDBException {
+    List<String> booksIsbn = new ArrayList<>();
     SqlBuilder sqlBuilder = new SqlBuilder();
     
     String sql = sqlBuilder
@@ -50,7 +51,6 @@ public class BookHistoryService {
     
     ResultSet resultSet = db.select(sql);
     
-    List<String> booksIsbn = new ArrayList<>();
     try {
       while(resultSet.next()) {
         String isbn = resultSet.getString("book_isbn");
