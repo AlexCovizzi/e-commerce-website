@@ -17,7 +17,7 @@
  - Come fare in modo di far calcolare per bene il coupon? ----- FATTOOOOOOOOOOO
 
 DOCUMENTAZIONE
-Finire di rivedere i casi d'uso (aggiungere il flusso di Gestione amministratori e togliere quello degli indirizzi)
+Finire di rivedere i casi d'uso (aggiungere il flusso di Gestione amministratori e togliere quello degli indirizzi) ----- FATTOOOOOOOOOOO
 e le specifiche (sono arrivato alla Gestione utenti)
 
 PAGINE IN CUI VI SONO DUE TRANSAZIONI
