@@ -313,7 +313,7 @@
                       <i class="glyphicon glyphicon-ok"></i>
                     Modifica valutazione
                   </button>
-                  <button class="btn btn-danger" type="submit"
+                  <button id="remove_voto" class="btn btn-danger" type="submit"
                           onclick='setReviewAction("remove_review")'>
                       <i class="glyphicon glyphicon-remove"></i>
                     Rimuovi valutazione
