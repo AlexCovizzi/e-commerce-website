@@ -20,7 +20,7 @@
  - Fare la pagina per la visualizzazione delle recensioni dell'utente ----- FATTOOOOOOOOOOO
  - Fare la pagina per la visualizzazione delle recensioni per l'admin ----- FATTOOOOOOOOOOO
  - Sistemare l'ordine in cui vengono mostrati ordini, utenti, admin e recensioni per l'admin
- - Sistemare la visualizzazione dei prezzi nelle mie pagine
+ - Sistemare la visualizzazione dei prezzi nelle mie pagine ----- FATTOOOOOOOOOOO
 
 DOCUMENTAZIONE
 Finire di rivedere i casi d'uso (aggiungere il flusso di Gestione amministratori e togliere quello degli indirizzi) ----- FATTOOOOOOOOOOO
