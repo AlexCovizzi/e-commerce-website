@@ -4,6 +4,7 @@
 <%@ page errorPage="../../ErrorPage.jsp" %>
 
 <%@ page import="services.session.*" %>
+<%@ page import="util.Conversion" %>
 <%@ page import="bflows.AdminManagement"%>
 <!DOCTYPE html>
 
@@ -271,7 +272,7 @@
               <input type="text" class="form-control" name="prezzo" id="prezzo"
                 placeholder="Inserisci il prezzo (es.: 19.99)"
                 <% if(adminManagement.getIsbn() != null) { %>
-                  value="<%= adminManagement.getPrezzo() %>"
+                  value="<%= Conversion.getPriceAsString(adminManagement.getPrezzo()) %>"
                   <% } %>
                 >
             </div>

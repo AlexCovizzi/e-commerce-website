@@ -1,3 +1,4 @@
+<%@page import="util.Conversion"%>
 <%@ page pageEncoding="UTF-8"%>
 <%@ page contentType="text/html" %>
 <%@ page session="false" %>
@@ -114,13 +115,13 @@
           </div>
           <% } %>
         </div>
-          <big><h4><b>Prezzo Totale</b>: <%= purchaseManagement.getPrezzoTotale() %> &euro;</h4></big>
+          <big><h4><b>Prezzo Totale</b>: <%= Conversion.getPriceAsString(purchaseManagement.getPrezzoTotale()) %> &euro;</h4></big>
         <% if(purchaseManagement.getCodiceCoupon() != null && (action.equals("verify") || action.equals("confirm"))) { %>
           <% if(purchaseManagement.getCoupon().isValid()) { %>
           (applicato uno sconto del <%= purchaseManagement.getCoupon().getDiscount() %>%)
           <% } %>
         <% } %>
-        <h4>Costo di spedizione: <%= purchaseManagement.getCostoSpedizione() %> &euro;</h4>
+        <h4>Costo di spedizione: <%= Conversion.getPriceAsString(purchaseManagement.getCostoSpedizione()) %> &euro;</h4>
       </div>
       <!-- Libri nell'ordine --- FINE -->
       

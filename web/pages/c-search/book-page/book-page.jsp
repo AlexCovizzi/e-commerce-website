@@ -1,3 +1,4 @@
+<%@page import="util.Conversion"%>
 <%@page import="util.Logger"%>
 <%@page import="blogics.Review"%>
 <%@page import="blogics.Book"%>
@@ -128,7 +129,7 @@
         </div>
 
         <div class="col-sm-4" id="prezzo">
-          <h3><b><%=searchManagement.getBook().getPrice()%> &euro;</b></h3>
+          <h3><b><%= Conversion.getPriceAsString(searchManagement.getBook().getPrice()) %> &euro;</b></h3>
           Venduto e spedito da Libreria Sant'Ale
           <div style="margin-bottom: 15px;"></div>
 
