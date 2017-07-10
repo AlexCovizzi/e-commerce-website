@@ -153,12 +153,48 @@ public class PublisherService {
     Restituisce i 5 editori con piu occorrenze nella ricerca effettuata
     Serve per scrivere i filtri nella pagina di ricerca
   */
-  public static List<Pair<String, Integer>> getSearchPublishers(Database db, String search) throws RecoverableDBException {
+  public static List<Pair<String, Integer>> getSearchPublishers(Database db, String search, String[] p) throws RecoverableDBException {
     SqlBuilder sqlBuilder = new SqlBuilder();
 		ResultSet resultSet;
+    String sql = "";
 		List<Pair<String, Integer>> publishers = new ArrayList();
     
-    String sql = sqlBuilder
+    if(p != null) {
+      String cond = "(";
+      for(int i=0; i<p.length; i++) {
+        if(i>0) cond += " OR ";
+        cond += "publisher_name="+Conversion.getDatabaseString(p[i]);
+      }
+      cond += ")";
+      
+      sqlBuilder
+              .select("publisher_name", "COUNT(*) AS n")
+              .from("BookView")
+              .where("title LIKE '%"+search+"%' OR isbn = '"+search+"'")
+              .and(cond)
+              .command("GROUP BY").params("publisher_name")
+              .command("ORDER BY").params("n").command("DESC");
+    
+      sql = sqlBuilder.done();
+
+      resultSet = db.select(sql);
+
+      try {
+        while (resultSet.next()) {
+          String publisher = resultSet.getString("publisher_name");
+          int n = resultSet.getInt("n");
+          Pair<String, Integer> pub = new Pair(publisher, n);
+          publishers.add(pub);
+        }
+      } catch (SQLException ex) {
+        throw new RecoverableDBException(ex, "PublisherService", "getSearchPublishers", "Errore nel ResultSet");
+      } finally {
+        try { resultSet.close(); }
+        catch (SQLException ex) { Logger.error("PublisherService", "getSearchPublishers", ex.getMessage());}
+      }
+    }
+    
+    sql = sqlBuilder
 			.select("publisher_name", "COUNT(*) AS n")
 			.from("BookView")
 			.where("title LIKE '%"+search+"%' OR isbn = '"+search+"'")
@@ -173,8 +209,16 @@ public class PublisherService {
 			while (resultSet.next()) {
         String publisher = resultSet.getString("publisher_name");
         int n = resultSet.getInt("n");
-        Pair<String, Integer> pub = new Pair(publisher, n);
-				publishers.add(pub);
+        
+        boolean alreadyInList = false;
+        for(Pair<String, Integer> pair : publishers) {
+          if(publisher.equals(pair.getFirst())) alreadyInList = true;
+        }
+        
+        if(!alreadyInList) {
+          Pair<String, Integer> pub = new Pair(publisher, n);
+          publishers.add(pub);
+        }
 			}
 		} catch (SQLException ex) {
 			throw new RecoverableDBException(ex, "PublisherService", "getSearchPublishers", "Errore nel ResultSet");

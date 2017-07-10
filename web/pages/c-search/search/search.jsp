@@ -72,6 +72,12 @@
         submitFilter();
         return;
       }
+      function submitVoteFilter(vote) {
+        document.getElementsByName("vote")[0].value = vote;
+        submitFilter();
+        return;
+      }
+      
       function submitPage(n) {
         if(n <= 0) n = 1;
         document.getElementsByName("page")[0].value = n;
@@ -163,7 +169,23 @@
             Min <input min="0" class="form-control" type="number" name="priceMin" <%if(searchManagement.getPriceMin()>-1) {%> value="<%=searchManagement.getPriceMin()%>" <%}%> />
             Max <input min="0" class="form-control" type="number" name="priceMax" <%if(searchManagement.getPriceMax()>-1) {%> value="<%=searchManagement.getPriceMax()%>" <%}%> />
             <button class="btn btn-default" onclick="submitFilter()">Applica</button>
+            </br>
             
+            <h5><b>Voto</b></h5>
+            <input type="hidden" name="vote" value="0">
+            <% for(int i= 0; i<SearchManagement.VOTE_VALUES.length; i++) { %>
+              <a class="filter-link" onclick="submitVoteFilter(<%=SearchManagement.VOTE_VALUES[i]%>)">
+                Pi&ugrave; di <%=SearchManagement.VOTE_VALUES[i]%>%
+              </a>
+              &nbsp;<small>(<%=searchManagement.getVoteFilters()[i]%>)</small></br>
+            <% } %>
+            <a class="filter-link" onclick="submitVoteFilter(-1)">
+              Tutti
+            </a>
+            </br>
+                
+            </br>
+              
           </form>
           </div>
         </div>

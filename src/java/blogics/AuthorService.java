@@ -282,22 +282,60 @@ public class AuthorService {
   
   /*
     Restituisce i 5 autori con piu occorrenze nella ricerca effettuata
+    + gli autori passati come parametri
     Serve per scrivere i filtri nella pagina di ricerca
   */
-  public static List<Pair<String, Integer>> getSearchAuthors(Database db, String search) throws RecoverableDBException {
+  public static List<Pair<String, Integer>> getSearchAuthors(Database db, String search, String[] a) throws RecoverableDBException {
     SqlBuilder sqlBuilder = new SqlBuilder();
+    String sql = "";
 		ResultSet resultSet;
 		List<Pair<String, Integer>> authors = new ArrayList();
     
-    String sql = sqlBuilder
-			.select("a_name", "COUNT(*) AS n")
-			.from("BookView")
-      .join("BookAuthor").on("book_isbn = isbn")
-			.where("title LIKE '%"+search+"%' OR isbn = '"+search+"'")
-      .command("GROUP BY").params("a_name")
-      .command("ORDER BY").params("n").command("DESC")
-      .limit(5)
-      .done();
+    if(a != null) {
+      String cond = "(";
+      for(int i=0; i<a.length; i++) {
+        if(i>0) cond += " OR ";
+        cond += "a_name="+Conversion.getDatabaseString(a[i]);
+      }
+      cond += ")";
+      
+      sqlBuilder
+              .select("a_name", "COUNT(*) AS n")
+              .from("BookView")
+              .join("BookAuthor").on("book_isbn = isbn")
+              .where("title LIKE '%"+search+"%' OR isbn = '"+search+"'")
+              .and(cond)
+              .command("GROUP BY").params("a_name")
+              .command("ORDER BY").params("n").command("DESC");
+    
+      sql = sqlBuilder.done();
+
+      resultSet = db.select(sql);
+
+      try {
+        while (resultSet.next()) {
+          String author = resultSet.getString("a_name");
+          int n = resultSet.getInt("n");
+          Pair<String, Integer> aut = new Pair(author, n);
+          authors.add(aut);
+        }
+      } catch (SQLException ex) {
+        throw new RecoverableDBException(ex, "AuthorService", "getSearchAuthors", "Errore nel ResultSet");
+      } finally {
+        try { resultSet.close(); }
+        catch (SQLException ex) { Logger.error("AuthorService", "getSearchAuthors", ex.getMessage());}
+      }
+    }
+    
+    sqlBuilder
+            .select("a_name", "COUNT(*) AS n")
+            .from("BookView")
+            .join("BookAuthor").on("book_isbn = isbn")
+            .where("title LIKE '%"+search+"%' OR isbn = '"+search+"'")
+            .command("GROUP BY").params("a_name")
+            .command("ORDER BY").params("n").command("DESC").limit(5);
+    
+    sql = sqlBuilder.done();
     
     resultSet = db.select(sql);
     
@@ -305,8 +343,15 @@ public class AuthorService {
 			while (resultSet.next()) {
         String author = resultSet.getString("a_name");
         int n = resultSet.getInt("n");
-        Pair<String, Integer> aut = new Pair(author, n);
-				authors.add(aut);
+        
+        boolean alreadyInList = false;
+        for(Pair<String, Integer> pair : authors) {
+          if(author.equals(pair.getFirst())) alreadyInList = true;
+        }
+        if(!alreadyInList) {
+          Pair<String, Integer> aut = new Pair(author, n);
+          authors.add(aut);
+        }
 			}
 		} catch (SQLException ex) {
 			throw new RecoverableDBException(ex, "AuthorService", "getSearchAuthors", "Errore nel ResultSet");
@@ -315,6 +360,9 @@ public class AuthorService {
 			catch (SQLException ex) { Logger.error("AuthorService", "getSearchAuthors", ex.getMessage());}
 		}
     
+    
     return authors;
   }
+  
+  
 }

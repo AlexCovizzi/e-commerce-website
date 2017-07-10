@@ -1,6 +1,9 @@
 <%@page import="services.session.Session"%>
 <script>
-  
+  function gotoAdvancedSearch() {
+    window.location = "../../c-search/advanced-search/advanced-search.jsp";
+    return;
+  }
 </script>
 
 <nav id="navbar-shared" class="navbar navbar-default navbar-fixed-top">
@@ -87,7 +90,7 @@
         <div id="search-form-group" class="form-group">
           <div id="search-input-group" class="input-group">
             <div class="input-group-btn" style="width:1%;">
-              <button class="btn btn-default" type="button" style="font-size: 12px; height: 34px;">
+              <button class="btn btn-default" type="button" style="font-size: 12px; height: 34px;" onclick="gotoAdvancedSearch()">
                 Ricerca avanzata
               </button>
               <!--

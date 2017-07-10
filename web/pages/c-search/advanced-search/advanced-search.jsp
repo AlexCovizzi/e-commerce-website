@@ -40,7 +40,7 @@ if(action.equals("view")) {
 
     <!-- carica i tuoi file js qui -->
     <script type="text/javascript" src="signup.js"></script>
-
+    
     <script>
       var nAuthors = 1;
       var nPublishers = 1;
@@ -75,8 +75,8 @@ if(action.equals("view")) {
         
         removeInput = document.createElement("button");
         removeInput.setAttribute("type", "button");
-        removeInput.setAttribute("class", "btn btn-default col-sm-2");
-        removeInput.textContent = "Rimuovi";
+        removeInput.setAttribute("class", "btn btn-default col-sm-1");
+        removeInput.textContent = "X";
         removeInput.onclick = function() { document.getElementById(key+"-form-group-"+n).remove(); }
         
         authorInputGroup.appendChild(removeInput);
@@ -178,6 +178,13 @@ if(action.equals("view")) {
             <input type="text" name='priceMax' class="form-control" id="search-price-max">
           </div>
         </div> </br>
+        
+        <div class="form-group">
+          <label class="control-label col-sm-2" for="search-vote">Voto minimo</label>
+          <div class="col-sm-2">
+            <input type="number" name='vote' min="0" max="100" class="form-control" id="search-vote">
+          </div>
+        </div></br>
         
         <button class='col-sm-offset-2 btn btn-default' type='submit'>
           Cerca

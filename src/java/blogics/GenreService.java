@@ -228,12 +228,49 @@ public class GenreService {
     Restituisce i 5 generi con piu occorrenze nella ricerca effettuata
     Serve per scrivere i filtri nella pagina di ricerca
   */
-  public static List<Pair<String, Integer>> getSearchGenres(Database db, String search) throws RecoverableDBException {
+  public static List<Pair<String, Integer>> getSearchGenres(Database db, String search, String[] g) throws RecoverableDBException {
     SqlBuilder sqlBuilder = new SqlBuilder();
 		ResultSet resultSet;
+    String sql = "";
 		List<Pair<String, Integer>> genres = new ArrayList();
     
-    String sql = sqlBuilder
+    if(g != null) {
+      String cond = "(";
+      for(int i=0; i<g.length; i++) {
+        if(i>0) cond += " OR ";
+        cond += "publisher_name="+Conversion.getDatabaseString(g[i]);
+      }
+      cond += ")";
+      
+      sqlBuilder
+              .select("g_name", "COUNT(*) AS n")
+              .from("BookView")
+              .join("BookGenre").on("book_isbn = isbn")
+              .where("title LIKE '%"+search+"%' OR isbn = '"+search+"'")
+              .and(cond)
+              .command("GROUP BY").params("g_name")
+              .command("ORDER BY").params("n").command("DESC");
+    
+      sql = sqlBuilder.done();
+
+      resultSet = db.select(sql);
+
+      try {
+        while (resultSet.next()) {
+          String genre = resultSet.getString("g_name");
+          int n = resultSet.getInt("n");
+          Pair<String, Integer> gen = new Pair(genre, n);
+          genres.add(gen);
+        }
+      } catch (SQLException ex) {
+        throw new RecoverableDBException(ex, "GenreService", "getSearchGenres", "Errore nel ResultSet");
+      } finally {
+        try { resultSet.close(); }
+        catch (SQLException ex) { Logger.error("GenreService", "getSearchGenres", ex.getMessage());}
+      }
+    }
+    
+    sql = sqlBuilder
 			.select("g_name", "COUNT(*) AS n")
 			.from("BookView")
       .join("BookGenre").on("book_isbn = isbn")
@@ -249,8 +286,15 @@ public class GenreService {
 			while (resultSet.next()) {
         String genre = resultSet.getString("g_name");
         int n = resultSet.getInt("n");
-        Pair<String, Integer> gen = new Pair(genre, n);
-				genres.add(gen);
+        
+        boolean alreadyInList = false;
+        for(Pair<String, Integer> pair : genres) {
+          if(genre.equals(pair.getFirst())) alreadyInList = true;
+        }
+        if(!alreadyInList) {
+          Pair<String, Integer> gen = new Pair(genre, n);
+          genres.add(gen);
+        }
 			}
 		} catch (SQLException ex) {
 			throw new RecoverableDBException(ex, "GenreService", "getSearchGenre", "Errore nel ResultSet");

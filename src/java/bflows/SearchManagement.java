@@ -45,6 +45,8 @@ public class SearchManagement extends AbstractManagement {
   public static final int[][] PRICE_RANGE_VALUES = { {0, 5,  10, 20, 50},
                                                      {5, 10, 20, 50, -1} };
   
+  public static final int[] VOTE_VALUES = {90, 75, 60, 45, 30};
+  
   /* Serve per le azioni che richiedono che l'utente sia loggato */
   private Cookie[] cookies;
   
@@ -58,6 +60,7 @@ public class SearchManagement extends AbstractManagement {
   private String[] publishers;
   private String[] genres;
   private int priceMin = -1, priceMax = -1; // -1 equivale a campo input vuoto
+  private int vote = -1;
   private int page = 1;
   // opzioni dei filtri
   private List<Pair<String, Integer>> genreFilters; // Generi con piu occorrenze nella ricerca base (senza filtri)
@@ -104,7 +107,7 @@ public class SearchManagement extends AbstractManagement {
     try {
       
       /* Recupero i libri che soddisfano la ricerca e le loro info (autori, generi) */
-      books = BookService.getBookList(database, search, authors, publishers, genres, priceMin, priceMax, ORDER_VALUES[ord], page, RESULTS_PER_PAGE);
+      books = BookService.getBookList(database, search, authors, publishers, genres, priceMin, priceMax, vote, ORDER_VALUES[ord], page, RESULTS_PER_PAGE);
       for(Book b : books) {
         List<Author> bAuthors = AuthorService.getBookAuthors(database, b.getIsbn());
         List<Genre> bGenres = GenreService.getBookGenres(database, b.getIsbn());
@@ -114,16 +117,17 @@ public class SearchManagement extends AbstractManagement {
       }
       
       /* Recupero il numero totale dei risultati della ricerca */
-      totResults = BookService.getTotalResults(database, search, authors, publishers, genres, priceMin, priceMax);
+      totResults = BookService.getTotalResults(database, search, authors, publishers, genres, priceMin, priceMax, vote);
       
       /* 
         recupero info varie sulla ricerca
         mi servono per "compilare" il menu a sx nella pagina search.jsp 
       */
-      genreFilters = GenreService.getSearchGenres(database, search);
-      authorFilters = AuthorService.getSearchAuthors(database, search);
-      publisherFilters = PublisherService.getSearchPublishers(database, search);
+      authorFilters = AuthorService.getSearchAuthors(database, search, authors);
+      publisherFilters = PublisherService.getSearchPublishers(database, search, publishers);
+      genreFilters = GenreService.getSearchGenres(database, search, genres);
       priceFilters = BookService.getFilterPrices(database, search, PRICE_RANGE_VALUES);
+      voteFilters = BookService.getFilterVotes(database, search, VOTE_VALUES);
 
       database.commit();
     } catch (RecoverableDBException ex) {
@@ -297,6 +301,10 @@ public class SearchManagement extends AbstractManagement {
     this.priceMax = priceMax;
   }
   
+  public void setVote(int vote) {
+    this.vote = vote;
+  }
+  
   public void setPage(int page) {
     this.page = page;
   }
@@ -348,6 +356,10 @@ public class SearchManagement extends AbstractManagement {
   
   public int getPriceMax() {
     return priceMax;
+  }
+  
+  public int getVote() {
+    return vote;
   }
   
   public int getPage() {

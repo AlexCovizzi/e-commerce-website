@@ -145,13 +145,13 @@ public class BookService {
    * @throws RecoverableDBException 
    */
 	public static List<Book> getBookList(Database db, String search, String[] authors,
-			String[] publishers, String[] genres, int priceMin, int priceMax,
+			String[] publishers, String[] genres, int priceMin, int priceMax, int vote,
 			String ord, int page, int booksPerPage) throws RecoverableDBException {
 		
 		ResultSet resultSet;
 		List<Book> bookList = new ArrayList();
 		
-    SqlBuilder sqlBuilder = getBookSearchQuery(search, authors, publishers, genres, priceMin, priceMax);
+    SqlBuilder sqlBuilder = getBookSearchQuery(search, authors, publishers, genres, priceMin, priceMax, vote);
     
 		sqlBuilder
       .orderBy(ord)
@@ -182,12 +182,12 @@ public class BookService {
    * 
    * @throws RecoverableDBException 
    */
-  public static int getTotalResults(Database db, String search, String[] authors, String[] publishers, String[] genres, int priceMin, int priceMax) throws RecoverableDBException {
+  public static int getTotalResults(Database db, String search, String[] authors, String[] publishers, String[] genres, int priceMin, int priceMax, int vote) throws RecoverableDBException {
     SqlBuilder sqlBuilder = new SqlBuilder();
 		ResultSet resultSet;
     int totResults = 0;
     
-    String innerSql = getBookSearchQuery(search, authors, publishers, genres, priceMin, priceMax).toString();
+    String innerSql = getBookSearchQuery(search, authors, publishers, genres, priceMin, priceMax, vote).toString();
     
     String sql = sqlBuilder
 			.select("COUNT(*) AS n")
@@ -248,17 +248,19 @@ public class BookService {
     return prices;
   }
   
-  public static int[] getFilterVotes(Database db, String search, float[][] voteRangeOptions) throws RecoverableDBException {
+  public static int[] getFilterVotes(Database db, String search, int[] voteFilters) throws RecoverableDBException {
     SqlBuilder sqlBuilder = new SqlBuilder();
 		ResultSet resultSet;
-		int[] votes = new int[voteRangeOptions.length];
+		int[] votes = new int[voteFilters.length];
     
     sqlBuilder
 			.select("T.vote_range", "COUNT(*) AS n");
     
-    String q = "(SELECT CASE ";
-    for(int i=0; i<voteRangeOptions.length; i++) {
-      q += "WHEN vote BETWEEN "+voteRangeOptions[i][0]+" AND "+ voteRangeOptions[i][1]+" THEN "+i+" ";
+    String q = "(SELECT CASE";
+    for(int i=0; i<voteFilters.length; i++) {
+      float min = voteFilters[i]*0.01f;
+      if(min < 0) min = 0;
+      q += " WHEN vote >= "+min+" THEN "+i+" ";
     }
     q += "END AS vote_range FROM (SELECT vote FROM BookView WHERE title LIKE '%"+search+"%' OR isbn = '"+search+"') B) AS T";
     
@@ -270,8 +272,10 @@ public class BookService {
 		try {
 			while (resultSet.next()) {
         int voteRange = resultSet.getInt("vote_range");
+        Logger.debug(voteRange);
         int n = resultSet.getInt("n");
         votes[voteRange] = n;
+        if(voteRange > 0) votes[voteRange] += votes[voteRange-1];
 			}
 		} catch (SQLException ex) {
 			throw new RecoverableDBException(ex, "BookService", "getFilterVotes", "Errore nel ResultSet");
@@ -288,7 +292,7 @@ public class BookService {
    * 
    * @return 
    */
-  private static SqlBuilder getBookSearchQuery(String search, String[] authors, String[] publishers, String[] genres, int priceMin, int priceMax) {
+  private static SqlBuilder getBookSearchQuery(String search, String[] authors, String[] publishers, String[] genres, int priceMin, int priceMax, int vote) {
     SqlBuilder sqlBuilder = new SqlBuilder();
     
 		sqlBuilder
@@ -338,6 +342,13 @@ public class BookService {
     if(priceMax == -1) priceMax = 999999;
     String priceCondition = " price BETWEEN "+priceMin+ " AND " + priceMax;
     sqlBuilder.and(priceCondition);
+    
+    if(vote >= 0) {
+      if(vote > 100) vote = 100;
+      float vMin = vote*0.01f;
+      String voteCondition = " vote >= "+vMin;
+      sqlBuilder.and(voteCondition);
+    }
     
     return sqlBuilder;
   }
