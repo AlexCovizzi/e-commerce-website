@@ -5,7 +5,7 @@
   boolean admin = (Boolean) request.getAttribute("admin");
 %>
 
-<table class="recensione_singola">
+<table class="recensione_singola table table-striped">
     <tr>
         <th><b><%=review.getUserName()+" "+review.getUserSurname()%></b></th>
         
@@ -31,6 +31,14 @@
           <% } %>
     </tr>
     <tr>
-        <td colspan="2"><%=review.getComment()%></td>
+        <td colspan="2">
+          <% if(!review.getComment().equals("null")) { %>
+          <%=review.getComment()%>
+          <% } else { %>
+          <i>L'utente non ha lasciato commenti</i>
+          <% } %>
+        </td>
     </tr>
 </table>
+        
+<div class='divider-horizontal'></div>

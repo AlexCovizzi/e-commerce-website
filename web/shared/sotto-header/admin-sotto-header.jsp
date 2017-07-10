@@ -15,6 +15,7 @@
         <li><a href="javascript: gestioneOrdini()">Gestione Ordini</a></li>
         <li><a href="javascript: gestioneCoupon()">Gestione Coupon</a></li>
         <li><a href="javascript: aggiungiLibro()">Aggiungi Libro</a></li>
+        <li><a href="javascript: gestioneRecensioni()">Gestione Recensioni</a></li>
         <li><a href="javascript: logout()">Logout</a></li>
       </ul>
     </div>
@@ -36,6 +37,10 @@
     </form>
     
     <form name="aggiungiLibroForm" method="post" action="../add-book/add-book.jsp">
+      <input type="hidden" name="action" value="view"/>
+    </form>
+    
+    <form name="gestioneRecensioniForm" method="post" action="../admin-reviews/admin-reviews.jsp">
       <input type="hidden" name="action" value="view"/>
     </form>
     

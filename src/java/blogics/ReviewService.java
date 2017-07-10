@@ -141,11 +141,20 @@ public class ReviewService {
     SqlBuilder sqlBuilder = new SqlBuilder();
     int risultato;
     
-    sql = sqlBuilder
+    sqlBuilder = sqlBuilder
 				.select("count(*)").as("N")
-				.from("Vote")
-        .where("user_id = " + userId)
-        .done();
+				.from("Vote");
+    
+    /* Conta il numero di recensioni di un utente */
+    if(userId > 0)
+      sqlBuilder = sqlBuilder
+          .where("user_id = " + userId);
+    /* Conta il numero di recensioni totali con commenti non vuoti */
+    else
+      sqlBuilder = sqlBuilder
+          .where("comment != 'null'");
+    
+    sql = sqlBuilder.done();
     
     ResultSet resultSet = database.select(sql);
 
@@ -158,9 +167,39 @@ public class ReviewService {
 			try { resultSet.close(); }
 			catch (SQLException ex) { Logger.error("VoteService", "countVotes", ex.getMessage());}
 		}
-
+    
 		return risultato;
   }
   
-  
+  public static List<Review> getReviews(Database database, int limit, int offset)
+      throws RecoverableDBException {
+    String sql = "";
+    SqlBuilder sqlBuilder = new SqlBuilder();
+    List<Review> recensioni = new ArrayList<>();
+    
+    sql = sqlBuilder
+				.select("*")
+				.from("VoteView")
+        .where("comment != 'null'")
+        .limit(limit).offset(offset)
+        .done();
+    
+    System.out.println(sql);
+    
+    ResultSet resultSet = database.select(sql);
+    
+    try {
+			while(resultSet.next()) {
+				Review recensione = new Review(resultSet);
+				recensioni.add(recensione);
+			}
+		} catch (SQLException ex) {
+			throw new RecoverableDBException(ex, "ReviewService", "getReviews", "Errore nel ResultSet");
+		} finally {
+			try { resultSet.close(); }
+			catch (SQLException ex) { Logger.error("ReviewService", "getReviews", ex.getMessage());}
+		}
+
+		return recensioni;
+  }
 }

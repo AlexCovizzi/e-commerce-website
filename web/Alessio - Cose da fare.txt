@@ -15,8 +15,12 @@
  - Finire i metodi del bean del purchase ----- FATTOOOOOOOOOOO
  - Visualizzare anche il prezzo totale nel riepilogo ----- FATTOOOOOOOOOOO
  - Come fare in modo di far calcolare per bene il coupon? ----- FATTOOOOOOOOOOO
- - Sistemare la visualizzazione delle recensioni
- - Sistemare il calcolo della percentuale dei voti positivi
+ - Sistemare la visualizzazione delle recensioni ----- FATTOOOOOOOOOOO
+ - Sistemare il calcolo della percentuale dei voti positivi ----- FATTOOOOOOOOOOO
+ - Fare la pagina per la visualizzazione delle recensioni dell'utente ----- FATTOOOOOOOOOOO
+ - Fare la pagina per la visualizzazione delle recensioni per l'admin ----- FATTOOOOOOOOOOO
+ - Sistemare l'ordine in cui vengono mostrati ordini, utenti, admin e recensioni per l'admin
+ - Sistemare la visualizzazione dei prezzi nelle mie pagine
 
 DOCUMENTAZIONE
 Finire di rivedere i casi d'uso (aggiungere il flusso di Gestione amministratori e togliere quello degli indirizzi) ----- FATTOOOOOOOOOOO
