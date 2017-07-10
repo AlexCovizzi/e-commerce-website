@@ -11,6 +11,7 @@ import blogics.GenreService;
 import blogics.Order;
 import blogics.OrderService;
 import blogics.PublisherService;
+import blogics.Review;
 import blogics.ReviewService;
 import blogics.User;
 import blogics.UserService;
@@ -65,12 +66,19 @@ public class AdminManagement extends AbstractManagement implements Serializable 
   private String email;
   private String password;
   
+  /* Servono per le recensioni */
+  private List<Review> recensioni;
+  /* Uso anche di:
+   * private String isbn;
+   * private int listUserId;
+   */
+  
   /* Dividere i risultati in diverse pagine */
   public static int risultatiPerPagina = 25;
   private int numeroPagine = -1;
   private int pagina = 1;
   private int offset = 0;
-  
+
   
   
   /* FATTO */
@@ -640,6 +648,47 @@ Database database = DBService.getDataBase();
   
   
   
+  /* FATTO */
+  /* admins.jsp -> admin-reviews.jsp : view */
+  public void visualizzaTabellaRecensioni() throws UnrecoverableDBException {
+    Database database = DBService.getDataBase();
+    
+    try {
+      /* Recupero le recensioni dal DB */
+      this.recuperaRecensioni(database);
+      
+      /* FINITO! */
+      database.commit();
+    } catch (RecoverableDBException ex) {
+      database.rollBack();
+      setErrorMessage(ex.getMsg());
+		} finally {
+      database.close();
+    }
+  }
+  
+  /* admin-reviews.jsp -> admin-reviews.jsp : view */
+  public void rimuoviRecensione() throws UnrecoverableDBException {
+    Database database = DBService.getDataBase();
+    
+    try {
+      /* Rimuovo la recensione indicata */
+      ReviewService.removeReview(database, listUserId, isbn);
+      
+      /* Recupero le recensioni dal DB */
+      this.recuperaRecensioni(database);
+      
+      /* FINITO! */
+      database.commit();
+    } catch (RecoverableDBException ex) {
+      database.rollBack();
+      setErrorMessage(ex.getMsg());
+		} finally {
+      database.close();
+    }
+  }
+  
+  
   
   
   /* Funzioni utili */
@@ -769,6 +818,18 @@ Database database = DBService.getDataBase();
         order.addBook(book, pair.getSecond());
       }
     }
+  }
+  
+  public void recuperaRecensioni(Database database) throws RecoverableDBException {
+    /* Conto le pagine solo se non le ho già contate prima */
+    if(numeroPagine < 0) {
+      int numeroRisultati = ReviewService.countVotes(database, -1);
+      numeroPagine = numeroRisultati / risultatiPerPagina;
+      if(numeroPagine > 0 && (numeroRisultati % risultatiPerPagina) != 0)
+        numeroPagine++;
+    }
+    
+    recensioni = ReviewService.getReviews(database, risultatiPerPagina, offset);
   }
   
   
@@ -916,6 +977,10 @@ Database database = DBService.getDataBase();
   public String getPassword() {
     return password;
   }
+
+  public List<Review> getRecensioni() {
+    return recensioni;
+  }
   
   
   
@@ -1062,6 +1127,14 @@ Database database = DBService.getDataBase();
 
   public void setPassword(String password) {
     this.password = password;
+  }
+
+  public void setOrder(Order order) {
+    this.order = order;
+  }
+
+  public void setRecensioni(List<Review> recensioni) {
+    this.recensioni = recensioni;
   }
   
 }

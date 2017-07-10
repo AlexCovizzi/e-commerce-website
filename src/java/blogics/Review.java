@@ -7,6 +7,7 @@ import java.sql.SQLException;
 
 public class Review {
   private String bookIsbn;
+  private String bookTitle;
   private int userId;
   private String userName;
   private String userSurname;
@@ -26,6 +27,7 @@ public class Review {
   
   public Review(ResultSet resultSet) {
     try {bookIsbn = resultSet.getString("book_isbn");} catch (SQLException sqle) {}
+    try {bookTitle = resultSet.getString("title");} catch (SQLException sqle) {}
     try {userId = resultSet.getInt("user_id");} catch (SQLException sqle) {}
     try {userName = resultSet.getString("name");} catch (SQLException sqle) {}
     try {userSurname = resultSet.getString("surname");} catch (SQLException sqle) {}
@@ -66,6 +68,9 @@ public class Review {
   public String toString() {
     return "review: "+thumbUp+", "+comment; //To change body of generated methods, choose Tools | Templates.
   }
-  
+
+  public String getBookTitle() {
+    return bookTitle;
+  }
   
 }

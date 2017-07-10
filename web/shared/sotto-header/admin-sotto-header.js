@@ -24,6 +24,11 @@ function aggiungiLibro() {
   return;
 }
 
+function gestioneRecensioni() {           
+  document.gestioneRecensioniForm.submit();
+  return;
+}
+
 function logout() {           
   document.logoutForm.submit();
   return;

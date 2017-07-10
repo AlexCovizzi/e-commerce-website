@@ -65,6 +65,7 @@
       <h4><a href="javascript: gestioneOrdini()">Gestione Ordini</a></h4>
       <h4><a href="javascript: gestioneCoupon()">Gestione Coupon</a></h4>
       <h4><a href="javascript: aggiungiLibro()">Aggiungi Libro</a></h4>
+      <h4><a href="javascript: gestioneRecensioni()">Gestione Recensioni</a></h4>
       <h4><a href="javascript: logout()">Logout</a></h4>
     </div>
 
