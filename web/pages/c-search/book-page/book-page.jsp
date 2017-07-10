@@ -45,6 +45,7 @@
 
     <!-- carica i tuoi file css qui -->
     <link href="book-page.css" rel="stylesheet" type="text/css" />
+    <link href="../../../shared/review/review.css" rel="stylesheet" type="text/css" />
 
     <!-- carica i tuoi file js qui -->
     <script type="text/javascript" src="book-page.js"></script>
@@ -290,7 +291,7 @@
                                   placeholder="Scrivi la tua recensione... (facoltativo)"
                                   cols="100" rows="5"></textarea>
                         <% if(searchManagement.getUserBookReview() != null) { %>
-                          <% if(searchManagement.getUserBookReview().getComment() != null) { %>
+                        <% if(!searchManagement.getUserBookReview().getComment().equals("null")) { %>
                           <script>
                             document.getElementById("recensione").value = '<%=searchManagement.getUserBookReview().getComment()%>';
                           </script>
