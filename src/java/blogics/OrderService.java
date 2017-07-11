@@ -5,9 +5,11 @@
  */
 package blogics;
 
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import services.database.Database;
 import services.database.exception.RecoverableDBException;
@@ -288,5 +290,46 @@ public class OrderService {
 			.done();
     
     database.modify(sql);
+  }
+  
+  /**
+   * Restituisce i libri piu acquistati dell'ultimo mese
+   * @param n Il numero di libri da restituire
+   * @return 
+   */
+  public static List<String> getMostSoldBooks(Database database, int n) throws RecoverableDBException {
+    List<String> books = new ArrayList<>();
+    SqlBuilder sqlBuilder = new SqlBuilder();
+    
+    java.sql.Date today = new java.sql.Date(Calendar.getInstance().getTime().getTime());
+    java.sql.Date lastMonth = new java.sql.Date(Calendar.getInstance().getTime().getTime());
+    lastMonth.setMonth(today.getMonth()-1);
+    
+    String sql = sqlBuilder
+            .select("order_id", "created", "book_isbn", "COUNT(*) AS n")
+            .from("OrderView")
+            .join("Order_has_Book").on("order_id = id")
+            .where("created >= "+Conversion.getDatabaseString(lastMonth.toString()))
+              .and("created < "+Conversion.getDatabaseString(today.toString()))
+            .groupBy("book_isbn")
+            .orderBy("n")
+            .limit(n)
+            .done();
+    
+    ResultSet resultSet = database.select(sql);
+    
+    try {
+			while(resultSet.next()) {
+        String isbn = resultSet.getString("book_isbn");
+        books.add(isbn);
+			}
+		} catch (SQLException ex) {
+			throw new RecoverableDBException(ex, "OrderService", "getMostSelledBooks", "Errore nel ResultSet");
+		} finally {
+			try { resultSet.close(); }
+			catch (SQLException ex) { Logger.error("OrderService", "getMostSelledBooks", ex.getMessage());}
+		}
+
+		return books;
   }
 }

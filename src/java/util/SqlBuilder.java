@@ -1,67 +1,71 @@
 package util;
 
 public class SqlBuilder {
-    private String statement = "";
+  private String statement = "";
 
-    public SqlBuilder() {
-		
-    }
+  public SqlBuilder() {
 
-    /* SELECT statement */
-    public SqlBuilder select(String...params) {
-        return command("SELECT").params(params);
-    }
-	
-	public SqlBuilder selectDistinct(String...params) {
-        return command("SELECT DISTINCT").params(params);
-    }
+  }
 
-    public SqlBuilder from(String...tables) {
-        return command("FROM").params(tables);
-    }
+  /* SELECT statement */
+  public SqlBuilder select(String...params) {
+      return command("SELECT").params(params);
+  }
 
-    public SqlBuilder where(String condition) {
-        return command("WHERE").enclosedParams(condition);
-    }
+public SqlBuilder selectDistinct(String...params) {
+      return command("SELECT DISTINCT").params(params);
+  }
 
-    public SqlBuilder join(String table) {
-        return command("JOIN").params(table);
-    }
+  public SqlBuilder from(String...tables) {
+      return command("FROM").params(tables);
+  }
 
-    public SqlBuilder as(String alias) {
-        return command("AS").params(alias);
-    }
+  public SqlBuilder where(String condition) {
+      return command("WHERE").enclosedParams(condition);
+  }
 
-    public SqlBuilder on(String condition) {
-        return command("ON").enclosedParams(condition);
-    }
+  public SqlBuilder join(String table) {
+      return command("JOIN").params(table);
+  }
 
-    public SqlBuilder limit(int number) {
-        return command("LIMIT").params(String.valueOf(number));
-    }
+  public SqlBuilder as(String alias) {
+      return command("AS").params(alias);
+  }
 
-    public SqlBuilder offset(int offset) {
-        return command("OFFSET").params(String.valueOf(offset));
-    }
+  public SqlBuilder on(String condition) {
+      return command("ON").enclosedParams(condition);
+  }
 
-    public SqlBuilder limit(int number, int offset) {
-        limit(number);
-        offset(offset);
-        return this;
-    }
-    
-    public SqlBuilder orderBy(String column) {
-        return command("ORDER BY").params(column);
-    }
+  public SqlBuilder limit(int number) {
+      return command("LIMIT").params(String.valueOf(number));
+  }
 
-    /* INSERT statement */
-    public SqlBuilder insertInto(String table, String...columns) {
-        return command("INSERT INTO").params(table).enclosedParams(columns);
-    }
+  public SqlBuilder offset(int offset) {
+      return command("OFFSET").params(String.valueOf(offset));
+  }
 
-    public SqlBuilder values(Object...values) {
-        return command("VALUES").enclosedParams(values);
-    }
+  public SqlBuilder limit(int number, int offset) {
+      limit(number);
+      offset(offset);
+      return this;
+  }
+  
+  public SqlBuilder groupBy(String param) {
+    return command("GROUP BY").params(param);
+  }
+
+  public SqlBuilder orderBy(String column) {
+      return command("ORDER BY").params(column);
+  }
+
+  /* INSERT statement */
+  public SqlBuilder insertInto(String table, String...columns) {
+      return command("INSERT INTO").params(table).enclosedParams(columns);
+  }
+
+  public SqlBuilder values(Object...values) {
+      return command("VALUES").enclosedParams(values);
+  }
 	
 	/* UPDATE statement */
 	public SqlBuilder update(String table) {
@@ -90,14 +94,14 @@ public class SqlBuilder {
 		return command("OR").enclosedParams(condition);
 	}
 
-    /* Core */
-    public SqlBuilder command(String command) {
-        return concat(command);
-    }
+  /* Core */
+  public SqlBuilder command(String command) {
+      return concat(command);
+  }
 
-    public SqlBuilder params(Object...params) {
-        return concat(formatParamArray(params));
-    }
+  public SqlBuilder params(Object...params) {
+      return concat(formatParamArray(params));
+  }
 	
 	public SqlBuilder enclosedParams(Object...params) {
 		return concat("( "+formatParamArray(params)+" )");
@@ -115,12 +119,12 @@ public class SqlBuilder {
   }
 
 	/* Metodi utility */
-    private SqlBuilder concat(String...strings) {
-        for(String string : strings) {
-            statement += string+" ";
-        }
-        return this;
-    }
+  private SqlBuilder concat(String...strings) {
+      for(String string : strings) {
+          statement += string+" ";
+      }
+      return this;
+  }
 	
 	private String formatParamArray(Object...paramArray) {
 		String formatted = "";

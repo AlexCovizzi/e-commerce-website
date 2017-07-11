@@ -88,4 +88,131 @@ public class BookHistoryService {
     
     return exist;
   }
+  
+  /**
+   * Restituisce i 2 generi piu visualizzati dall'utente
+   * @return 
+   */
+  public static List<String> getMostViewedGenres(Database db, int userId) throws RecoverableDBException {
+    List<String> genres = new ArrayList<>();
+    SqlBuilder sqlBuilder = new SqlBuilder();
+    ResultSet resultSet;
+    String sqlUser;
+    String sqlAll;
+    
+    sqlUser = sqlBuilder
+            .select("H.user_id", "H.book_isbn", "G.g_name", "COUNT(*) AS n")
+            .from("BookHistory").as("H")
+            .join("BookGenre").as("G").on("G.book_isbn = H.book_isbn")
+            .where("H.user_id="+userId)
+            .groupBy("G.g_name")
+            .orderBy("n")
+            .limit(3)
+            .done();
+    
+    sqlAll = sqlBuilder
+            .select("H.book_isbn", "G.g_name", "COUNT(*) AS n")
+            .from("BookHistory").as("H")
+            .join("BookGenre").as("G").on("G.book_isbn = H.book_isbn")
+            .groupBy("G.g_name")
+            .orderBy("n")
+            .limit(3)
+            .done();
+    
+    if(userId < 0) resultSet = db.select(sqlAll);
+    else resultSet = db.select(sqlAll);
+    
+    try {
+      while(resultSet.next()) {
+        String genre = resultSet.getString("g_name");
+        genres.add(genre);
+      }
+      resultSet.close();
+    } catch (SQLException e) {
+      throw new RecoverableDBException(e, "BookHistoryService", "getMostViewedGenres", "Errore sul ResultSet.");
+    }
+    
+    // se non ho trovato abbastanza risultati uso la ricerca su tutti gli utenti
+    if(genres.size() < 3) {
+      genres = new ArrayList<>();
+      
+      resultSet = db.select(sqlAll);
+    
+      try {
+        while(resultSet.next()) {
+          String genre = resultSet.getString("g_name");
+          genres.add(genre);
+        }
+        resultSet.close();
+      } catch (SQLException e) {
+        throw new RecoverableDBException(e, "BookHistoryService", "getMostViewedGenres", "Errore sul ResultSet.");
+      }
+    }
+    
+    return genres;
+  }
+  
+  /**
+   * Restituisce i 2 autori piu visualizzati dall'utente
+   * se nessun utente è loggato restituisce i 2 piu visualizzati in generale
+   * @return 
+   */
+  public static List<String> getMostViewedAuthors(Database db, int userId) throws RecoverableDBException {
+    List<String> authors = new ArrayList<>();
+    SqlBuilder sqlBuilder = new SqlBuilder();
+    ResultSet resultSet;
+    String sqlUser;
+    String sqlAll;
+    
+    sqlUser = sqlBuilder
+              .select("H.user_id", "H.book_isbn", "A.a_name", "COUNT(*) AS n")
+              .from("BookHistory").as("H")
+              .join("BookAuthor").as("A").on("A.book_isbn = H.book_isbn")
+              .where("H.user_id="+userId)
+              .groupBy("A.a_name")
+              .orderBy("n")
+              .limit(3)
+              .done();
+    
+    sqlAll = sqlBuilder
+              .select("H.book_isbn", "A.a_name", "COUNT(*) AS n")
+              .from("BookHistory").as("H")
+              .join("BookAuthor").as("A").on("A.book_isbn = H.book_isbn")
+              .groupBy("A.a_name")
+              .orderBy("n")
+              .limit(3)
+              .done();
+    
+    if(userId < 0) resultSet = db.select(sqlAll);
+    else resultSet = db.select(sqlUser);
+    
+    try {
+      while(resultSet.next()) {
+        String author = resultSet.getString("a_name");
+        authors.add(author);
+      }
+      resultSet.close();
+    } catch (SQLException e) {
+      throw new RecoverableDBException(e, "BookHistoryService", "getMostViewedAuthors", "Errore sul ResultSet.");
+    }
+    
+    // se non ho trovato abbastanza risultati uso la ricerca su tutti gli utenti
+    if(authors.size() < 3) {
+      authors = new ArrayList<>();
+      
+      resultSet = db.select(sqlAll);
+    
+      try {
+        while(resultSet.next()) {
+          String author = resultSet.getString("a_name");
+          authors.add(author);
+        }
+        resultSet.close();
+      } catch (SQLException e) {
+        throw new RecoverableDBException(e, "BookHistoryService", "getMostViewedAuthors", "Errore sul ResultSet.");
+      }
+    }
+    
+    return authors;
+  }
 }

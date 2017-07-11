@@ -12,6 +12,7 @@ import blogics.BookHistoryService;
 import blogics.BookService;
 import blogics.Genre;
 import blogics.GenreService;
+import blogics.OrderService;
 import blogics.Publisher;
 import blogics.PublisherService;
 import blogics.Review;
@@ -49,6 +50,13 @@ public class SearchManagement extends AbstractManagement {
   
   /* Serve per le azioni che richiedono che l'utente sia loggato */
   private Cookie[] cookies;
+  
+  /**
+   * Pagina: homepage.jsp
+   */
+  private List<Book> suggestedBooks;
+  private List<Book> mostSoldBooks;
+  private List<Book> lastPublishedBooks; 
   
   /**
    * Pagina: search.jsp
@@ -93,6 +101,65 @@ public class SearchManagement extends AbstractManagement {
   private List<Genre> allGenres;
   
 	
+  public void homepageView() throws UnrecoverableDBException {
+    Database database = DBService.getDataBase();
+    
+    try {
+      List<String> mostViewedGenres;
+      List<String> mostViewedAuthors;
+      
+      mostViewedGenres = BookHistoryService.getMostViewedGenres(database, Session.getUserId(cookies));
+      mostViewedAuthors = BookHistoryService.getMostViewedAuthors(database, Session.getUserId(cookies));
+      
+      String[] mostViewedGenresArr = new String[mostViewedGenres.size()];
+      String[] mostViewedAuthorsArr = new String[mostViewedAuthors.size()];
+      
+      mostViewedGenresArr = mostViewedGenres.toArray(mostViewedGenresArr);
+      mostViewedAuthorsArr = mostViewedAuthors.toArray(mostViewedAuthorsArr);
+      
+      suggestedBooks = new ArrayList<>();
+      suggestedBooks = BookService.getBookList(database, search, mostViewedAuthorsArr, publishers, mostViewedGenresArr, priceMin, priceMax, vote, ORDER_VALUES[2], 1, 9);
+      for(Book b : suggestedBooks) {
+        List<Author> bAuthors = AuthorService.getBookAuthors(database, b.getIsbn());
+        List<Genre> bGenres = GenreService.getBookGenres(database, b.getIsbn());
+
+        b.setAuthors(bAuthors);
+        b.setGenres(bGenres);
+      }
+      
+      mostSoldBooks = new ArrayList<>();
+      List<String> mostSoldBooksIsbn = OrderService.getMostSoldBooks(database, 9);
+      for(String bIsbn : mostSoldBooksIsbn) {
+        Book b = BookService.getBookFromIsbn(database, bIsbn);
+        List<Author> bAuthors = AuthorService.getBookAuthors(database, b.getIsbn());
+        List<Genre> bGenres = GenreService.getBookGenres(database, b.getIsbn());
+
+        b.setAuthors(bAuthors);
+        b.setGenres(bGenres);
+        
+        mostSoldBooks.add(b);
+      }
+      
+      lastPublishedBooks = new ArrayList<>();
+      lastPublishedBooks = BookService.getBookList(database, search, authors, publishers, genres, priceMin, priceMax, vote, ORDER_VALUES[0], 1, 9);
+      for(Book b : lastPublishedBooks) {
+        List<Author> bAuthors = AuthorService.getBookAuthors(database, b.getIsbn());
+        List<Genre> bGenres = GenreService.getBookGenres(database, b.getIsbn());
+
+        b.setAuthors(bAuthors);
+        b.setGenres(bGenres);
+      }
+      
+      database.commit();
+    } catch (RecoverableDBException ex) {
+			database.rollBack();
+			setErrorMessage(ex.getMsg());
+		} finally {
+      database.close();
+    }
+  }
+  
+  
 	/* search.jsp -> search.jsp : view */
   /**
    * Recupera la lista dei libri che soddisfano la ricerca base e i filtri
@@ -372,6 +439,18 @@ public class SearchManagement extends AbstractManagement {
   
   public String getComment() {
     return comment;
+  }
+  
+  public List<Book> getSuggestedBooks() {
+    return suggestedBooks;
+  }
+  
+  public List<Book> getMostSoldBooks() {
+    return mostSoldBooks;
+  }
+  
+  public List<Book> getLastPublishedBooks() {
+    return lastPublishedBooks;
   }
   
   public List<Pair<String, Integer>> getGenreFilters() {
