@@ -32,7 +32,7 @@ Sequence diagrams per
   - [trovane almeno un'altra]
 Documentazione classi e package JAVA
 
-PAGINE IN CUI VI SONO DUE TRANSAZIONI
+PAGINE IN CUI VI SONO DUE TRANSAZIONI ----- FATTOOOOOOOOOOO
 single-order - Sistemata
 orders
 cart
