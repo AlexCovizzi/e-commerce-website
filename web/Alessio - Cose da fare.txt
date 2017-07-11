@@ -19,12 +19,18 @@
  - Sistemare il calcolo della percentuale dei voti positivi ----- FATTOOOOOOOOOOO
  - Fare la pagina per la visualizzazione delle recensioni dell'utente ----- FATTOOOOOOOOOOO
  - Fare la pagina per la visualizzazione delle recensioni per l'admin ----- FATTOOOOOOOOOOO
- - Sistemare l'ordine in cui vengono mostrati ordini, utenti, admin e recensioni per l'admin
+ - Sistemare l'ordine in cui vengono mostrati ordini, utenti, admin e recensioni per l'admin ----- FATTOOOOOOOOOOO
  - Sistemare la visualizzazione dei prezzi nelle mie pagine ----- FATTOOOOOOOOOOO
+ - Fare in modo che cliccando sul numero di recensioni nella pagina users.jsp mostri le recensione di quell'utente ----- FATTOOOOOOOOOOO
 
-DOCUMENTAZIONE
-Finire di rivedere i casi d'uso (aggiungere il flusso di Gestione amministratori e togliere quello degli indirizzi) ----- FATTOOOOOOOOOOO
-e le specifiche (sono arrivato alla Gestione utenti)
+DOCUMENTAZIONE - INGEGNERIA DEL SOFTWARE
+Finire di rivedere i casi d'uso (aggiungere il flusso di Gestione amministratori e togliere quello degli indirizzi)
+e le specifiche (sono arrivato alla Gestione utenti) ----- FATTOOOOOOOOOOO
+Fare la documentazione per il caso d'uso "Gestione Recensioni" per l'admin ----- FATTOOOOOOOOOOO
+Sequence diagrams per
+  - confermare un ordine
+  - [trovane almeno un'altra]
+Documentazione classi e package JAVA
 
 PAGINE IN CUI VI SONO DUE TRANSAZIONI
 single-order - Sistemata

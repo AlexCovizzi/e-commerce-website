@@ -24,3 +24,10 @@ function submitVediOrdiniUtenteForm(userId) {
   f.submit();
   return;
 }
+
+function submitVediRecensioniUtenteForm(userId) {
+  var f = document.vediRecensioniUtenteForm;
+  f.listUserId.value = userId;
+  f.submit();
+  return;
+}

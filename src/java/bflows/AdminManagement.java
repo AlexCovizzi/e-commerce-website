@@ -58,7 +58,7 @@ public class AdminManagement extends AbstractManagement implements Serializable 
   private List<User> users;
   private List<Integer> numeroOrdini;
   private List<Integer> numeroRecensioni;
-  private int listUserId;
+  private int listUserId = -1;
   
   /* Servono per gli amministratori */
   private String name;
@@ -68,9 +68,9 @@ public class AdminManagement extends AbstractManagement implements Serializable 
   
   /* Servono per le recensioni */
   private List<Review> recensioni;
+  private int userReviewId;
   /* Uso anche di:
    * private String isbn;
-   * private int listUserId;
    */
   
   /* Dividere i risultati in diverse pagine */
@@ -673,7 +673,7 @@ Database database = DBService.getDataBase();
     
     try {
       /* Rimuovo la recensione indicata */
-      ReviewService.removeReview(database, listUserId, isbn);
+      ReviewService.removeReview(database, userReviewId, isbn);
       
       /* Recupero le recensioni dal DB */
       this.recuperaRecensioni(database);
@@ -687,7 +687,6 @@ Database database = DBService.getDataBase();
       database.close();
     }
   }
-  
   
   
   
@@ -790,7 +789,7 @@ Database database = DBService.getDataBase();
   public void contaRecensioniPerUtente(Database database) throws RecoverableDBException {
     numeroRecensioni = new ArrayList();
     for(int i = 0; i < users.size(); i++) {
-      int numeroDiRecensioni = ReviewService.countVotes(database, users.get(i).getId());
+      int numeroDiRecensioni = ReviewService.countVotes(database, users.get(i).getId(), true);
       numeroRecensioni.add(numeroDiRecensioni);
     }
   }
@@ -823,13 +822,13 @@ Database database = DBService.getDataBase();
   public void recuperaRecensioni(Database database) throws RecoverableDBException {
     /* Conto le pagine solo se non le ho già contate prima */
     if(numeroPagine < 0) {
-      int numeroRisultati = ReviewService.countVotes(database, -1);
+      int numeroRisultati = ReviewService.countVotes(database, listUserId, false);
       numeroPagine = numeroRisultati / risultatiPerPagina;
       if(numeroPagine > 0 && (numeroRisultati % risultatiPerPagina) != 0)
         numeroPagine++;
     }
     
-    recensioni = ReviewService.getReviews(database, risultatiPerPagina, offset);
+    recensioni = ReviewService.getReviews(database, listUserId, risultatiPerPagina, offset);
   }
   
   
@@ -980,6 +979,10 @@ Database database = DBService.getDataBase();
 
   public List<Review> getRecensioni() {
     return recensioni;
+  }
+
+  public int getUserReviewId() {
+    return userReviewId;
   }
   
   
@@ -1135,6 +1138,10 @@ Database database = DBService.getDataBase();
 
   public void setRecensioni(List<Review> recensioni) {
     this.recensioni = recensioni;
+  }
+
+  public void setUserReviewId(int userReviewId) {
+    this.userReviewId = userReviewId;
   }
   
 }

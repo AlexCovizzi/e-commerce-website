@@ -167,7 +167,7 @@
           <% } else { %>
           
             <div style="margin-bottom: 15px;"></div>
-            <div class='container'>
+            <div id="carrello-desideri">
               <button title="Modifica" class="btn btn-primary" type="button" onclick="submitAdminLibroForm('view')">
                 <i class="glyphicon glyphicon-edit"></i> Modifica
               </button>

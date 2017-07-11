@@ -135,7 +135,7 @@ public class ReviewService {
 		return review;
   }
   
-  public static int countVotes(Database database, int userId)
+  public static int countVotes(Database database, int userId, boolean contaVuote)
       throws RecoverableDBException {
     String sql = "";
     SqlBuilder sqlBuilder = new SqlBuilder();
@@ -146,15 +146,21 @@ public class ReviewService {
 				.from("Vote");
     
     /* Conta il numero di recensioni di un utente */
-    if(userId > 0)
+    if(userId > 0 && contaVuote)
       sqlBuilder = sqlBuilder
           .where("user_id = " + userId);
     /* Conta il numero di recensioni totali con commenti non vuoti */
-    else
+    else if(userId > 0 && !contaVuote)
+      sqlBuilder = sqlBuilder
+          .where("user_id = " + userId)
+            .and("comment != 'null'");
+    else if(userId < 0 && !contaVuote)
       sqlBuilder = sqlBuilder
           .where("comment != 'null'");
     
     sql = sqlBuilder.done();
+    
+    System.out.println(sql);
     
     ResultSet resultSet = database.select(sql);
 
@@ -171,16 +177,23 @@ public class ReviewService {
 		return risultato;
   }
   
-  public static List<Review> getReviews(Database database, int limit, int offset)
+  public static List<Review> getReviews(Database database, int userId, int limit, int offset)
       throws RecoverableDBException {
     String sql = "";
     SqlBuilder sqlBuilder = new SqlBuilder();
     List<Review> recensioni = new ArrayList<>();
     
-    sql = sqlBuilder
+    sqlBuilder = sqlBuilder
 				.select("*")
 				.from("VoteView")
-        .where("comment != 'null'")
+        .where("comment != 'null'");
+    
+    if(userId > 0)
+      sqlBuilder = sqlBuilder
+          .and("user_id = " + userId);
+        
+    sql = sqlBuilder
+        .orderBy("surname")
         .limit(limit).offset(offset)
         .done();
     

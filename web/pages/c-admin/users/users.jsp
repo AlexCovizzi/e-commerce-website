@@ -107,7 +107,11 @@
               <%= adminManagement.getNumeroOrdini().get(j) %>
             </a>
           </td>
-          <td><%= adminManagement.getNumeroRecensioni().get(j) %></td>
+          <td>
+            <a href="javascript: submitVediRecensioniUtenteForm(<%= adminManagement.getUsers().get(j).getId() %>)">
+              <%= adminManagement.getNumeroRecensioni().get(j) %>
+            </a>
+          </td>
         </tr>
         <% } %>
       </table>
@@ -122,9 +126,14 @@
         <input type="hidden" name="listUserId">
       </form>
       
-      <form name="vediOrdiniUtenteForm" action="../admin-orders/admin-orders.jsp">
+      <form name="vediOrdiniUtenteForm" action="../admin-orders/admin-orders.jsp" method="post">
         <input type="hidden" name="action" value="view">
         <input type="hidden" name="orderUser">
+      </form>
+      
+      <form name="vediRecensioniUtenteForm" action="../admin-reviews/admin-reviews.jsp" method="post">
+        <input type="hidden" name="action" value="view">
+        <input type="hidden" name="listUserId">
       </form>
       
       <form name="annullaForm" action="../admin-account/admin.jsp" method="post">

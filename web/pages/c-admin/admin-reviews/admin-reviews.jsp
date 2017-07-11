@@ -105,7 +105,7 @@
       
       <form name="rimuoviRecensioneForm" action="admin-reviews.jsp" method="post">
         <input type="hidden" name="action" value="remove">
-        <input type="hidden" name="listUserId">
+        <input type="hidden" name="userReviewId">
         <input type="hidden" name="isbn">
       </form>
       
