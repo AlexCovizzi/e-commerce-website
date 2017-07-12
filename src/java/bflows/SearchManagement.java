@@ -117,6 +117,9 @@ public class SearchManagement extends AbstractManagement {
       mostViewedGenresArr = mostViewedGenres.toArray(mostViewedGenresArr);
       mostViewedAuthorsArr = mostViewedAuthors.toArray(mostViewedAuthorsArr);
       
+      Logger.debug(mostViewedGenres);
+      Logger.debug(mostViewedAuthors);
+      
       suggestedBooks = new ArrayList<>();
       suggestedBooks = BookService.getBookList(database, search, mostViewedAuthorsArr, publishers, mostViewedGenresArr, priceMin, priceMax, vote, ORDER_VALUES[2], 1, 9);
       for(Book b : suggestedBooks) {

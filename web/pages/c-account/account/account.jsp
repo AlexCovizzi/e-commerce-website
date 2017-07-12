@@ -11,22 +11,15 @@
 <jsp:setProperty name="accountManagement" property="*" />
 
 <%
-  String message = null;
   Cookie[] cookies = request.getCookies();
-  Logger.debug(String.valueOf(cookies));
-  boolean loggedIn = (cookies != null);
+  boolean loggedIn = Session.isUserLoggedIn(cookies);
   
-  String action = request.getParameter("action");
-  if (action == null) action="view";
-  
-  message = accountManagement.getErrorMessage();
-  if(message != null) action = "view";
 %>
 
 <html>
   <head>
     
-    <!-- Se l'utente non è loggato (non ci sono cookies) ritorno alla homepage immantinente -->
+    <!-- Se l'utente non è loggato ritorno alla homepage immantinente -->
     <% if(!loggedIn) { %>
       <script language="javascript">
         location.replace("../../c-search/homepage/homepage.jsp");
@@ -87,6 +80,7 @@
       
     </div>
     
+    <!-- Form di logout -->
     <form action="../../c-login/login/login.jsp" id="logout" method="post">
       <input type="hidden" name="action" value="logout" />
     </form>
@@ -95,6 +89,6 @@
     <div class="footer">
       <%@ include file="../../../shared/footer/footer.jsp" %>
     </div>
-
+    
   </body>
 </html>

@@ -13,6 +13,7 @@
   String message = null;
   Cookie[] cookies = request.getCookies();
   boolean loggedIn = Session.isUserLoggedIn(cookies);
+  boolean admin = Session.isUserAdmin(cookies);
   
   String action = request.getParameter("action");
   if (action == null) action="view";
@@ -22,6 +23,7 @@
   }
   
   message = loginManagement.getErrorMessage();
+  // In caso di errori viene rimostrato il modulo di registrazione
   if(message != null) action = "view";
 %>
 
@@ -29,7 +31,7 @@
   <head>
     <title>Registrazione</title>
     
-    <% if(loggedIn && !Session.isUserAdmin(cookies)) { %>
+    <% if(loggedIn && !admin) { %>
       <script language="javascript">
         location.replace("../../c-search/homepage/homepage.jsp");
       </script>
@@ -83,28 +85,28 @@
         <div class="form-group">
           <label class="control-label col-sm-4" for="signup-first-name">Nome</label>
           <div class="col-sm-4">
-            <input type="text" name="name" class="form-control" id="signup-first-name" placeholder="Inserisci il tuo nome">
+            <input type="text" name="name" class="form-control" id="signup-first-name" placeholder="Inserisci il nome">
           </div>
         </div>
 
         <div class="form-group">
           <label class="control-label col-sm-4" for="signup-last-name">Cognome</label>
           <div class="col-sm-4">
-            <input type="text" name="surname" class="form-control" id="signup-last-name" placeholder="Inserisci il tuo cognome">
+            <input type="text" name="surname" class="form-control" id="signup-last-name" placeholder="Inserisci il cognome">
           </div>
         </div>
 
         <div class="form-group">
           <label class="control-label col-sm-4" for="signup-email">Email</label>
           <div class="col-sm-4">
-            <input required type="email" name='email' class="form-control" id="signup-email" placeholder="Inserisci la tua email">
+            <input required type="email" name='email' class="form-control" id="signup-email" placeholder="Inserisci l'email">
           </div>
         </div>
 
         <div class="form-group">
           <label class="control-label col-sm-4" for="signup-password">Password</label>
           <div class="col-sm-4">
-            <input required type="password" name='password' minlength="6" class="form-control" id="signup-password" placeholder="Inserisci la tua password">
+            <input required type="password" name='password' minlength="6" class="form-control" id="signup-password" placeholder="Inserisci la password">
           </div>
         </div>
         
@@ -151,7 +153,7 @@
         <script language="javascript">
           setTimeout(function(){
             window.location.replace("../login/login.jsp");
-          }, 1000);
+          }, 2000);
         </script>
       
       <%}%>

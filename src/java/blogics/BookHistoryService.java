@@ -9,6 +9,7 @@ import java.util.List;
 import services.database.Database;
 import services.database.exception.RecoverableDBException;
 import util.Conversion;
+import util.Logger;
 import util.SqlBuilder;
 
 public class BookHistoryService {
@@ -106,18 +107,22 @@ public class BookHistoryService {
             .join("BookGenre").as("G").on("G.book_isbn = H.book_isbn")
             .where("H.user_id="+userId)
             .groupBy("G.g_name")
-            .orderBy("n")
+            .orderBy("n DESC")
             .limit(3)
             .done();
     
+    Logger.debug(sqlUser);
+    
     sqlAll = sqlBuilder
-            .select("H.book_isbn", "G.g_name", "COUNT(*) AS n")
+            .select("user_id", "H.book_isbn", "G.g_name", "COUNT(*) AS n")
             .from("BookHistory").as("H")
             .join("BookGenre").as("G").on("G.book_isbn = H.book_isbn")
             .groupBy("G.g_name")
-            .orderBy("n")
+            .orderBy("n DESC")
             .limit(3)
             .done();
+    
+    Logger.debug(sqlAll);
     
     if(userId < 0) resultSet = db.select(sqlAll);
     else resultSet = db.select(sqlAll);
@@ -133,7 +138,7 @@ public class BookHistoryService {
     }
     
     // se non ho trovato abbastanza risultati uso la ricerca su tutti gli utenti
-    if(genres.size() < 3) {
+    if(genres.isEmpty()) {
       genres = new ArrayList<>();
       
       resultSet = db.select(sqlAll);
@@ -170,16 +175,16 @@ public class BookHistoryService {
               .join("BookAuthor").as("A").on("A.book_isbn = H.book_isbn")
               .where("H.user_id="+userId)
               .groupBy("A.a_name")
-              .orderBy("n")
+              .orderBy("n DESC")
               .limit(3)
               .done();
     
     sqlAll = sqlBuilder
-              .select("H.book_isbn", "A.a_name", "COUNT(*) AS n")
+              .select("user_id", "H.book_isbn", "A.a_name", "COUNT(*) AS n")
               .from("BookHistory").as("H")
               .join("BookAuthor").as("A").on("A.book_isbn = H.book_isbn")
               .groupBy("A.a_name")
-              .orderBy("n")
+              .orderBy("n DESC")
               .limit(3)
               .done();
     
@@ -197,7 +202,7 @@ public class BookHistoryService {
     }
     
     // se non ho trovato abbastanza risultati uso la ricerca su tutti gli utenti
-    if(authors.size() < 3) {
+    if(authors.isEmpty()) {
       authors = new ArrayList<>();
       
       resultSet = db.select(sqlAll);

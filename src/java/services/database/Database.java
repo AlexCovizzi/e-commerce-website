@@ -30,7 +30,7 @@ public class Database {
             ResultSet resultSet = statement.executeQuery(sql);
             return resultSet;
         } catch (SQLException ex) {
-            throw new RecoverableDBException(ex, "Database", "select", "Si è verificato un' errore nell'esecuzione della query");
+            throw new RecoverableDBException(ex, "Database", "select", "Si è verificato un' errore nell'esecuzione della query: \n"+sql);
         }
     }
   
@@ -39,7 +39,7 @@ public class Database {
         try {
             recordsNumber=statement.executeUpdate(sql);
         } catch (SQLException ex){
-            throw new RecoverableDBException(ex, "Database", "modify", "Si è verificato un' errore nell'esecuzione della update");
+            throw new RecoverableDBException(ex, "Database", "modify", "Si è verificato un' errore nell'esecuzione della update: \n"+sql);
         }
 
         return recordsNumber;

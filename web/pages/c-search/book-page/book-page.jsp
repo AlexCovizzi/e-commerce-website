@@ -91,6 +91,7 @@
               <% } else { %>
               src="http://thebooksblender.altervista.org/wp-content/uploads/2015/08/copertina-non-disponibile.jpg"
               <% } %>
+              onerror="this.src='http://thebooksblender.altervista.org/wp-content/uploads/2015/08/copertina-non-disponibile.jpg'"
             />
           </div>
         </div>

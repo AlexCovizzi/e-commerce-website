@@ -57,7 +57,7 @@
 
   <!-- content-area -->
   <div class="container content-area">
-    <div class="jumbotron" id="benvenuto">
+    <div class="my-jumbotron" id="benvenuto">
         <div class="container">
             <h1>Benvenuto!</h1>
             <p>La Libreria Oline Sant'Ale ti offre la scelta su numerosi
@@ -73,7 +73,7 @@
     </div>
         
     <!--Ultimi Arrivi-->
-    <div class="jumbotron sezione">
+    <div class="my-jumbotron sezione">
       <h2>Ultimi Arrivi</h2>
 
       <div id="ultimiArrivi" class="carousel slide" data-ride="carousel">
@@ -108,7 +108,7 @@
     <!--Ultimi Arrivi - Fine-->
 
     <!--I più Quotati-->
-    <div class="jumbotron sezione">
+    <div class="my-jumbotron sezione">
       <h2>I pi&ugrave; venduti</h2>
 
       <div id="iPiuQuotati" class="carousel slide" data-ride="carousel">
@@ -142,7 +142,7 @@
     <!--I più Quotati - Fine-->
 
     <!--Consigliati per Te-->
-    <div class="jumbotron sezione">
+    <div class=" sezione">
       <h2>Consigliati per Te</h2>
 
       <div id="consigliati" class="carousel slide" data-ride="carousel">

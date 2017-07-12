@@ -12,7 +12,6 @@
 <jsp:setProperty name="accountManagement" property="*" />
 
 <%
-  String message = null;
   Cookie[] cookies = request.getCookies();
   accountManagement.setCookies(cookies);
   boolean loggedIn = Session.isUserLoggedIn(cookies);
@@ -21,9 +20,8 @@
   String action = request.getParameter("action");
   if (action == null) action = "view";
   
-  message = accountManagement.getErrorMessage();
   if(action.equals("view")) {
-  accountManagement.cartView();
+    accountManagement.cartView();
   } else if(action.equals("add")) {
     accountManagement.addToCart();
   } else if(action.equals("remove")) {
@@ -32,11 +30,21 @@
     accountManagement.modifyQuantity();
   }
   
+  String message = accountManagement.getErrorMessage();
+  if(message != null) action = "view";
 %>
 
 <html>
   <head>
     <title>Il mio carrello</title>
+    
+    
+    <!-- Se l'utente non è loggato ritorno alla homepage immantinente -->
+    <% if(!loggedIn) { %>
+      <script language="javascript">
+        location.replace("../../c-search/homepage/homepage.jsp");
+      </script>
+    <% } %>
 
     <!-- comprende css e script del framework, header e footer -->
     <%@ include file="../../../shared/head-common.html" %>
@@ -67,13 +75,13 @@
       
       <% if(action.equals("add")) { %>
         <h4>
-        <a href="../../c-search/book-page/book-page.jsp?isbn=<%=accountManagement.getIsbn()%>">
+        <a class="book-title" href="../../c-search/book-page/book-page.jsp?isbn=<%=accountManagement.getIsbn()%>">
            <%=accountManagement.getTitle()%>
         </a> aggiunto al carrello!
         </h4></br>
       <% } else if(action.equals("remove")) { %>
         <h4>
-        <a href="../../c-search/book-page/book-page.jsp?isbn=<%=accountManagement.getIsbn()%>">
+        <a class="book-title" href="../../c-search/book-page/book-page.jsp?isbn=<%=accountManagement.getIsbn()%>">
            <%=accountManagement.getTitle()%>
         </a> rimosso dal carrello
         </h4></br>
@@ -98,7 +106,7 @@
 
           <div class="col-sm-3">
             <h4>Totale provvisorio (libri: <%=accountManagement.getShoppingCart().getN()%>)</h4>
-            <h4 style="color: #46b8da;"><b>&euro; <%=Conversion.getPriceAsString(accountManagement.getShoppingCart().getTotal())%></b></h4>
+            <h4 class='price'><b>&euro; <%=Conversion.getPriceAsString(accountManagement.getShoppingCart().getTotal())%></b></h4>
             <button class="btn btn-default block" onclick="submitCreaOrdineForm()">
               Procedi all'acquisto
             </button>
@@ -117,6 +125,10 @@
     <div class="footer">
       <%@ include file="../../../shared/footer/footer.jsp" %>
     </div>
-
+    
+    <%if (message != null) {%>
+      <script>alert("<%=message%>");</script>
+    <%}%>
+    
   </body>
 </html>

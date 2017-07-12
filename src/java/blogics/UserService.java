@@ -5,7 +5,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import services.database.Database;
-import services.database.exception.DBException;
 import services.database.exception.RecoverableDBException;
 import util.Conversion;
 import util.Logger;
@@ -18,7 +17,6 @@ public class UserService {
 		
     SqlBuilder sqlBuilder = new SqlBuilder();
 		String sql;
-		ResultSet resultSet;
 		User user = null;
 		
 		sql = sqlBuilder
@@ -28,19 +26,15 @@ public class UserService {
           .and("password = "+Conversion.getDatabaseString(password))
           .and("fl_active = 'S'")
 				.done();
-		Logger.debug("UserService", "getUser", sql);
-		
-		resultSet = db.select(sql);
     
 		try {
-			if (resultSet.next()) {
-				user = new User(resultSet);
-			}
-		} catch (SQLException ex) {
-			throw new RecoverableDBException(ex, "UserService", "getUser", "Errore nel ResultSet");
-		} finally {
-			try { resultSet.close(); }
-			catch (SQLException ex) { Logger.error("UserService", "getUser", ex.getMessage());}
+      try (ResultSet resultSet = db.select(sql)) {
+        if (resultSet.next()) {
+          user = new User(resultSet);
+        }
+      }
+		} catch (SQLException | RecoverableDBException ex) {
+			throw new RecoverableDBException(ex, "UserService", "getUser", "Errore: Impossibile trovare l'utente");
 		}
 		
 		return user;
@@ -51,7 +45,6 @@ public class UserService {
 		
 		SqlBuilder sqlBuilder = new SqlBuilder();
 		String sql;
-		ResultSet resultSet;
 		
 		// Controllo che non ci siano altri utenti con la stessa email
 		sql = sqlBuilder
@@ -63,15 +56,12 @@ public class UserService {
     
 		boolean exist = false;
 		
-		resultSet = db.select(sql);
-		
 		try {
-			exist = resultSet.next();
-		} catch (SQLException ex) {
-			throw new RecoverableDBException(ex, "UserService", "insertUser", "Impossibile ricercare nel database se ci sono utenti con la stessa mail");
-		} finally {
-			try { resultSet.close(); }
-			catch (SQLException ex) { Logger.error("UserService", "insertUser", ex.getMessage());}
+      try (ResultSet resultSet = db.select(sql)) {
+        exist = resultSet.next();
+      }
+		} catch (SQLException | RecoverableDBException ex) {
+			throw new RecoverableDBException(ex, "UserService", "insertUser", "Errore: Impossibile ricercare nel database se ci sono utenti con la stessa mail");
 		}
 
 		if (exist) {
@@ -86,14 +76,11 @@ public class UserService {
 		int id = 1;
 		
 		try {
-			resultSet = db.select(sql);
-			
-			if (resultSet.next())
-				id = resultSet.getInt("N") + 1;
-			
-			resultSet.close();
-		} catch (SQLException ex) {
-			throw new RecoverableDBException(ex, "UserService", "insertUser", "Impossibile calcolare id utente.");
+      try (ResultSet resultSet = db.select(sql)) {
+        if (resultSet.next()) id = resultSet.getInt("N") + 1;
+      }
+		} catch (SQLException | RecoverableDBException ex) {
+			throw new RecoverableDBException(ex, "UserService", "insertUser", "Errore: Impossibile calcolare id utente.");
 		}
 		
 		// Inserisco il nuovo utente
@@ -107,7 +94,11 @@ public class UserService {
 					admin)
 				.done();
 		
-    db.modify(sql);
+    try {
+      db.modify(sql);
+    } catch(RecoverableDBException ex) {
+      throw new RecoverableDBException(ex, "UserService", "insertUser", "Errore nella registrazione del nuovo utente");
+    }
   }
     
   public static void modifyUserEmail(Database db, int userId, String email) {
@@ -120,44 +111,43 @@ public class UserService {
     
   public static void removeUser(Database database, int userId)
       throws RecoverableDBException {
-    String sql = "";
     SqlBuilder sqlBuilder = new SqlBuilder();
 
     /* Aggiornamento */	
-    sql = sqlBuilder
+    String sql = sqlBuilder
       .update("user")
       .set("fl_active = 'N'")
       .where("id = " + userId)
       .done();
-
-    System.out.println(sql);
-
-    database.modify(sql);
+    
+    try {
+      database.modify(sql);
+    } catch(RecoverableDBException ex) {
+      throw new RecoverableDBException(ex, "UserService", "removUser", "Errore nella rimozione dell'utente "+userId);
+    }
   }
 	
   public static int countUsers(Database database)
   throws RecoverableDBException {
-    String sql = "";
     SqlBuilder sqlBuilder = new SqlBuilder();
-    int risultato;
+    int risultato = 0;
     
-    sql = sqlBuilder
+    String sql = sqlBuilder
 				.select("count(id)").as("N")
 				.from("User")
 				.where("fl_active = 'S'")
           .and("is_admin = false")
 				.done();
     
-    ResultSet resultSet = database.select(sql);
     
     try {
-			resultSet.next();
-      risultato = resultSet.getInt("N");
+      try (ResultSet resultSet = database.select(sql)) {
+        if(resultSet.next()) {
+          risultato = resultSet.getInt("N");
+        }
+      }
 		} catch (SQLException ex) {
 			throw new RecoverableDBException(ex, "UserService", "countUsers", "Errore nel ResultSet");
-		} finally {
-			try { resultSet.close(); }
-			catch (SQLException ex) { Logger.error("UserService", "countUsers", ex.getMessage());}
 		}
 
 		return risultato;
@@ -165,11 +155,10 @@ public class UserService {
   
   public static List<User> getUsers(Database database, int limit, int offset, boolean isAdmin)
       throws RecoverableDBException {
-    String sql = "";
     SqlBuilder sqlBuilder = new SqlBuilder();
     List<User> users = new ArrayList<>();
     
-    sql = sqlBuilder
+    String sql = sqlBuilder
 				.select("id", "name", "surname", "email", "password", "is_admin", "is_blocked")
 				.from("User")
 				.where("fl_active = 'S'")
@@ -178,20 +167,15 @@ public class UserService {
         .limit(limit).offset(offset)
 				.done();
     
-    System.out.println(sql);
-    
-    ResultSet resultSet = database.select(sql);
-    
     try {
-			while(resultSet.next()) {
-				User user = new User(resultSet);
-				users.add(user);
-			}
-		} catch (SQLException ex) {
-			throw new RecoverableDBException(ex, "UserService", "getUsers", "Errore nel ResultSet");
-		} finally {
-			try { resultSet.close(); }
-			catch (SQLException ex) { Logger.error("UserService", "getUsers", ex.getMessage());}
+      try (ResultSet resultSet = database.select(sql)) {
+        while(resultSet.next()) {
+          User user = new User(resultSet);
+          users.add(user);
+        }
+      }
+		} catch (SQLException | RecoverableDBException ex) {
+			throw new RecoverableDBException(ex, "UserService", "getUsers", "Errore: Impossibile recuperare gli utenti dal database");
 		}
 
 		return users;
@@ -199,35 +183,39 @@ public class UserService {
     
 	public static void blockUser(Database database, int userId)
       throws RecoverableDBException {
-    String sql = "";
     SqlBuilder sqlBuilder = new SqlBuilder();
     
     /* Aggiornamento */	
-    sql = sqlBuilder
+    String sql = sqlBuilder
 			.update("user")
       .set("is_blocked = 1")
 			.where("id = " + userId)
         .and("fl_active = 'S'")
 			.done();
     
-    System.out.println(sql);
-    
-    database.modify(sql);
+    try {
+      database.modify(sql);
+    } catch(RecoverableDBException ex) {
+      throw new RecoverableDBException(ex, "UserService", "blockUser", "Errore: Impossibile bloccare l'utente: "+userId);
+    }
   }
   
   public static void unblockUser(Database database, int userId)
       throws RecoverableDBException {
-    String sql = "";
     SqlBuilder sqlBuilder = new SqlBuilder();
     
     /* Aggiornamento */	
-    sql = sqlBuilder
+    String sql = sqlBuilder
 			.update("user")
       .set("is_blocked = 0")
 			.where("id = " + userId)
         .and("fl_active = 'S'")
 			.done();
     
-    database.modify(sql);
+    try {
+      database.modify(sql);
+    } catch(RecoverableDBException ex) {
+      throw new RecoverableDBException(ex, "UserService", "blockUser", "Errore: Impossibile Sbloccare l'utente: "+userId);
+    }
   }
 }

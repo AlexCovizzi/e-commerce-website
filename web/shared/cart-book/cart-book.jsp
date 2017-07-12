@@ -11,15 +11,22 @@
 <div class="book-container row">
   
   <!-- immagine libro -->
-  <div class="img-wrapper col-xs-3 col-sm-2">
+  <div class="img-wrapper col-xs-3 col-sm-2" style="max-width: 100px;">
     <a href="#">
-      <img src="<%=book.getCover()%>" class="img-thumbnail">
+      <img class="img-thumbnail"
+        <% if(book.getCover().equals("-")) { %>
+          src="http://thebooksblender.altervista.org/wp-content/uploads/2015/08/copertina-non-disponibile.jpg"
+        <% } else { %>
+          src="<%=book.getCover()%>"
+        <% } %>
+        onerror="src='http://thebooksblender.altervista.org/wp-content/uploads/2015/08/copertina-non-disponibile.jpg'"
+      >
     </a>
   </div>
   
   <!-- caratteristiche libro (nome, autore, disponibile) -->
   <div class="col-xs-4 col-sm-5">
-    <h4><b><a href="#"><%=book.getTitle()%></a></b>
+    <h4><a class='book-title' href="#"><%=book.getTitle()%></a>
       <small>di 
         <% for(int i=0; i<book.getAuthors().size(); i++) {
           if(i > 0) %>, 
@@ -44,13 +51,13 @@
   
   <!-- prezzo singolo libro -->
   <div class="col-xs-3 col-sm-2">
-    <h4 style="color: #46b8da;"><b>&euro; <%=Conversion.getPriceAsString(book.getPrice())%></b></h4>
+    <h4 class='price'><b>&euro; <%=Conversion.getPriceAsString(book.getPrice())%></b></h4>
     
     <form method="post">
       <input type="hidden" name="action" value="modify" style="display: none;">
       <input type="hidden" name="isbn" value="<%=book.getIsbn()%>" style="display: none;">
       <input type="hidden" name="title" value="<%=book.getTitle()%>" style="display: none;">
-      <input name="quantity" value="<%=quantity%>" required class="form-control input-sm" style="width: 80px;" type="number" min="1" max="999">
+      <input name="quantity" value="<%=quantity%>" required class="form-control input-sm" type="number" min="1" max="<%=book.getStock()%>" style="width: 80px;" >
       <button class="btn btn-default btn-sm" type="submit" style="width: 80px;">Aggiorna</button>
     </form>
   </div>
