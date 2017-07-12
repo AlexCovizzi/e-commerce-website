@@ -23,14 +23,14 @@ function setAction(form) {
   
   <div class="img-wrapper col-xs-3 col-sm-2" style="min-width: 60px; max-width: 130px;">
     <a href="../book-page/book-page.jsp?isbn=<%=book.getIsbn()%>">
-      <img
-        <% if(!book.getCover().equals("-")) { %>
-        src="<%=book.getCover()%>"
+      <img class="img-thumbnail"
+        <% if(book.getCover().equals("-")) { %>
+          src="http://thebooksblender.altervista.org/wp-content/uploads/2015/08/copertina-non-disponibile.jpg"
         <% } else { %>
-        src="http://thebooksblender.altervista.org/wp-content/uploads/2015/08/copertina-non-disponibile.jpg"
+          src="<%=book.getCover()%>"
         <% } %>
-        
-        class="img-thumbnail">
+        onerror="src='http://thebooksblender.altervista.org/wp-content/uploads/2015/08/copertina-non-disponibile.jpg'"
+      >
     </a>
   </div>
   

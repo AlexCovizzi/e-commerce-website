@@ -43,7 +43,7 @@ public class Conversion {
   public static String getDatabaseString(String inputString) {
 
     if (inputString == null)
-      return "'-'";
+      return "NULL";
     
     /* Mi serve per inserire le date nel caso non vi sia alcuna data inserita
      * Problema: non si potrà mai inserire una stringa identica a DEFAULT --> Posso tenerlo?
