@@ -63,6 +63,10 @@ public class Review {
   public Date getTimestamp() {
     return timestamp;
   }
+  
+  public String getTimestampAsString() {
+    return timestamp.getDay()+"/"+timestamp.getMonth()+"/"+timestamp.getYear();
+  }
 
   @Override
   public String toString() {

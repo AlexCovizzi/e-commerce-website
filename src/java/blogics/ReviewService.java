@@ -38,7 +38,7 @@ public class ReviewService {
     
     sql = sqlBuilder
 			.update("Vote")
-      .set("thumb_up = "+thumbUp, "comment = '"+comment+"'")
+      .set("thumb_up = "+thumbUp, "comment = '"+comment+"'", "timestamp_c = DEFAULT")
       .where("user_id = "+userId)
         .and("book_isbn = "+Conversion.getDatabaseString(isbn))
       .done();
@@ -186,7 +186,7 @@ public class ReviewService {
     sqlBuilder = sqlBuilder
 				.select("*")
 				.from("VoteView")
-        .where("comment != 'null'");
+        .where("comment IS NOT NULL");
     
     if(userId > 0)
       sqlBuilder = sqlBuilder

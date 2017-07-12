@@ -10,6 +10,8 @@ import blogics.Genre;
 import blogics.GenreService;
 import blogics.Order;
 import blogics.OrderService;
+import blogics.Review;
+import blogics.ReviewService;
 import blogics.ShoppingCart;
 import blogics.ShoppingCartService;
 import blogics.WishlistService;
@@ -34,10 +36,13 @@ public class AccountManagement extends AbstractManagement implements Serializabl
   private String title; // Specifica il titolo del libro da inserire/rimuovere/modificare
   private int quantity;
   private String show = "current"; //Pagina: orders.jsp; SPecifica quali ordini mostrare
+  private boolean thumbUp;
+  private String comment;
   
   private ShoppingCart cart = new ShoppingCart();
   private List<Book> wishlist = new ArrayList<>();
   private List<Order> orders = new ArrayList<>();
+  private List<Review> reviews = new ArrayList<>();
   
   
   /**
@@ -229,6 +234,54 @@ public class AccountManagement extends AbstractManagement implements Serializabl
     }
 	}
   
+  /**
+   * Pagina: reviews.jsp
+   * Recupera le recensioni fatte dell'utente
+   * @throws services.database.exception.UnrecoverableDBException
+   */
+  public void reviewsView() throws UnrecoverableDBException {
+    Database database = DBService.getDataBase();
+    
+    try {
+      reviews = ReviewService.getReviews(database, Session.getUserId(cookies), 9999, 0);
+      database.commit();
+    } catch (RecoverableDBException ex) {
+			database.rollBack();
+			setErrorMessage(ex.getMsg());
+		} finally {
+      database.close();
+    }
+  }
+  
+  public void reviewsRemove() throws UnrecoverableDBException {
+    Database database = DBService.getDataBase();
+    
+    try {
+      ReviewService.removeReview(database, Session.getUserId(cookies), isbn);
+      reviews = ReviewService.getReviews(database, Session.getUserId(cookies), 9999, 0);
+      database.commit();
+    } catch (RecoverableDBException ex) {
+			database.rollBack();
+			setErrorMessage(ex.getMsg());
+		} finally {
+      database.close();
+    }
+  }
+  
+  public void reviewsModify() throws UnrecoverableDBException {
+    Database database = DBService.getDataBase();
+    
+    try {
+      ReviewService.editReview(database, Session.getUserId(cookies), isbn, thumbUp, comment);
+      reviews = ReviewService.getReviews(database, Session.getUserId(cookies), 9999, 0);
+      database.commit();
+    } catch (RecoverableDBException ex) {
+			database.rollBack();
+			setErrorMessage(ex.getMsg());
+		} finally {
+      database.close();
+    }
+  }
   
   /**
    * Recupera la lista dei libri nel carrello con la loro quantità
@@ -336,6 +389,14 @@ public class AccountManagement extends AbstractManagement implements Serializabl
     this.show = show;
   }
   
+  public void setComment(String comment) {
+    this.comment = comment;
+  }
+  
+  public void setThumbUp(boolean thumbUp) {
+    this.thumbUp = thumbUp;
+  }
+  
   /* Getters */
   public int getOrderId() {
     return orderId;
@@ -357,6 +418,10 @@ public class AccountManagement extends AbstractManagement implements Serializabl
     return orders;
   }
   
+  public List<Review> getReviews() {
+    return reviews;
+  }
+  
   public String getIsbn() {
     return isbn;
   }
@@ -371,5 +436,13 @@ public class AccountManagement extends AbstractManagement implements Serializabl
   
   public String getShow() {
     return show;
+  }
+  
+  public boolean isThumbUp() {
+    return thumbUp;
+  }
+  
+  public String getComment() {
+    return comment;
   }
 }
