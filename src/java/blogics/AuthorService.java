@@ -231,39 +231,6 @@ public class AuthorService {
     database.modify(sql);
   }
   
-  public static int[] getAuthorsFromIsbn(Database database, String isbn)
-  throws RecoverableDBException {
-    String sql = "";
-    SqlBuilder sqlBuilder = new SqlBuilder();
-    
-    sql = sqlBuilder
-        .select("author_id")
-        .from("book_has_author")
-        .where("book_isbn = " + Conversion.getDatabaseString(isbn))
-        .done();
-    
-    ResultSet resultSet = database.select(sql);
-    
-    Vector<Integer> autoriVector = new Vector<Integer>();
-    int elemento;
-    
-     try {
-      while (resultSet.next()) {
-        elemento = resultSet.getInt("author_id");
-        autoriVector.add(elemento);
-      }
-      resultSet.close();
-    } catch (SQLException e) {
-      throw new RecoverableDBException("BookHasAuthorService: getAuthorsFromIsbn(): Errore sul ResultSet.");
-    }
-    
-    int[] risultato = new int[autoriVector.size()];
-    for(int i = 0; i < risultato.length; i++)
-      risultato[i] = autoriVector.get(i);
-    
-    return risultato;
-  }
-  
   public static void deleteAuthorOfBook(Database database, String isbn, int idAutore)
       throws RecoverableDBException {
     String sql = "";
