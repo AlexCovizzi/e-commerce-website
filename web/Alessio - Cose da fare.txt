@@ -28,8 +28,8 @@ Finire di rivedere i casi d'uso (aggiungere il flusso di Gestione amministratori
 e le specifiche (sono arrivato alla Gestione utenti) ----- FATTOOOOOOOOOOO
 Fare la documentazione per il caso d'uso "Gestione Recensioni" per l'admin ----- FATTOOOOOOOOOOO
 Sequence diagrams per
-  - confermare un ordine
-  - [trovane almeno un'altra]
+  - confermare un ordine ----- FATTOOOOOOOOOOO
+  - login e registrazione
 Documentazione classi e package JAVA
 
 PAGINE IN CUI VI SONO DUE TRANSAZIONI ----- FATTOOOOOOOOOOO

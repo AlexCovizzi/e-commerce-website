@@ -254,7 +254,7 @@ public class OrderService {
           totalPrice,
           shippingCost,
           Conversion.getDatabaseString(state),
-          couponCode,
+          Conversion.getDatabaseString(couponCode),
           Conversion.getDatabaseString(receiver),
           Conversion.getDatabaseString(add1),
           Conversion.getDatabaseString(add2),
@@ -267,7 +267,11 @@ public class OrderService {
           )
 			.done();
     
+    System.out.println(sql);
+    
     database.modify(sql);
+    
+    System.out.println("insertOrder fatto");
     
     return id;
   }
