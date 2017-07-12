@@ -112,16 +112,10 @@ public class SearchManagement extends AbstractManagement {
       mostViewedAuthors = BookHistoryService.getMostViewedAuthors(database, Session.getUserId(cookies));
       
       String[] mostViewedGenresArr = new String[mostViewedGenres.size()];
-      String[] mostViewedAuthorsArr = new String[mostViewedAuthors.size()];
-      
       mostViewedGenresArr = mostViewedGenres.toArray(mostViewedGenresArr);
-      mostViewedAuthorsArr = mostViewedAuthors.toArray(mostViewedAuthorsArr);
-      
-      Logger.debug(mostViewedGenres);
-      Logger.debug(mostViewedAuthors);
       
       suggestedBooks = new ArrayList<>();
-      suggestedBooks = BookService.getBookList(database, search, mostViewedAuthorsArr, publishers, mostViewedGenresArr, priceMin, priceMax, vote, ORDER_VALUES[2], 1, 9);
+      suggestedBooks = BookService.getBookList(database, search, authors, publishers, mostViewedGenresArr, priceMin, priceMax, vote, ORDER_VALUES[2], 1, 9);
       for(Book b : suggestedBooks) {
         List<Author> bAuthors = AuthorService.getBookAuthors(database, b.getIsbn());
         List<Genre> bGenres = GenreService.getBookGenres(database, b.getIsbn());
@@ -257,6 +251,20 @@ public class SearchManagement extends AbstractManagement {
         /* Aggiungo il libro alla history dell'utente se è loggato */
         if(Session.isUserLoggedIn(cookies)) {
           BookHistoryService.addToHistory(database, Session.getUserId(cookies), isbn);
+        }
+        
+        String[] bGenresArr = new String[bGenres.size()];
+        for(int i=0; i<bGenres.size(); i++) bGenresArr[i] = bGenres.get(i).getName();
+        
+        suggestedBooks = new ArrayList<>();
+        suggestedBooks.addAll(BookService.getBookList(database, search, authors, publishers, bGenresArr, priceMin, priceMax, vote, ORDER_VALUES[2], 1, 9));
+        
+        for(Book b : suggestedBooks) {
+          List<Author> sAuthors = AuthorService.getBookAuthors(database, b.getIsbn());
+          List<Genre> sGenres = GenreService.getBookGenres(database, b.getIsbn());
+
+          b.setAuthors(sAuthors);
+          b.setGenres(sGenres);
         }
       }
       

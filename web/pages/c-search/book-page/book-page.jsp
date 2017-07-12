@@ -207,51 +207,41 @@
 
 
       <div id="consigliati_div" class="my-jumbotron sezione-bookpage">
-          <button class="btn btn-primary btn_bookpage" type="button" data-toggle="collapse"
-                  data-target="#consigliati" aria-expanded="false" aria-controls="consigliati">
-              Sant'Ale Ti Consiglia Anche <i class="glyphicon glyphicon-chevron-down"></i>
-          </button>
+        <button class="btn btn-primary btn_bookpage" type="button" data-toggle="collapse"
+                data-target="#consigliati" aria-expanded="false" aria-controls="consigliati">
+            Sant'Ale Ti Consiglia Anche <i class="glyphicon glyphicon-chevron-down"></i>
+        </button>
 
-          <div class="container-fluid">
-              <div class="row collapse" id="consigliati">
-                  <div class="libro_consigliato col-sm-3">
-                      <div class="copertina-consigliati">
-                          <img class="copertina" src="../../assets/img/IL.png"/>
-                      </div>
-                      <h2>Titolo</h2>
-                      <p>Descrizione veloce</p>
-                      <p>10.99 &euro;</p>
-                      <p><a class="btn btn-primary" href="#" role="button">Dettagli &raquo;</a></p>
-                  </div>
-                  <div class="libro_consigliato col-sm-3">
-                      <div class="copertina-consigliati">
-                          <img class="copertina" src="../../assets/img/ruotadeltempo.jpg"/>
-                      </div>
-                      <h2>Titolo</h2>
-                      <p>Descrizione veloce</p>
-                      <p>10.99 &euro;</p>
-                      <p><a class="btn btn-primary" href="#" role="button">Dettagli &raquo;</a></p>
-                  </div>
-                  <div class="libro_consigliato col-sm-3">
-                      <div class="copertina-consigliati">
-                          <img class="copertina" src="../../assets/img/download.jpg"/>
-                      </div>
-                      <h2>Titolo</h2>
-                      <p>Descrizione veloce</p>
-                      <p>10.99 &euro;</p>
-                      <p><a class="btn btn-primary" href="#" role="button">Dettagli &raquo;</a></p>
-                  </div>
-                  <div class="libro_consigliato col-sm-3">
-                      <div class="copertina-consigliati">
-                          <img class="copertina" src="../../assets/img/ruotadeltempo.jpg"/>
-                      </div>
-                      <h2>Titolo</h2>
-                      <p>Descrizione veloce</p>
-                      <p>10.99 &euro;</p>
-                      <p><a class="btn btn-primary" href="#" role="button">Dettagli &raquo;</a></p>
-                  </div>
-              </div>
-          </div>
+        <div class="container-fluid">
+          <div id="consigliati" class="carousel slide" data-ride="carousel">
+        
+            <div class="carousel-inner" role="listbox">
+
+              <% for(int i=0; i<searchManagement.getSuggestedBooks().size(); i+=3) { %>
+                <div class="item col-sm-10 col-sm-offset-1 <%if(i==0) { %> active <% } %>">
+                  <%for(int j=0; j<3; j++) {%>
+                    <%if(searchManagement.getSuggestedBooks().size()>i+j) {
+                        Book book = searchManagement.getSuggestedBooks().get(i+j); %>
+                          <% request.setAttribute("book", book); %>
+                          <jsp:include page="../../../shared/homepage-book/homepage-book.jsp" />
+                    <% } %>
+                  <% } %>
+                </div>
+              <% } %>
+
+            </div>
+
+            <a class="left carousel-control" href="#consigliati" role="button" data-slide="prev" style="background-image: none;">
+                <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                <span class="sr-only">Previous</span>
+            </a>
+            <a class="right carousel-control" href="#consigliati" role="button" data-slide="next" style="background-image: none;">
+                <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                <span class="sr-only">Next</span>
+            </a>
+          </div><!-- /.carousel -->
+        </div>
+              
       </div>
 
       <!-- è possibile mettere una valutazione solo se non si è admin -->
