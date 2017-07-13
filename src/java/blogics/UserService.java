@@ -101,14 +101,6 @@ public class UserService {
     }
   }
     
-  public static void modifyUserEmail(Database db, int userId, String email) {
-
-  }
-    
-  public static void modifyUserPassword(Database db, int userId, String password) {
-
-  }
-    
   public static void removeUser(Database database, int userId)
       throws RecoverableDBException {
     SqlBuilder sqlBuilder = new SqlBuilder();
@@ -216,6 +208,78 @@ public class UserService {
       database.modify(sql);
     } catch(RecoverableDBException ex) {
       throw new RecoverableDBException(ex, "UserService", "blockUser", "Errore: Impossibile Sbloccare l'utente: "+userId);
+    }
+  }
+  
+  public static User getUser(Database database, int userId)
+      throws RecoverableDBException {
+    SqlBuilder sqlBuilder = new SqlBuilder();
+		String sql;
+		User user = null;
+		
+		sql = sqlBuilder
+				.select("*")
+				.from("User")
+				.where("id = " + userId)
+          .and("fl_active = 'S'")
+				.done();
+    
+		try {
+      try (ResultSet resultSet = database.select(sql)) {
+        if (resultSet.next()) {
+          user = new User(resultSet);
+        }
+      }
+		} catch (SQLException | RecoverableDBException ex) {
+			throw new RecoverableDBException(ex, "UserService", "getUser", "Errore: Impossibile trovare l'utente");
+		}
+		
+		return user;
+  }
+  
+  public static void modifyInfo(Database database, int userId, String name, String surname, String email, String password)
+      throws RecoverableDBException {
+		
+		SqlBuilder sqlBuilder = new SqlBuilder();
+		String sql;
+		
+		// Controllo che non ci siano altri utenti con la stessa email
+		sql = sqlBuilder
+				.select("email")
+				.from("User")
+				.where("email =" + Conversion.getDatabaseString(email))
+          .and("id != " + userId)
+					.and("fl_active = 'S'")
+				.done();
+    
+		boolean exist = false;
+		
+		try {
+      try (ResultSet resultSet = database.select(sql)) {
+        exist = resultSet.next();
+      }
+		} catch (SQLException | RecoverableDBException ex) {
+			throw new RecoverableDBException(ex, "UserService", "modifyInfo", "Errore: Impossibile ricercare nel database se ci sono utenti con la stessa mail");
+		}
+
+		if (exist) {
+			throw new RecoverableDBException("Esiste già un utente con questa mail");
+		}
+		
+		// Modifico le informazioni
+		sql = sqlBuilder
+				.update("User")
+        .set("name = " + Conversion.getDatabaseString(name),
+            "surname = " + Conversion.getDatabaseString(surname),
+            "email = " + Conversion.getDatabaseString(email),
+            "password = " + Conversion.getDatabaseString(password))
+        .where("id = " + userId)
+				.done();
+		
+    try {
+      database.modify(sql);
+    } catch(RecoverableDBException ex) {
+      throw new RecoverableDBException(ex, "UserService", "modifyUser", "Errore nell'aggiornamento delle informazioni");
     }
   }
 }

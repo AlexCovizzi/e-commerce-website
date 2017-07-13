@@ -44,6 +44,10 @@
       <input type="hidden" name="action" value="view"/>
     </form>
     
+    <form name="modificaInformazioniForm" method="post" action="../../c-account/account-info/acount-info.jsp">
+      <input type="hidden" name="action" value="view"/>
+    </form>
+    
     <form name="logoutForm" method="post" action="../../c-login/login/login.jsp">
       <input type="hidden" name="action" value="logout"/>
     </form>

@@ -67,6 +67,10 @@
       
       <h4 class="account-page-link"><a href="../wishlist/wishlist.jsp">La mia Lista Desideri</a></h4>
       
+      <h4 class="account-page-link"><a href="../reviews/reviews.jsp">Le mie Recensioni</a></h4>
+      
+      <h4 class="account-page-link"><a href="../account-info/account-info.jsp">Modifica Informazioni Account</a></h4>
+      
       <!--
       <h4 class="account-page-link"><a href="../address/address.jsp">Il mio Indirizzo</a></br>
         <small>Indirizzo dell'utente</small>

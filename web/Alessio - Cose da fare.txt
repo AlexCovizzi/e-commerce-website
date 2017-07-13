@@ -22,6 +22,9 @@
  - Sistemare l'ordine in cui vengono mostrati ordini, utenti, admin e recensioni per l'admin ----- FATTOOOOOOOOOOO
  - Sistemare la visualizzazione dei prezzi nelle mie pagine ----- FATTOOOOOOOOOOO
  - Fare in modo che cliccando sul numero di recensioni nella pagina users.jsp mostri le recensione di quell'utente ----- FATTOOOOOOOOOOO
+ - Aggiungere caso d'uso Gestione account sia per utente registrato che per admin
+ - Aggiornare il diagramma delle classi di design e quello UML
+ - Nel carrello, sistemare il link
 
 DOCUMENTAZIONE - INGEGNERIA DEL SOFTWARE
 Finire di rivedere i casi d'uso (aggiungere il flusso di Gestione amministratori e togliere quello degli indirizzi)

@@ -258,6 +258,10 @@
       </script>
     <% }%>
 
+    <%if (message != null) {%>
+      <script>alert("<%=message%>");</script>
+    <%}%>
+    
   </body>
 </html>
 

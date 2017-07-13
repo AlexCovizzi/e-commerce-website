@@ -199,5 +199,9 @@ if(action.equals("view")) {
       <%@ include file="../../../shared/footer/footer.jsp" %>
     </div>
 
+    <%if (message != null) {%>
+      <script>alert("<%=message%>");</script>
+    <%}%>
+    
   </body>
 </html>

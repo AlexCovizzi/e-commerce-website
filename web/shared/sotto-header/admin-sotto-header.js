@@ -29,6 +29,11 @@ function gestioneRecensioni() {
   return;
 }
 
+function modificaInformazioni() {           
+  document.modificaInformazioniForm.submit();
+  return;
+}
+
 function logout() {           
   document.logoutForm.submit();
   return;

@@ -14,6 +14,8 @@ import blogics.Review;
 import blogics.ReviewService;
 import blogics.ShoppingCart;
 import blogics.ShoppingCartService;
+import blogics.User;
+import blogics.UserService;
 import blogics.WishlistService;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -43,6 +45,11 @@ public class AccountManagement extends AbstractManagement implements Serializabl
   private List<Book> wishlist = new ArrayList<>();
   private List<Order> orders = new ArrayList<>();
   private List<Review> reviews = new ArrayList<>();
+  
+  private String name;
+  private String surname;
+  private String email;
+  private String password;
   
   
   /**
@@ -283,6 +290,54 @@ public class AccountManagement extends AbstractManagement implements Serializabl
     }
   }
   
+  
+  
+  /* account.jsp -> account-info.jsp : view */
+  public void visualizzaInformazioniAccount() throws UnrecoverableDBException {
+    Database database = DBService.getDataBase();
+    
+    try {
+      /* Recupero le informazioni dell'utente dal DB */
+      User utente = UserService.getUser(database, Session.getUserId(cookies));
+      
+      name = utente.getName();
+      surname = utente.getSurname();
+      email = utente.getEmail();
+      password = utente.getPassword();
+      
+      /* FINITO! */
+      database.commit();
+    } catch (RecoverableDBException ex) {
+      database.rollBack();
+      setErrorMessage(ex.getMsg());
+		} finally {
+      database.close();
+    }
+  }
+  
+  /* account-info.jsp -> account-info.jsp : view */
+  public void modificaInformazioniAccount() throws UnrecoverableDBException {
+    Database database = DBService.getDataBase();
+    
+    try {
+      /* Modifico le informazioni dell'utente dal DB */
+      UserService.modifyInfo(database, Session.getUserId(cookies), name, surname, email, password);
+      
+      User utente = UserService.getUser(database, Session.getUserId(cookies));
+      this.setCookies(Session.createUserCookie(database, utente));
+      
+      /* FINITO! */
+      database.commit();
+    } catch (RecoverableDBException ex) {
+      database.rollBack();
+      setErrorMessage(ex.getMsg());
+		} finally {
+      database.close();
+    }
+  }
+  
+  
+  
   /**
    * Recupera la lista dei libri nel carrello con la loro quantità
    * e li mette in <b>ShoppingCart</b>
@@ -396,6 +451,22 @@ public class AccountManagement extends AbstractManagement implements Serializabl
   public void setThumbUp(boolean thumbUp) {
     this.thumbUp = thumbUp;
   }
+
+  public void setName(String name) {
+    this.name = name;
+  }
+
+  public void setSurname(String surname) {
+    this.surname = surname;
+  }
+
+  public void setEmail(String email) {
+    this.email = email;
+  }
+
+  public void setPassword(String password) {
+    this.password = password;
+  }
   
   /* Getters */
   public int getOrderId() {
@@ -444,5 +515,21 @@ public class AccountManagement extends AbstractManagement implements Serializabl
   
   public String getComment() {
     return comment;
+  }
+
+  public String getName() {
+    return name;
+  }
+
+  public String getSurname() {
+    return surname;
+  }
+
+  public String getEmail() {
+    return email;
+  }
+
+  public String getPassword() {
+    return password;
   }
 }
