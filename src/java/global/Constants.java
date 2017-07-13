@@ -12,6 +12,8 @@ public class Constants {
   public static final boolean WARNING = true;
   public static final boolean ERROR = true;
   
+  public static final String DEFAULT_COVER = "http://thebooksblender.altervista.org/wp-content/uploads/2015/08/copertina-non-disponibile.jpg";
+  
   
   /** Constants for db connection */
   public static final String DB_USER_NAME         = "root";

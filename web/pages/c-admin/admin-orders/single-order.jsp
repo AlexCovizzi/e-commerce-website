@@ -84,6 +84,10 @@
           </div>
         <% } %>
       </div>
+      
+      <div class='col-xs-12' style='margin-top: 16px;'>
+        <a href='admin-orders.jsp'>Torna agli ordini </a>
+      </div>
     </div>
 
     <!-- footer -->

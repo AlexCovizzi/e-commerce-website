@@ -38,7 +38,6 @@
   <head>
     <title>Il mio carrello</title>
     
-    
     <!-- Se l'utente non è loggato ritorno alla homepage immantinente -->
     <% if(!loggedIn) { %>
       <script language="javascript">
@@ -107,9 +106,23 @@
           <div class="col-sm-3">
             <h4>Totale provvisorio (libri: <%=accountManagement.getShoppingCart().getN()%>)</h4>
             <h4 class='price'><b>&euro; <%=Conversion.getPriceAsString(accountManagement.getShoppingCart().getTotal())%></b></h4>
-            <button class="btn btn-default block" onclick="submitCreaOrdineForm()">
+            <h5>Spese di spedizione: <b> &euro; 
+              <% if(accountManagement.getShoppingCart().getTotal() >= 20) { %> 0,00
+              <% } else { %> 3,00 <% } %>
+              </b>
+            </h5>
+              
+            <button class="btn btn-default block" onclick="submitCreaOrdineForm()"
+                    <% if(!accountManagement.getShoppingCart().isEverythingInStock()) { %> disabled <% } %> >
               Procedi all'acquisto
             </button>
+            
+            <% if(!accountManagement.getShoppingCart().isEverythingInStock()) { %>
+            <h5 style="color: red;">
+              Attenzione! Alcuni prodotti nel tuo carrello sono in quantità maggiore rispetto a quella in magazzino
+            </h5>
+            <% } %>
+            
             
             <form name="creaOrdineForm" action="../../c-purchase/order-address/order-address.jsp">
               <input type="hidden" name="action" value="view">

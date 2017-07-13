@@ -160,10 +160,6 @@ public class Order {
     return cap;
   }
   
-  public float getFullTotal() {
-    return (totPrice+shippingCost)-(totPrice+shippingCost)*(float)(discount/100);
-  }
-  
   /* Setters */
   public void addBooks(List<Pair<Book, Integer>> books) {
     this.books = books;

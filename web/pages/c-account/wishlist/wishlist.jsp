@@ -66,13 +66,13 @@
       
       <% if(action.equals("add")) { %>
         <h4>
-        <a href="../../c-search/book-page/book-page.jsp?isbn=<%=accountManagement.getIsbn()%>">
+        <a class="book-title" href="../../c-search/book-page/book-page.jsp?isbn=<%=accountManagement.getIsbn()%>">
            <%=accountManagement.getTitle()%>
         </a> aggiunto alla lista desideri!
         </h4></br>
       <% } else if(action.equals("remove")) { %>
         <h4>
-        <a href="../../c-search/book-page/book-page.jsp?isbn=<%=accountManagement.getIsbn()%>">
+        <a class="book-title" href="../../c-search/book-page/book-page.jsp?isbn=<%=accountManagement.getIsbn()%>">
            <%=accountManagement.getTitle()%>
         </a> rimosso dalla lista desideri
         </h4></br>
@@ -85,9 +85,9 @@
       <div class="row">
 
         <% if(accountManagement.getWishlist().isEmpty()) { %>
-          <div class="col-sm-9">Non hai nessun libro nei tuoi desideri!</div>
+          <div class="col-xs-12">Non hai nessun libro nei tuoi desideri!</div>
         <% } else { %>
-          <div class="col-sm-9">
+          <div class="col-xs-12">
             <% for(Book book : accountManagement.getWishlist()) { %>
               <% request.setAttribute("book", book); %>
               <jsp:include page="../../../shared/wishlist-book/wishlist-book.jsp" />

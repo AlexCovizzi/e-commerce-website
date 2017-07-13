@@ -7,6 +7,7 @@
 <%
   Order order = (Order) request.getAttribute("order");
   boolean admin = (Boolean) request.getAttribute("admin");
+  float subTotal = 0.0f;
 %>
 
 <div class='row order-container'>
@@ -15,7 +16,7 @@
     <div class="row">
       <div id="order-date" class="col-xs-4">
         <h5 class="subsection-title">Ordine effettuato il</h5>
-        <%=order.getCreated()%>
+        <%=Conversion.getDateAsString(order.getCreated())%>
       </div>
       <div id="order-state" class="col-xs-4">
         <h5 class="subsection-title">Stato ordine</h5>
@@ -29,7 +30,7 @@
         </form>
         
         <div class="col-xs-4 input-group">
-          <select id="orderStateList<%= order.getId() %>" name="orderStateList<%= order.getId() %>" class="form-control"
+          <select style="max-width: 150px;" id="orderStateList<%= order.getId() %>" name="orderStateList<%= order.getId() %>" class="form-control"
             <% if(order.getState().equals("Consegnato") || order.getState().equals("Cancellato")) { %>
               disabled
             <% } %>>
@@ -70,7 +71,7 @@
                 <% if(order.getState().equals("Consegnato") || order.getState().equals("Cancellato")) { %>
                   disabled
                 <% } %>
-              >Cambia stato</button>
+              >Cambia</button>
         </div>
       
       <% } else { %>
@@ -94,23 +95,23 @@
       
     </div>
     
-    <div class="divider-horizontal"></div>
+    <div class="col-xs-12 divider-horizontal"></div>
     
     <% for(int i=0; i<order.size(); i++) { %>
       <div id="order-books" class="col-xs-12">
       
         <div class="img-wrapper col-xs-3 col-sm-2" style="min-width: 60px; max-width: 100px;">
           <a href="../book-page/book-page.jsp?isbn=<%=order.getBook(i).getIsbn()%>">
-            <% if(order.getBook(i).getCover().equals("-")) { %>
+            <% if(order.getBook(i).getCover() == null) { %>
             <img src="http://thebooksblender.altervista.org/wp-content/uploads/2015/08/copertina-non-disponibile.jpg" class="img-thumbnail">
             <% } else { %>
-            <img src="<%= order.getBook(i).getCover() %>" class="img-thumbnail">
+            <img src="<%= order.getBook(i).getCover() %>" class="img-thumbnail" onerror="src='http://thebooksblender.altervista.org/wp-content/uploads/2015/08/copertina-non-disponibile.jpg'">
             <% } %>
           </a>
         </div>
 
         <div class="col-xs9 col-sm-10">
-          <h4><a class="book-link" href="../book-page/book-page.jsp?isbn=<%=order.getBook(i).getIsbn()%>">
+          <h4><a class="book-title" href="../book-page/book-page.jsp?isbn=<%=order.getBook(i).getIsbn()%>">
             <%=order.getBook(i).getTitle()%>
             </a>
             <small>
@@ -121,10 +122,13 @@
               <% } %>
             </small>
           </h4>
-          Quantita: <%=order.getQuantity(i)%>
-          </br>
-
-          &euro; <%=Conversion.getPriceAsString(order.getBook(i).getPrice())%></br></br>
+            
+          <h4> &euro; <%=Conversion.getPriceAsString(order.getBook(i).getPrice())%></h4>
+          
+          <h5>Quantita: <%=order.getQuantity(i)%></h5>
+          
+          <% subTotal += order.getBook(i).getPrice()*order.getQuantity(i); %>
+          
            
           <% if(!admin) { %>
             <form action="../cart/cart.jsp" method="post">
@@ -153,7 +157,7 @@
     
     <div class="divider-horizontal"></div>
       
-    Totale libri: <span class="pull-right">&euro; <%=Conversion.getPriceAsString(order.getTotPrice())%></span></br>
+    Totale libri: <span class="pull-right">&euro; <%=Conversion.getPriceAsString(subTotal)%></span></br>
     Costo spedizione: <span class="pull-right">&euro; <%=Conversion.getPriceAsString(order.getShippingCost())%></span></br>
     Sconto coupon: <span class="pull-right">
       <% if(order.getCouponCode() != null) { %>
@@ -165,7 +169,7 @@
 
     <div class="divider-horizontal"></div>
 
-    <b>Totale <span class="pull-right">&euro; <%=Conversion.getPriceAsString(order.getFullTotal())%></span></b>
+    <b>Totale <span class="pull-right">&euro; <%=Conversion.getPriceAsString(order.getTotPrice())%></span></b>
   </div>
   
   

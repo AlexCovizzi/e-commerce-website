@@ -19,6 +19,18 @@ import java.util.*;
 public class Conversion {
   
   /**
+   * Restituisce la data nel formato gg/mm/aaaa
+   */
+  public static String getDateAsString(Date date) {
+    String dateNotFormatted = ""+date;
+    String[] ymg = dateNotFormatted.split("-");
+    String year = ymg[0];
+    String month = ymg[1];
+    String day = ymg[2];
+    return day+"/"+month+"/"+year;
+  }
+  
+  /**
    * Trasforma un float in una stringa con due soli decimali dopo la virgola
    * @param price Il prezzo da convertire in stringa
    * @return Il prezzo convertito in stringa

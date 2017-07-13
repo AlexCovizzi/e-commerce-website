@@ -35,6 +35,13 @@
 <html>
   <head>
     <title>I miei ordini</title>
+    
+    <!-- Se l'utente non è loggato ritorno alla homepage immantinente -->
+    <% if(!loggedIn) { %>
+      <script language="javascript">
+        location.replace("../../c-search/homepage/homepage.jsp");
+      </script>
+    <% } %>
 
     <!-- comprende css e script del framework, header e footer -->
     <%@ include file="../../../shared/head-common.html" %>
@@ -97,6 +104,7 @@
               <% request.setAttribute("order", order); %>
               <% request.setAttribute("admin", false); %>
               <jsp:include page="../../../shared/order/order.jsp" />
+              </br>
             <% } %>
           </div>
         <% } %>

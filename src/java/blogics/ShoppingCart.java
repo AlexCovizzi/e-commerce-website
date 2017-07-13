@@ -64,4 +64,11 @@ public class ShoppingCart {
   public int getN() {
     return n;
   }
+  
+  public boolean isEverythingInStock() {
+    for(int i=0; i<size(); i++) {
+      if(getQuantity(i) > getBook(i).getStock()) return false;
+    }
+    return true;
+  }
 }

@@ -35,7 +35,7 @@ import util.Triplet;
 
 public class SearchManagement extends AbstractManagement {
   /* Risultati che vengono visualizzati per pagina (metterlo come parametro?) */
-  public static final int RESULTS_PER_PAGE = 3;
+  public static final int RESULTS_PER_PAGE = 25;
   
   /* Opzioni per ordinare i risultati della ricerca e corrispondenti valori per la query sql */
   public static final String[] ORDER_OPTIONS = {"Ultimi pubblicati", "A-Z", "Voto", "Prezzo: crescente", "Prezzo: decrescente"};
