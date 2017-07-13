@@ -30,7 +30,6 @@ import services.database.exception.RecoverableDBException;
 import services.database.exception.UnrecoverableDBException;
 import services.session.Session;
 import util.Logger;
-import util.Triplet;
 
 
 public class SearchManagement extends AbstractManagement {
