@@ -122,9 +122,9 @@
           <div id="filter-menu" class="filter-menu collapse in">
           <form id="filter-form" type="get" action="search.jsp">
             
-            <input type="hidden" name="search" value="<%=searchManagement.getSearch()%>" style="display: none;">
-            <input type="hidden" name="ord" value="<%=searchManagement.getOrd()%>" style="display: none;">
-            <input type="hidden" name="page" value="<%=searchManagement.getPage()%>" style="display: none;">
+            <input type="hidden" name="search" value="<%=searchManagement.getSearch()%>" >
+            <input type="hidden" name="ord" value="<%=searchManagement.getOrd()%>" >
+            <input type="hidden" name="page" value="<%=searchManagement.getPage()%>" >
             
             <h5><b>Genere</b></h5>
             
@@ -172,7 +172,7 @@
             </br>
             
             <h5><b>Voto</b></h5>
-            <input type="hidden" name="vote" value="0">
+            <input type="hidden" name="vote">
             <% for(int i= 0; i<SearchManagement.VOTE_VALUES.length; i++) { %>
               <a class="filter-link" onclick="submitVoteFilter(<%=SearchManagement.VOTE_VALUES[i]%>)">
                 Pi&ugrave; di <%=SearchManagement.VOTE_VALUES[i]%>%
