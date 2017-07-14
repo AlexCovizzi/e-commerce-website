@@ -1,4 +1,14 @@
-/* Parametri: search, autori[], generi[], editori[], prezzoMin, PrezzoMax, votoMin, pagina, libriPerPagina */
+/* Parametri: 
+String search, 
+String[] autori, 
+String[] generi, 
+String[] editori,
+float prezzoMin, float PrezzoMax, 
+int votoMin, 
+String lang = 'it',
+boolean disp = true,
+int pagina, 
+int libriPerPagina */
 
 SELECT DISTINCT isbn, title, price, publisher_name, publication_date, stock, vote, n_votes, coverUri 
 FROM BookView  
@@ -10,6 +20,9 @@ WHERE ( title LIKE '%search%' OR isbn = 'search'  )
 	AND (  g_name = 'generi[0]' OR g_name = 'generi[1]' OR [...] )
 	AND (  price BETWEEN prezzoMin AND prezzoMax )
 	AND (  vote >= votoMin  )
+	AND ( language = 'italiano' )
+	AND ( stock > 0 )
+
 ORDER BY publication_date DESC
 LIMIT libriPerPagina OFFSET libriPerPagina*pagina-libriPerPagina
 
