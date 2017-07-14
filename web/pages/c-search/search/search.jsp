@@ -163,7 +163,7 @@
             
             <h5><b>Prezzo</b></h5>
             <% for(int i= 0; i<SearchManagement.PRICE_RANGE_OPTIONS.length; i++) { %>
-              <a class="filter-link" onclick="submitPriceFilter(<%=SearchManagement.PRICE_RANGE_VALUES[0][i]%>, <%=SearchManagement.PRICE_RANGE_VALUES[1][i]%>)">
+              <a class="filter-link" href="javascript: submitPriceFilter(<%=SearchManagement.PRICE_RANGE_VALUES[0][i]%>, <%=SearchManagement.PRICE_RANGE_VALUES[1][i]%>)">
                 <%=SearchManagement.PRICE_RANGE_OPTIONS[i] %> &euro;
               </a>
               &nbsp;<small>(<%=searchManagement.getPriceFilters()[i]%>)</small></br>
@@ -177,12 +177,12 @@
             <h5><b>Voto</b></h5>
             <input type="hidden" name="vote">
             <% for(int i= 0; i<SearchManagement.VOTE_VALUES.length; i++) { %>
-              <a class="filter-link" onclick="submitVoteFilter(<%=SearchManagement.VOTE_VALUES[i]%>)">
+              <a class="filter-link" href="javascript: submitVoteFilter(<%=SearchManagement.VOTE_VALUES[i]%>)">
                 Pi&ugrave; di <%=SearchManagement.VOTE_VALUES[i]%>%
               </a>
               &nbsp;<small>(<%=searchManagement.getVoteFilters()[i]%>)</small></br>
             <% } %>
-            <a class="filter-link" onclick="submitVoteFilter(-1)">
+            <a class="filter-link" href="javascript: submitVoteFilter(-1)">
               Tutti
             </a>
             </br>

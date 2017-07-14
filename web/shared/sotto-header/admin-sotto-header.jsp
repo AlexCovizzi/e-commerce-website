@@ -44,7 +44,7 @@
       <input type="hidden" name="action" value="view"/>
     </form>
     
-    <form name="modificaInformazioniForm" method="post" action="../../c-account/account-info/acount-info.jsp">
+    <form name="modificaInformazioniForm" method="post" action="../../c-account/account-info/account-info.jsp">
       <input type="hidden" name="action" value="view"/>
     </form>
     

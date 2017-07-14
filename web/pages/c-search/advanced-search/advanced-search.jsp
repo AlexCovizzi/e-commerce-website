@@ -102,7 +102,7 @@ if(action.equals("view")) {
 
       <div class="divider-horizontal"></div>
 
-      <form class="form-horizontal" method='get' action='../search/search.jsp'>
+      <form class="form-horizontal" method='post' action='../search/search.jsp'>
 
         <div class="form-group">
           <label class="control-label col-sm-2" for="search-title">Titolo/ISBN</label>

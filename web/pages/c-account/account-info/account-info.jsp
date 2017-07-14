@@ -22,7 +22,9 @@
   Cookie[] cookies=null;
   cookies=request.getCookies();
   accountManagement.setCookies(cookies);
-  boolean loggedIn = (cookies != null);
+  boolean loggedIn = Session.isUserLoggedIn(cookies);
+  boolean admin = Session.isUserAdmin(cookies);
+  
   
   String action = request.getParameter("action");
   if (action == null) action="view";
@@ -65,7 +67,11 @@
     
     <!-- sotto-header -->
     <div class="sotto-header">
-      <%@ include file="../../../shared/sotto-header/admin-sotto-header.jsp" %>
+      <% if(admin) { %>
+        <%@ include file="../../../shared/sotto-header/admin-sotto-header.jsp" %>
+      <% } else { %>
+        <%@ include file="../../../shared/sotto-header/account-sotto-header.jsp" %>
+      <% } %>
     </div>
 
     <!-- content-area -->
@@ -107,15 +113,15 @@
         </div>
 
         <div class="form-group"> 
-          <div class="col-sm-offset-4 col-sm-4">
+          <div class="col-sm-offset-4 col-sm-2">
             <input type="hidden" name="action" value="modify"/>
             <button type="submit" class="btn btn-default">
               Modifica informazioni
             </button>
           </div>
-          <div class="col-sm-offset-4 col-sm-4">
+          <div class="col-sm-4">
             <a class="btn btn-link"
-              <% if(Session.isUserAdmin(cookies)) { %>
+              <% if(admin) { %>
                 href="../../c-admin/admin-account/admin.jsp"
               <% } else { %>
                 href="../account/account.jsp"

@@ -59,7 +59,7 @@
   <div class="container content-area">
     <div class="my-jumbotron" id="benvenuto">
         <div class="container">
-            <h1>Benvenuto!</h1>
+          <h1>Benvenuto <% if(loggedIn) { %> <%=Session.getUserName(cookies)%> <% } %> !</h1>
             <p>La Libreria Oline Sant'Ale ti offre la scelta su numerosi
                 libri, in italiano e in lingua straniera! Inizia subito la
                 ricerca o iscriviti subito!</p>
@@ -67,14 +67,16 @@
                 <a class="btn btn-primary btn-lg" href="../search/search.jsp" role="button">
                     Guarda il catalogo &raquo;
                 </a>
-                <a class="btn btn-primary btn-lg" href="../signup/signup.jsp" role="button">Iscriviti &raquo;</a>
+              <% if(!loggedIn) { %>
+                <a class="btn btn-primary btn-lg" href="../../c-login/signup/signup.jsp" role="button">Iscriviti &raquo;</a>
+              <% } %>
             </p>
         </div>
     </div>
         
     <!--Ultimi Arrivi-->
     <div class="my-jumbotron sezione">
-      <h2>Ultimi Arrivi</h2>
+      <h2>&emsp;Ultime pubblicazioni</h2>
 
       <div id="ultimiArrivi" class="carousel slide" data-ride="carousel">
 
@@ -109,7 +111,7 @@
 
     <!--I più Quotati-->
     <div class="my-jumbotron sezione">
-      <h2>I pi&ugrave; venduti</h2>
+      <h2>&emsp;I pi&ugrave; venduti</h2>
 
       <div id="iPiuQuotati" class="carousel slide" data-ride="carousel">
         
@@ -142,8 +144,8 @@
     <!--I più Quotati - Fine-->
 
     <!--Consigliati per Te-->
-    <div class=" sezione">
-      <h2>Consigliati per Te</h2>
+    <div class="my-jumbotron sezione">
+      <h2>&emsp;Consigliati per Te</h2>
 
       <div id="consigliati" class="carousel slide" data-ride="carousel">
 
