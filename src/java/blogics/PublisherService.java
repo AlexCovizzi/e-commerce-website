@@ -106,6 +106,8 @@ public class PublisherService {
 					Conversion.getDatabaseString(nome))
 			.done();
     
+    System.out.println(sql);
+    
     database.modify(sql);
     
     return id;
@@ -125,6 +127,8 @@ public class PublisherService {
         .where("fl_active='S'")
           .and("name = " + Conversion.getDatabaseString(nome))
         .done();
+    
+    System.out.println(sql);
 
     ResultSet resultSet = database.select(sql);
     

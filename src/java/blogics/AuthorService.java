@@ -68,6 +68,8 @@ public class AuthorService {
           .and("name = " + Conversion.getDatabaseString(nome))
         .done();
     
+    System.out.println(sql);
+    
     ResultSet resultSet = database.select(sql);
     
     boolean exist = false;
@@ -142,6 +144,8 @@ public class AuthorService {
 					id,
 					Conversion.getDatabaseString(nome))
 			.done();
+    
+    System.out.println(sql);
     
     database.modify(sql);
     
@@ -227,6 +231,8 @@ public class AuthorService {
 					Conversion.getDatabaseString(isbn),
 					idAutore)
 			.done();
+    
+    System.out.println(sql);
     
     database.modify(sql);
   }

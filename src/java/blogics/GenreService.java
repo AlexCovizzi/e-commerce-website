@@ -72,6 +72,8 @@ public class GenreService {
             .and("name = " + Conversion.getDatabaseString(generi[i]))
           .done();
 
+      System.out.println(sql);
+      
       ResultSet resultSet = database.select(sql);
       System.out.println("Select eseguita");
       
@@ -179,6 +181,8 @@ public class GenreService {
             genere)
         .done();
 
+    System.out.println(sql);
+    
     database.modify(sql);
   }
   
