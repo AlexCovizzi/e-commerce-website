@@ -58,7 +58,7 @@
         </button>
         <!--<a href="javascript:;" onclick="javascript:document.getElementById('add-to-cart-form-<%=book.getIsbn()%>').submit()">Aggiungi al carrello</a>
         -->
-      </form>  
+      </form>   
     </div>
     
     <div class="col-xs-12">
