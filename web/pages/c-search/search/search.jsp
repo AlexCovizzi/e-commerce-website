@@ -49,8 +49,9 @@
       function submitFilter() {
         // Ogni volta che metto un filtro ritorno alla prima pagina
         document.getElementsByName("page")[0].value = 1;
-        
+         
         document.getElementById("filter-form").submit();
+       
         return;
       }
       function submitOrd(ord) {
@@ -88,7 +89,9 @@
         document.getElementsByName("action")[0].value = action;
         document.getElementsByName("isbn")[0].value = isbn;
         document.getElementById("filter-form").submit();
+        return;
       }
+      
     </script>
   </head>
     
@@ -120,7 +123,7 @@
           </h4>
 
           <div id="filter-menu" class="filter-menu collapse in">
-          <form id="filter-form" type="get" action="search.jsp">
+          <form id="filter-form" method="post" action="search.jsp">
             
             <input type="hidden" name="search" value="<%=searchManagement.getSearch()%>" >
             <input type="hidden" name="ord" value="<%=searchManagement.getOrd()%>" >
@@ -183,7 +186,20 @@
               Tutti
             </a>
             </br>
-                
+            
+            <h5><b>Lingua</b></h5>
+            <a class="filter-link">
+              <label><input type="checkbox" name="lang" value="it" onclick="submitFilter()" <% if(searchManagement.getLang().equals("it")) {%> checked <%}%> > Solo lingua italiana </label>
+            </a>
+            <a class="filter-link">
+              <label><input type="checkbox" name="lang" value="st" onclick="submitFilter()" <% if(searchManagement.getLang().equals("st")) {%> checked <%}%> > Solo lingua straniera </label>
+            </a>
+            </br>
+            
+            <h5><b>Altro</b></h5>
+            <a class="filter-link">
+              <label><input type="checkbox" name="disp" value="true" onclick="submitFilter()" <% if(searchManagement.getDisp()) {%> checked <%}%> > Mostra solo libri disponibili </label>
+            </a>
             </br>
               
           </form>
@@ -210,7 +226,7 @@
               </button>
               <ul class="dropdown-menu pull-right" aria-labelledby="sort-dropdown">
                 <% for(int i=0; i<SearchManagement.ORDER_OPTIONS.length; i++) { %>
-                  <li <% if(i == searchManagement.getOrd()) { %> style="color: cyan" <% } %> >
+                  <li <% if(i == searchManagement.getOrd()) { %> style="background-color: #c7ddef" <% } %> >
                     <a onclick="submitOrd(<%=i%>)"><%=SearchManagement.ORDER_OPTIONS[i]%></a>
                   </li>
                 <% } %>

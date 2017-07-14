@@ -320,6 +320,8 @@ public class OrderService {
             .limit(n)
             .done();
     
+    Logger.debug(sql);
+    
     ResultSet resultSet = database.select(sql);
     
     try {

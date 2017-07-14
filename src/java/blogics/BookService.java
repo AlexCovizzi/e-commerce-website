@@ -144,13 +144,13 @@ public class BookService {
    * @throws RecoverableDBException 
    */
 	public static List<Book> getBookList(Database db, String search, String[] authors,
-			String[] publishers, String[] genres, int priceMin, int priceMax, int vote,
+			String[] publishers, String[] genres, int priceMin, int priceMax, int vote, String lang, boolean disp,
 			String ord, int page, int booksPerPage) throws RecoverableDBException {
 		
 		ResultSet resultSet;
 		List<Book> bookList = new ArrayList();
 		
-    SqlBuilder sqlBuilder = getBookSearchQuery(search, authors, publishers, genres, priceMin, priceMax, vote);
+    SqlBuilder sqlBuilder = getBookSearchQuery(search, authors, publishers, genres, priceMin, priceMax, vote, lang, disp);
     
 		sqlBuilder
       .orderBy(ord)
@@ -181,12 +181,12 @@ public class BookService {
    * 
    * @throws RecoverableDBException 
    */
-  public static int getTotalResults(Database db, String search, String[] authors, String[] publishers, String[] genres, int priceMin, int priceMax, int vote) throws RecoverableDBException {
+  public static int getTotalResults(Database db, String search, String[] authors, String[] publishers, String[] genres, int priceMin, int priceMax, int vote, String lang, boolean disp) throws RecoverableDBException {
     SqlBuilder sqlBuilder = new SqlBuilder();
 		ResultSet resultSet;
     int totResults = 0;
     
-    String innerSql = getBookSearchQuery(search, authors, publishers, genres, priceMin, priceMax, vote).toString();
+    String innerSql = getBookSearchQuery(search, authors, publishers, genres, priceMin, priceMax, vote, lang, disp).toString();
     
     String sql = sqlBuilder
 			.select("COUNT(*) AS n")
@@ -291,11 +291,11 @@ public class BookService {
    * 
    * @return 
    */
-  private static SqlBuilder getBookSearchQuery(String search, String[] authors, String[] publishers, String[] genres, int priceMin, int priceMax, int vote) {
+  private static SqlBuilder getBookSearchQuery(String search, String[] authors, String[] publishers, String[] genres, int priceMin, int priceMax, int vote, String lang, boolean disp) {
     SqlBuilder sqlBuilder = new SqlBuilder();
     
 		sqlBuilder
-			.selectDistinct("isbn", "title", "price", "publisher_name", "publication_date", "stock", "vote", "n_votes", "coverUri")
+			.selectDistinct("isbn", "title", "price", "language", "publisher_name", "publication_date", "stock", "vote", "n_votes", "coverUri")
 			.from("BookView")
       .join("BookAuthor").as("B_A").on("B_A.book_isbn = isbn")
       .join("BookGenre").as("B_G").on("B_G.book_isbn = isbn")
@@ -347,6 +347,20 @@ public class BookService {
       float vMin = vote*0.01f;
       String voteCondition = " vote >= "+vMin;
       sqlBuilder.and(voteCondition);
+    }
+    
+    if(!lang.equals("all")) {
+      String langCondition = " language ";
+      if(lang.equals("it")) {
+        langCondition += "= 'italiano'";
+      } else if(lang.equals("st")) {
+        langCondition += "!= 'italiano'";
+      }
+      sqlBuilder.and(langCondition);
+    }
+    
+    if(disp) {
+      sqlBuilder.and("stock > 0");
     }
     
     return sqlBuilder;

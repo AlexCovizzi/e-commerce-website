@@ -15,19 +15,16 @@
     <div id="sotto_header" class="collapse navbar-collapse">
         <ul style="margin: 0px;" class="nav navbar-nav">
             <li title="Libri Italiani">
-                <a href="../search/search.jsp">Libri Italiani</a>
+                <a href="../../c-search/search/search.jsp?lang=it">Libri Italiani</a>
             </li>
             <li title="Libri in Lingua Straniera">
-                <a href="../search/search.jsp">Libri in Lingua Straniera</a>
+              <a href="../../c-search/search/search.jsp?lang=st">Libri in Lingua Straniera</a>
             </li>
-            <li title="eBook">
-                <a href="#">eBook</a>
+            <li title="Ultime pubblicazioni">
+              <a href="../../c-search/search/search.jsp?ord=1">Ultime pubblicazioni</a>
             </li>
-            <li title="Fumetti">
-                <a href="../search/search.jsp">Fumetti</a>
-            </li>
-            <li title="Dizionari">
-                <a href="../search/search.jsp">Dizionari</a>
+            <li title="I pi&ugrave; votati">
+                <a href="../../c-search/search/search.jsp?ord=3">I pi&ugrave; votati</a>
             </li>
         </ul>
     </div>

@@ -37,8 +37,8 @@ public class SearchManagement extends AbstractManagement {
   public static final int RESULTS_PER_PAGE = 25;
   
   /* Opzioni per ordinare i risultati della ricerca e corrispondenti valori per la query sql */
-  public static final String[] ORDER_OPTIONS = {"Ultimi pubblicati", "A-Z", "Voto", "Prezzo: crescente", "Prezzo: decrescente"};
-  public static final String[] ORDER_VALUES = {"publication_date ASC", "title ASC", "vote DESC", "price ASC", "price DESC"};
+  public static final String[] ORDER_OPTIONS = {"Ultimi arrivi", "Ultimi pubblicati", "A-Z", "Voto", "Prezzo: crescente", "Prezzo: decrescente"};
+  public static final String[] ORDER_VALUES = {"timestamp DESC", "publication_date DESC", "title ASC", "vote DESC", "price ASC", "price DESC"};
   
   /* Opzioni di filtraggio per prezzo e corrispondente range */
   public static final String[] PRICE_RANGE_OPTIONS = {"Meno di 5", "5 - 10", "10 - 20", "20 - 50", "Piu di 50"};
@@ -68,6 +68,8 @@ public class SearchManagement extends AbstractManagement {
   private String[] genres;
   private int priceMin = -1, priceMax = -1; // -1 equivale a campo input vuoto
   private int vote = -1;
+  private String lang = "all";
+  private boolean disp = false;
   private int page = 1;
   // opzioni dei filtri
   private List<Pair<String, Integer>> genreFilters; // Generi con piu occorrenze nella ricerca base (senza filtri)
@@ -114,7 +116,7 @@ public class SearchManagement extends AbstractManagement {
       mostViewedGenresArr = mostViewedGenres.toArray(mostViewedGenresArr);
       
       suggestedBooks = new ArrayList<>();
-      suggestedBooks = BookService.getBookList(database, search, authors, publishers, mostViewedGenresArr, priceMin, priceMax, vote, ORDER_VALUES[2], 1, 9);
+      suggestedBooks = BookService.getBookList(database, search, authors, publishers, mostViewedGenresArr, priceMin, priceMax, vote, lang, disp, ORDER_VALUES[2], 1, 9);
       for(Book b : suggestedBooks) {
         List<Author> bAuthors = AuthorService.getBookAuthors(database, b.getIsbn());
         List<Genre> bGenres = GenreService.getBookGenres(database, b.getIsbn());
@@ -137,7 +139,7 @@ public class SearchManagement extends AbstractManagement {
       }
       
       lastPublishedBooks = new ArrayList<>();
-      lastPublishedBooks = BookService.getBookList(database, search, authors, publishers, genres, priceMin, priceMax, vote, ORDER_VALUES[0], 1, 9);
+      lastPublishedBooks = BookService.getBookList(database, search, authors, publishers, genres, priceMin, priceMax, vote, lang, disp, ORDER_VALUES[0], 1, 9);
       for(Book b : lastPublishedBooks) {
         List<Author> bAuthors = AuthorService.getBookAuthors(database, b.getIsbn());
         List<Genre> bGenres = GenreService.getBookGenres(database, b.getIsbn());
@@ -170,7 +172,7 @@ public class SearchManagement extends AbstractManagement {
     try {
       
       /* Recupero i libri che soddisfano la ricerca e le loro info (autori, generi) */
-      books = BookService.getBookList(database, search, authors, publishers, genres, priceMin, priceMax, vote, ORDER_VALUES[ord], page, RESULTS_PER_PAGE);
+      books = BookService.getBookList(database, search, authors, publishers, genres, priceMin, priceMax, vote, lang, disp, ORDER_VALUES[ord], page, RESULTS_PER_PAGE);
       for(Book b : books) {
         List<Author> bAuthors = AuthorService.getBookAuthors(database, b.getIsbn());
         List<Genre> bGenres = GenreService.getBookGenres(database, b.getIsbn());
@@ -180,7 +182,7 @@ public class SearchManagement extends AbstractManagement {
       }
       
       /* Recupero il numero totale dei risultati della ricerca */
-      totResults = BookService.getTotalResults(database, search, authors, publishers, genres, priceMin, priceMax, vote);
+      totResults = BookService.getTotalResults(database, search, authors, publishers, genres, priceMin, priceMax, vote, lang, disp);
       
       /* 
         recupero info varie sulla ricerca
@@ -256,7 +258,7 @@ public class SearchManagement extends AbstractManagement {
         for(int i=0; i<bGenres.size(); i++) bGenresArr[i] = bGenres.get(i).getName();
         
         suggestedBooks = new ArrayList<>();
-        suggestedBooks.addAll(BookService.getBookList(database, search, authors, publishers, bGenresArr, priceMin, priceMax, vote, ORDER_VALUES[2], 1, 9));
+        suggestedBooks.addAll(BookService.getBookList(database, search, authors, publishers, bGenresArr, priceMin, priceMax, vote, lang, disp, ORDER_VALUES[2], 1, 9));
         
         for(Book b : suggestedBooks) {
           List<Author> sAuthors = AuthorService.getBookAuthors(database, b.getIsbn());
@@ -382,6 +384,14 @@ public class SearchManagement extends AbstractManagement {
     this.vote = vote;
   }
   
+  public void setLang(String lang) {
+    this.lang = lang;
+  }
+  
+  public void setDisp(boolean disp) {
+    this.disp = disp;
+  }
+  
   public void setPage(int page) {
     this.page = page;
   }
@@ -437,6 +447,14 @@ public class SearchManagement extends AbstractManagement {
   
   public int getVote() {
     return vote;
+  }
+  
+  public String getLang() {
+    return lang;
+  }
+  
+  public boolean getDisp() {
+    return disp;
   }
   
   public int getPage() {

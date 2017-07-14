@@ -48,6 +48,7 @@ function setAction(form) {
           <a class="book-link" href="../../c-search/search/search.jsp?genres=<%=book.getGenres().get(i).getName()%>"><%=book.getGenres().get(i).getName()%></a>
         <% } %>
       </h6>
+      <h6><b>Lingua: </b><%=book.getLanguage() %></h6>
       <h6><b>ISBN: </b><%=book.getIsbn()%></h6>
       <div class="custom-divider"></div>
       <h5><b>Voto: </b><%=book.getVotePercent()%>% <small>(<%=book.getNVotes()%> voti)</small></h5>
