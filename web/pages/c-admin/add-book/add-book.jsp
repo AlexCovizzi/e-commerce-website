@@ -243,7 +243,7 @@
           <div class="col-sm-10">
             <input class="form-control" type="text" name="dataPubbl" minlength="10" maxlength="10"
               id="data-pubbl" placeholder="Inserisci la data di pubblicazione (aaaa-mm-gg)"
-              <% if(adminManagement.getIsbn() != null && adminManagement.getDataPubbl() != null) { %>
+              <% if(adminManagement.getIsbn() != null && !adminManagement.getDataPubbl().equals("-")) { %>
                   value="<%= adminManagement.getDataPubbl() %>"
                   <% } %>
               >
@@ -272,7 +272,7 @@
               <input type="text" class="form-control" name="prezzo" id="prezzo"
                 placeholder="Inserisci il prezzo (es.: 19.99)"
                 <% if(adminManagement.getIsbn() != null) { %>
-                  value="<%= Conversion.getPriceAsString(adminManagement.getPrezzo()) %>"
+                  value="<%= adminManagement.getPrezzo() %>"
                   <% } %>
                 >
             </div>
