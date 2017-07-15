@@ -6,6 +6,7 @@
 
 <%@ page import="services.session.*" %>
 
+<% request.setCharacterEncoding("UTF-8"); %>
 <jsp:useBean id="loginManagement" scope="page" class="bflows.LoginManagement" />
 <jsp:setProperty name="loginManagement" property="*" />
 

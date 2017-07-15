@@ -7,6 +7,7 @@
 <%@ page import="bflows.PurchaseManagement"%>
 <!DOCTYPE html>
 
+<% request.setCharacterEncoding("UTF-8"); %>
 <jsp:useBean id="purchaseManagement" scope="page" class="bflows.PurchaseManagement" />
 <jsp:setProperty name="purchaseManagement" property="*" />
 

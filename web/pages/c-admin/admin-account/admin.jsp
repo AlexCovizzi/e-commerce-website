@@ -8,6 +8,7 @@
 <%@ page import="bflows.AdminManagement"%>
 <!DOCTYPE html>
 
+<% request.setCharacterEncoding("UTF-8"); %>
 <jsp:useBean id="adminManagement" scope="page" class="bflows.AdminManagement" />
 <jsp:setProperty name="adminManagement" property="*" />
 

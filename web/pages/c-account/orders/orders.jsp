@@ -9,6 +9,7 @@
 
 <%@ page import="services.session.*" %>
 
+<% request.setCharacterEncoding("UTF-8"); %>
 <jsp:useBean id="accountManagement" scope="page" class="bflows.AccountManagement" />
 <jsp:setProperty name="accountManagement" property="*" />
 

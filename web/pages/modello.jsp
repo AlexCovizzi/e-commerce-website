@@ -3,6 +3,7 @@
 <%@ page session="false" %>
 <%@ page errorPage="/ErrorPage.jsp" %>
 
+<% request.setCharacterEncoding("UTF-8"); %>
 <%@ page import="services.session.*" %>
 <!DOCTYPE html>
 

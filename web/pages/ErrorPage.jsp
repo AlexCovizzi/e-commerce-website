@@ -6,7 +6,8 @@
 
 <%@ page import="java.io.*" %>
 <%@ page import="java.util.*"%>
-<%@ page import="services.errorservice.*"%>
+
+<% request.setCharacterEncoding("UTF-8"); %>
 
 <%int i;%>
 

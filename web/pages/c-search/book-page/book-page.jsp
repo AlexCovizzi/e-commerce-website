@@ -12,6 +12,7 @@
 <%@ page import="services.session.*" %>
 <%@ page import="global.Constants" %>
 
+<% request.setCharacterEncoding("UTF-8"); %>
 <jsp:useBean id="searchManagement" scope="page" class="bflows.SearchManagement" />
 <jsp:setProperty name="searchManagement" property="*" />
 
