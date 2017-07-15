@@ -7,7 +7,7 @@
 function submitRimuoviRecensioneForm(userId, bookIsbn) {
   var f = document.rimuoviRecensioneForm;
   f.isbn.value = bookIsbn;
-  f.listUserId.value = userId;
+  f.userReviewId.value = userId;
   f.submit();
   return;
 }

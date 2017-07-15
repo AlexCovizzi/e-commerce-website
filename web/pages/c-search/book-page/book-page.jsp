@@ -10,6 +10,7 @@
 <%@page errorPage="../../ErrorPage.jsp" %>
 
 <%@ page import="services.session.*" %>
+<%@ page import="global.Constants" %>
 
 <jsp:useBean id="searchManagement" scope="page" class="bflows.SearchManagement" />
 <jsp:setProperty name="searchManagement" property="*" />
@@ -89,9 +90,9 @@
               <% if(!searchManagement.getBook().getCover().equals("-")) { %>
               src="<%= searchManagement.getBook().getCover() %>"
               <% } else { %>
-              src="http://thebooksblender.altervista.org/wp-content/uploads/2015/08/copertina-non-disponibile.jpg"
+              src="<%= Constants.DEFAULT_COVER %>"
               <% } %>
-              onerror="this.src='http://thebooksblender.altervista.org/wp-content/uploads/2015/08/copertina-non-disponibile.jpg'"
+              onerror="this.src='<%= Constants.DEFAULT_COVER %>'"
             />
           </div>
         </div>
@@ -213,7 +214,7 @@
         </button>
 
         <div class="container-fluid">
-          <div id="consigliati" class="carousel slide" data-ride="carousel">
+          <div id="consigliati" class="carousel slide collapse" data-ride="carousel">
         
             <div class="carousel-inner" role="listbox">
 

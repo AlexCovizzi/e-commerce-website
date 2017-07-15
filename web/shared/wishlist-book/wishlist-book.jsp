@@ -12,7 +12,7 @@
   
   <!-- immagine libro -->
   <div class="img-wrapper col-xs-3 col-sm-2">
-    <a href="../../c-seach/book-page/book-page?isbn=<%=book.getIsbn()%>">
+    <a href="../../c-search/book-page/book-page.jsp?isbn=<%=book.getIsbn()%>">
       <img  class="img-thumbnail"
         <%if(book.getCover() != null) { %>
           src="<%=book.getCover()%>" onerror="src='<%=Constants.DEFAULT_COVER%>'"
@@ -26,7 +26,7 @@
   <!-- caratteristiche libro (nome, autore, disponibile) -->
   <div class="col-xs-6">
     <div class="col-xs-12">
-      <h4><a class="book-title" href="../../c-seach/book-page/book-page?isbn=<%=book.getIsbn()%>"><%=book.getTitle()%></a></b>
+      <h4><a class="book-title" href="../../c-search/book-page/book-page.jsp?isbn=<%=book.getIsbn()%>"><%=book.getTitle()%></a></b>
         <small>di 
           <% for(int i=0; i<book.getAuthors().size(); i++) {
             if(i > 0) %>, 

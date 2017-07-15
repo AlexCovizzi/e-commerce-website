@@ -23,7 +23,7 @@
   
   <!-- caratteristiche libro (nome, autore, disponibile) -->
   <div class="col-xs-6 col-sm-7">
-    <h4><a class='book-title' href="#"><%=book.getTitle()%></a>
+    <h4><a class='book-title' href="../../c-search/book-page/book-page.jsp?isbn=<%= book.getIsbn() %>"><%=book.getTitle()%></a>
       <small>di 
         <% for(int i=0; i<book.getAuthors().size(); i++) {
           if(i > 0) %>, 
