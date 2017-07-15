@@ -59,10 +59,10 @@
   <div class="container content-area">
     <div class="my-jumbotron" id="benvenuto">
         <div class="container">
-          <h1>Benvenuto <% if(loggedIn) { %> <%=Session.getUserName(cookies)%> <% } %> !</h1>
+          <h1>Benvenuto<% if(loggedIn) { %> <%=Session.getUserName(cookies)%><% } %>!</h1>
             <p>La Libreria Oline Sant'Ale ti offre la scelta su numerosi
-                libri, in italiano e in lingua straniera! Inizia subito la
-                ricerca o iscriviti subito!</p>
+                libri, in italiano e in lingua straniera!<% if(!loggedIn) { %> Inizia subito la
+                ricerca o iscriviti subito!<% } %></p>
             <p>
                 <a class="btn btn-primary btn-lg" href="../search/search.jsp" role="button">
                     Guarda il catalogo &raquo;
@@ -143,6 +143,7 @@
     </div>
     <!--I più Quotati - Fine-->
 
+    <% if(loggedIn) { %>
     <!--Consigliati per Te-->
     <div class="my-jumbotron sezione">
       <h2>&emsp;Consigliati per Te</h2>
@@ -177,6 +178,7 @@
       </div> <!-- /.carousel -->
     </div>
     <!--Consigliati per Te - Fine-->
+    <% } %>
         
   </div>
 

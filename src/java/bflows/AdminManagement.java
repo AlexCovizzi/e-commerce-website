@@ -32,7 +32,7 @@ public class AdminManagement extends AbstractManagement implements Serializable 
   private String descrizione;
   private String[] autore;
   private String isbn;
-  private int pagine = -1;
+  private int pagine = 0;
   private String editore;
   private String[] bookGeneri; /* Serve per salvare i generi selezionati del libro */
   private String dataPubbl;
@@ -462,7 +462,7 @@ Database database = DBService.getDataBase();
       int idEditore = this.controlloEditore(database, editore);
       
       String dataDiPubblicazione = dataPubbl;
-      if(dataDiPubblicazione == null)
+      if(dataDiPubblicazione.equals("-"))
         dataDiPubblicazione = "DEFAULT";
       
       /* Inserisco il libro */
@@ -534,7 +534,7 @@ Database database = DBService.getDataBase();
       int idEditore = this.controlloEditore(database, editore);
       
       String dataDiPubblicazione = dataPubbl;
-      if(dataDiPubblicazione == null)
+      if(dataDiPubblicazione.equals("-"))
         dataDiPubblicazione = "DEFAULT";
       
       /* Aggiorno le info del libro */      
