@@ -11,10 +11,13 @@
 
 <%@ page import="services.session.*" %>
 
+<% request.setCharacterEncoding("UTF-8"); %>
+
 <jsp:useBean id="accountManagement" scope="page" class="bflows.AccountManagement" />
 <jsp:setProperty name="accountManagement" property="*" />
 
 <%
+  response.setCharacterEncoding("UTF-8");
   String message = null;
   Cookie[] cookies = request.getCookies();
   accountManagement.setCookies(cookies);
@@ -39,7 +42,6 @@
 <html>
   <head>
     <title>Le mie recensioni</title>
-
     <!-- comprende css e script del framework, header e footer -->
     <%@ include file="../../../shared/head-common.html" %>
 
