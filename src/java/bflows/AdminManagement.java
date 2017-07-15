@@ -407,6 +407,7 @@ public class AdminManagement extends AbstractManagement implements Serializable 
 Database database = DBService.getDataBase();
     
     try {
+      
       /* Recupero i generi dal DB */
       this.recuperaGeneri(database);
       
@@ -436,6 +437,8 @@ Database database = DBService.getDataBase();
       bookGeneri = new String[bookHasGenre.size()];
       for(int i = 0; i < bookGeneri.length; i++)
         bookGeneri[i] = bookHasGenre.get(i).getName();
+      
+      this.controlliCampiOpzionali();
       
       /* FINITO! */
       database.commit();
@@ -525,8 +528,6 @@ Database database = DBService.getDataBase();
     
     try {
       
-      this.controlliCampiOpzionali();
-      
       /* Recupero i generi dal DB */
       this.recuperaGeneri(database);
       
@@ -534,7 +535,7 @@ Database database = DBService.getDataBase();
       int idEditore = this.controlloEditore(database, editore);
       
       String dataDiPubblicazione = dataPubbl;
-      if(dataDiPubblicazione.equals("-"))
+      if(dataDiPubblicazione == null)
         dataDiPubblicazione = "DEFAULT";
       
       /* Aggiorno le info del libro */      
@@ -642,8 +643,6 @@ Database database = DBService.getDataBase();
 		} finally {
       database.close();
     }
-    
-    this.controlliCampiOpzionali();
 	}
   
   
