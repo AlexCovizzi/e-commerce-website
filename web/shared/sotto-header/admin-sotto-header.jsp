@@ -20,27 +20,27 @@
       </ul>
     </div>
     
-    <form name="gestioneUtentiForm" method="post" action="../users/users.jsp">
+    <form name="gestioneUtentiForm" method="post" action="../../c-admin/users/users.jsp">
       <input type="hidden" name="action" value="view"/>
     </form>
     
-    <form name="gestioneAdminForm" method="post" action="../admin-users/admin-users.jsp">
+    <form name="gestioneAdminForm" method="post" action="../../c-admin/admin-users/admin-users.jsp">
       <input type="hidden" name="action" value="view"/>
     </form>
     
-    <form name="gestioneOrdiniForm" method="post" action="../admin-orders/admin-orders.jsp">
+    <form name="gestioneOrdiniForm" method="post" action="../../c-admin/admin-orders/admin-orders.jsp">
       <input type="hidden" name="action" value="view"/>
     </form>
     
-    <form name="gestioneCouponForm" method="post" action="../coupons/coupons.jsp">
+    <form name="gestioneCouponForm" method="post" action="../../c-admin/coupons/coupons.jsp">
       <input type="hidden" name="action" value="view"/>
     </form>
     
-    <form name="aggiungiLibroForm" method="post" action="../add-book/add-book.jsp">
+    <form name="aggiungiLibroForm" method="post" action="../../c-admin/add-book/add-book.jsp">
       <input type="hidden" name="action" value="view"/>
     </form>
     
-    <form name="gestioneRecensioniForm" method="post" action="../admin-reviews/admin-reviews.jsp">
+    <form name="gestioneRecensioniForm" method="post" action="../../c-admin/admin-reviews/admin-reviews.jsp">
       <input type="hidden" name="action" value="view"/>
     </form>
     

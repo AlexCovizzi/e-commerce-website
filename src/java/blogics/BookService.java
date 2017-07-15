@@ -35,9 +35,7 @@ public class BookService {
         .select("isbn")
         .from("book")
         .where("fl_active='S'")
-          .and("title=" + Conversion.getDatabaseString(title))
           .and("ISBN=" + Conversion.getDatabaseString(isbn))
-          .and("publisher_id=" + publisher)
         .done();
 	
 	
@@ -54,7 +52,7 @@ public class BookService {
     }
     
     if (exist) {
-      throw new RecoverableDBException("BookService: insertNewBook(): Tentativo di inserimento di un libro già esistente.");
+      throw new RecoverableDBException(new SQLException(), "BookService", "insertNewBook()", "Tentativo di inserimento di un libro già esistente. Torna indetro e modifica l'ISBN.");
     }
     
     /* Inserimento */	

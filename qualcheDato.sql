@@ -13,10 +13,12 @@ INSERT INTO genre VALUES
 ("9", "politica", "S"),
 ("10", "storia", "S"),
 ("11", "economia", "S"),
-("12", "diritto", "S"),
+("12", "scienze", "S"),
 ("13", "cucina", "S"),
 ("14", "fumetto", "S"),
-("15", "turismo", "S");
+("15", "turismo", "S"),
+("16", "narrativa", "S"),
+('17', 'rosa', 'S');
 
 INSERT INTO `publisher` (`id`, `name`, `fl_active`) VALUES
 (1, 'Mondadori', 'S'),

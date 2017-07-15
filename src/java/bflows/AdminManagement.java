@@ -343,15 +343,23 @@ public class AdminManagement extends AbstractManagement implements Serializable 
       /* Aggiungo il coupon */
       CouponService.addCoupon(database, codice, sconto);
       
-      /* Recupero i coupon dal DB */
-      this.recuperaCoupons(database);
-      
       /* FINITO! */
       database.commit();
     } catch (RecoverableDBException ex) {
       database.rollBack();
       setErrorMessage(ex.getMsg());
 		} finally {
+      
+      try {
+        /* Recupero in qualsiasi caso i coupon dal DB */
+        this.recuperaCoupons(database);
+        
+        database.commit();
+      } catch (RecoverableDBException ex) {
+        database.rollBack();
+        setErrorMessage(ex.getMsg());
+      }
+      
       database.close();
     }
 	}
@@ -465,8 +473,10 @@ Database database = DBService.getDataBase();
       int idEditore = this.controlloEditore(database, editore);
       
       String dataDiPubblicazione = dataPubbl;
-      if(dataDiPubblicazione.equals("-"))
+      if(dataDiPubblicazione == null)
         dataDiPubblicazione = "DEFAULT";
+      
+      this.controlliCampiOpzionali();
       
       /* Inserisco il libro */
       System.out.println("");
@@ -516,8 +526,6 @@ Database database = DBService.getDataBase();
     }
     
     System.out.println("Abbiamo finito, penso!");
-    
-    this.controlliCampiOpzionali();
 	}
 	
   /* FATTO */

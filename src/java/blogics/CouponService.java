@@ -59,6 +59,7 @@ public class CouponService {
 				.select("code", "valid", "discount")
 				.from("Coupon")
 				.where("fl_active = 'S'")
+        .orderBy("valid")
         .limit(limit).offset(offset)
 				.done();
     
@@ -136,6 +137,10 @@ public class CouponService {
       resultSet.close();
     } catch(SQLException e) {
       throw new RecoverableDBException("CouponService: addCoupon(): Errore sul ResultSet.");
+    }
+    
+    if (exist) {
+      throw new RecoverableDBException(new SQLException(), "CouponService", "addCoupon", "Coupon già presente!");
     }
     
     /* Inserisco il coupon */

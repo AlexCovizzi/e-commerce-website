@@ -3,6 +3,7 @@
 <%@page import="blogics.Author"%>
 <%@page import="blogics.Genre"%>
 <%@page import="blogics.Book"%>
+<%@page import="global.Constants"%>
 <%
   Book book = (Book) request.getAttribute("book");
   boolean admin = (Boolean) request.getAttribute("admin");
@@ -15,7 +16,7 @@
         <% if(!book.getCover().equals("-")) { %>
         src="<%=book.getCover()%>" onerror="this.src='http://thebooksblender.altervista.org/wp-content/uploads/2015/08/copertina-non-disponibile.jpg'"
         <% } else { %>
-        src="http://thebooksblender.altervista.org/wp-content/uploads/2015/08/copertina-non-disponibile.jpg"
+        src="<%= Constants.DEFAULT_COVER %>"
         <% } %>
         class="img-thumbnail">
     </a>
