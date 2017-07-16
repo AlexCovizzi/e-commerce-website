@@ -59,7 +59,7 @@ public class CouponService {
 				.select("code", "valid", "discount")
 				.from("Coupon")
 				.where("fl_active = 'S'")
-        .orderBy("valid")
+        .orderBy("valid desc")
         .limit(limit).offset(offset)
 				.done();
     

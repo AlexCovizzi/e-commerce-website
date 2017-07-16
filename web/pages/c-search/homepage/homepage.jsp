@@ -61,7 +61,7 @@
     <div class="my-jumbotron" id="benvenuto">
         <div class="container">
           <h1>Benvenuto<% if(loggedIn) { %> <%=Session.getUserName(cookies)%><% } %>!</h1>
-            <p>La Libreria Oline Sant'Ale ti offre la scelta su numerosi
+            <p>La Libreria Online Sant'Ale ti offre la scelta su numerosi
                 libri, in italiano e in lingua straniera!<% if(!loggedIn) { %> Inizia subito la
                 ricerca o iscriviti subito!<% } %></p>
             <p>

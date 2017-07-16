@@ -296,12 +296,14 @@
               </table>
             
               <% if(loggedIn) { %>
-                <% if(searchManagement.getUserBookReview() == null) { %>
+              <% if(searchManagement.getUserBookReview() == null && !Session.isUserBlocked(cookies)) { %>
                   <button id="submit_voto" class="btn btn-primary" type="submit"
                           onclick='setReviewAction("review")'>
                       <i class="glyphicon glyphicon-ok"></i>
                       Invia valutazione
                   </button>
+                  <% } else if(searchManagement.getUserBookReview() == null && Session.isUserBlocked(cookies)) { %>
+                  <b>In quanto utente bloccato, non puoi scrivere nuove recensioni!</b>
                 <% } else { %>
                   <button id="submit_voto" class="btn btn-primary" type="submit"
                           onclick='setReviewAction("edit_review")'>
