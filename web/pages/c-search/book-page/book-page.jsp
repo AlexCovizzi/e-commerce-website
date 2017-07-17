@@ -268,15 +268,15 @@
                               </label>
                             
                               <% if(searchManagement.getUserBookReview() != null) { %>
-                              <% if(searchManagement.getUserBookReview().isThumbUp()) { %>
-                              <script>
-                                document.getElementById("option1").click();
-                              </script>
-                              <% } else {%>
-                              <script>
-                                document.getElementById("option2").click();
-                              </script>
-                              <% } %>
+                                <% if(searchManagement.getUserBookReview().isThumbUp()) { %>
+                                <script>
+                                  document.getElementById("option1").click();
+                                </script>
+                                <% } else {%>
+                                <script>
+                                  document.getElementById("option2").click();
+                                </script>
+                                <% } %>
                               <% } %>
                           </div>
                       </th>
@@ -285,10 +285,10 @@
                                   placeholder="Scrivi la tua recensione... (facoltativo)"
                                   cols="100" rows="5"></textarea>
                         <% if(searchManagement.getUserBookReview() != null) { %>
-                        <% if(!searchManagement.getUserBookReview().getComment().equals("null")) { %>
-                          <script>
-                            document.getElementById("recensione").value = '<%=searchManagement.getUserBookReview().getComment()%>';
-                          </script>
+                          <% if(searchManagement.getUserBookReview().getComment() != null) { %>
+                            <script>
+                              document.getElementById("recensione").value = '<%=searchManagement.getUserBookReview().getComment()%>';
+                            </script>
                           <% } %>
                         <% } %>
                       </td>

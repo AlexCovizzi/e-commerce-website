@@ -59,9 +59,4 @@
     </form>
   </div>
   
-  <!-- quantita e rimuovi -->
-  <div class="col-xs-2 col-sm-2">
-    
-  </div>
-  
 </div>

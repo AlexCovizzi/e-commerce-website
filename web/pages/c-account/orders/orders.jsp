@@ -10,11 +10,11 @@
 <%@ page import="services.session.*" %>
 
 <% request.setCharacterEncoding("UTF-8"); %>
+
 <jsp:useBean id="accountManagement" scope="page" class="bflows.AccountManagement" />
 <jsp:setProperty name="accountManagement" property="*" />
 
 <%
-  String message = null;
   Cookie[] cookies = request.getCookies();
   accountManagement.setCookies(cookies);
   boolean loggedIn = Session.isUserLoggedIn(cookies);
@@ -23,14 +23,14 @@
   String action = request.getParameter("action");
   if (action == null) action = "view";
   
-  message = accountManagement.getErrorMessage();
-  
   if(action.equals("view")) {
     accountManagement.ordersView();
   } else if (action.equals("cancel")) {
     accountManagement.cancelOrder();
   }
   
+  String message = accountManagement.getErrorMessage();
+  if(message != null) action = "view";
 %>
 
 <html>
@@ -38,7 +38,7 @@
     <title>I miei ordini</title>
     
     <!-- Se l'utente non è loggato ritorno alla homepage immantinente -->
-    <% if(!loggedIn) { %>
+    <% if(!loggedIn | admin) { %>
       <script language="javascript">
         location.replace("../../c-search/homepage/homepage.jsp");
       </script>
@@ -72,12 +72,15 @@
     <div class="container content-area">
       
       <% if(action.equals("cancel")) { %>
-        L'ordine è stato cancellato!
+        <div class="col-xs-12">
+          <h4>L'ordine è stato cancellato!</h4>
+        </div>
       <% } %>
       
       <div class="col-xs-10">
-        <h4>I miei ordini</h4>
+        <h3>I miei ordini</h3>
       </div>
+        
       <div class="col-xs-2">
         <form method="get">
           <% if(accountManagement.getShow().equals("all")) { %>
@@ -98,7 +101,11 @@
 
       <div style="margin-top: 16px;">
         <% if(accountManagement.getOrders().isEmpty()) { %>
-          <div class="col-sm-12">Non hai ancora effettuato nessun ordine</div>
+          <% if(accountManagement.getShow().equals("all")) { %> )
+            <div class="col-sm-12">Non hai ancora effettuato nessun ordine</div>
+          <% } else { %>
+            <div class="col-sm-12">Non c'è nessun ordine in corso</div>
+          <% } %>
         <% } else { %>
           <div class="col-sm-12">
             <% for(Order order : accountManagement.getOrders()) { %>
@@ -109,6 +116,11 @@
             <% } %>
           </div>
         <% } %>
+        
+        
+        <div class='col-xs-12' style='margin-top: 12px;'>
+          <a href='../account/account.jsp'>Torna all'account</a>
+        </div>
       </div>
     </div>
 

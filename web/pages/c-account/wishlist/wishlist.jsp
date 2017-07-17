@@ -13,7 +13,6 @@
 <jsp:setProperty name="accountManagement" property="*" />
 
 <%
-  String message = null;
   Cookie[] cookies = request.getCookies();
   accountManagement.setCookies(cookies);
   boolean loggedIn = Session.isUserLoggedIn(cookies);
@@ -21,8 +20,6 @@
   
   String action = request.getParameter("action");
   if (action == null) action = "view";
-  
-  message = accountManagement.getErrorMessage();
   
   if(action.equals("view")) {
     accountManagement.wishlistView();
@@ -32,11 +29,20 @@
     accountManagement.removeFromWishlist();
   }
   
+  String message = accountManagement.getErrorMessage();
+  if(message != null) action = "view";
 %>
 
 <html>
   <head>
     <title>La mia lista desideri</title>
+    
+    <!-- Se l'utente non è loggato o è un admin ritorno alla homepage immantinente -->
+    <% if(!loggedIn | admin) { %>
+      <script language="javascript">
+        location.replace("../../c-search/homepage/homepage.jsp");
+      </script>
+    <% } %>
 
     <!-- comprende css e script del framework, header e footer -->
     <%@ include file="../../../shared/head-common.html" %>
@@ -70,31 +76,34 @@
         <a class="book-title" href="../../c-search/book-page/book-page.jsp?isbn=<%=accountManagement.getIsbn()%>">
            <%=accountManagement.getTitle()%>
         </a> aggiunto alla lista desideri!
-        </h4></br>
+        </h4>
       <% } else if(action.equals("remove")) { %>
         <h4>
         <a class="book-title" href="../../c-search/book-page/book-page.jsp?isbn=<%=accountManagement.getIsbn()%>">
            <%=accountManagement.getTitle()%>
         </a> rimosso dalla lista desideri
-        </h4></br>
+        </h4>
       <% } %>
       
-      <h4>La mia Lista Desideri</h4>
+      <h3>La mia Lista Desideri</h3>
 
       <div class="divider-horizontal"></div>
 
       <div class="row">
-
+        
         <% if(accountManagement.getWishlist().isEmpty()) { %>
-          <div class="col-xs-12">Non hai nessun libro nei tuoi desideri!</div>
+          <div class=col-xs-12>Non hai nessun libro nei tuoi desideri!</div>
         <% } else { %>
-          <div class="col-xs-12">
-            <% for(Book book : accountManagement.getWishlist()) { %>
-              <% request.setAttribute("book", book); %>
-              <jsp:include page="../../../shared/wishlist-book/wishlist-book.jsp" />
-            <% } %>
-          </div>
+          <% for(Book book : accountManagement.getWishlist()) { %>
+            <% request.setAttribute("book", book); %>
+            <jsp:include page="../../../shared/wishlist-book/wishlist-book.jsp" />
+          <% } %>
         <% } %>
+        
+        
+        <div class='col-xs-12' style='margin-top: 12px;'>
+          <a href='../account/account.jsp'>Torna all'account</a>
+        </div>
 
       </div>
         

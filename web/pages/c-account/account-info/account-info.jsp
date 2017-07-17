@@ -6,48 +6,43 @@
 <%@ page import="services.session.*" %>
 <%@ page import="util.Conversion" %>
 <%@ page import="bflows.AdminManagement"%>
-<!DOCTYPE html>
 
 <% request.setCharacterEncoding("UTF-8"); %>
+
 <jsp:useBean id="accountManagement" scope="page" class="bflows.AccountManagement" />
 <jsp:setProperty name="accountManagement" property="*" />
 
-<% /* 4 azioni:
-    * view (2 versioni: con o senza ISBN)
-    * add
-    * modify
-    * remove
-    */
-  int i;
-
-  Cookie[] cookies=null;
-  cookies=request.getCookies();
+<%
+  Cookie[] cookies = request.getCookies();
   accountManagement.setCookies(cookies);
   boolean loggedIn = Session.isUserLoggedIn(cookies);
   boolean admin = Session.isUserAdmin(cookies);
-  
   
   String action = request.getParameter("action");
   if (action == null) action="view";
   
   if(action.equals("view")) {
     accountManagement.visualizzaInformazioniAccount();
-  }
-  if(action.equals("modify")) {
+  } else if(action.equals("modify")) {
     accountManagement.modificaInformazioniAccount();
     for(Cookie cookie : accountManagement.getCookies())
         response.addCookie(cookie);
       cookies = accountManagement.getCookies();
   }
   
-  String message=null;
-  message = accountManagement.getErrorMessage();
+  String message = message = accountManagement.getErrorMessage();
   if(message != null) action = "view";
 %>
 <html>
   <head>
-    <title>Informazioni sull'account di <%= Session.getUserFullName(cookies) %>
-    </title>
+    <title>Informazioni sull'account di <%= Session.getUserFullName(cookies) %></title>
+    
+    <!-- Se l'utente non è loggato o è un admin ritorno alla homepage immantinente -->
+    <% if(!loggedIn) { %>
+      <script language="javascript">
+        location.replace("../../c-search/homepage/homepage.jsp");
+      </script>
+    <% } %>
 
     <!-- comprende css e script del framework, header e footer -->
     <%@ include file="../../../shared/head-common.html" %>
@@ -77,6 +72,14 @@
 
     <!-- content-area -->
     <div class="container content-area">
+      
+      <% if(action.equals("modify")) { %>
+        <h4>Le tue informazioni sono state cambiate!</h4>
+      <% } %>
+      
+      <h3>Modifica informazioni</h3>
+      
+      <div class="divider-horizontal"></div>
       
       <form class="form-horizontal" method='post' action="account-info.jsp">
 
@@ -120,19 +123,19 @@
               Modifica informazioni
             </button>
           </div>
-          <div class="col-sm-4">
-            <a class="btn btn-link"
-              <% if(admin) { %>
-                href="../../c-admin/admin-account/admin.jsp"
-              <% } else { %>
-                href="../account/account.jsp"
-              <% } %>               
-              >
-              Torna all'account
-            </a>
-          </div>
         </div>
 
+        <div class="col-sm-4">
+          <a class="btn btn-link"
+            <% if(admin) { %>
+              href="../../c-admin/admin-account/admin.jsp"
+            <% } else { %>
+              href="../account/account.jsp"
+            <% } %>               
+            >
+            Torna all'account
+          </a>
+        </div>
       </form>
     </div>
 

@@ -8,20 +8,21 @@
 <%@ page import="services.session.*" %>
 
 <% request.setCharacterEncoding("UTF-8"); %>
+
 <jsp:useBean id="accountManagement" scope="page" class="bflows.AccountManagement" />
 <jsp:setProperty name="accountManagement" property="*" />
 
 <%
   Cookie[] cookies = request.getCookies();
   boolean loggedIn = Session.isUserLoggedIn(cookies);
-  
+  boolean admin = Session.isUserAdmin(cookies);
 %>
 
 <html>
   <head>
     
-    <!-- Se l'utente non è loggato ritorno alla homepage immantinente -->
-    <% if(!loggedIn) { %>
+    <!-- Se l'utente non è loggato o è un admin ritorno alla homepage immantinente -->
+    <% if(!loggedIn | admin) { %>
       <script language="javascript">
         location.replace("../../c-search/homepage/homepage.jsp");
       </script>
@@ -54,17 +55,13 @@
     <!-- content-area -->
     <div class="container content-area">
       
-      <h4>Il mio account: <b><%=Session.getUserName(cookies)%> <%=Session.getUserSurname(cookies)%></b></h4>
+      <h3>Il mio account: <b><%=Session.getUserName(cookies)%> <%=Session.getUserSurname(cookies)%></b></h3>
 
       <div class="divider-horizontal"></div>
 
-      <h4 class="account-page-link"><a href="../orders/orders.jsp">I miei Ordini</a><br>
-        <!--<small>Spediti: 2 su 4</small>-->
-      </h4>
+      <h4 class="account-page-link"><a href="../orders/orders.jsp">I miei Ordini</a></h4>
       
-      <h4 class="account-page-link"><a href="../cart/cart.jsp">Il mio Carrello</a></br>
-        <!--<small>Libri: 3, Totale: 45&euro;</small>-->
-      </h4>
+      <h4 class="account-page-link"><a href="../cart/cart.jsp">Il mio Carrello</a></h4>
       
       <h4 class="account-page-link"><a href="../wishlist/wishlist.jsp">La mia Lista Desideri</a></h4>
       
@@ -72,23 +69,16 @@
       
       <h4 class="account-page-link"><a href="../account-info/account-info.jsp">Modifica Informazioni Account</a></h4>
       
-      <!--
-      <h4 class="account-page-link"><a href="../address/address.jsp">Il mio Indirizzo</a></br>
-        <small>Indirizzo dell'utente</small>
-      </h4>
-      <h4 class="account-page-link"><a href="#">Cambia Password</a></h4>
-      -->
-      
       <h4 class="account-page-link">
-        <a href="javascript:;" onclick="javascript:document.getElementById('logout').submit()">Logout</a>
+        <a href="javascript:document.getElementById('logout').submit();">Logout</a>
       </h4>
-      
+
+      <!-- Form di logout -->
+      <form action="../../c-login/login/login.jsp" id="logout" method="post">
+        <input type="hidden" name="action" value="logout" />
+      </form>
     </div>
     
-    <!-- Form di logout -->
-    <form action="../../c-login/login/login.jsp" id="logout" method="post">
-      <input type="hidden" name="action" value="logout" />
-    </form>
 
     <!-- footer -->
     <div class="footer">

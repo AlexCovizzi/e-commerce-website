@@ -9,6 +9,7 @@
 <%@ page import="services.session.*" %>
 
 <% request.setCharacterEncoding("UTF-8"); %>
+
 <jsp:useBean id="accountManagement" scope="page" class="bflows.AccountManagement" />
 <jsp:setProperty name="accountManagement" property="*" />
 
@@ -39,8 +40,8 @@
   <head>
     <title>Il mio carrello</title>
     
-    <!-- Se l'utente non è loggato ritorno alla homepage immantinente -->
-    <% if(!loggedIn) { %>
+    <!-- Se l'utente non è loggato o è un admin ritorno alla homepage immantinente -->
+    <% if(!loggedIn | admin) { %>
       <script language="javascript">
         location.replace("../../c-search/homepage/homepage.jsp");
       </script>
@@ -78,16 +79,16 @@
         <a class="book-title" href="../../c-search/book-page/book-page.jsp?isbn=<%=accountManagement.getIsbn()%>">
            <%=accountManagement.getTitle()%>
         </a> aggiunto al carrello!
-        </h4></br>
+        </h4>
       <% } else if(action.equals("remove")) { %>
         <h4>
         <a class="book-title" href="../../c-search/book-page/book-page.jsp?isbn=<%=accountManagement.getIsbn()%>">
            <%=accountManagement.getTitle()%>
         </a> rimosso dal carrello
-        </h4></br>
+        </h4>
       <% } %>
       
-      <h4>Il mio carrello</h4>
+      <h3>Il mio carrello</h3>
 
       <div class="divider-horizontal"></div>
 
@@ -131,7 +132,12 @@
           </div>
         <% } %>
 
+        <div class='col-xs-12' style='margin-top: 12px;'>
+          <a href='../account/account.jsp'>Torna all'account</a>
+        </div>
+        
       </div>
+        
         
     </div>
 

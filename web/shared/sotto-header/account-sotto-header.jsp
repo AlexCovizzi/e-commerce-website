@@ -10,8 +10,8 @@
         <li><a href="../../c-account/orders/orders.jsp">I miei Ordini</a></li>
         <li><a href="../../c-account/cart/cart.jsp">Il mio Carrello</a></li>
         <li><a href="../../c-account/wishlist/wishlist.jsp">La mia Lista Desideri</a></li>
-        <!--<li><a href="../../pages/address/address.jsp">Il mio Indirizzo</a></li>-->
-        <!--<li><a href="#">Cambia Password</a></li>-->
+        <li><a href="../../c-account/reviews/reviews.jsp">Le mie Recensioni</a></li>
+        <li><a href="../../c-account/account-info/account-info.jsp">Modifica Informazioni</a></li>
         <li><a href="javascript:;" onclick="javascript:document.getElementById('logout').submit()">Logout</a></li>
       </ul>
       

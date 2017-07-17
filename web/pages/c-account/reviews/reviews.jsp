@@ -17,8 +17,6 @@
 <jsp:setProperty name="accountManagement" property="*" />
 
 <%
-  response.setCharacterEncoding("UTF-8");
-  String message = null;
   Cookie[] cookies = request.getCookies();
   accountManagement.setCookies(cookies);
   boolean loggedIn = Session.isUserLoggedIn(cookies);
@@ -26,8 +24,6 @@
   
   String action = request.getParameter("action");
   if (action == null) action = "view";
-  
-  message = accountManagement.getErrorMessage();
   
   if(action.equals("view")) {
     accountManagement.reviewsView();
@@ -37,11 +33,21 @@
     accountManagement.reviewsRemove();
   }
   
+  String message = accountManagement.getErrorMessage();
+  if(message != null) action = "view";
 %>
 
 <html>
   <head>
     <title>Le mie recensioni</title>
+    
+    <!-- Se l'utente non è loggato o è un admin ritorno alla homepage immantinente -->
+    <% if(!loggedIn | admin) { %>
+      <script language="javascript">
+        location.replace("../../c-search/homepage/homepage.jsp");
+      </script>
+    <% } %>
+    
     <!-- comprende css e script del framework, header e footer -->
     <%@ include file="../../../shared/head-common.html" %>
 
@@ -52,23 +58,6 @@
     <!-- carica i tuoi file js qui -->
     <script type="text/javascript" src="reviews.js"></script>
     <script type="text/javascript" src="../../../shared/review/review.js"></script>
-    
-    <script>
-      function submitReviewForm(action, isbn) {
-        document.getElementById("action-input").value = action;
-        document.getElementById("isbn-input").value = isbn;
-        
-        if(document.getElementById("thumb-up-"+isbn).checked === true) {
-          document.getElementById("thumbUp-input").value = true;
-        } else if(document.getElementById("thumb-down-"+isbn).checked === true) {
-          document.getElementById("thumbUp-input").value = false;
-        }
-        
-        document.getElementById("comment-input").value = document.getElementById("comment-"+isbn).textContent;;
-        
-        document.getElementById("review-form").submit();
-      }
-    </script>
   </head>
     
   <body>
@@ -84,25 +73,22 @@
 
     <!-- content-area -->
     <div class="container content-area">
-      
-      <div class="col-xs-10">
         
-        <% if(action.equals("remove")) { %>
-        La recensione è stata rimossa</br>
-        <% } else if(action.equals("modify")) { %>
-        La recensione è stata modificata</br>
-        <% } %>
-      
-        <h4>Le mie Recensioni</h4>
-      </div>
+      <% if(action.equals("remove")) { %>
+        <h4>La recensione è stata rimossa</h4>
+      <% } else if(action.equals("modify")) { %>
+        <h4>La recensione è stata modificata</h4>
+      <% } %>
 
-      <div class="col-xs-12 divider-horizontal"></div>
+      <h3>Le mie Recensioni</h3>
 
-      <div style="margin-top: 16px;">
+      <div class="divider-horizontal"></div>
+
+      <div class='row'>
         <% if(accountManagement.getReviews().isEmpty()) { %>
-          <div class="col-sm-12">Non hai ancora scritto nessuna recensione</div>
+          <div class="col-xs-12">Non hai ancora scritto nessuna recensione</div>
         <% } else { %>
-          <div class="col-sm-12">
+          <div class="col-xs-12">
             <% for(Review review : accountManagement.getReviews()) { %>
               
               <table class="recensione_singola table table-striped">
@@ -167,7 +153,13 @@
             <% } %>
           </div>
         <% } %>
+        
+        <div class='col-xs-12' style='margin-top: 12px;'>
+          <a href='../account/account.jsp'>Torna all'account</a>
+        </div>
+        
       </div>
+      
     </div>
       
     <form method="post" id="review-form">

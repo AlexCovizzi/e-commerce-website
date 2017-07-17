@@ -8,10 +8,10 @@
   Book book = (Book) request.getAttribute("book");
 %>
 
-<div class="row">
+<div class="col-xs-12">
   
   <!-- immagine libro -->
-  <div class="img-wrapper col-xs-3 col-sm-2">
+  <div class="img-wrapper col-xs-3 col-sm-2" style="max-width: 120px;">
     <a href="../../c-search/book-page/book-page.jsp?isbn=<%=book.getIsbn()%>">
       <img  class="img-thumbnail"
         <%if(book.getCover() != null) { %>
@@ -24,7 +24,7 @@
   </div>
   
   <!-- caratteristiche libro (nome, autore, disponibile) -->
-  <div class="col-xs-6">
+  <div class="col-xs-9 col-sm-10">
     <div class="col-xs-12">
       <h4><a class="book-title" href="../../c-search/book-page/book-page.jsp?isbn=<%=book.getIsbn()%>"><%=book.getTitle()%></a></b>
         <small>di 
@@ -35,7 +35,7 @@
         </small>
       </h4>
 
-      <h4 style="margin-bottom: 32px;">&euro; <%=Conversion.getPriceAsString(book.getPrice())%></h4>
+      <h4>&euro; <%=Conversion.getPriceAsString(book.getPrice())%></h4>
       
       <h5
         <% if(book.getStock() > 0) { %>
@@ -72,17 +72,6 @@
       </form>
     </div>
       
-  </div>
-  
-  <!-- prezzo singolo libro -->
-  <div class="col-xs-3 col-sm-2">
-    
-    
-  </div>
-  
-  <!-- quantita e rimuovi -->
-  <div class="col-xs-2 col-sm-2">
-    
   </div>
   
 </div>

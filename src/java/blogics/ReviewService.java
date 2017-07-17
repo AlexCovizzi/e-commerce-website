@@ -25,7 +25,7 @@ public class ReviewService {
 					userId,
 					Conversion.getDatabaseString(isbn),
           thumbUp,
-          "'"+comment+"'")
+          Conversion.getDatabaseString(comment))
 			.done();
     
     db.modify(sql);
@@ -38,7 +38,7 @@ public class ReviewService {
     
     sql = sqlBuilder
 			.update("Vote")
-      .set("thumb_up = "+thumbUp, "comment = '"+comment+"'", "timestamp_c = DEFAULT")
+      .set("thumb_up = "+thumbUp, "comment = "+Conversion.getDatabaseString(comment), "timestamp_c = DEFAULT")
       .where("user_id = "+userId)
         .and("book_isbn = "+Conversion.getDatabaseString(isbn))
       .done();
