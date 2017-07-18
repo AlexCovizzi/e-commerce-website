@@ -8,7 +8,7 @@
 + reviews.jsp
 + wishlist.jsp
 
-- search.jsp
-- advanced-search.jsp
++ search.jsp
++ advanced-search.jsp
 - book-page.jsp
-- homepage.jsp
++ homepage.jsp

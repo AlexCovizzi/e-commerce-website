@@ -6,18 +6,17 @@
 <%@page import="blogics.Book"%>
 <%
   Book book = (Book) request.getAttribute("book");
+  boolean loggedIn = (Boolean) request.getAttribute("loggedIn");
   boolean admin = (Boolean) request.getAttribute("admin");
 %>
 
 <script>
-function getCurrentUrl() {
-    return window.location.href;
-}
-
-function setAction(form) {
-  document.getElementById(form).action = getCurrentUrl();
-}
-
+  function submitSearchForm(name, value) {
+    document.getElementById("search-input-book").name = name;
+    document.getElementById("search-input-book").value = value;
+    document.getElementById("search-form-book").submit();
+    return;
+  }
 </script>
 
 <div class="book-container row">
@@ -38,14 +37,14 @@ function setAction(form) {
       <h6><b>Autore: </b>
         <% for(int i=0; i<book.getAuthors().size(); i++) {
           if(i > 0) %>, 
-          <a class="book-link" href="../../c-search/search/search.jsp?authors=<%=book.getAuthors().get(i).getName()%>"><%=book.getAuthors().get(i).getName()%></a>
+          <a class="book-link" href="javascript:submitSearchForm('authors', '<%=book.getAuthors().get(i).getName()%>')"><%=book.getAuthors().get(i).getName()%></a>
         <% } %>
       </h6>
-      <h6><b>Editore: </b><a class="book-link" href="../../c-search/search/search.jsp?publishers=<%=book.getPublisher()%>"><%=book.getPublisher()%></a></h6>
+      <h6><b>Editore: </b><a class="book-link" href="javascript:submitSearchForm('publishers','<%=book.getPublisher()%>')"><%=book.getPublisher()%></a></h6>
       <h6><b>Genere: </b>
         <% for(int i=0; i<book.getGenres().size(); i++) {
           if(i > 0) %>, 
-          <a class="book-link" href="../../c-search/search/search.jsp?genres=<%=book.getGenres().get(i).getName()%>"><%=book.getGenres().get(i).getName()%></a>
+          <a class="book-link" href="javascript:submitSearchForm('genres', '<%=book.getGenres().get(i).getName()%>')"><%=book.getGenres().get(i).getName()%></a>
         <% } %>
       </h6>
       <h6><b>Lingua: </b><%=book.getLanguage() %></h6>
@@ -73,7 +72,7 @@ function setAction(form) {
             <input type="hidden" name="isbn" value="<%=book.getIsbn()%>">
             <input type="hidden" name="title" value="<%=book.getTitle()%>">
             <button type="submit" title="Aggiungi al carrello" class="btn btn-default" style="margin-top: 1px; margin-bottom: 1px;"
-                    <% if(book.getStock() < 1) { %>disabled<% } %> >
+                    <% if(book.getStock() < 1 | !loggedIn) { %>disabled<% } %> >
               <i class="glyphicon glyphicon-shopping-cart" style="font-size: 18px;"></i>
               <span class="hidden-xs hidden-sm hidden-md">Aggiungi al carrello</span>
             </button>
@@ -82,7 +81,8 @@ function setAction(form) {
             <input type="hidden" name="action" value="add">
             <input type="hidden" name="isbn" value="<%=book.getIsbn()%>">
             <input type="hidden" name="title" value="<%=book.getTitle()%>">
-            <button title="Aggiungi alla lista desideri" class="btn btn-default" style="margin-top: 1px; margin-bottom: 1px;">
+            <button title="Aggiungi alla lista desideri" class="btn btn-default" style="margin-top: 1px; margin-bottom: 1px;"
+                   <% if(!loggedIn) { %>disabled<% } %> >
               <i class="glyphicon glyphicon-heart" style="font-size: 18px;"></i>
               <span class="hidden-xs hidden-sm hidden-md">Aggiungi ai desideri</span>
             </button>
@@ -112,4 +112,8 @@ function setAction(form) {
       
     </div>
   </div>
+      
+  <form id="search-form-book" method="post">
+    <input id="search-input-book" type="hidden" name="name" value="value">
+  </form>
 </div>

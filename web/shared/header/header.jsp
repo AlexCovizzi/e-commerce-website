@@ -1,10 +1,4 @@
 <%@page import="services.session.Session"%>
-<script>
-  function gotoAdvancedSearch() {
-    window.location = "../../c-search/advanced-search/advanced-search.jsp";
-    return;
-  }
-</script>
 
 <nav id="navbar-shared" class="navbar navbar-default navbar-fixed-top">
   <div class="container-fluid">
@@ -85,7 +79,7 @@
 
     <!-- barra di ricerca -->
     <div id="search-bar" class="navbar-collapse collapse">
-      <form id="search-form" class="navbar-form" action="../../c-search/search/search.jsp">
+      <form id="search-form" class="navbar-form" action="../../c-search/search/search.jsp" method="post">
 
         <div id="search-form-group" class="form-group">
           <div id="search-input-group" class="input-group">
@@ -93,19 +87,6 @@
               <button class="btn btn-default" type="button" style="font-size: 12px; height: 34px;" onclick="gotoAdvancedSearch()">
                 Ricerca avanzata
               </button>
-              <!--
-              <button class="btn btn-default dropdown-toggle" type="button" id="dropdownField" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                Titolo
-                <span class="caret"></span>
-              </button>
-              <ul id="search-options" class="dropdown-menu" aria-labelledby="dropdownField">
-                <li><a onclick="changeField('title', 'Titolo')">Titolo</a></li>
-                <li><a onclick="changeField('description', 'Descrizione')">Descrizione</a></li>
-                <li><a onclick="changeField('isbn', 'ISBN')">ISBN</a></li>
-                <li class="divider"></li>
-                <li><a class="navbar-link" href="../../c-login/signup/signup.jsp">Ricerca Avanzata</a></li>
-              </ul>
-              -->
             </div>
             <input id="search-input" name="search" type="text" class="form-control" placeholder="Cerca">
             <div class="input-group-btn" style="width:1%;">

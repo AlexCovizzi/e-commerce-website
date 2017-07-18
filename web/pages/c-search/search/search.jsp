@@ -15,7 +15,6 @@
 <jsp:setProperty name="searchManagement" property="*" />
 
 <%
-  String message = null;
   Cookie[] cookies = request.getCookies();
   searchManagement.setCookies(cookies);
   boolean loggedIn = Session.isUserLoggedIn(cookies);
@@ -24,11 +23,11 @@
   String action = request.getParameter("action");
   if (action == null) action="view";
   
-  message = searchManagement.getErrorMessage();
-  
   if(action.equals("view")) {
     searchManagement.searchView();
   }
+  
+  String message = searchManagement.getErrorMessage();
 %>
 
 <html>
@@ -46,54 +45,6 @@
     <script type="text/javascript" src="search.js"></script>
     <script type="text/javascript" src="../../../shared/book-search/book-search.js"></script>
 
-    <script>
-      function submitFilter() {
-        // Ogni volta che metto un filtro ritorno alla prima pagina
-        document.getElementsByName("page")[0].value = 1;
-         
-        document.getElementById("filter-form").submit();
-       
-        return;
-      }
-      function submitOrd(ord) {
-          document.getElementsByName("ord")[0].value = ord;
-          submitFilter();
-          return;
-      }
-      function submitPriceFilter(min, max) {
-        if(min > -1) {
-          document.getElementsByName("priceMin")[0].value = min;
-        } else {
-          document.getElementsByName("priceMin")[0].value = '';
-        }
-        if(max > -1) {
-          document.getElementsByName("priceMax")[0].value = max;
-        } else {
-          document.getElementsByName("priceMax")[0].value = '';
-        }
-        submitFilter();
-        return;
-      }
-      function submitVoteFilter(vote) {
-        document.getElementsByName("vote")[0].value = vote;
-        submitFilter();
-        return;
-      }
-      
-      function submitPage(n) {
-        if(n <= 0) n = 1;
-        document.getElementsByName("page")[0].value = n;
-        document.getElementById("filter-form").submit();
-        return;
-      }
-      function submitActionWithIsbn(action, isbn) {
-        document.getElementsByName("action")[0].value = action;
-        document.getElementsByName("isbn")[0].value = isbn;
-        document.getElementById("filter-form").submit();
-        return;
-      }
-      
-    </script>
   </head>
     
   <body>
@@ -242,6 +193,7 @@
           <% } else {
               for(Book book : searchManagement.getBooks()) { %>
                 <% request.setAttribute("book", book); %>
+                <% request.setAttribute("loggedIn", loggedIn); %>
                 <% request.setAttribute("admin", admin); %>
                 <jsp:include page="../../../shared/book-search/book-search.jsp" />
           <% } } %>
@@ -249,10 +201,10 @@
           <ul class="pagination pagination-centered">
             <% int nPages = (int)Math.ceil(searchManagement.getTotResults()/(double)SearchManagement.RESULTS_PER_PAGE); %>
             <% if (searchManagement.getPage() > 1) {%>
-              <li><a onclick="submitPage(<%=searchManagement.getPage()-1%>)"><</a></li>
+              <li><a href="javascript:submitPage(<%=searchManagement.getPage()-1%>)"><</a></li>
             <%}%>
             <%for(int i=0; i<nPages; i++) {%>
-              <li><a <% if(searchManagement.getPage()==i+1) {%>style=" background-color: #c7ddef;"<%}%> onclick="submitPage(<%=i+1%>)"><%=i+1%></a></li>
+              <li><a <% if(searchManagement.getPage()==i+1) {%>style=" background-color: #c7ddef;"<%}%> href="javascript:submitPage(<%=i+1%>)"><%=i+1%></a></li>
             <%}%>
             <%if(searchManagement.getPage() < nPages) {%>
               <li><a onclick="submitPage(<%=searchManagement.getPage()+1%>)">></a></li>
@@ -268,12 +220,6 @@
     <div class="footer">
       <%@ include file="../../../shared/footer/footer.jsp" %>
     </div>
-    
-    <% if(action.equals("add-to-cart")) { %>
-      <script language="javascript">
-        alert("Il libro è stato aggiunto al tuo carrello!");
-      </script>
-    <% }%>
 
     <%if (message != null) {%>
       <script>alert("<%=message%>");</script>
