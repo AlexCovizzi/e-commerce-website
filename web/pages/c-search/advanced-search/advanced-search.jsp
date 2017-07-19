@@ -59,7 +59,7 @@ if(action.equals("view")) {
     <!-- content-area -->
     <div class="container content-area">
         
-      <h4>Ricerca avanzata</h4>
+      <h3>Ricerca avanzata</h3>
 
       <div class="divider-horizontal"></div>
 
@@ -136,11 +136,17 @@ if(action.equals("view")) {
         <div class="form-group">
           <label class="control-label col-sm-2" for="search-price-min">Prezzo min</label>
           <div class="col-sm-2">
-            <input type="text" name='priceMin' class="form-control" id="search-price-min">
+            <div class="input-group">
+            <div class="input-group-addon">&euro;</div>
+            <input type="number" name='priceMin' class="form-control" id="search-price-min">
+            </div>
           </div>
           <label class="control-label col-sm-2" for="search-price-max">Prezzo max</label>
           <div class="col-sm-2">
+            <div class="input-group">
+            <div class="input-group-addon">&euro;</div>
             <input type="text" name='priceMax' class="form-control" id="search-price-max">
+            </div>
           </div>
         </div>
         
@@ -155,7 +161,7 @@ if(action.equals("view")) {
           <div class="col-sm-2"></div>
           <div class="col-sm-10">
             <button class='btn btn-default' type='submit'>
-              Cerca
+              Effettua ricerca
             </button>
           </div>
         </div>

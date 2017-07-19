@@ -134,6 +134,7 @@
             <form action="../cart/cart.jsp" method="post">
               <input type="hidden" name="action" value="add">
               <input type="hidden" name="isbn" value="<%=order.getBook(i).getIsbn()%>">
+              <input type="hidden" name="title" value="<%=order.getBook(i).getTitle()%>">
               <button class="btn btn-default" type="submit">
                 Acquista di nuovo
               </button>
