@@ -28,3 +28,10 @@ function submitAdminLibroForm(action) {
   f.submit();
   return;
 }
+
+function submitRimuoviRecensioneAdmin(userId) {
+  var f = document.rimuoviRecensioneAdmin;
+  f.userId.value = userId;
+  f.submit();
+  return;
+}

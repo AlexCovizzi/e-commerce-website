@@ -8,13 +8,6 @@
 <table class="recensione_singola table table-striped">
     <tr>
         <th><b><%=review.getUserName()+" "+review.getUserSurname()%></b></th>
-        
-        <% if(admin) { %>
-            <button title="Blocca utente" class="btn btn-danger" style="margin-top: 1px; margin-bottom: 1px;">
-              <i class="glyphicon glyphicon-remove-sign" style="font-size: 18px;"></i>
-              <span class="hidden-xs hidden-sm hidden-md">Blocca utente</span>
-            </button>
-          <% } %>
     
         <th><i>VOTO</i>:
           <% if(review.isThumbUp()) { %>
@@ -24,10 +17,13 @@
           <% } %>
           
           <% if(admin) { %>
-            <button title="Rimuovi recensione" class="btn btn-danger" style="margin-top: 1px; margin-bottom: 1px;">
+            <button title="Rimuovi recensione" class="btn btn-danger" style="margin-top: 1px; margin-bottom: 1px;"
+                    onclick='submitRimuoviRecensioneAdmin(<%= review.getUserId() %>)'>
               <i class="glyphicon glyphicon-remove" style="font-size: 18px;"></i>
               <span class="hidden-xs hidden-sm hidden-md">Rimuovi recensione</span>
             </button>
+              
+            
           <% } %>
     </tr>
     <tr>
@@ -40,5 +36,13 @@
         </td>
     </tr>
 </table>
+
+<% if(admin) { %>
+<form name="rimuoviRecensioneAdmin" action="book-page.jsp" method="post">
+  <input type="hidden" name="action" value="remove_review">
+  <input type="hidden" name="isbn" value="<%= review.getBookIsbn() %>">
+  <input type="hidden" name="userId">
+</form>
+<% } %>
         
 <div class='divider-horizontal'></div>

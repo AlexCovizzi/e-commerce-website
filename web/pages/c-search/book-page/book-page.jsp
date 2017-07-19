@@ -347,10 +347,13 @@
       <% } else if(action.equals("edit_review")) { %>
         La tua recensione è stata modificata! </br>
         <a href='book-page.jsp?isbn=<%=searchManagement.getIsbn()%>'>Ritorna al libro</a>
-        <% } else if(action.equals("remove_review")) { %>
+      <% } else if(action.equals("remove_review") && !admin) { %>
         La tua recensione è stata cancellata! </br>
         <a href='book-page.jsp?isbn=<%=searchManagement.getIsbn()%>'>Ritorna al libro</a>
-        <% } %>
+      <% } else { %>
+        La recensione è stata cancellata! </br>
+        <a href='book-page.jsp?isbn=<%=searchManagement.getIsbn()%>'>Ritorna al libro</a>
+      <% } %>
         
         
     </div>

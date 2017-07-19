@@ -57,6 +57,8 @@ public class ReviewService {
         .and("book_isbn = "+Conversion.getDatabaseString(isbn))
       .done();
     
+    System.out.println(sql);
+    
     db.modify(sql);
   }
   

@@ -545,6 +545,8 @@ Database database = DBService.getDataBase();
       String dataDiPubblicazione = dataPubbl;
       if(dataDiPubblicazione == null)
         dataDiPubblicazione = "DEFAULT";
+
+      this.controlliCampiOpzionali();
       
       /* Aggiorno le info del libro */      
       BookService.updateBook(database, copertina, titolo, descrizione, pagine, prezzo, dataDiPubblicazione, stock, isbn, lingua, idEditore);
@@ -628,8 +630,6 @@ Database database = DBService.getDataBase();
 		} finally {
       database.close();
     }
-    
-    this.controlliCampiOpzionali();
 	}
   
   /* FATTO */

@@ -93,6 +93,7 @@ public class SearchManagement extends AbstractManagement {
   // parametri inserimento recensione
   private boolean thumbUp;
   private String comment;
+  private int userId;
   
   /**
    * Pagina: advanced-search.jsp
@@ -325,7 +326,11 @@ public class SearchManagement extends AbstractManagement {
     Database database = DBService.getDataBase();
     
     try {
-      ReviewService.removeReview(database, Session.getUserId(cookies), isbn);
+      if(!Session.isUserAdmin(cookies))
+        ReviewService.removeReview(database, Session.getUserId(cookies), isbn);
+      else
+        ReviewService.removeReview(database, userId, isbn);
+      
       database.commit();
     } catch (RecoverableDBException ex) {
 			database.rollBack();
@@ -402,6 +407,10 @@ public class SearchManagement extends AbstractManagement {
   
   public void setComment(String comment) {
     this.comment = comment;
+  }
+
+  public void setUserId(int userId) {
+    this.userId = userId;
   }
   
   /* Getters */
@@ -548,6 +557,10 @@ public class SearchManagement extends AbstractManagement {
   
   public List<Genre> getAllGenres() {
     return allGenres;
+  }
+
+  public int getUserId() {
+    return userId;
   }
   
   public boolean hasPrice(int i) { return true;}
