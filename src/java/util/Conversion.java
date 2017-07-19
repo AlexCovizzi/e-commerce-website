@@ -21,13 +21,19 @@ public class Conversion {
   /**
    * Restituisce la data nel formato gg/mm/aaaa
    */
-  public static String getDateAsString(Date date) {
-    String dateNotFormatted = ""+date;
-    String[] ymg = dateNotFormatted.split("-");
+  public static String getDateAsString(String date) {
+    String[] ymg = date.split("-");
     String year = ymg[0];
     String month = ymg[1];
     String day = ymg[2];
     return day+"/"+month+"/"+year;
+  }
+  
+  /**
+   * Restituisce la data nel formato gg/mm/aaaa
+   */
+  public static String getDateAsString(Date date) {
+    return getDateAsString(""+date);
   }
   
   /**

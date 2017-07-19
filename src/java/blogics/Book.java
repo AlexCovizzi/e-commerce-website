@@ -129,6 +129,7 @@ public class Book {
   
   public String getDescription()
   {
+    if(description == null) description = "-";
     return description;
   }
   

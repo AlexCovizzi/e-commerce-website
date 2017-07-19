@@ -1,3 +1,5 @@
+<%@page import="blogics.Genre"%>
+<%@page import="java.util.List"%>
 <%@page import="util.Conversion"%>
 <%@page import="util.Logger"%>
 <%@page import="blogics.Review"%>
@@ -13,11 +15,11 @@
 <%@ page import="global.Constants" %>
 
 <% request.setCharacterEncoding("UTF-8"); %>
+
 <jsp:useBean id="searchManagement" scope="page" class="bflows.SearchManagement" />
 <jsp:setProperty name="searchManagement" property="*" />
 
 <%
-  String message = null;
   Cookie[] cookies = request.getCookies();
   searchManagement.setCookies(cookies);
   boolean loggedIn = Session.isUserLoggedIn(cookies);
@@ -25,8 +27,6 @@
   
   String action = request.getParameter("action");
   if (action == null) action="view";
-  
-  message = searchManagement.getErrorMessage();
   
   if(action.equals("view")) {
     searchManagement.bookView();
@@ -37,6 +37,9 @@
   } else if(action.equals("remove_review")) {
     searchManagement.bookRemoveReview();
   }
+  
+  String message = searchManagement.getErrorMessage();
+  if(message != null) action="view";
 %>
 
 <html>
@@ -85,35 +88,39 @@
 
       <div class="row" id="copertina-info">
 
-        <div class="col-sm-4" id="div_copertina">
+        <div class="col-sm-3" id="div_copertina">
           <div id="copertina-book-page">
             <img class="copertina"
-              <% if(!searchManagement.getBook().getCover().equals("-")) { %>
               src="<%= searchManagement.getBook().getCover() %>"
-              <% } else { %>
-              src="<%= Constants.DEFAULT_COVER %>"
-              <% } %>
               onerror="this.src='<%= Constants.DEFAULT_COVER %>'"
             />
           </div>
         </div>
 
-        <div class="col-sm-4" id="informazioni">
+        <div class="col-sm-6" id="informazioni">
           <h2><%=searchManagement.getBook().getTitle()%></h2>
 
-          <h3><%=searchManagement.getBook().getAuthors().get(0).getName()%>
+          <h4><small>di</small> <%=searchManagement.getBook().getAuthors().get(0).getName()%>
             <% for(int i=1; i<searchManagement.getBook().getAuthors().size(); i++) { %>
               , <%=searchManagement.getBook().getAuthors().get(i).getName()%>
             <% } %>
-          </h3>
+          </h4>
 
           <p><b>ISBN:</b> <%=searchManagement.getBook().getIsbn()%></p>
+          
+          <p><b>Genere:</b>
+            <% List<Genre> genres = searchManagement.getBook().getGenres(); %>
+            <% for(int i=0; i<genres.size(); i++) { %>
+              <% if(i>0) { %> , <% } %>
+              <%=genres.get(i).getName()%>
+            <% } %>
+          </p>
           
           <p><b>Pagine:</b>
             <% if(searchManagement.getBook().getPages() > 0) { %>
               <%=searchManagement.getBook().getPages()%>
             <% } else { %>
-              dato non disponibile
+              <small>Dato non disponibile</small>
             <% } %>
           </p>
           
@@ -121,9 +128,9 @@
           
           <p><b>Data di pubblicazione:</b>
             <% if(searchManagement.getBook().getPublicationDate() != null) { %>
-              <%=searchManagement.getBook().getPublicationDate()%>
+              <%=Conversion.getDateAsString(searchManagement.getBook().getPublicationDate())%>
             <% } else { %>
-              dato non disponibile
+            <small>Dato non disponibile</small>
             <% } %>
           </p>
           
@@ -131,15 +138,15 @@
           <p><b><a href="#valutazioni_altri_utenti">Voto</a></b>: <%=searchManagement.getBook().getVotePercent()%>% <small>(<%=searchManagement.getBook().getNVotes()%> voti)</small></p>
         </div>
 
-        <div class="col-sm-4" id="prezzo">
-          <h3><b><%= Conversion.getPriceAsString(searchManagement.getBook().getPrice()) %> &euro;</b></h3>
+        <div class="col-sm-3" id="prezzo">
+          <h3 class="price"><b><%= Conversion.getPriceAsString(searchManagement.getBook().getPrice()) %> &euro;</b></h3>
           Venduto e spedito da Libreria Sant'Ale
           <div style="margin-bottom: 15px;"></div>
 
           <% if(searchManagement.getBook().getStock() > 0) { %>
-            Prodotto disponibile
+            <p style="color: green;">Prodotto disponibile</p>
           <% } else { %>
-            Prodotto non disponibile al momento
+            <p style="color: red;">Prodotto non disponibile</p>
           <% } %>
 
           <% if(!admin) { %>
@@ -258,12 +265,12 @@
                   <tr>
                       <th>
                           <div id="voto" class="btn-group-vertical" data-toggle="buttons">
-                              <label title="Lo Consiglio" class="btn btn-primary">
-                                  <input type="radio" name="thumbUp" value='true' id="option1">
+                              <label title="Lo Consiglio" class="vote-label btn btn-default">
+                                  <input type="radio" name="thumbUp" value='true' id="option1" required>
                                   <i class="glyphicon glyphicon-thumbs-up"></i>
                               </label>
-                              <label title="Non lo Consiglio" class="btn btn-primary">
-                                  <input type="radio" name="thumbUp" value='false' id="option2">
+                              <label title="Non lo Consiglio" class="vote-label btn btn-default">
+                                  <input type="radio" name="thumbUp" value='false' id="option2" required>
                                   <i class="glyphicon glyphicon-thumbs-down"></i>
                               </label>
                             
@@ -283,7 +290,7 @@
                       <td>
                           <textarea name='comment' id="recensione" class="form-control"
                                   placeholder="Scrivi la tua recensione... (facoltativo)"
-                                  cols="100" rows="5"></textarea>
+                                  cols="100" rows="3"></textarea>
                         <% if(searchManagement.getUserBookReview() != null) { %>
                           <% if(searchManagement.getUserBookReview().getComment() != null) { %>
                             <script>
@@ -317,6 +324,7 @@
                   </button>
                 <% } %>
               <% } else { %>
+                </br>
                 Devi essere registrato per valutare questo libro!
                 <a href="../../c-login/login/login.jsp">Accedi</a>
               <% } %>
@@ -341,19 +349,20 @@
           <% } %>
       </div>
       <% } %>
-      <% } else if(action.equals("review")) { %>
-        La tua recensione è stata inserita, grazie del contributo! </br>
-        <a href='book-page.jsp?isbn=<%=searchManagement.getIsbn()%>'>Ritorna al libro</a>
-      <% } else if(action.equals("edit_review")) { %>
-        La tua recensione è stata modificata! </br>
-        <a href='book-page.jsp?isbn=<%=searchManagement.getIsbn()%>'>Ritorna al libro</a>
-      <% } else if(action.equals("remove_review") && !admin) { %>
-        La tua recensione è stata cancellata! </br>
-        <a href='book-page.jsp?isbn=<%=searchManagement.getIsbn()%>'>Ritorna al libro</a>
-      <% } else { %>
-        La recensione è stata cancellata! </br>
-        <a href='book-page.jsp?isbn=<%=searchManagement.getIsbn()%>'>Ritorna al libro</a>
-      <% } %>
+      
+    <% } else if(action.equals("review")) { %>
+      La tua recensione è stata inserita, grazie del contributo! </br>
+      <a href='book-page.jsp?isbn=<%=searchManagement.getIsbn()%>'>Ritorna al libro</a>
+    <% } else if(action.equals("edit_review")) { %>
+      La tua recensione è stata modificata! </br>
+      <a href='book-page.jsp?isbn=<%=searchManagement.getIsbn()%>'>Ritorna al libro</a>
+    <% } else if(action.equals("remove_review") && !admin) { %>
+      La tua recensione è stata cancellata! </br>
+      <a href='book-page.jsp?isbn=<%=searchManagement.getIsbn()%>'>Ritorna al libro</a>
+    <% } else { %>
+      La recensione è stata cancellata! </br>
+      <a href='book-page.jsp?isbn=<%=searchManagement.getIsbn()%>'>Ritorna al libro</a>
+    <% } %>
         
         
     </div>

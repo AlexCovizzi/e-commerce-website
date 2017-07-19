@@ -216,14 +216,14 @@
         <!-- Generi dinamici -->
         <div class="form-group">
           <label class="control-label col-sm-2">Generi</label>
-          <table>
+          <table class="col-sm-4" style="margin-left: 14px; ">
             <tr>
               <td style="padding-right: 10px">
                 <% for(i = 0; i < ((adminManagement.getGeneri().length / 2) + 1); i++) { %>
                 <input type="checkbox" name="bookGeneri" value="<%= adminManagement.getGeneri(i) %>"
                       <% if(adminManagement.checkGenere(adminManagement.getGeneri(i))) { %>
                       checked="checked"
-                      <% } %>><%= adminManagement.getGeneri(i) %><br/>
+                      <% } %>> <%= adminManagement.getGeneri(i) %><br/>
                 <% } %>
               </td>
               <td style="vertical-align: text-top">
@@ -231,7 +231,7 @@
                 <input type="checkbox" name="bookGeneri" value="<%= adminManagement.getGeneri(i) %>"
                       <% if(adminManagement.checkGenere(adminManagement.getGeneri(i))) { %>
                       checked="checked"
-                      <% } %>><%= adminManagement.getGeneri(i) %><br/>
+                      <% } %>> <%= adminManagement.getGeneri(i) %><br/>
                 <% } %>
               </td>
             </tr>

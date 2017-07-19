@@ -354,11 +354,13 @@ public class AccountManagement extends AbstractManagement implements Serializabl
     // Recupero le info di ogni libro nella lista
     for(Pair<String, Integer> pair : booksIsbn) {
       Book book = BookService.getBookFromIsbn(database, pair.getFirst());
+      
+      if(book != null) {
+        List<Author> bAuthors = AuthorService.getBookAuthors(database, book.getIsbn());
+        book.setAuthors(bAuthors);
 
-      List<Author> bAuthors = AuthorService.getBookAuthors(database, book.getIsbn());
-      book.setAuthors(bAuthors);
-
-      cart.addBook(book, pair.getSecond());
+        cart.addBook(book, pair.getSecond());
+      }
     }
   }
   
@@ -375,10 +377,12 @@ public class AccountManagement extends AbstractManagement implements Serializabl
     for(String bookIsbn : booksIsbn) {
       Book book = BookService.getBookFromIsbn(database, bookIsbn);
 
-      List<Author> bAuthors = AuthorService.getBookAuthors(database, book.getIsbn());
-      book.setAuthors(bAuthors);
+      if(book != null) {
+        List<Author> bAuthors = AuthorService.getBookAuthors(database, book.getIsbn());
+        book.setAuthors(bAuthors);
 
-      wishlist.add(book);
+        wishlist.add(book);
+      }
     }
   }
   
@@ -409,11 +413,13 @@ public class AccountManagement extends AbstractManagement implements Serializabl
       // Recupero le info di ogni libro nella lista
       for(Pair<String, Integer> pair : booksIsbn) {
         Book book = BookService.getBookFromIsbn(database, pair.getFirst());
+        
+        if(book != null) {
+          List<Author> bAuthors = AuthorService.getBookAuthors(database, book.getIsbn());
+          book.setAuthors(bAuthors);
 
-        List<Author> bAuthors = AuthorService.getBookAuthors(database, book.getIsbn());
-        book.setAuthors(bAuthors);
-
-        order.addBook(book, pair.getSecond());
+          order.addBook(book, pair.getSecond());
+        }
       }
     }
   }

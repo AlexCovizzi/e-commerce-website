@@ -1,3 +1,4 @@
+<%@page import="util.Conversion"%>
 <%@page import="blogics.Review"%>
 
 <%
@@ -9,22 +10,27 @@
     <tr>
         <th><b><%=review.getUserName()+" "+review.getUserSurname()%></b></th>
     
-        <th><i>VOTO</i>:
+        <th>
           <% if(review.isThumbUp()) { %>
-            <i class="glyphicon glyphicon-thumbs-up"></i> Consigliato</th>
+          <i class="glyphicon glyphicon-thumbs-up"></i> Consigliato
           <% } else { %>
-            <i class="glyphicon glyphicon-thumbs-down"></i> Sconsigliato</th>
+            <i class="glyphicon glyphicon-thumbs-down"></i> Sconsigliato
           <% } %>
+        </th>
+        
+        <th>
+          <%=Conversion.getDateAsString(review.getTimestamp())%>
+        </th>
           
-          <% if(admin) { %>
-            <button title="Rimuovi recensione" class="btn btn-danger" style="margin-top: 1px; margin-bottom: 1px;"
-                    onclick='submitRimuoviRecensioneAdmin(<%= review.getUserId() %>)'>
-              <i class="glyphicon glyphicon-remove" style="font-size: 18px;"></i>
-              <span class="hidden-xs hidden-sm hidden-md">Rimuovi recensione</span>
-            </button>
-              
-            
-          <% } %>
+        <% if(admin) { %>
+        <th>
+          <button title="Rimuovi recensione" class="btn btn-danger" style="margin-top: 1px; margin-bottom: 1px;"
+                  onclick='submitRimuoviRecensioneAdmin(<%= review.getUserId() %>)'>
+            <i class="glyphicon glyphicon-remove"></i>
+            <span class="hidden-xs hidden-sm hidden-md">Rimuovi recensione</span>
+          </button>
+        </th>
+        <% } %>
     </tr>
     <tr>
         <td colspan="2">

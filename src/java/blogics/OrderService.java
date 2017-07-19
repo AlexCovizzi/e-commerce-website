@@ -310,12 +310,13 @@ public class OrderService {
     lastMonth.setMonth(today.getMonth()-1);
     
     String sql = sqlBuilder
-            .select("order_id", "created", "book_isbn", "COUNT(*) AS n")
+            .select("order_id", "created", "isbn", "COUNT(*) AS n")
             .from("OrderView")
             .join("Order_has_Book").on("order_id = id")
+            .join("BookView").on("isbn = book_isbn")
             .where("created >= "+Conversion.getDatabaseString(lastMonth.toString()))
               .and("created < "+Conversion.getDatabaseString(today.toString()))
-            .groupBy("book_isbn")
+            .groupBy("isbn")
             .orderBy("n")
             .limit(n)
             .done();
@@ -326,7 +327,7 @@ public class OrderService {
     
     try {
 			while(resultSet.next()) {
-        String isbn = resultSet.getString("book_isbn");
+        String isbn = resultSet.getString("isbn");
         books.add(isbn);
 			}
 		} catch (SQLException ex) {
