@@ -16,6 +16,7 @@
   Cookie[] cookies = request.getCookies();
   boolean loggedIn = Session.isUserLoggedIn(cookies);
   boolean admin = Session.isUserAdmin(cookies);
+  boolean blocked = Session.isUserBlocked(cookies);
 %>
 
 <html>
@@ -55,7 +56,9 @@
     <!-- content-area -->
     <div class="container content-area">
       
-      <h3>Il mio account: <b><%=Session.getUserName(cookies)%> <%=Session.getUserSurname(cookies)%></b></h3>
+      <h3>Il mio account: <b><%=Session.getUserName(cookies)%> <%=Session.getUserSurname(cookies)%></b>
+      <% if(blocked) { %> <small title="Sei bloccato!"><i class="glyphicon glyphicon-ban-circle" style="color: orangered;"></i></small> <% } %>
+      </h3>
 
       <div class="divider-horizontal"></div>
 

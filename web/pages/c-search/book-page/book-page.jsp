@@ -310,6 +310,7 @@
                       Invia valutazione
                   </button>
                   <% } else if(searchManagement.getUserBookReview() == null && Session.isUserBlocked(cookies)) { %>
+                  </br>
                   <b>In quanto utente bloccato, non puoi scrivere nuove recensioni!</b>
                 <% } else { %>
                   <button id="submit_voto" class="btn btn-primary" type="submit"
