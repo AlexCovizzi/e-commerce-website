@@ -1,3 +1,4 @@
+<%@page import="util.Conversion"%>
 <%@page import="util.Logger"%>
 <%@page import="blogics.Review"%>
 <%@page import="blogics.Order"%>
@@ -125,7 +126,7 @@
                   
                   <th>
                     <h5 class='subsection-title'>Data</h5>
-                    <%=review.getTimestamp()%>
+                    <%=Conversion.getDateAsString(review.getTimestamp())%>
                   </th>
                   
                   <th>

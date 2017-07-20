@@ -155,7 +155,7 @@ public class UserService {
 				.from("User")
 				.where("fl_active = 'S'")
           .and("is_admin = " + isAdmin)
-        .orderBy("surname")
+        .orderBy("surname, name")
         .limit(limit).offset(offset)
 				.done();
     

@@ -112,6 +112,11 @@ public class BookHistoryService {
             .limit(3)
             .done();
     
+    
+    System.out.println("---------- PROVA ----------");
+    System.out.println(sqlUser);
+    System.out.println("---------- PROVA ----------");
+    
     sqlAll = sqlBuilder
             .select("user_id", "H.book_isbn", "G.g_name", "COUNT(*) AS n")
             .from("BookHistory").as("H")

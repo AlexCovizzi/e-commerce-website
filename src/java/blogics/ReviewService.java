@@ -195,7 +195,7 @@ public class ReviewService {
           .and("user_id = " + userId);
         
     sql = sqlBuilder
-        .orderBy("surname")
+        .orderBy("surname, name")
         .limit(limit).offset(offset)
         .done();
     

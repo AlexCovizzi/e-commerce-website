@@ -85,7 +85,7 @@
             </a>
           </td>
           <td><%= adminManagement.getOrders().get(j).getUserName() %> <%= adminManagement.getOrders().get(j).getUserSurname() %></td>
-          <td><%= adminManagement.getOrders().get(j).getCreated() %></td>
+          <td><%= Conversion.getDateAsString(adminManagement.getOrders().get(j).getCreated()) %></td>
           <td><%= Conversion.getPriceAsString(adminManagement.getOrders().get(j).getTotPrice()) %></td>
           <td>
             <div class="input-group">
@@ -149,11 +149,7 @@
         <input type="hidden" name="action" value="change">
         <input type="hidden" name="orderId">
         <input type="hidden" name="orderState">
-      </form>
-
-      <form name="vediOrdineForm" action="../../c-account/order-details/order-details.jsp" method="post">
-        <input type="hidden" name="action" value="view">
-        <input type="hidden" name="orderId">
+        <input type="hidden" name="orderUser" value="<%= adminManagement.getOrderUser() %>">
       </form>
       
       <form name="annullaForm" action="../admin-account/admin.jsp" method="post">

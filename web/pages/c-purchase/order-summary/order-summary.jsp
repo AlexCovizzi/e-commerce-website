@@ -109,7 +109,7 @@
                   <%= purchaseManagement.getLibri().getBook(j).getPublisher() %>
                 </h6>
                 <h6><b>ISBN: </b><%= purchaseManagement.getLibri().getBook(j).getIsbn() %></h6>
-                <h6><b>Prezzo: </b><%= purchaseManagement.getLibri().getBook(j).getPrice() %></h6>
+                <h6><b>Prezzo: </b><%= Conversion.getPriceAsString(purchaseManagement.getLibri().getBook(j).getPrice()) %> &euro;</h6>
                 <h6><b>Quantità: </b><%= purchaseManagement.getLibri().getQuantity(j) %></h6>
               </div>
             </div>

@@ -139,7 +139,7 @@
       </div>
     </div>
     
-    <form name="cambiaPaginaForm" action="admin-orders.jsp" method="post">
+    <form name="cambiaPaginaForm" action="admin-reviews.jsp" method="post">
       <input type="hidden" name="action" value="view">
       <input type="hidden" name="pagina">
       <input type="hidden" name="offset">
