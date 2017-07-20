@@ -100,6 +100,7 @@ public class BookHistoryService {
     ResultSet resultSet;
     String sqlUser;
     String sqlAll;
+    Logger.debug(userId);
     
     sqlUser = sqlBuilder
             .select("H.user_id", "H.book_isbn", "G.g_name", "COUNT(*) AS n")
@@ -111,8 +112,6 @@ public class BookHistoryService {
             .limit(3)
             .done();
     
-    Logger.debug(sqlUser);
-    
     sqlAll = sqlBuilder
             .select("user_id", "H.book_isbn", "G.g_name", "COUNT(*) AS n")
             .from("BookHistory").as("H")
@@ -121,8 +120,6 @@ public class BookHistoryService {
             .orderBy("n DESC")
             .limit(3)
             .done();
-    
-    Logger.debug(sqlAll);
     
     if(userId < 1) resultSet = db.select(sqlAll);
     else resultSet = db.select(sqlUser);
