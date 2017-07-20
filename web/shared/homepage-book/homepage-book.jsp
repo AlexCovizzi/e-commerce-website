@@ -23,7 +23,7 @@
   </div>
   <div class="col-sm-8 col-sm-offset-2">
     <h4>
-      <a style="color: black;" class="book-link" href="../book-page/book-page.jsp?isbn=<%=book.getIsbn()%>">
+      <a style="color: black;" class="book-title" href="../book-page/book-page.jsp?isbn=<%=book.getIsbn()%>">
           <%=book.getTitle()%>
       </a>
       </br>

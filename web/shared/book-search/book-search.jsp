@@ -71,8 +71,9 @@
             <input type="hidden" name="action" value="add">
             <input type="hidden" name="isbn" value="<%=book.getIsbn()%>">
             <input type="hidden" name="title" value="<%=book.getTitle()%>">
-            <button type="submit" title="Aggiungi al carrello" class="btn btn-default" style="margin-top: 1px; margin-bottom: 1px;"
-                    <% if(book.getStock() < 1 | !loggedIn) { %>disabled<% } %> >
+            <button type="button" title="Aggiungi al carrello" class="btn btn-default" style="margin-top: 1px; margin-bottom: 1px;"
+                    onclick="submitAddToCartForm(<%=loggedIn%>)"
+                    <% if(book.getStock() < 1) { %>disabled<% } %> >
               <i class="glyphicon glyphicon-shopping-cart" style="font-size: 18px;"></i>
               <span class="hidden-xs hidden-sm hidden-md">Aggiungi al carrello</span>
             </button>
@@ -81,8 +82,8 @@
             <input type="hidden" name="action" value="add">
             <input type="hidden" name="isbn" value="<%=book.getIsbn()%>">
             <input type="hidden" name="title" value="<%=book.getTitle()%>">
-            <button title="Aggiungi alla lista desideri" class="btn btn-default" style="margin-top: 1px; margin-bottom: 1px;"
-                   <% if(!loggedIn) { %>disabled<% } %> >
+            <button type="button" title="Aggiungi alla lista desideri" class="btn btn-default" style="margin-top: 1px; margin-bottom: 1px;"
+                    onclick="submitAddToWishlistForm(<%=loggedIn%>)">
               <i class="glyphicon glyphicon-heart" style="font-size: 18px;"></i>
               <span class="hidden-xs hidden-sm hidden-md">Aggiungi ai desideri</span>
             </button>
