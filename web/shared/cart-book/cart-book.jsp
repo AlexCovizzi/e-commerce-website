@@ -13,7 +13,7 @@
   
   <!-- immagine libro -->
   <div class="img-wrapper col-xs-3 col-sm-2" style="max-width: 100px;">
-    <a href="#">
+    <a href="../../c-search/book-page/book-page.jsp?isbn=<%=book.getIsbn()%>">
       <img class="img-thumbnail"
         src="<%=book.getCover()%>"
         onerror="src='<%=Constants.DEFAULT_COVER%>'"
