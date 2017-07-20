@@ -59,7 +59,9 @@
     <script>
       function setReviewAction(a) {
         document.getElementById("input-action").value = a;
+        return;
       }
+      
     </script>
   </head>
     
@@ -156,7 +158,7 @@
                 <input type="hidden" name="action" value="add">
                 <input type="hidden" name="isbn" value="<%=searchManagement.getBook().getIsbn()%>">
                 <input type="hidden" name="title" value="<%=searchManagement.getBook().getTitle()%>">
-                <button type="submit" title="Aggiungi al carrello" class="btn btn-default"
+                <button type="button" title="Aggiungi al carrello" class="btn btn-default" onclick="submitAddToCartForm(<%=loggedIn%>)"
                         <% if(searchManagement.getBook().getStock() < 1) { %>disabled<% } %> >
                   <i class="glyphicon glyphicon-shopping-cart"></i>
                   Aggiungi al carrello
@@ -167,7 +169,7 @@
                 <input type="hidden" name="action" value="add">
                 <input type="hidden" name="isbn" value="<%=searchManagement.getBook().getIsbn()%>">
                 <input type="hidden" name="title" value="<%=searchManagement.getBook().getTitle()%>">
-                <button type="submit" title="Aggiungi ai desideri" class="btn btn-default" >
+                <button type="button" title="Aggiungi ai desideri" class="btn btn-default" onclick="submitAddToWishlistForm(<%=loggedIn%>)">
                   <i class="glyphicon glyphicon-heart"></i>
                   Aggiungi ai desideri
                 </button>
