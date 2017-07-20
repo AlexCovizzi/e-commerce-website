@@ -14,18 +14,16 @@
 <jsp:setProperty name="searchManagement" property="*" />
 
 <%
-  String message = null;
   Cookie[] cookies = request.getCookies();
   boolean loggedIn = Session.isUserLoggedIn(cookies);
-  
-  message = searchManagement.getErrorMessage();
-  
   String action = request.getParameter("action");
   if (action == null) action="view";
   
-if(action.equals("view")) {
-  searchManagement.advancedSearchView();
-}
+  if(action.equals("view")) {
+    searchManagement.advancedSearchView();
+  }
+  
+  String message = searchManagement.getErrorMessage();
   
 %>
 
