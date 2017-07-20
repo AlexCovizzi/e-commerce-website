@@ -144,7 +144,6 @@
     </div>
     <!--I più Quotati - Fine-->
 
-    <% if(loggedIn) { %>
     <!--Consigliati per Te-->
     <div class="my-jumbotron sezione">
       <h2>&emsp;Consigliati per Te</h2>
@@ -179,7 +178,6 @@
       </div> <!-- /.carousel -->
     </div>
     <!--Consigliati per Te - Fine-->
-    <% } %>
         
   </div>
 
