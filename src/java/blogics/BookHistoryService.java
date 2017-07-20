@@ -124,8 +124,8 @@ public class BookHistoryService {
     
     Logger.debug(sqlAll);
     
-    if(userId < 0) resultSet = db.select(sqlAll);
-    else resultSet = db.select(sqlAll);
+    if(userId < 1) resultSet = db.select(sqlAll);
+    else resultSet = db.select(sqlUser);
     
     try {
       while(resultSet.next()) {
