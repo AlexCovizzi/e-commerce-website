@@ -159,7 +159,6 @@
     <div class="divider-horizontal"></div>
       
     Totale libri: <span class="pull-right">&euro; <%=Conversion.getPriceAsString(subTotal)%></span></br>
-    Costo spedizione: <span class="pull-right">&euro; <%=Conversion.getPriceAsString(order.getShippingCost())%></span></br>
     Sconto coupon: <span class="pull-right">
       <% if(order.getCouponCode() != null) { %>
         -<%= order.getDiscount() %>%
@@ -167,6 +166,7 @@
         -
       <% } %>
     </span></br>
+    Costo spedizione: <span class="pull-right">&euro; <%=Conversion.getPriceAsString(order.getShippingCost())%></span></br>
 
     <div class="divider-horizontal"></div>
 
