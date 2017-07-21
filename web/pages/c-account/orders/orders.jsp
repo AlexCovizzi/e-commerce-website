@@ -101,7 +101,7 @@
 
       <div style="margin-top: 16px;">
         <% if(accountManagement.getOrders().isEmpty()) { %>
-          <% if(accountManagement.getShow().equals("all")) { %> )
+          <% if(accountManagement.getShow().equals("all")) { %>
             <div class="col-sm-12">Non hai ancora effettuato nessun ordine</div>
           <% } else { %>
             <div class="col-sm-12">Non c'è nessun ordine in corso</div>
