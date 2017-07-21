@@ -221,6 +221,15 @@ public class AdminManagement extends AbstractManagement implements Serializable 
       database.rollBack();
       setErrorMessage(ex.getMsg());
 		} finally {
+      try {
+        /* Recupero gli utenti amministratori dal DB */
+        this.recuperaUtenti(database, true);
+        /* FINITO! */
+        database.commit();
+      } catch (RecoverableDBException ex) {
+        database.rollBack();
+        setErrorMessage(ex.getMsg());
+      }
       database.close();
     }
 	}
