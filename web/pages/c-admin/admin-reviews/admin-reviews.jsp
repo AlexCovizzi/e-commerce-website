@@ -108,6 +108,7 @@
         <input type="hidden" name="action" value="remove">
         <input type="hidden" name="userReviewId">
         <input type="hidden" name="isbn">
+        <input type="hidden" name="listUserId" value="<%= adminManagement.getListUserId() %>">
       </form>
       
       <form name="annullaForm" action="../admin-account/admin.jsp" method="post">

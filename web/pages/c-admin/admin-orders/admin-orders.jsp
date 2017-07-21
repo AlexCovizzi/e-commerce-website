@@ -86,7 +86,7 @@
           </td>
           <td><%= adminManagement.getOrders().get(j).getUserName() %> <%= adminManagement.getOrders().get(j).getUserSurname() %></td>
           <td><%= Conversion.getDateAsString(adminManagement.getOrders().get(j).getCreated()) %></td>
-          <td><%= Conversion.getPriceAsString(adminManagement.getOrders().get(j).getTotPrice()) %></td>
+          <td><%= Conversion.getPriceAsString(adminManagement.getOrders().get(j).getTotPrice() + adminManagement.getOrders().get(j).getShippingCost()) %></td>
           <td>
             <div class="input-group">
               <select id="orderStateList<%= adminManagement.getOrders().get(j).getId() %>" name="orderStateList<%= adminManagement.getOrders().get(j).getId() %>" class="form-control"
