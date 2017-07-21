@@ -150,10 +150,10 @@
   
   <div id="order-address" class="col-sm-4">
     <h5 class="subsection-title">Indirizzo di spedizione</h5>
-    <%=order.getReceiver()%></br>
-    <%=order.getCity()%>
-    <%=order.getAdd1()%>, <%=order.getAdd2()%></br>
-    <%=order.getProvince()%></br>
+    <%=order.getReceiver()%><br/>
+    <%=order.getCity()%>, 
+    <%=order.getAdd1()%>, <%=order.getAdd2()%><br/>
+    <%=order.getProvince()%><br/>
     <%=order.getCountry()%>
     
     <div class="divider-horizontal"></div>
@@ -170,7 +170,7 @@
 
     <div class="divider-horizontal"></div>
 
-    <b>Totale <span class="pull-right">&euro; <%=Conversion.getPriceAsString(order.getTotPrice())%></span></b>
+    <b>Totale <span class="pull-right">&euro; <%=Conversion.getPriceAsString(order.getTotPrice() + order.getShippingCost())%></span></b>
   </div>
   
   
