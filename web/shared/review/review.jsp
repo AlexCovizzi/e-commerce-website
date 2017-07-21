@@ -33,7 +33,7 @@
         <% } %>
     </tr>
     <tr>
-        <td colspan="2">
+        <td <% if(admin) { %>colspan="4"<% } else { %>colspan="3"<% } %>>
           <% if(!review.getComment().equals("null")) { %>
           <%=review.getComment()%>
           <% } else { %>
