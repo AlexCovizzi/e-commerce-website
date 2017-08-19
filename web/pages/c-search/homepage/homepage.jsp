@@ -22,11 +22,11 @@
   String action = request.getParameter("action");
   if (action == null) action="view";
   
-  message = searchManagement.getErrorMessage();
-  
   if(action.equals("view")) {
     searchManagement.homepageView();
   }
+  
+  message = searchManagement.getErrorMessage();
 %>
 
 <html>

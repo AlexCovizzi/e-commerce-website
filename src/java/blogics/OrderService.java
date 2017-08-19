@@ -71,7 +71,7 @@ public class OrderService {
       sqlBuilder.where("user_id = " + orderUser);
     
     sql = sqlBuilder
-        .orderBy("user_surname")
+        .orderBy("user_surname, id")
         .limit(limit).offset(offset)
         .done();
     
